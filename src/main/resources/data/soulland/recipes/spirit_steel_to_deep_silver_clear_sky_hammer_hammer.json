@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "soulland:soul_crystal_shard"
+  },
+  "base": {
+    "item": "soulland:spirit_steel_clear_sky_hammer_hammer"
+  },
+  "addition": {
+    "item": "soulland:deep_silver_ingot"
+  },
+  "result": {
+    "item": "soulland:deep_silver_clear_sky_hammer_hammer"
+  }
+}

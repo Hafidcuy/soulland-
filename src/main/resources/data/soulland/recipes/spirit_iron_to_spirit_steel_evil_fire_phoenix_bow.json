@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "soulland:soul_crystal_shard"
+  },
+  "base": {
+    "item": "soulland:spirit_iron_evil_fire_phoenix_bow"
+  },
+  "addition": {
+    "item": "soulland:spirit_steel_ingot"
+  },
+  "result": {
+    "item": "soulland:spirit_steel_evil_fire_phoenix_bow"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "minecraft:raw_iron"
+  },
+  "result": "soulland:spirit_iron_ingot",
+  "experience": 0.35,
+  "cookingtime": 100
+}

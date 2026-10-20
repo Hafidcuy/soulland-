@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "soulland:soul_crystal_shard"
+  },
+  "base": {
+    "item": "soulland:spirit_steel_seven_treasure_pagoda_seal"
+  },
+  "addition": {
+    "item": "soulland:deep_silver_ingot"
+  },
+  "result": {
+    "item": "soulland:deep_silver_seven_treasure_pagoda_seal"
+  }
+}
