@@ -78,14 +78,20 @@ public final class HaloRenderer {
 
     /** Radius visual cincin (blok), makin tua makin besar. */
     private static float visualRadius(int age) {
+        if (age >= 1_000_000) return 0.50f;
         if (age >= 100_000) return 0.46f;
         if (age >= 10_000) return 0.42f;
         if (age >= 1_000) return 0.38f;
         return 0.34f;
     }
 
-    /** Warna cincin mengikuti warna item spirit ring dengan umur yang sama. */
+    /**
+     * Warna cincin mengikuti warna item spirit ring dengan umur yang sama.
+     * Grade Emas memakai Imperial Gold dari DESIGN.md, jadi cincin puncak
+     * langsung terbaca berbeda dari kuning ring 1.000 tahun.
+     */
     private static int colorFor(int age) {
+        if (age >= 1_000_000) return 0xC8E8C46A;
         if (age >= 100_000) return 0xC8D2453C;
         if (age >= 10_000) return 0xC8B36BE0;
         if (age >= 1_000) return 0xC8F0C040;
