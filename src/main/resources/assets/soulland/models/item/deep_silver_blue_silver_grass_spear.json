@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/deep_silver_blue_silver_grass_spear"
+  }
+}
