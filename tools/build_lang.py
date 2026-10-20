@@ -207,6 +207,109 @@ RARITY = {
 }
 
 
+# ---------------------------------------------------------------- v1.2A
+
+# Mutu material tool dan nama tool per soul.
+TIER_EN = {
+    "spirit_iron": "Spirit Iron",
+    "spirit_steel": "Spirit Steel",
+    "deep_silver": "Deep Silver",
+}
+
+TIER_ID = {
+    "spirit_iron": "Besi Spirit",
+    "spirit_steel": "Baja Spirit",
+    "deep_silver": "Perak Dalam",
+}
+
+# soul -> (tipe tool, nama tool EN, nama tool ID)
+TOOL_EN = {
+    "hoe": ("sword", "Old Hoe Blade"),
+    "blue_silver_grass": ("spear", "Blue Silver Spear"),
+    "hell_civet": ("fang", "Hell Civet Fang"),
+    "sausage": ("fan", "Sausage Fan"),
+    "seven_treasure_pagoda": ("seal", "Seven Treasure Seal"),
+    "evil_fire_phoenix": ("bow", "Evil Fire Phoenix Bow"),
+    "white_tiger": ("claw", "White Tiger Claw"),
+    "soft_bone_rabbit": ("staff", "Soft Bone Staff"),
+    "jade_serpent": ("dagger", "Jade Serpent Dagger"),
+    "clear_sky_hammer": ("hammer", "Clear Sky Hammer"),
+}
+
+TOOL_ID = {
+    "hoe": "Bilah Cangkul Tua",
+    "blue_silver_grass": "Tombak Rumput Biru-Perak",
+    "hell_civet": "Taring Anceng Neraka",
+    "sausage": "Kipas Sosis",
+    "seven_treasure_pagoda": "Segel Tujuh Harta",
+    "evil_fire_phoenix": "Busur Phoenix Api",
+    "white_tiger": "Cakar Harimau Putih",
+    "soft_bone_rabbit": "Tongkat Kelinci Tulang",
+    "jade_serpent": "Belati Ular Giok",
+    "clear_sky_hammer": "Palu Langit Jernih",
+}
+
+# Bahan dan consumable: id -> (nama EN, nama ID).
+V12A_EXTRAS_EN = {
+    "spirit_iron_ingot": "Spirit Iron Ingot",
+    "spirit_steel_ingot": "Spirit Steel Ingot",
+    "deep_silver_ingot": "Deep Silver Ingot",
+    "soul_crystal_shard": "Soul Crystal Shard",
+    "spirit_dew_leaf": "Spirit Dew Leaf",
+    "spirit_moss_sprout": "Spirit Moss Sprout",
+    "spirit_ember_leaf": "Spirit Ember Leaf",
+    "cultivation_pill": "Cultivation Pill",
+    "swift_pill": "Swift Pill",
+}
+
+V12A_EXTRAS_ID = {
+    "spirit_iron_ingot": "Ingot Besi Spirit",
+    "spirit_steel_ingot": "Ingot Baja Spirit",
+    "deep_silver_ingot": "Ingot Perak Dalam",
+    "soul_crystal_shard": "Serpihan Kristal Soul",
+    "spirit_dew_leaf": "Daun Embun Spirit",
+    "spirit_moss_sprout": "Tunas Lumut Spirit",
+    "spirit_ember_leaf": "Daun Bara Spirit",
+    "cultivation_pill": "Pil Kultivasi",
+    "swift_pill": "Pil Kilat",
+}
+
+TOOLTIP_EN = {
+    "soul": "Soul: %s",
+    "tier": "Material: %s",
+    "damage": "Attack damage: %s",
+    "mining": "Mining speed: %s",
+    "battery": "Spirit battery: %s/%s",
+    "charge_hint": "Hold right click to charge, release to strike",
+    "synergy_on": "Soul synergy active: skill damage +15%, cooldown -10%",
+    "synergy_off": "No synergy: this tool belongs to another soul",
+}
+
+TOOLTIP_ID = {
+    "soul": "Soul: %s",
+    "tier": "Mutu: %s",
+    "damage": "Damage serangan: %s",
+    "mining": "Kecepatan tambang: %s",
+    "battery": "Baterai spirit: %s/%s",
+    "charge_hint": "Tahan klik kanan untuk mengisi charge, lepas untuk menyerang",
+    "synergy_on": "Sinergi soul aktif: damage skill +15%, cooldown -10%",
+    "synergy_off": "Belum ada sinergI: tool ini milik soul lain",
+}
+
+MESSAGE_EN = {
+    "consumed": "You used %s",
+    "charge_no_battery": "The spirit battery is empty. Wait for it to refill.",
+    "charge_no_energy": "Not enough spirit power for a charged strike.",
+    "synergy_active": "Soul tool synergy active: skill damage +15%, cooldown -10%.",
+}
+
+MESSAGE_ID = {
+    "consumed": "Kamu memakai %s",
+    "charge_no_battery": "Baterai spirit power kosong. Tunggu battery terisi kembali.",
+    "charge_no_energy": "Spirit power tidak cukup untuk serangan bermuatan.",
+    "synergy_active": "Sinergi tool soul aktif: damage skill +15%, cooldown -10%.",
+}
+
 def parse_java():
     """Baca registry soul dan skill langsung dari file Java."""
     src = JAVA.read_text(encoding="utf-8")
@@ -297,6 +400,31 @@ def build(souls):
         en[f"gui.soulland.category.{slug(stype)}"] = short
     for stype, short in CATEGORY_SHORT_ID.items():
         id_[f"gui.soulland.category.{slug(stype)}"] = short
+
+    en["itemGroup.soulland.spirit_gear"] = "Soul Land: Spirit Gear"
+    id_["itemGroup.soulland.spirit_gear"] = "Soul Land: Perlengkapan Spirit"
+
+    for tier, label in TIER_EN.items():
+        en[f"tier.soulland.{tier}"] = label
+        id_[f"tier.soulland.{tier}"] = TIER_ID[tier]
+
+    for key, value in TOOLTIP_EN.items():
+        en[f"tooltip.soulland.{key}"] = value
+        id_[f"tooltip.soulland.{key}"] = TOOLTIP_ID[key]
+
+    for key, value in MESSAGE_EN.items():
+        en[f"message.soulland.{key}"] = value
+        id_[f"message.soulland.{key}"] = MESSAGE_ID[key]
+
+    for tier in ("spirit_iron", "spirit_steel", "deep_silver"):
+        for soul, (tool_type, _) in TOOL_EN.items():
+            item_id = f"{tier}_{soul}_{tool_type}"
+            en[f"item.soulland.{item_id}"] = f"{TIER_EN[tier]} {TOOL_EN[soul][1]}"
+            id_[f"item.soulland.{item_id}"] = f"{TIER_ID[tier]} {TOOL_ID[soul]}"
+
+    for item_id, label in V12A_EXTRAS_EN.items():
+        en[f"item.soulland.{item_id}"] = label
+        id_[f"item.soulland.{item_id}"] = V12A_EXTRAS_ID[item_id]
 
     return en, id_
 
