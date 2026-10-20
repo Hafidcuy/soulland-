@@ -53,56 +53,16 @@ public class ClientEvents {
         if (KeyBindings.SKILL_4 != null && KeyBindings.SKILL_4.consumeClick()) {
             ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(3));
         }
-        if (KeyBindings.SKILL_5 != null && KeyBindings.SKILL_5.consumeClick()) {
-            ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(4));
-        }
-        if (KeyBindings.RING_BURST != null && KeyBindings.RING_BURST.consumeClick()) {
-            ModNetwork.CHANNEL.sendToServer(new RingBurstPacket());
-        }
-        if (KeyBindings.TOGGLE_SOUL != null && KeyBindings.TOGGLE_SOUL.consumeClick()) {
-            ModNetwork.CHANNEL.sendToServer(new ToggleSoulPacket());
-        }
-        if (KeyBindings.SOUL_CARD != null && KeyBindings.SOUL_CARD.consumeClick()) {
-            mc.setScreen(new com.soulland.screen.SoulCardScreen());
-        }
-        if (KeyBindings.OPEN_GUIDE != null && KeyBindings.OPEN_GUIDE.consumeClick()) {
-            mc.setScreen(new com.soulland.screen.GuideScreen());
-        }
-        if (KeyBindings.BLOOD_BURN != null && KeyBindings.BLOOD_BURN.consumeClick()) {
-            ModNetwork.CHANNEL.sendToServer(new BloodBurnPacket());
-        }
-        if (KeyBindings.MEDITATE != null) {
-            boolean pressed = KeyBindings.MEDITATE.isDown();
-            if (pressed != meditating) {
-                meditating = pressed;
-                ModNetwork.CHANNEL.sendToServer(new MeditatePacket(pressed));
-            }
-        }
     }
 
-    private static boolean meditating = false;
-
-    /** Guncangan dunia saat skill besar dilepas. */
+    /** Membersihkan data visual yang sudah tidak berlaku agar tidak menumpuk. */
     @SubscribeEvent
-    public static void onRenderLevel(RenderLevelStageEvent event) {
-        float shake = ClientFx.shake();
-        if (shake <= 0f) return;
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
-        double angle = Math.toRadians(shake * 6.0);
-        var pose = event.getPoseStack();
-        pose.mulPose(com.mojang.math.Axis.ZP.rotationDegrees((float) (Math.sin(angle * 9.0) * shake * 1.6)));
-        pose.translate(Math.sin(angle * 7.0) * shake * 0.12, Math.cos(angle * 11.0) * shake * 0.12, 0.0);
-    }
-
-    /** Kilat layar saat skill besar dilepas. */
-    @SubscribeEvent
-    public static void onScreenRender(ScreenEvent.Render.Post event) {
-        float alpha = ClientFx.flashAlpha();
-        if (alpha <= 0.01f) return;
-        int color = ClientFx.flashColor();
-        int argb = ((int) (alpha * 255) << 24) | (color & 0xFFFFFF);
-        event.getGuiGraphics().fill(0, 0, event.getGuiGraphics().guiWidth(),
-                event.getGuiGraphics().guiHeight(), argb);
+    public static void onClientCleanup(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
+        ClientManifestations.removeExpired(mc.level.getGameTime());
+        ClientHaloData.prune(id -> mc.level.getEntity(id) != null);
     }
 
     @Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
