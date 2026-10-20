@@ -82,10 +82,13 @@ tasks.named('test') {
 
 tasks.register('unitTest', JavaExec) {
     group = 'verification'
-    description = 'Uji aritmetika tool soul tanpa runtime Minecraft.'
-    classpath = files(sourceSets.test.output, sourceSets.main.output) + configurations.junitLauncher
+    description = 'Uji aritmetika dan state kultivasi tanpa runtime Minecraft penuh.'
+    // Classpath compile Minecraft ikut agar test yang memakai kelas NBT (CompoundTag)
+    // tetap bisa jalan; task ini JavaExec, bukan worker Test Gradle, jadi tidak
+    // tersendat seperti worker test ForgeGradle.
+    classpath = files(sourceSets.test.output, sourceSets.main.output, sourceSets.main.compileClasspath) + configurations.junitLauncher
     mainClass = 'org.junit.platform.console.ConsoleLauncher'
-    args '--select-package', 'com.soulland.item',
+    args '--select-package', 'com.soulland',
             '--details', 'summary',
             '--disable-ansi-colors'
 }

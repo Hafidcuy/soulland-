@@ -1378,6 +1378,205 @@ def write_v12a_manifest(items: dict) -> None:
 
 
 
+# ================================================================ v1.2B
+
+# Tiga asset baru: Spirit Ring Emas, Station Alchemy, Pil Fondasi.
+# Aturan keras v1.2B: setiap asset punya palet inti sendiri dan siluet yang
+# tidak kembar dengan asset lain (dicek validate_assets.py).
+
+
+def draw_gold_ring(c: Canvas) -> None:
+    """Spirit Ring Emas: pita tebal dengan mahkota tiga puncak."""
+    body, light, dark = rgba("#E8B84B"), rgba("#FFE9A8", 235), rgba("#9A6C12", 170)
+    cx, cy = 7.5, 9.2
+    rx, ry = 5.4, 3.4
+    c.ellipse(cx, cy, rx, ry, body, fill=False)
+    c.ellipse(cx, cy, rx - 0.9, ry - 0.9, light, fill=False)
+    c.ellipse(cx, cy, rx - 2.2, ry - 2.2, body, fill=False)
+    # mahkota tiga puncak di atas pita
+    c.poly([(3.4, 5.6), (4.8, 2.0), (6.4, 5.0)], light)
+    c.poly([(6.4, 4.6), (7.9, 0.9), (9.4, 4.4)], body)
+    c.poly([(9.4, 5.2), (10.8, 2.2), (12.2, 5.8)], light)
+    # kilau tepi
+    c.arc(cx, cy, rx - 0.5, ry - 0.5, math.pi * 0.95, math.pi * 1.35, light, 1)
+    c.arc(cx, cy, rx + 0.4, ry + 0.4, math.pi * 0.05, math.pi * 0.3, dark, 1)
+    c.px(1, 11, light)
+    c.px(14, 7, light)
+
+
+def draw_alchemy_station(c: Canvas) -> None:
+    """Texture blok Station Alchemy: tungku batu dengan kawah jade dan trim emas."""
+    stone, stone_dark, stone_light = rgba("#4A5058"), rgba("#2E333A"), rgba("#6E7680")
+    jade, jade_dark = rgba("#3FC7A3"), rgba("#1B4A41")
+    gold = rgba("#E8B84B")
+    c.rect(0, 0, 15, 15, stone_dark)
+    c.rect(0, 0, 15, 1, stone)
+    c.rect(0, 14, 15, 15, stone)
+    c.rect(0, 0, 1, 15, stone)
+    c.rect(14, 0, 15, 15, stone)
+    # badan tungku
+    c.rect(2, 5, 13, 13, stone)
+    c.rect(2, 5, 13, 6, stone_light)
+    # kawah
+    c.ellipse(7.5, 8.0, 4.4, 2.4, jade_dark)
+    c.ellipse(7.5, 7.6, 3.4, 1.6, jade)
+    # gagang
+    c.rect(0, 9, 2, 10, stone_light)
+    c.rect(13, 9, 15, 10, stone_light)
+    # kaki
+    c.rect(3, 13, 5, 15, stone_dark)
+    c.rect(10, 13, 12, 15, stone_dark)
+    # trim emas
+    c.line(3, 12, 12, 12, gold)
+
+
+def draw_alchemy_station_icon(c: Canvas) -> None:
+    """Ikon item Station Alchemy: tungku tinggi dengan kawah jade."""
+    stone, stone_dark, stone_light = rgba("#4A5058"), rgba("#2E333A"), rgba("#6E7680")
+    jade, jade_dark = rgba("#3FC7A3"), rgba("#1B4A41")
+    gold = rgba("#E8B84B")
+    c.rect(6, 1, 9, 2, stone_light)
+    c.rect(7, 2, 8, 7, stone)
+    c.ellipse(7.5, 8.0, 4.0, 2.4, stone)
+    c.ellipse(7.5, 7.4, 3.2, 1.7, jade_dark)
+    c.ellipse(7.5, 7.2, 2.2, 1.1, jade)
+    c.rect(3, 11, 4, 14, stone_dark)
+    c.rect(11, 11, 12, 14, stone_dark)
+    c.line(4, 10, 11, 10, gold)
+
+
+def draw_foundation_pill(c: Canvas) -> None:
+    """Pil Fondasi: busur batu yang memEGANG permata jade."""
+    rim, body, core = rgba("#D8C48A"), rgba("#8FBF6B"), rgba("#EAF7C8")
+    c.arc(7.5, 8.5, 5.0, 5.0, math.pi * 0.25, math.pi * 1.60, rim, 3)
+    c.arc(7.5, 8.5, 5.0, 5.0, math.pi * 0.45, math.pi * 1.30, body, 1)
+    c.poly([(9.5, 1.0), (12.5, 4.0), (9.5, 7.0), (6.5, 4.0)], core)
+
+
+V12B_ITEMS = {
+    "spirit_ring_1000000": draw_gold_ring,
+    "alchemy_station": draw_alchemy_station_icon,
+    "foundation_pill": draw_foundation_pill,
+}
+
+# Texture blok (dipakai saat blok diletakkan di dunia, bukan ikon inventory).
+V12B_BLOCKS = {
+    "alchemy_station": draw_alchemy_station,
+}
+
+V12B_PALETTE = {
+    "spirit_ring_1000000": ("#E8B84B", "#FFE9A8", "#9A6C12"),
+    "alchemy_station": ("#4A5058", "#3FC7A3", "#E8B84B"),
+    "foundation_pill": ("#8FBF6B", "#D8C48A", "#EAF7C8"),
+}
+
+V12B_KIND = {
+    "spirit_ring_1000000": "ring",
+    "alchemy_station": "block",
+    "foundation_pill": "consumable",
+}
+
+TEX_BLOCK = os.path.join(ASSETS, "textures", "block")
+MODEL_BLOCK = os.path.join(ASSETS, "models", "block")
+BLOCKSTATE = os.path.join(ASSETS, "blockstates")
+
+
+def write_block_assets(block_id: str) -> None:
+    """Blok butuh texture, model kubus, blockstate, dan model item."""
+    os.makedirs(TEX_BLOCK, exist_ok=True)
+    os.makedirs(MODEL_BLOCK, exist_ok=True)
+    os.makedirs(BLOCKSTATE, exist_ok=True)
+    os.makedirs(MODEL_ITEM, exist_ok=True)
+    block_model = {
+        "parent": "minecraft:block/cube_all",
+        "textures": {"all": f"soulland:block/{block_id}"},
+    }
+    with open(os.path.join(MODEL_BLOCK, f"{block_id}.json"), "w", encoding="utf-8") as handle:
+        json.dump(block_model, handle, indent=2)
+        handle.write("\n")
+    blockstate = {"variants": {"": {"model": f"soulland:block/{block_id}"}}}
+    with open(os.path.join(BLOCKSTATE, f"{block_id}.json"), "w", encoding="utf-8") as handle:
+        json.dump(blockstate, handle, indent=2)
+        handle.write("\n")
+    item_model = {"parent": "item/generated", "textures": {"layer0": f"soulland:item/{block_id}"}}
+    with open(os.path.join(MODEL_ITEM, f"{block_id}.json"), "w", encoding="utf-8") as handle:
+        json.dump(item_model, handle, indent=2)
+        handle.write("\n")
+    print(f"  wrote assets block {block_id}")
+
+
+def build_v12b_items() -> dict:
+    """Kembalikan dict id asset -> Image untuk 3 asset baru v1.2B."""
+    items = {}
+    for item_id, builder in V12B_ITEMS.items():
+        canvas = Canvas()
+        builder(canvas)
+        items[item_id] = canvas.image
+    return items
+
+
+def build_v12b_contact_sheet(items: dict) -> str:
+    """Lembar kontak asset baru v1.2B, disimpan ke docs/."""
+    from PIL import ImageDraw
+
+    zoom = 10
+    cell = 16 * zoom
+    label_h = 20
+    order = list(items.keys())
+    sheet = Image.new("RGBA", (len(order) * cell, cell + label_h), (26, 28, 34, 255))
+    draw = ImageDraw.Draw(sheet)
+    for index, item_id in enumerate(order):
+        sprite = items[item_id].resize((cell, cell), Image.NEAREST)
+        x = index * cell
+        sheet.alpha_composite(sprite, (x, 0))
+        draw.rectangle([x, 0, x + cell - 1, cell - 1], outline=(58, 62, 72, 255))
+        draw.text((x + 4, cell + 4), item_id[:22], fill=(196, 200, 210, 255))
+    path = os.path.join(ROOT, "docs", "v1.2b-contact-sheet.png")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    sheet.save(path)
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+    return path
+
+
+def write_v12b_manifest(items: dict) -> None:
+    """Catat metadata asset baru v1.2B supaya validator bisa memeriksanya."""
+    entries = []
+    for item_id in items:
+        entries.append({
+            "id": item_id,
+            "kind": V12B_KIND[item_id],
+            "palette": list(V12B_PALETTE[item_id]),
+        })
+    payload = {
+        "design_read": "Tiga asset baru v1.2B: grade emas, station alchemy, pil fondasi. "
+                       "Palet inti tiap asset unik dan siluetnya tidak kembar.",
+        "items": entries,
+    }
+    path = os.path.join(ROOT, "docs", "v1.2b-asset-manifest.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+
+    lines = [
+        "# Lembar kontak aset v1.2B",
+        "",
+        "Gambar: `docs/v1.2b-contact-sheet.png` (3 asset baru, zoom 10).",
+        "",
+        "| No | Asset | Jenis | Palet inti |",
+        "|---|---|---|---|",
+    ]
+    for index, entry in enumerate(entries, start=1):
+        palette = ", ".join(f"`{color}`" for color in entry["palette"])
+        lines.append(f"| {index:02d} | `{entry['id']}` | {entry['kind']} | {palette} |")
+    lines.append("")
+    md_path = os.path.join(ROOT, "docs", "v1.2b-contact-sheet.md")
+    with open(md_path, "w", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+    print(f"  wrote {os.path.relpath(md_path, ROOT)}")
+
+
 # ---------------------------------------------------------------- main
 
 def main() -> None:
@@ -1402,6 +1601,19 @@ def main() -> None:
 
     build_v12a_contact_sheet(v12a_items)
     write_v12a_manifest(v12a_items)
+
+    print("Asset v1.2B (3):")
+    v12b_items = build_v12b_items()
+    for item_id, image in v12b_items.items():
+        write_png(image, os.path.join(TEX_ITEM, f"{item_id}.png"))
+        write_model(item_id)
+        if item_id in V12B_BLOCKS:
+            block_canvas = Canvas()
+            V12B_BLOCKS[item_id](block_canvas)
+            write_png(block_canvas.image, os.path.join(TEX_BLOCK, f"{item_id}.png"))
+            write_block_assets(item_id)
+    build_v12b_contact_sheet(v12b_items)
+    write_v12b_manifest(v12b_items)
     print("Selesai.")
 
 

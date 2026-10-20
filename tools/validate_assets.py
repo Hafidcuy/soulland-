@@ -9,6 +9,8 @@ Pemeriksaan:
 5. Tidak ada kelas client-only yang dirujuk dari kode common.
 6. v1.2A: manifest aset lengkap, signature palet unik, siluet antar item
    tidak kembar, dan semua resep menunjuk item yang benar-benar ada.
+7. v1.2B: manifest kedua (ring emas, station alchemy, pil fondasi) ikut
+   diperiksa, dan keunikan palet serta siluet diuji lintas kedua manifest.
 
 Keluar dengan kode 1 bila ada referensi yang hilang.
 Jalankan: python3 tools/validate_assets.py
@@ -25,7 +27,10 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "src/main/resources/assets/soulland"
 JAVA = ROOT / "src/main/java/com/soulland"
 LANG_FILES = [ASSETS / "lang/en_us.json", ASSETS / "lang/id_id.json"]
-MANIFEST = ROOT / "docs/v1.2a-asset-manifest.json"
+MANIFESTS = [
+    ROOT / "docs/v1.2a-asset-manifest.json",
+    ROOT / "docs/v1.2b-asset-manifest.json",
+]
 RECIPE_DIR = ROOT / "src/main/resources/data/soulland/recipes"
 
 # Batas kemiripan siluet dua item. Diukur dengan IoU mask alpha setelah
@@ -42,10 +47,13 @@ CLIENT_ONLY = {
     "com.soulland.client.KeyBindings",
     "com.soulland.client.ClientEvents",
     "com.soulland.client.gui.AwakeningScreen",
+    "com.soulland.client.gui.LanguageSelectScreen",
+    "com.soulland.client.gui.AlchemyScreen",
 }
 
 KEY_PATTERN = re.compile(
-    r'"((?:item|itemGroup|key|gui|soul|skill|tooltip|tier|message)\.[a-z0-9_]+(?:\.[a-z0-9_]+)*)"'
+    r'"((?:item|itemGroup|key|gui|soul|skill|tooltip|tier|message|rank|book|guide|hint)'
+    r'\.[a-z0-9_]+(?:\.[a-z0-9_]+)*)"'
 )
 
 problems = []
@@ -139,6 +147,13 @@ def check_lang_keys(langs):
         literal_keys.add(f"message.soulland.{key}")
     literal_keys.add("itemGroup.soulland.spirit_gear")
 
+    # Nama peringkat kultivasi dirakit dari tabel rank.
+    rank_file = (JAVA / "CultivationRanks.java").read_text(encoding="utf-8")
+    rank_block = re.search(r'RANKS\s*=\s*\{(.*?)\}', rank_file, re.S)
+    if rank_block:
+        for index in range(len(re.findall(r'"[^"]+"', rank_block.group(1)))):
+            literal_keys.add(f"rank.soulland.{index}")
+
     for name, lang in langs.items():
         missing = sorted(key for key in literal_keys if key not in lang)
         for key in missing:
@@ -158,48 +173,68 @@ def check_client_isolation():
                 fail(f"{relative} mengimpor kelas client-only {target}")
 
 
-# ------------------------------------------------------------------ v1.2A
+# ------------------------------------------------------------------ manifest
 
-def load_manifest():
-    if not MANIFEST.exists():
-        fail(f"manifest aset hilang: {MANIFEST.relative_to(ROOT)}")
-        return []
-    try:
-        return json.loads(MANIFEST.read_text(encoding="utf-8"))["items"]
-    except (json.JSONDecodeError, KeyError) as exc:
-        fail(f"manifest aset rusak: {exc}")
-        return []
+def load_manifests():
+    """Muat semua manifest aset. Setiap manifest adalah dict id -> entri."""
+    manifests = []
+    for path in MANIFESTS:
+        if not path.exists():
+            fail(f"manifest aset hilang: {path.relative_to(ROOT)}")
+            continue
+        try:
+            items = json.loads(path.read_text(encoding="utf-8"))["items"]
+        except (json.JSONDecodeError, KeyError) as exc:
+            fail(f"manifest aset rusak: {exc}")
+            continue
+        manifests.append((path.name, items))
+    return manifests
 
 
-def check_manifest_items(manifest, langs):
+def texture_path(entry):
+    """Lokasi texture ikon sebuah entri manifest."""
+    return ASSETS / "textures/item" / f"{entry['id']}.png"
+
+
+def check_manifest_items(manifests, langs):
     """Setiap item baru punya texture, model, dan terjemahan di dua bahasa."""
-    for entry in manifest:
-        item_id = entry["id"]
-        texture = ASSETS / "textures/item" / f"{item_id}.png"
-        model = ASSETS / "models/item" / f"{item_id}.json"
-        if not texture.exists():
-            fail(f"texture hilang untuk {item_id}")
-        if not model.exists():
-            fail(f"model hilang untuk {item_id}")
-        for name, lang in langs.items():
-            key = f"item.soulland.{item_id}"
-            if key not in lang:
-                fail(f"{name}: kunci hilang {key}")
+    for name, items in manifests:
+        for entry in items:
+            item_id = entry["id"]
+            texture = texture_path(entry)
+            model = ASSETS / "models/item" / f"{item_id}.json"
+            if not texture.exists():
+                fail(f"texture hilang untuk {item_id}")
+            if not model.exists():
+                fail(f"model hilang untuk {item_id}")
+            if entry.get("kind") == "block":
+                for extra in (ASSETS / "textures/block" / f"{item_id}.png",
+                              ASSETS / "models/block" / f"{item_id}.json",
+                              ASSETS / "blockstates" / f"{item_id}.json"):
+                    if not extra.exists():
+                        fail(f"berkas blok hilang untuk {item_id}: {extra.relative_to(ROOT)}")
+            for lang_name, lang in langs.items():
+                key = f"item.soulland.{item_id}"
+                if key not in lang:
+                    fail(f"{lang_name}: kunci hilang {key}")
+        print(f"manifest {name}: {len(items)} item diperiksa")
 
 
-def check_palette_uniqueness(manifest):
+def check_palette_uniqueness(manifests):
     """Tiap item punya palet inti sendiri, tidak ada dua item dengan palet sama."""
     signatures = {}
-    for entry in manifest:
-        signatures.setdefault(tuple(sorted(entry["palette"])), []).append(entry["id"])
+    for _, items in manifests:
+        for entry in items:
+            signatures.setdefault(tuple(sorted(entry["palette"])), []).append(entry["id"])
     for palette, ids in signatures.items():
         if len(ids) > 1:
             fail(f"palet sama dipakai lebih dari satu item: {ids}")
-    print(f"signature palet unik: {len(signatures)} dari {len(manifest)} item")
+    total = sum(len(items) for _, items in manifests)
+    print(f"signature palet unik: {len(signatures)} dari {total} item")
 
 
-def alpha_mask(item_id):
-    image = Image.open(ASSETS / "textures/item" / f"{item_id}.png").convert("RGBA")
+def alpha_mask(entry):
+    image = Image.open(texture_path(entry)).convert("RGBA")
     return [1 if pixel[3] > 40 else 0 for pixel in image.getdata()]
 
 
@@ -224,17 +259,18 @@ def best_iou(first, second):
     return best
 
 
-def check_silhouette_uniqueness(manifest):
+def check_silhouette_uniqueness(manifests):
     """Tidak ada dua item dengan siluet yang sama."""
-    ids = [entry["id"] for entry in manifest]
-    masks = {item_id: alpha_mask(item_id) for item_id in ids}
+    entries = [entry for _, items in manifests for entry in items]
+    masks = {entry["id"]: alpha_mask(entry) for entry in entries}
     worst = (0.0, None, None)
-    for first, second in itertools.combinations(ids, 2):
-        value = best_iou(masks[first], masks[second])
+    for first, second in itertools.combinations(entries, 2):
+        value = best_iou(masks[first["id"]], masks[second["id"]])
         if value > worst[0]:
-            worst = (value, first, second)
+            worst = (value, first["id"], second["id"])
         if value >= MAX_SILHOUETTE_IOU:
-            fail(f"siluet terlalu mirip ({value:.3f} >= {MAX_SILHOUETTE_IOU}): {first} | {second}")
+            fail(f"siluet terlalu mirip ({value:.3f} >= {MAX_SILHOUETTE_IOU}): "
+                 f"{first['id']} | {second['id']}")
     print(f"kemiripan siluet tertinggi: {worst[0]:.3f} ({worst[1]} | {worst[2]})")
 
 
@@ -258,12 +294,12 @@ def collect_recipe_items(payload):
     return found
 
 
-def check_recipes(manifest):
+def check_recipes(manifests):
     """Semua resep harus menunjuk item yang benar-benar ada di mod."""
-    known = {entry["id"] for entry in manifest}
+    known = {entry["id"] for _, items in manifests for entry in items}
     known.update(registered_item_ids())
     known.update({"manifestation_hoe", "spirit_ring_100", "spirit_ring_1000",
-                   "spirit_ring_10000", "spirit_ring_100000"})
+                   "spirit_ring_10000", "spirit_ring_100000", "spirit_ring_1000000"})
     if not RECIPE_DIR.exists():
         fail("folder data/soulland/recipes tidak ada")
         return
@@ -292,12 +328,12 @@ def main():
     check_lang_keys(langs)
     check_client_isolation()
 
-    manifest = load_manifest()
-    if manifest:
-        check_manifest_items(manifest, langs)
-        check_palette_uniqueness(manifest)
-        check_silhouette_uniqueness(manifest)
-        check_recipes(manifest)
+    manifests = load_manifests()
+    if manifests:
+        check_manifest_items(manifests, langs)
+        check_palette_uniqueness(manifests)
+        check_silhouette_uniqueness(manifests)
+        check_recipes(manifests)
 
     if problems:
         print(f"\n{len(problems)} masalah:")
