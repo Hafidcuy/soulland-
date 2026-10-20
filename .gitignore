@@ -6,3 +6,5 @@ run-data/
 .idea/
 *.iml
 .DS_Store
+*.log
+__pycache__/
