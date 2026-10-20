@@ -15,6 +15,12 @@ import java.util.List;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SoulLandMod.MODID);
 
+    public static final RegistryObject<Item> SOUL_ESSENCE = ITEMS.register("soul_essence",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> SOUL_CORE = ITEMS.register("soul_core",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
     public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100 = ITEMS.register("spirit_ring_100",
             () -> new SpiritRingItem(SpiritRingItem.Tier.Y100, new Item.Properties().rarity(Rarity.COMMON)));
     public static final RegistryObject<SpiritRingItem> SPIRIT_RING_1000 = ITEMS.register("spirit_ring_1000",

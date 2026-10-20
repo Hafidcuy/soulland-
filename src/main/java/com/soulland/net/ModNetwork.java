@@ -58,6 +58,46 @@ public class ModNetwork {
                 .decoder(CloseAwakeningGuiPacket::decode)
                 .consumerMainThread(CloseAwakeningGuiPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(VisualFxPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(VisualFxPacket::encode)
+                .decoder(VisualFxPacket::decode)
+                .consumerMainThread(VisualFxPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ToggleSoulPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ToggleSoulPacket::encode)
+                .decoder(ToggleSoulPacket::decode)
+                .consumerMainThread(ToggleSoulPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(MeditatePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(MeditatePacket::encode)
+                .decoder(MeditatePacket::decode)
+                .consumerMainThread(MeditatePacket::handle)
+                .add();
+        CHANNEL.messageBuilder(RingBurstPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(RingBurstPacket::encode)
+                .decoder(RingBurstPacket::decode)
+                .consumerMainThread(RingBurstPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ChooseSectPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ChooseSectPacket::encode)
+                .decoder(ChooseSectPacket::decode)
+                .consumerMainThread(ChooseSectPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(BloodBurnPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(BloodBurnPacket::encode)
+                .decoder(BloodBurnPacket::decode)
+                .consumerMainThread(BloodBurnPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(AssignSkillPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(AssignSkillPacket::encode)
+                .decoder(AssignSkillPacket::decode)
+                .consumerMainThread(AssignSkillPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(OpenGuiPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenGuiPacket::encode)
+                .decoder(OpenGuiPacket::decode)
+                .consumerMainThread(OpenGuiPacket::handle)
+                .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }
 }

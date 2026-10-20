@@ -2,7 +2,9 @@ package com.soulland.client;
 
 import com.soulland.net.SyncCultivationPacket;
 
-/** Salinan data kultivasi di sisi client, hanya untuk tampilan (HUD, halo ring, GUI upacara). */
+import java.util.Map;
+
+/** Salinan data kultivasi di sisi client, hanya untuk tampilan (HUD, halo ring, GUI upacara, kartu soul). */
 public final class ClientCultivationData {
     private ClientCultivationData() {}
 
@@ -11,6 +13,13 @@ public final class ClientCultivationData {
     public static int rings = 0;
     public static float energy = 100f;
     public static String soulId = "";
+    public static String sect = "";
+    public static int evolutionStage = 0;
+    /** Sisa cooldown (detik) per id skill. */
+    public static Map<String, Integer> cooldowns = Map.of();
+    public static int chainCount = 0;
+    public static String[] loadout = new String[]{"", "", "", "", ""};
+    public static int ringSkills = 0;
     /** Umur tiap spirit ring pemain ini (tahun), urut dari ring pertama. */
     public static int[] ringAges = new int[0];
     /** Sisa cooldown (detik) tiap slot skill, 4 slot. */
@@ -24,6 +33,12 @@ public final class ClientCultivationData {
         rings = packet.rings();
         energy = packet.energy();
         soulId = packet.soulId();
+        sect = packet.sect();
+        evolutionStage = packet.evolutionStage();
+        cooldowns = packet.cooldowns() == null ? Map.of() : packet.cooldowns();
+        chainCount = packet.chainCount();
+        loadout = packet.loadout() == null ? new String[]{"", "", "", "", ""} : packet.loadout();
+        ringSkills = packet.ringSkills();
         ringAges = packet.ringAges() == null ? new int[0] : packet.ringAges();
         skillCooldowns = packet.skillCooldowns() == null ? new int[4] : packet.skillCooldowns();
         awakened = packet.awakened();

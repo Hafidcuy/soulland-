@@ -1,8 +1,6 @@
-package com.soulland.screen;
+package com.soulland.client;
 
 import com.soulland.CultivationRanks;
-import com.soulland.client.ClientCultivationData;
-import com.soulland.client.ClientSkills;
 import com.soulland.net.AssignSkillPacket;
 import com.soulland.net.ChooseSectPacket;
 import com.soulland.net.ModNetwork;

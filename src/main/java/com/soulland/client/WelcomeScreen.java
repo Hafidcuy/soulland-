@@ -1,6 +1,6 @@
-package com.soulland.screen;
+package com.soulland.client;
 
-import com.soulland.client.ClientCultivationData;
+import com.soulland.screen.GuideScreen;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import net.minecraft.client.gui.GuiGraphics;

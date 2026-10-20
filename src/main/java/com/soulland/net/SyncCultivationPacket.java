@@ -7,17 +7,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/** Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, dan tampilan). */
+/** Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, kartu soul, dan bar skill). */
 public record SyncCultivationPacket(
         int level,
         int xp,
         int rings,
         float energy,
         String soulId,
+        String sect,
+        int evolutionStage,
+        Map<String, Integer> cooldowns,
+        int chainCount,
+        String[] loadout,
+        int ringSkills,
         int[] ringAges,
         int[] skillCooldowns,
         boolean awakened
 ) {
+    /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
+    private static final char ENTRY_SEPARATOR = ';';
+    private static final char KEY_SEPARATOR = '=';
 
     public static void encode(SyncCultivationPacket msg, FriendlyByteBuf buf) {
         buf.writeInt(msg.level);
@@ -25,6 +34,12 @@ public record SyncCultivationPacket(
         buf.writeInt(msg.rings);
         buf.writeFloat(msg.energy);
         buf.writeUtf(msg.soulId, 64);
+        buf.writeUtf(msg.sect, 32);
+        buf.writeInt(msg.evolutionStage);
+        buf.writeUtf(encodeCooldowns(msg.cooldowns), 512);
+        buf.writeInt(msg.chainCount);
+        buf.writeUtf(encodeLoadout(msg.loadout), 256);
+        buf.writeInt(msg.ringSkills);
         buf.writeVarIntArray(msg.ringAges);
         buf.writeVarIntArray(msg.skillCooldowns);
         buf.writeBoolean(msg.awakened);
@@ -37,6 +52,12 @@ public record SyncCultivationPacket(
                 buf.readInt(),
                 buf.readFloat(),
                 buf.readUtf(64),
+                buf.readUtf(32),
+                buf.readInt(),
+                decodeCooldowns(buf.readUtf(512)),
+                buf.readInt(),
+                decodeLoadout(buf.readUtf(256)),
+                buf.readInt(),
                 buf.readVarIntArray(),
                 buf.readVarIntArray(),
                 buf.readBoolean());
@@ -49,15 +70,17 @@ public record SyncCultivationPacket(
 
     private static String encodeLoadout(String[] loadout) {
         StringBuilder builder = new StringBuilder();
-        for (String skillId : loadout) {
-            if (builder.length() > 0) builder.append(",");
-            builder.append(skillId == null ? "" : skillId);
+        if (loadout != null) {
+            for (String skillId : loadout) {
+                if (builder.length() > 0) builder.append(",");
+                builder.append(skillId == null ? "" : skillId);
+            }
         }
         return builder.toString();
     }
 
     private static String[] decodeLoadout(String text) {
-        String[] loadout = new String[5];
+        String[] loadout = new String[]{"", "", "", "", ""};
         if (text == null || text.isEmpty()) return loadout;
         String[] parts = text.split(",", -1);
         for (int i = 0; i < loadout.length && i < parts.length; i++) {
@@ -68,9 +91,11 @@ public record SyncCultivationPacket(
 
     private static String encodeCooldowns(Map<String, Integer> cooldowns) {
         StringBuilder builder = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : cooldowns.entrySet()) {
-            if (builder.length() > 0) builder.append(ENTRY_SEPARATOR);
-            builder.append(entry.getKey()).append(KEY_SEPARATOR).append(entry.getValue());
+        if (cooldowns != null) {
+            for (Map.Entry<String, Integer> entry : cooldowns.entrySet()) {
+                if (builder.length() > 0) builder.append(ENTRY_SEPARATOR);
+                builder.append(entry.getKey()).append(KEY_SEPARATOR).append(entry.getValue());
+            }
         }
         return builder.toString();
     }

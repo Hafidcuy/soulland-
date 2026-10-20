@@ -1,8 +1,8 @@
 package com.soulland.client;
 
 import com.soulland.screen.GuideScreen;
-import com.soulland.screen.SoulCardScreen;
-import com.soulland.screen.WelcomeScreen;
+
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

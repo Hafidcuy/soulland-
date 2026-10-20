@@ -114,17 +114,17 @@ def check_lang_keys(langs):
     # Kunci yang dirakit dari data registry.
     soul_file = (JAVA / "soul/MartialSouls.java").read_text(encoding="utf-8")
     souls = re.findall(
-        r'register\(new MartialSoul\(\s*"([^"]+)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)"',
+        r'register\(new MartialSoul\(\s*"([^"]+)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)"',
         soul_file,
     )
-    for sid, _, _, stype, rarity in souls:
+    for sid, _, _, _, _, stype, _, rarity in souls:
         literal_keys.add(f"soul.soulland.{sid}.name")
         literal_keys.add(f"soul.soulland.{sid}.description")
         literal_keys.add(f"soul.soulland.owner.{sid}")
         literal_keys.add(f"soul.soulland.type.{re.sub(r'[^a-z0-9]+', '_', stype.lower()).strip('_')}")
         literal_keys.add(f"soul.soulland.rarity.{rarity.lower()}")
         literal_keys.add(f"item.soulland.manifestation_{sid}")
-    for skill_id in re.findall(r'new SkillDef\("([^"]+)"', soul_file):
+    for skill_id in re.findall(r'\bskill\("([^"]+)",', soul_file):
         literal_keys.add(f"skill.soulland.{skill_id}.name")
         literal_keys.add(f"skill.soulland.{skill_id}.description")
 

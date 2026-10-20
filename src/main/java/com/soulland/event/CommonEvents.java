@@ -10,8 +10,16 @@ import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
 import com.soulland.item.ToolCharge;
 import com.soulland.skill.AttackEffects;
+import com.soulland.skill.SkillFx;
+import com.soulland.soul.Element;
+import com.soulland.soul.MartialSoul;
+import com.soulland.soul.MartialSouls;
 import com.soulland.soul.RingHaloSync;
+import com.soulland.soul.SoulBeast;
 import com.soulland.soul.SoulSelection;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -335,5 +343,54 @@ public class CommonEvents {
         if (entity.level() instanceof ServerLevel serverLevel && serverLevel.getServer() != null) {
             serverLevel.getServer().getPlayerList().broadcastSystemMessage(Component.literal(message), false);
         }
+    }
+
+    private static void handleMeditation(net.minecraft.world.entity.player.Player player,
+                                         ICultivation cap) {
+        if (player.getDeltaMovement().horizontalDistanceSqr() > 0.0004) {
+            cap.setMeditating(false);
+            cap.setMeditationTicks(0);
+            player.sendSystemMessage(Component.literal("Meditasi terputus karena kamu bergerak."));
+            return;
+        }
+
+        int ticks = cap.getMeditationTicks() + 1;
+        cap.setMeditationTicks(ticks);
+
+        if (CultivationManager.canBreakthrough(cap)) {
+            if (ticks % 20 == 0) {
+                player.sendSystemMessage(Component.literal("Upacara terobosan: " + (ticks / 20) + "/3"));
+            }
+            if (ticks >= 60) {
+                if (consumeEssence(player, 1)) {
+                    cap.setMeditationTicks(0);
+                    CultivationManager.breakthrough(player);
+                } else {
+                    player.sendSystemMessage(Component.literal("Butuh 1 Esensi Jiwa untuk upacara terobosan."));
+                }
+            }
+            return;
+        }
+
+        if (ticks % 40 == 0) {
+            CultivationManager.addXp(player, 4);
+            cap.setEnergy(Math.min(100f, cap.getEnergy() + 12f));
+            if (player instanceof ServerPlayer sp) {
+                sp.serverLevel().sendParticles(ParticleTypes.SCULK_SOUL,
+                        player.getX(), player.getY() + 0.4, player.getZ(), 14, 0.45, 0.9, 0.45, 0.01);
+            }
+        }
+    }
+
+    private static boolean consumeEssence(net.minecraft.world.entity.player.Player player, int amount) {
+        int left = amount;
+        for (int i = 0; i < player.getInventory().items.size() && left > 0; i++) {
+            var stack = player.getInventory().items.get(i);
+            if (!stack.is(ModItems.SOUL_ESSENCE.get())) continue;
+            int take = Math.min(left, stack.getCount());
+            stack.shrink(take);
+            left -= take;
+        }
+        return left == 0;
     }
 }

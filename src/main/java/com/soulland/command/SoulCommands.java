@@ -123,6 +123,35 @@ public final class SoulCommands {
         return 1;
     }
 
+    private static int showSect(CommandSourceStack source, ServerPlayer player) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            Sect current = Sect.get(cap.getSect());
+            if (current == null) {
+                source.sendSuccess(() -> Component.literal(
+                        "Kamu belum memilih sekte. Pilih dengan /sect choose <nama> atau tekan J lalu tab SECT."), false);
+                return;
+            }
+            source.sendSuccess(() -> Component.literal(current.name() + "\n" + current.description()), false);
+        });
+        return 1;
+    }
+
+    private static int chooseSect(CommandSourceStack source, ServerPlayer player, String sectId) {
+        Sect sect = Sect.get(sectId.toLowerCase());
+        if (sect == null) {
+            source.sendFailure(Component.literal("Sekte tidak dikenal. Pilihan: "
+                    + Sect.all().stream().map(Sect::id).collect(Collectors.joining(", "))));
+            return 0;
+        }
+        CultivationCapability.get(player).ifPresent(cap -> {
+            cap.setSect(sect.id());
+            CultivationManager.applyStats(player);
+            CultivationManager.sync(player);
+            source.sendSuccess(() -> Component.literal("Kamu bergabung dengan " + sect.name() + "."), true);
+        });
+        return 1;
+    }
+
     /** Pilih ulang martial soul (mode pick ulang), HANYA boleh dalam mode Creative. */
     private static int reroll(CommandSourceStack source, ServerPlayer player) {
         if (!player.isCreative()) {

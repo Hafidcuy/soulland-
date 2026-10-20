@@ -3,6 +3,7 @@ package com.soulland.cultivation;
 import com.soulland.CultivationRanks;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.SyncCultivationPacket;
+import com.soulland.sect.Sect;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SkillDef;
@@ -33,7 +34,9 @@ public final class CultivationManager {
                 });
                 ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp),
                         new SyncCultivationPacket(cap.getLevel(), cap.getXp(), cap.getRings(), cap.getEnergy(),
-                                cap.getMartialSoulId(), cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened()));
+                                cap.getMartialSoulId(), cap.getSect(), cap.getEvolutionStage(), cooldowns,
+                                cap.getChainCount(), cap.getLoadout(), cap.getRingSkills(),
+                                cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened()));
             }
         });
     }
