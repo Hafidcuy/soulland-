@@ -28,6 +28,14 @@ public interface ICultivation {
     boolean isGateNotified();
     void setGateNotified(boolean notified);
 
+    /** Umur tiap spirit ring yang diserap (dalam tahun), urut dari ring pertama. Panjangnya = jumlah ring. */
+    int[] getRingAges();
+
+    void setRingAges(int[] ages);
+
+    /** Menambah satu spirit ring baru beserta umurnya; jumlah ring dan daftar umur selalu sinkron. */
+    void addRing(int age);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }

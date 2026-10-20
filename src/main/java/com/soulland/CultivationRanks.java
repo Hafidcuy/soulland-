@@ -20,6 +20,12 @@ public final class CultivationRanks {
     public static final int MAX_LEVEL = 99;
     public static final int MAX_RINGS = 9;
     public static final float MAX_ENERGY = 100f;
+    /** Umur ring bawaan untuk data lama yang belum menyimpan umur tiap ring. */
+    public static final int DEFAULT_RING_AGE = 100;
+
+    /** Jumlah spirit ring yang dibutuhkan untuk membuka skill ke-3 dan ke-4. */
+    public static final int RINGS_FOR_THIRD_SKILL = 5;
+    public static final int RINGS_FOR_FOURTH_SKILL = 7;
 
     public static String rankName(int level) {
         int idx = Math.max(0, Math.min(RANKS.length - 1, (level - 1) / 10));

@@ -9,7 +9,6 @@ public record MartialSoul(
         String owner,
         String type,
         String rarity,
-        int weight,
         String description,
         List<SkillDef> skills
 ) {
