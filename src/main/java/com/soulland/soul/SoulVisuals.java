@@ -61,4 +61,11 @@ public final class SoulVisuals {
     public static ResourceLocation manifestationItem(String soulId) {
         return new ResourceLocation(SoulLandMod.MODID, "manifestation_" + soulId);
     }
+
+    /** Partikel soul yang mengelilingi pemain saat tool ditahan untuk charge. */
+    public static void chargeParticles(net.minecraft.server.level.ServerPlayer player, String soulId) {
+        net.minecraft.server.level.ServerLevel level = player.serverLevel();
+        level.sendParticles(particle(soulId), player.getX(), player.getY() + 1.2, player.getZ(),
+                4, 0.6, 0.5, 0.6, 0.01);
+    }
 }

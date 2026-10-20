@@ -13,6 +13,10 @@ import com.soulland.net.SyncRingAgesPacket;
  */
 public final class ClientBridgeImpl implements ClientBridge.Handler {
 
+    public ClientBridgeImpl() {
+        ClientBridge.setSoulIdSupplier(() -> ClientCultivationData.soulId);
+    }
+
     @Override
     public void openAwakening(boolean reroll) {
         ClientGuiHooks.openAwakening(reroll);

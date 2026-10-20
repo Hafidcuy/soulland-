@@ -10,6 +10,7 @@ import com.soulland.soul.SkillDef;
 import com.soulland.soul.SoulText;
 import com.soulland.soul.SoulVisuals;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -59,9 +60,14 @@ public final class SkillHandler {
             if (!execute(player, skill.id())) return;
 
             cap.setEnergy(cap.getEnergy() - skill.energyCost());
-            cap.setCooldown(skill.id(), now + skill.cooldownTicks());
+            long cooldown = ToolSynergy.scaleCooldown(skill.cooldownTicks(), player);
+            cap.setCooldown(skill.id(), now + cooldown);
             CultivationManager.sync(player);
             player.sendSystemMessage(Component.literal("§b✦ ").append(SoulText.skillName(skill)).append(Component.literal(" ✦")));
+            if (ToolSynergy.isActive(player)) {
+                player.displayClientMessage(
+                        Component.translatable("message.soulland.synergy_active").withStyle(ChatFormatting.GREEN), true);
+            }
             manifest(player, soul);
         });
     }
@@ -418,11 +424,13 @@ public final class SkillHandler {
     /**
      * Damage dari skill. Flag sementara pada korban memastikan efek serangan biasa
      * (F4) tidak ikut terpicu oleh damage skill.
+     *
+     * <p>Tool milik soul sendiri menaikkan damage skill sebesar 15 persen.
      */
     private static void skillDamage(ServerPlayer source, LivingEntity target, float amount) {
         target.getPersistentData().putBoolean(AttackEffects.SKILL_DAMAGE_FLAG, true);
         try {
-            target.hurt(source.damageSources().playerAttack(source), amount);
+            target.hurt(source.damageSources().playerAttack(source), ToolSynergy.scaleDamage(amount, source));
         } finally {
             target.getPersistentData().remove(AttackEffects.SKILL_DAMAGE_FLAG);
         }

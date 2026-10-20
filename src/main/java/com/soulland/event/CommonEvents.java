@@ -4,6 +4,7 @@ import com.soulland.SoulLandMod;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.item.ModItems;
+import com.soulland.item.ToolCharge;
 import com.soulland.skill.AttackEffects;
 import com.soulland.soul.RingHaloSync;
 import com.soulland.soul.SoulSelection;
@@ -84,6 +85,11 @@ public class CommonEvents {
                 }
             }
         });
+        if (event.player instanceof ServerPlayer sp) {
+            if (sp.tickCount % ToolCharge.BATTERY_REGEN_INTERVAL == 0) {
+                ToolCharge.regenBattery(sp, sp.getMainHandItem());
+            }
+        }
     }
 
     /** Bonus damage keluaran berdasarkan level kultivasi, plus efek serangan khas tiap soul. */

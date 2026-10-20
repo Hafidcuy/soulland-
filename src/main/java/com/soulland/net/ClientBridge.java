@@ -1,5 +1,7 @@
 package com.soulland.net;
 
+import java.util.function.Supplier;
+
 /**
  * Jembatan antara paket server dan sisi client.
  *
@@ -26,6 +28,22 @@ public final class ClientBridge {
     }
 
     private static volatile Handler handler;
+
+    private static volatile Supplier<String> soulIdSupplier = () -> "";
+
+    /**
+     * Id martial soul pemain ini menurut salinan sisi client. Kosong di server
+     * karena server membaca soul langsung dari capability.
+     */
+    public static String soulId() {
+        Supplier<String> supplier = soulIdSupplier;
+        return supplier == null ? "" : supplier.get();
+    }
+
+    /** Dipanggil sekali dari sisi client untuk menyambungkan salinan soul. */
+    public static void setSoulIdSupplier(Supplier<String> supplier) {
+        soulIdSupplier = supplier == null ? () -> "" : supplier;
+    }
 
     /** Dipanggil sekali dari sisi client (client setup). */
     public static void set(Handler newHandler) {
