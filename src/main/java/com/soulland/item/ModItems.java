@@ -1,7 +1,9 @@
 package com.soulland.item;
 
 import com.soulland.SoulLandMod;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,48 +21,34 @@ public class ModItems {
     public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100000 = ITEMS.register("spirit_ring_100000",
             () -> new SpiritRingItem(SpiritRingItem.Tier.Y100000, new Item.Properties().rarity(Rarity.EPIC)));
 
-    public static final RegistryObject<SoulCardItem> SOUL_CARD = ITEMS.register("soul_card",
-            () -> new SoulCardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<Item> SOUL_ESSENCE = ITEMS.register("soul_essence",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<EvolutionCoreItem> EVOLUTION_CORE = ITEMS.register("evolution_core",
-            () -> new EvolutionCoreItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-
-    public static final RegistryObject<SectTokenItem> SECT_TOKEN = ITEMS.register("sect_token",
-            () -> new SectTokenItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<MeditationIncenseItem> MEDITATION_INCENSE = ITEMS.register("meditation_incense",
-            () -> new MeditationIncenseItem(new Item.Properties().stacksTo(16)));
-
-    public static final RegistryObject<SoulCardItem> MARTIAL_SOUL_MANUAL = ITEMS.register("martial_soul_manual",
-            () -> new SoulCardItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<Item> SOUL_CORE = ITEMS.register("soul_core",
+    // Item manifestasi: bentuk visual martial soul yang muncul saat skill diaktifkan.
+    public static final RegistryObject<Item> MANIFESTATION_HOE = ITEMS.register("manifestation_hoe",
+            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_BLUE_SILVER_GRASS = ITEMS.register("manifestation_blue_silver_grass",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_HELL_CIVET = ITEMS.register("manifestation_hell_civet",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_SAUSAGE = ITEMS.register("manifestation_sausage",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_SEVEN_TREASURE_PAGODA = ITEMS.register("manifestation_seven_treasure_pagoda",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_EVIL_FIRE_PHOENIX = ITEMS.register("manifestation_evil_fire_phoenix",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_WHITE_TIGER = ITEMS.register("manifestation_white_tiger",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SOFT_BONE_RABBIT = ITEMS.register("manifestation_soft_bone_rabbit",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_JADE_SERPENT = ITEMS.register("manifestation_jade_serpent",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_CLEAR_SKY_HAMMER = ITEMS.register("manifestation_clear_sky_hammer",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
-    public static final RegistryObject<GuideItem> SOUL_GUIDE = ITEMS.register("soul_guide",
-            () -> new GuideItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<QiPillItem> QI_PILL = ITEMS.register("qi_pill",
-            () -> new QiPillItem(new Item.Properties().stacksTo(16)));
-
-    public static final RegistryObject<SoulCrystalItem> SOUL_CRYSTAL = ITEMS.register("soul_crystal",
-            () -> new SoulCrystalItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-
-    public static final RegistryObject<RingForgeItem> RING_FORGE = ITEMS.register("ring_forge",
-            () -> new RingForgeItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
-
-    public static final RegistryObject<HuntContractItem> HUNT_CONTRACT = ITEMS.register("hunt_contract",
-            () -> new HuntContractItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
-
-    public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_TANG = ITEMS.register("sect_medallion_tang",
-            () -> new SectMedallionItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "tang"));
-    public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_SHREK = ITEMS.register("sect_medallion_shrek",
-            () -> new SectMedallionItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "shrek"));
-    public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_STARLUO = ITEMS.register("sect_medallion_starluo",
-            () -> new SectMedallionItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "starluo"));
-    public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_QIBAO = ITEMS.register("sect_medallion_qibao",
-            () -> new SectMedallionItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "qibao"));
+    /**
+     * Stack item manifestasi untuk sebuah soul. Dikembalikan kosong bila soul
+     * tidak punya item manifestasi (misalnya karena data soul berubah).
+     */
+    public static ItemStack manifestationStack(String soulId) {
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(SoulLandMod.MODID, "manifestation_" + soulId));
+        return item == null ? ItemStack.EMPTY : new ItemStack(item);
+    }
 }

@@ -1,7 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "soulland:item/spirit_ring_1000",
-    "layer1": "soulland:item/overlay_glow"
+    "layer0": "soulland:item/spirit_ring_1000"
   }
 }

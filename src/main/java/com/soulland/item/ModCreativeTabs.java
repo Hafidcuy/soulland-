@@ -21,22 +21,16 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SPIRIT_RING_1000.get());
                         output.accept(ModItems.SPIRIT_RING_10000.get());
                         output.accept(ModItems.SPIRIT_RING_100000.get());
-                        output.accept(ModItems.SOUL_CARD.get());
-                        output.accept(ModItems.SOUL_ESSENCE.get());
-                        output.accept(ModItems.EVOLUTION_CORE.get());
-                        output.accept(ModItems.SECT_TOKEN.get());
-                        output.accept(ModItems.MEDITATION_INCENSE.get());
-                        output.accept(ModItems.MARTIAL_SOUL_MANUAL.get());
-                        output.accept(ModItems.SOUL_CORE.get());
-                        output.accept(ModItems.SECT_MEDALLION_TANG.get());
-                        output.accept(ModItems.SECT_MEDALLION_SHREK.get());
-                        output.accept(ModItems.SECT_MEDALLION_STARLUO.get());
-                        output.accept(ModItems.SECT_MEDALLION_QIBAO.get());
-                        output.accept(ModItems.SOUL_GUIDE.get());
-                        output.accept(ModItems.QI_PILL.get());
-                        output.accept(ModItems.SOUL_CRYSTAL.get());
-                        output.accept(ModItems.RING_FORGE.get());
-                        output.accept(ModItems.HUNT_CONTRACT.get());
+                        output.accept(ModItems.MANIFESTATION_HOE.get());
+                        output.accept(ModItems.MANIFESTATION_BLUE_SILVER_GRASS.get());
+                        output.accept(ModItems.MANIFESTATION_HELL_CIVET.get());
+                        output.accept(ModItems.MANIFESTATION_SAUSAGE.get());
+                        output.accept(ModItems.MANIFESTATION_SEVEN_TREASURE_PAGODA.get());
+                        output.accept(ModItems.MANIFESTATION_EVIL_FIRE_PHOENIX.get());
+                        output.accept(ModItems.MANIFESTATION_WHITE_TIGER.get());
+                        output.accept(ModItems.MANIFESTATION_SOFT_BONE_RABBIT.get());
+                        output.accept(ModItems.MANIFESTATION_JADE_SERPENT.get());
+                        output.accept(ModItems.MANIFESTATION_CLEAR_SKY_HAMMER.get());
                     })
                     .build());
 }
