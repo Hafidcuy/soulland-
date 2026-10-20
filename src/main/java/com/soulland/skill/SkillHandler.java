@@ -47,8 +47,11 @@ public final class SkillHandler {
     public static void activate(ServerPlayer player, int slot) {
         CultivationCapability.get(player).ifPresent(cap -> {
             if (!cap.isAwakened()) {
-                player.sendSystemMessage(Component.literal("Belum ada martial soul. Masuk kembali ke dunia untuk kebangkitan."));
-                return;
+                com.soulland.cultivation.Awakening.roll(player);
+                if (!cap.isAwakened()) {
+                    player.sendSystemMessage(Component.literal("Martial soul belum bisa diundi. Coba lagi sebentar."));
+                    return;
+                }
             }
 
             MartialSoul soul = MartialSouls.effective(cap.getMartialSoulId(), cap.getEvolutionStage());

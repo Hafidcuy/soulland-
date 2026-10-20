@@ -44,15 +44,14 @@ public class CommonEvents {
      * Undian martial soul otomatis saat pemain masuk dunia.
      *
      * <p>Forge 1.20.1 tidak selalu membakar {@link PlayerEvent.PlayerLoggedInEvent} saat
-     * pemain baru masuk, jadi undian juga dipancing dari {@link EntityJoinLevelEvent} dengan
-     * penjaga sesi supaya hanya terjadi sekali per masuk.
+     * pemain baru masuk, jadi undian juga dipancing dari {@link EntityJoinLevelEvent}.
+     * SetARA-nya: {@link com.soulland.cultivation.Awakening} yang menjaga agar undian
+     * terjadi sekali per masuk.
      */
-    private static final java.util.Set<java.util.UUID> ROLLED = java.util.concurrent.ConcurrentHashMap.newKeySet();
-
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            rollMartialSoul(player);
+            com.soulland.cultivation.Awakening.roll(player);
         }
     }
 
@@ -60,57 +59,15 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            rollMartialSoul(player);
+            com.soulland.cultivation.Awakening.roll(player);
         }
-    }
-
-    private static void rollMartialSoul(ServerPlayer player) {
-        if (!ROLLED.add(player.getUUID())) return;
-        CultivationCapability.get(player).ifPresent(cap -> {
-            boolean firstTime = !cap.isAwakened();
-            MartialSoul previous = MartialSouls.get(cap.getMartialSoulId());
-            MartialSoul soul = MartialSouls.roll(player.getRandom());
-            boolean changed = previous == null || !previous.id().equals(soul.id());
-
-            cap.setMartialSoulId(soul.id());
-            cap.setAwakened(true);
-            cap.setEvolutionStage(0);
-            cap.setChainCount(0);
-            if (firstTime) {
-                cap.setLevel(1);
-                cap.setEnergy(100f);
-                cap.setRings(0);
-                cap.setRingSkills(0);
-            }
-            if (changed) {
-                cap.setLoadout(new String[]{"", "", "", "", ""});
-            }
-
-            if (firstTime) {
-                player.addItem(GuideBook.create());
-                player.sendSystemMessage(Component.literal("UPACARA KEBANGKITAN MARTIAL SOUL"));
-            } else {
-                player.sendSystemMessage(Component.literal("Undian martial soul: " + soul.name()
-                        + (previous == null ? "" : " (sebelumnya " + previous.name() + ")")));
-            }
-            player.sendSystemMessage(Component.literal("Martial Soul-mu: " + soul.name() + " (" + soul.rarity() + ")"));
-            player.sendSystemMessage(Component.literal("Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()
-                    + " | Elemen: " + soul.element()));
-            player.sendSystemMessage(Component.literal(soul.description()));
-            player.sendSystemMessage(Component.literal("Tekan K untuk memunculkan martial soul, J untuk kartu soul, "
-                    + "R G F V Z untuk skill, B untuk bakar darah."));
-            player.sendSystemMessage(Component.literal("Absorpsi berani: tahan Shift saat klik kanan spirit ring."));
-            player.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
-                    player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.05);
-            CultivationManager.applyStats(player);
-            CultivationManager.sync(player);
-        });
     }
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             SoulCompanion.removeAll(player);
+            com.soulland.cultivation.Awakening.forget(player);
         }
     }
 
