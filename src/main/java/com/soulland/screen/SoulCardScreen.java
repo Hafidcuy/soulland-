@@ -9,6 +9,9 @@ import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SkillDef;
 import net.minecraft.ChatFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -24,6 +27,7 @@ import java.util.List;
  * <p>Empat tab, semuanya menampilkan data nyata dari state pemain. Tidak ada tombol
  * yang tidak melakukan apa-apa, dan setiap tab bisa reached lewat keyboard (tombol 1-4).
  */
+@OnlyIn(Dist.CLIENT)
 public class SoulCardScreen extends Screen {
 
     private static final int SOUL_JADE = 0x4FC08D;

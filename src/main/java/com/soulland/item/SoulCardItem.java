@@ -9,6 +9,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
+import com.soulland.client.ClientScreenOpener;
+
 /**
  * Kartu martial soul.
  *
@@ -25,9 +27,7 @@ public class SoulCardItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    net.minecraft.client.Minecraft.getInstance().setScreen(
-                            new com.soulland.screen.SoulCardScreen()));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientScreenOpener::openSoulCard);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }

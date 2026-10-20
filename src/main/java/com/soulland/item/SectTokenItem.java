@@ -1,6 +1,6 @@
 package com.soulland.item;
 
-import com.soulland.screen.SoulCardScreen;
+import com.soulland.client.ClientScreenOpener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -21,8 +21,7 @@ public class SectTokenItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (level.isClientSide) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    net.minecraft.client.Minecraft.getInstance().setScreen(new SoulCardScreen(3)));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientScreenOpener::openSectTab);
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }

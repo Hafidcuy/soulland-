@@ -30,6 +30,8 @@ public class SoulLandMod {
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(ModNetwork::register);
         LOGGER.info("Soul Land: Douluo Dalu mod dimuat. Selamat datang di Benua Douluo!");
+        LOGGER.info("Martial soul terdaftar: {} (bisa diundi: {}).", com.soulland.soul.MartialSouls.all().size(),
+                com.soulland.soul.MartialSouls.rollableCount());
     }
 
     private void registerCommands(final RegisterCommandsEvent event) {

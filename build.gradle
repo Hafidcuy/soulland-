@@ -40,6 +40,8 @@ minecraft {
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
+            // Server dev sering jalan di host IPv4-only, tanpa ini port server gagal bind.
+            jvmArgs '-Djava.net.preferIPv4Stack=true'
         }
 
         data {

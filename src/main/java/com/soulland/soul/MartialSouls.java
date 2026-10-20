@@ -70,6 +70,15 @@ public final class MartialSouls {
         return base;
     }
 
+    /** Berapa soul yang bisa diundi (bentuk evolusi berat 0 karena didapat lewat evolusi). */
+    public static int rollableCount() {
+        int count = 0;
+        for (MartialSoul soul : REGISTRY.values()) {
+            if (soul.weight() > 0) count++;
+        }
+        return count;
+    }
+
     /** Gacha: martial soul diundi acak dengan bobot rarity, seperti takdir saat lahir di cerita. */
     public static MartialSoul roll(RandomSource random) {
         int total = 0;
