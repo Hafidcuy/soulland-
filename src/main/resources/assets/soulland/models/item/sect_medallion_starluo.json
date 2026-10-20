@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/sect_medallion_starluo",
+    "layer1": "soulland:item/overlay_spark"
+  }
+}

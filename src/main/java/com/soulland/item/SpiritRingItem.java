@@ -81,10 +81,15 @@ public class SpiritRingItem extends Item {
         player.sendSystemMessage(Component.literal("§a✦ Spirit Ring " + tier.years + " tahun diserap! Sekarang kamu punya " + cap.getRings() + " spirit ring. ✦")
                 .withStyle(ChatFormatting.GOLD));
         if (cap.getRings() == 1) {
-            player.sendSystemMessage(Component.literal("§eSkill 1 martial soul-mu terbuka! Tekan [R] untuk menggunakannya."));
-        }
-        if (cap.getRings() == 3) {
-            player.sendSystemMessage(Component.literal("§eSkill 2 martial soul-mu terbuka! Tekan [G] untuk menggunakannya."));
+            player.sendSystemMessage(Component.literal("Skill 1 terbuka. Tekan [R] untuk menggunakannya."));
+        } else if (cap.getRings() == 2) {
+            player.sendSystemMessage(Component.literal("Skill 2 terbuka. Tekan [G] untuk menggunakannya."));
+        } else if (cap.getRings() == 3) {
+            player.sendSystemMessage(Component.literal("Skill 3 terbuka. Tekan [F] untuk menggunakannya."));
+        } else if (cap.getRings() == 5) {
+            player.sendSystemMessage(Component.literal("Skill 4 terbuka. Tekan [V] untuk menggunakannya."));
+        } else if (cap.getRings() == 7) {
+            player.sendSystemMessage(Component.literal("Skill 5 terbuka. Tekan [Z] untuk menggunakannya."));
         }
         return InteractionResultHolder.success(stack);
     }
@@ -93,6 +98,7 @@ public class SpiritRingItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.literal("Spirit Ring berusia " + tier.years + " tahun").withStyle(ChatFormatting.AQUA));
         tooltip.add(Component.literal("Syarat serap: level " + tier.minLevel + "+").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal("Bonus: +2 HP maksimum dan +0.5 attack damage").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.literal("Klik kanan untuk menyerap.").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -14,6 +14,10 @@ public class Cultivation implements ICultivation {
     private int rings = 0;
     private float energy = CultivationRanks.MAX_ENERGY;
     private boolean gateNotified = false;
+    private String sect = "";
+    private int evolutionStage = 0;
+    private boolean meditating = false;
+    private int meditationTicks = 0;
     private final Map<String, Long> cooldowns = new HashMap<>();
 
     @Override public boolean isAwakened() { return awakened; }
@@ -36,9 +40,22 @@ public class Cultivation implements ICultivation {
 
     @Override public long getCooldownUntil(String skillId) { return cooldowns.getOrDefault(skillId, 0L); }
     @Override public void setCooldown(String skillId, long gameTimeUntil) { cooldowns.put(skillId, gameTimeUntil); }
+    @Override public void forEachCooldown(java.util.function.BiConsumer<String, Long> consumer) { cooldowns.forEach(consumer); }
 
     @Override public boolean isGateNotified() { return gateNotified; }
     @Override public void setGateNotified(boolean notified) { this.gateNotified = notified; }
+
+    @Override public String getSect() { return sect; }
+    @Override public void setSect(String sect) { this.sect = sect == null ? "" : sect; }
+
+    @Override public int getEvolutionStage() { return evolutionStage; }
+    @Override public void setEvolutionStage(int stage) { this.evolutionStage = Math.max(0, Math.min(1, stage)); }
+
+    @Override public boolean isMeditating() { return meditating; }
+    @Override public void setMeditating(boolean meditating) { this.meditating = meditating; }
+
+    @Override public int getMeditationTicks() { return meditationTicks; }
+    @Override public void setMeditationTicks(int ticks) { this.meditationTicks = Math.max(0, ticks); }
 
     @Override
     public CompoundTag serializeNBT() {
@@ -50,6 +67,8 @@ public class Cultivation implements ICultivation {
         tag.putInt("rings", rings);
         tag.putFloat("energy", energy);
         tag.putBoolean("gateNotified", gateNotified);
+        tag.putString("sect", sect);
+        tag.putInt("evolutionStage", evolutionStage);
         CompoundTag cds = new CompoundTag();
         cooldowns.forEach((k, v) -> cds.putLong(k, v));
         tag.put("cooldowns", cds);
@@ -65,6 +84,8 @@ public class Cultivation implements ICultivation {
         rings = tag.getInt("rings");
         energy = tag.contains("energy") ? tag.getFloat("energy") : CultivationRanks.MAX_ENERGY;
         gateNotified = tag.getBoolean("gateNotified");
+        sect = tag.getString("sect");
+        evolutionStage = tag.getInt("evolutionStage");
         cooldowns.clear();
         if (tag.contains("cooldowns")) {
             CompoundTag cds = tag.getCompound("cooldowns");

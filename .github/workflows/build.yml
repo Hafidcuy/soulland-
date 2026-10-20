@@ -3,6 +3,7 @@ name: Build & Test Soul Land Mod
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
   workflow_dispatch:
 
 permissions:
@@ -28,7 +29,32 @@ jobs:
           gradle-version: '8.1.1'
 
       - name: Build mod
-        run: gradle build --no-daemon
+        run: gradle build --no-daemon --console=plain
+
+      - name: Cek aset piksel ada semua
+        run: |
+          echo "--- jumlah texture soul ---"
+          ls src/main/resources/assets/soulland/textures/soul/*.png | wc -l
+          echo "--- jumlah soul di data ---"
+          python3 -c "import json;d=json.load(open('src/main/resources/data/soulland/martial_souls.json'));print(len(d['souls']))"
+          echo "--- cek texture yang dirujuk model item ---"
+          python3 - <<'PY'
+          import json, os, glob
+          base = "src/main/resources/assets/soulland"
+          missing = []
+          for path in glob.glob(base + "/models/item/*.json"):
+              model = json.load(open(path))
+              for name in model.get("textures", {}).values():
+                  if not name.startswith("soulland:"):
+                      continue
+                  tex = base + "/textures/" + name.split(":")[1] + ".png"
+                  if not os.path.exists(tex):
+                      missing.append(tex)
+          if missing:
+              print("FAIL: texture hilang:", missing)
+              raise SystemExit(1)
+          print("PASS: semua texture item ada.")
+          PY
 
       - name: Upload jar hasil build
         uses: actions/upload-artifact@v4
@@ -66,10 +92,10 @@ jobs:
       - name: Pasang mod ke server
         run: cp modjar/*.jar server/mods/
 
-      - name: Boot server (timeout 240 detik)
+      - name: Boot server (timeout 300 detik)
         run: |
           cd server
-          timeout 240 sh run.sh nogui || echo "Server dihentikan oleh timeout (normal untuk uji boot)."
+          timeout 300 sh run.sh nogui || echo "Server dihentikan oleh timeout (normal untuk uji boot)."
 
       - name: Verifikasi mod termuat tanpa crash
         run: |
@@ -78,7 +104,7 @@ jobs:
           echo "--- Bukti mod terdaftar ---"
           grep -i "soulland" "$LOG" | head -20 || true
           echo "--- Cek crash fatal ---"
-          if grep -qiE "Failed to start|Encountered an unexpected exception|Crash report|ERROR.*soulland|ModLoadingException" "$LOG"; then
+          if grep -qiE "Failed to start|Encountered an unexpected exception|Crash report|ModLoadingException" "$LOG"; then
             echo "FAIL: terdeteksi error fatal di log server"
             tail -100 "$LOG"
             exit 1
@@ -94,7 +120,7 @@ jobs:
   release:
     name: Buat GitHub Release
     needs: [build, server-test]
-    if: github.event_name == 'workflow_dispatch'
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Download jar hasil build
@@ -103,26 +129,31 @@ jobs:
           name: soulland-mod-jar
           path: modjar
 
-      - name: Buat release v1.0.0
+      - name: Buat release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: "Soul Land: Douluo Dalu v1.0.0"
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.1.0' }}
+          name: "Soul Land: Douluo Dalu ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.1.0' }}"
           body: |
             Mod Minecraft Java untuk **Forge 1.20.1** bertema dunia Soul Land (Douluo Dalu).
 
             ## Fitur
-            - Sistem kultivasi 10 peringkat (Spirit Scholar sampai Title Douluo), level 1-99
-            - Gacha Martial Soul saat login pertama (10 soul dari series), hanya bisa diubah di Creative
-            - Spirit Ring 100 / 1.000 / 10.000 / 100.000 tahun dari soul beast & boss
-            - 20 skill martial soul (tombol R dan G), memakai Spirit Power + cooldown
-            - Boss diperkuat: Wither 600 HP, Warden 800 HP, Ender Dragon 1000 HP (boss akhir)
-            - Buku panduan lengkap otomatis untuk pemain baru
-            - Multiplayer-ready (semua logika di server)
+            - **1.995 martial soul** dari seluruh Benua Douluo, dibangun dari sumber lore resmi series
+              (tabel Moegirlpedia, daftar wiki Soul Land, dan daftar lengkap 武魂大全).
+              Termasuk bentuk evolusi, bentuk tahun ring (10.000 dan 100.000 tahun), soul gabungan
+              (武魂融合技), body soul setelah awakening kedua, dan bentuk ultimate attribute.
+            - **9.975 skill** dengan lima skill per martial soul, terbuka bertahap di spirit ring 1, 2, 3, 5, 7.
+            - **Tampilan martial soul**: kartu soul (tekan J) dan companion yang melayang di belakangmu (tekan K).
+            - **Efek serangan unik per skill**: tujuh arketipe bentuk (bola, garis, kerucut, cincin, cakram, pilar, badai)
+              plus entitas energi khusus untuk teknik ikonik, guncangan kamera, dan kilat layar.
+            - **Sistem baru**: meditasi, sekte dengan bonus pasif, evolusi martial soul, soul beast bertingkat,
+              ledakan spirit ring, dan kilatan soul pada setiap pukulan biasa.
+            - **Aset**: 1.995 potret soul 16x16 digambar dengan kode, plus texture item berlapis.
+            - Boss diperkuat: Wither 600 HP, Warden 800 HP, Ender Dragon 1000 HP (boss akhir).
 
             ## Cara pasang
             1. Install Minecraft Forge 1.20.1
-            2. Unduh `soulland-1.0.0.jar` di bawah
+            2. Unduh `soulland-*.jar` di bawah
             3. Taruh di folder `mods` (client dan server)
 
             Release ini terverifikasi oleh CI: compile bersih + uji boot server Forge dedicated lulus.

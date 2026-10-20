@@ -1,0 +1,19 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/martial_soul_manual"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom": {
+          "gui": 1
+        }
+      },
+      "model": "item/generated",
+      "textures": {
+        "layer0": "soulland:item/martial_soul_manual"
+      }
+    }
+  ]
+}

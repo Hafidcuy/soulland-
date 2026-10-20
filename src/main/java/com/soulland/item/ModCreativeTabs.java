@@ -21,6 +21,17 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SPIRIT_RING_1000.get());
                         output.accept(ModItems.SPIRIT_RING_10000.get());
                         output.accept(ModItems.SPIRIT_RING_100000.get());
+                        output.accept(ModItems.SOUL_CARD.get());
+                        output.accept(ModItems.SOUL_ESSENCE.get());
+                        output.accept(ModItems.EVOLUTION_CORE.get());
+                        output.accept(ModItems.SECT_TOKEN.get());
+                        output.accept(ModItems.MEDITATION_INCENSE.get());
+                        output.accept(ModItems.MARTIAL_SOUL_MANUAL.get());
+                        output.accept(ModItems.SOUL_CORE.get());
+                        output.accept(ModItems.SECT_MEDALLION_TANG.get());
+                        output.accept(ModItems.SECT_MEDALLION_SHREK.get());
+                        output.accept(ModItems.SECT_MEDALLION_STARLUO.get());
+                        output.accept(ModItems.SECT_MEDALLION_QIBAO.get());
                     })
                     .build());
 }

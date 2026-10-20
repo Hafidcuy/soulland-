@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/soul_core",
+    "layer1": "soulland:item/overlay_glow"
+  }
+}

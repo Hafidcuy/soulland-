@@ -1,23 +1,43 @@
 package com.soulland.soul;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.soulland.SoulLandMod;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Daftar seluruh martial soul yang bisa didapat lewat gacha saat login pertama. */
+/**
+ * Registry seluruh martial soul beserta skill-nya.
+ *
+ * <p>Datanya dimuat dari {@code data/soulland/martial_souls.json} yang dibangun oleh
+ * {@code tools/build_souls.py} dari sumber-sumber lore resmi series. Tiap soul punya lima
+ * skill yang terbuka bertahap mengikuti jumlah spirit ring (1, 2, 3, 5, 7).
+ */
 public final class MartialSouls {
     private MartialSouls() {}
 
+    private static final String DATA = "/data/soulland/martial_souls.json";
     private static final Map<String, MartialSoul> REGISTRY = new LinkedHashMap<>();
 
-    private static void register(MartialSoul soul) {
-        REGISTRY.put(soul.id(), soul);
+    static {
+        load();
     }
 
     public static MartialSoul get(String id) {
+        if (id == null) return null;
         return REGISTRY.get(id);
     }
 
@@ -25,10 +45,38 @@ public final class MartialSouls {
         return new ArrayList<>(REGISTRY.values());
     }
 
-    /** Gacha: martial soul diundi secara acak dengan bobot rarity, seperti takdir saat lahir di cerita. */
+    /** Soul yang punya pemilik tercatat di lore, dipakai buku panduan agar tidak terlalu panjang. */
+    public static List<MartialSoul> notable() {
+        List<MartialSoul> list = new ArrayList<>();
+        for (MartialSoul soul : REGISTRY.values()) {
+            if (soul.notable()) list.add(soul);
+        }
+        return list;
+    }
+
+    /**
+     * Martial soul yang benar-benar dipakai pemain.
+     *
+     * <p>Bentuk evolusi menggantikan bentuk dasar saat tahap evolusi sudah terbuka, tapi id
+     * dasar tetap disimpan supaya takdir awal pemain tidak hilang.
+     */
+    public static MartialSoul effective(String soulId, int evolutionStage) {
+        MartialSoul base = get(soulId);
+        if (base == null) return null;
+        if (evolutionStage > 0 && base.hasEvolution()) {
+            MartialSoul evolved = get(base.evolutionId());
+            if (evolved != null) return evolved;
+        }
+        return base;
+    }
+
+    /** Gacha: martial soul diundi acak dengan bobot rarity, seperti takdir saat lahir di cerita. */
     public static MartialSoul roll(RandomSource random) {
         int total = 0;
         for (MartialSoul soul : REGISTRY.values()) total += soul.weight();
+        if (total <= 0) {
+            return REGISTRY.values().iterator().next();
+        }
         int r = random.nextInt(total);
         for (MartialSoul soul : REGISTRY.values()) {
             r -= soul.weight();
@@ -37,85 +85,114 @@ public final class MartialSouls {
         return REGISTRY.values().iterator().next();
     }
 
-    static {
-        register(new MartialSoul(
-                "hoe", "Cangkul Tua", "Petani biasa", "Alat", "Common", 40,
-                "Martial soul rakyat jelata. Tapi di tangan yang tekun, cangkul pun bisa menembus langit.",
-                List.of(
-                        new SkillDef("hoe_heal", "Panen Raya", "Memulihkan 6 HP dan memberi efek saturation.", 20f, 200, 1),
-                        new SkillDef("hoe_slam", "Bajak Bumi", "Hantaman AoE kecil ke musuh di sekitar.", 30f, 300, 3)
-                )));
+    // ------------------------------------------------------------------ pemuatan data
 
-        register(new MartialSoul(
-                "blue_silver_grass", "Blue Silver Grass", "Tang San", "Kontrol", "Rare", 12,
-                "Rumput biru perak yang tampak lemah namun bisa mengikat dan meracuni segalanya.",
-                List.of(
-                        new SkillDef("bsg_entangle", "Blue Silver Entangle", "Akar biru mengikat musuh di sekitar: slow berat + lemah.", 25f, 240, 1),
-                        new SkillDef("bsg_parasite", "Parasitic Seed", "Menanam benih parasit pada musuh terdekat: racun 8 detik, kamu pulih.", 35f, 400, 3)
-                )));
+    private static void load() {
+        try (InputStream in = MartialSouls.class.getResourceAsStream(DATA)) {
+            if (in == null) {
+                SoulLandMod.LOGGER.error("Data martial soul tidak ditemukan: {}", DATA);
+                return;
+            }
+            try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+                JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
+                JsonArray souls = root.getAsJsonArray("souls");
+                for (JsonElement element : souls) {
+                    MartialSoul soul = parseSoul(element.getAsJsonObject());
+                    if (soul != null) REGISTRY.put(soul.id(), soul);
+                }
+            }
+            SoulLandMod.LOGGER.info("Memuat {} martial soul dari data lore.", REGISTRY.size());
+        } catch (Exception e) {
+            SoulLandMod.LOGGER.error("Gagal memuat data martial soul.", e);
+        }
+    }
 
-        register(new MartialSoul(
-                "hell_civet", "Hell Civet", "Zhu Zhuqing", "Agility", "Uncommon", 20,
-                "Kucing neraka yang gesit: serangan cepat dan mematikan dari bayangan.",
-                List.of(
-                        new SkillDef("civet_dash", "Nether Thrust", "Melesat ke depan dan melukai musuh yang dilewati.", 25f, 240, 1),
-                        new SkillDef("civet_slash", "Nether Slash", "Tebasan AoE cepat di sekitarmu + kecepatan gerak.", 35f, 360, 3)
-                )));
+    private static MartialSoul parseSoul(JsonObject json) {
+        String id = str(json, "id");
+        if (id == null || id.isEmpty()) return null;
 
-        register(new MartialSoul(
-                "sausage", "Sosis Ajaib", "Oscar", "Support", "Uncommon", 20,
-                "Sosis buatan Food System Master: penyembuh dan pembersih terbaik di medan perang.",
-                List.of(
-                        new SkillDef("sausage_heal", "Recovery Sausage", "Memulihkan 8 HP dan memberi saturation penuh.", 25f, 240, 1),
-                        new SkillDef("sausage_fly", "Flying Mushroom", "Terbang melayang + kecepatan gerak selama 20 detik.", 40f, 600, 3)
-                )));
+        List<SkillDef> skills = new ArrayList<>();
+        JsonArray skillArray = json.getAsJsonArray("skills");
+        if (skillArray != null) {
+            for (JsonElement element : skillArray) {
+                skills.add(parseSkill(element.getAsJsonObject()));
+            }
+        }
 
-        register(new MartialSoul(
-                "seven_treasure_pagoda", "Seven Treasure Glazed Tile Pagoda", "Ning Rongrong", "Support", "Epic", 6,
-                "Pagoda tujuh lantai: martial soul support terkuat, memperkuat seluruh tim.",
-                List.of(
-                        new SkillDef("pagoda_power", "Berkah Kekuatan", "Sekutu di sekitarmu dapat Strength II & Absorption 30 detik.", 40f, 600, 1),
-                        new SkillDef("pagoda_heal", "Berkah Kehidupan", "Menyembuhkan 10 HP sekutu di sekitarmu + Regeneration.", 50f, 800, 3)
-                )));
+        return new MartialSoul(
+                id,
+                str(json, "name"),
+                str(json, "nameZh"),
+                str(json, "owner"),
+                str(json, "affiliation"),
+                str(json, "type"),
+                str(json, "family"),
+                str(json, "rarity"),
+                json.get("weight").getAsInt(),
+                str(json, "desc"),
+                str(json, "element"),
+                json.get("color").getAsInt(),
+                str(json, "portrait"),
+                str(json, "evolvesTo"),
+                json.has("notable") && json.get("notable").getAsBoolean(),
+                skills);
+    }
 
-        register(new MartialSoul(
-                "evil_fire_phoenix", "Evil Fire Phoenix", "Ma Hongjun", "Serangan Api", "Epic", 6,
-                "Phoenix api jahat: membakar segalanya dengan api yang tak pernah padam.",
-                List.of(
-                        new SkillDef("phoenix_line", "Phoenix Fireline", "Semburan api kerucut ke arah pandanganmu.", 30f, 300, 1),
-                        new SkillDef("phoenix_meteor", "Phoenix Meteor", "Hujan bola api menghantam area di depanmu.", 55f, 700, 3)
-                )));
+    private static SkillDef parseSkill(JsonObject json) {
+        SkillVisual visual = new SkillVisual(
+                shape(str(json, "shape")),
+                json.get("color").getAsInt(),
+                json.get("color2").getAsInt(),
+                json.get("size").getAsFloat(),
+                json.get("count").getAsInt(),
+                str(json, "sound"),
+                json.get("shake").getAsFloat(),
+                json.get("flash").getAsInt());
 
-        register(new MartialSoul(
-                "white_tiger", "White Tiger", "Dai Mubai", "Power", "Rare", 10,
-                "Harimau putih berekor: kekuatan fisik dan pertahanan yang brutal.",
-                List.of(
-                        new SkillDef("tiger_wave", "White Tiger Light Wave", "Gelombang cahaya harimau: damage garis lurus + knockback.", 30f, 300, 1),
-                        new SkillDef("tiger_vajra", "Vajra Transformation", "Transformasi: Strength II + Resistance II selama 30 detik.", 45f, 600, 3)
-                )));
+        return new SkillDef(
+                str(json, "id"),
+                str(json, "name"),
+                str(json, "desc"),
+                json.get("cost").getAsFloat(),
+                json.get("cd").getAsInt(),
+                json.get("rings").getAsInt(),
+                target(str(json, "target")),
+                visual,
+                json.get("damage").getAsFloat(),
+                json.get("heal").getAsFloat(),
+                json.get("radius").getAsFloat(),
+                effect(str(json, "effect")),
+                json.get("effectTicks").getAsInt(),
+                json.get("effectAmp").getAsInt(),
+                effect(str(json, "selfEffect")),
+                json.get("selfTicks").getAsInt(),
+                json.get("selfAmp").getAsInt());
+    }
 
-        register(new MartialSoul(
-                "soft_bone_rabbit", "Soft Bone Rabbit", "Xiao Wu", "Agility", "Rare", 10,
-                "Kelinci tulang lunak: pesona memikat dan gerakan secepat kilat.",
-                List.of(
-                        new SkillDef("rabbit_charm", "Charm", "Memikat monster di sekitar: mereka berhenti menyerangmu.", 30f, 400, 1),
-                        new SkillDef("rabbit_blink", "Teleport", "Berkedip 8 blok ke arah pandanganmu.", 25f, 200, 3)
-                )));
+    private static String str(JsonObject json, String key) {
+        JsonElement element = json.get(key);
+        if (element == null || element.isJsonNull()) return "";
+        return element.getAsString();
+    }
 
-        register(new MartialSoul(
-                "jade_serpent", "Jade Phosphor Serpent", "Dugu Yan", "Racun", "Rare", 10,
-                "Ular giok beracun: kabut dan gigitan yang melumpuhkan musuh perlahan.",
-                List.of(
-                        new SkillDef("serpent_mist", "Poison Mist", "Kabut racun AoE: poison + slow 10 detik.", 30f, 360, 1),
-                        new SkillDef("serpent_bite", "Serpent Bite", "Gigitan berbisa pada musuh terdekat: damage besar + poison kuat.", 40f, 400, 3)
-                )));
+    private static FxShape shape(String value) {
+        try {
+            return FxShape.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            return FxShape.SPHERE;
+        }
+    }
 
-        register(new MartialSoul(
-                "clear_sky_hammer", "Clear Sky Hammer", "Tang San / Tang Hao", "Power", "Legendary", 3,
-                "Palu Langit Jernih: martial soul legendaris klan Clear Sky, penghancur segalanya.",
-                List.of(
-                        new SkillDef("hammer_slam", "Hammer Slam", "Hantaman palu raksasa: damage AoE masif + knockback ke atas.", 45f, 500, 1),
-                        new SkillDef("hammer_cloak", "Chaotic Cloak", "Teknik palu berputar: Strength III + Speed II selama 20 detik.", 60f, 900, 3)
-                )));
+    private static SkillTarget target(String value) {
+        try {
+            return SkillTarget.valueOf(value);
+        } catch (IllegalArgumentException e) {
+            return SkillTarget.ENEMY_NEAREST;
+        }
+    }
+
+    private static MobEffect effect(String id) {
+        if (id == null || id.isEmpty()) return null;
+        return BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(id)).orElse(null);
     }
 }

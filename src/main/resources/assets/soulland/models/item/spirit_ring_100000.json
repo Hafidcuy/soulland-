@@ -1,1 +1,7 @@
-{"parent":"item/generated","textures":{"layer0":"minecraft:item/dragon_breath"}}
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/spirit_ring_100000",
+    "layer1": "soulland:item/overlay_spark"
+  }
+}

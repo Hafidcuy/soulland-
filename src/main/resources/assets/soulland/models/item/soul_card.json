@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/soul_card",
+    "layer1": "soulland:item/card_frame"
+  }
+}

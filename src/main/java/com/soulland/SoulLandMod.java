@@ -22,6 +22,7 @@ public class SoulLandMod {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.TABS.register(modBus);
+        com.soulland.entity.ModEntities.ENTITIES.register(modBus);
         modBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
     }

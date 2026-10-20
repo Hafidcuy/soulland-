@@ -1,66 +1,83 @@
 # Soul Land: Douluo Dalu — Mod Minecraft Java (Forge 1.20.1)
 
-Mod Minecraft berdasarkan dunia **Soul Land (Douluo Dalu)** karya Tang Jia San Shao.
-Sistem kultivasi, gacha martial soul, spirit ring, skill, soul beast, dan boss yang diperkuat —
-dengan **Ender Dragon sebagai boss akhir**.
+Mod Minecraft bertema dunia **Soul Land (Douluo Dalu)** karya Tang Jia San Shao. Sistem
+kultivasi, **1.995 martial soul** dari seluruh Benua Douluo, **9.975 skill**, spirit ring,
+sekte, evolusi soul, soul beast, dan boss yang diperkuat.
 
-## Fitur
+## Apa yang membuat v1.1 berbeda
 
-- **Sistem kultivasi 10 peringkat**: Spirit Scholar → Spirit Master → Grandmaster → Elder →
-  Ancestor → King → Emperor → Sage → Douluo → **Title Douluo** (level 1–99).
-- **Gacha Martial Soul**: saat pemain pertama kali masuk dunia, martial soul-nya diundi
-  secara acak dengan rarity (Common/Uncommon/Rare/Epic/Legendary), seperti takdir saat lahir.
-  10 martial soul dari series: Blue Silver Grass, Clear Sky Hammer, Evil Fire Phoenix,
-  Seven Treasure Glazed Tile Pagoda, White Tiger, Soft Bone Rabbit, Hell Civet,
-  Jade Phosphor Serpent, Sausage, dan Cangkul.
-- **Ubah hanya di Creative**: hasil gacha permanen; hanya bisa diundi ulang lewat
-  `/martialsoul reroll` dalam mode Creative.
-- **Spirit Ring**: bunuh soul beast (monster) untuk mendapatkan ring 100 / 1.000 / 10.000 tahun;
-  ring 100.000 tahun hanya dari Ender Dragon. Klik kanan untuk menyerap (ada syarat level).
-  Gerbang peringkat (level 10, 20, … 90) hanya bisa dilewati dengan ring baru.
-- **20 skill**: tiap martial soul punya 2 skill, dibuka di 1 dan 3 spirit ring,
-  diaktifkan dengan **R** (skill 1) dan **G** (skill 2). Memakai Spirit Power + cooldown.
-- **Boss diperkuat**: Elder Guardian (HP 120), Wither (HP 600), Warden (HP 800),
-  Ender Dragon (HP 1000) — semuanya soul beast tingkat tinggi.
-- **Buku panduan otomatis**: setiap pemain baru mendapat "Panduan Dunia Soul Land"
-  yang menjelaskan seluruh sistem, daftar skill tiap martial soul, dan cara mengaktifkannya.
-- **Multiplayer-ready**: semua logika berjalan di server; data tiap pemain tersimpan
-  dan tersinkron. Pasang di server Forge dan semua client.
+- **Martial soul bisa dilihat, bukan cuma dibaca.** Tekan `J` untuk membuka Kartu Martial
+  Soul (potret besar, daftar skill, status ring, pilihan sekte). Tekan `K` untuk memunculkan
+  martial soul sungguhan yang melayang di belakangmu dan ikut maju saat kamu menyerang.
+- **Setiap skill punya efek visual sendiri.** Tujuh arketipe bentuk (bola, garis, kerucut,
+  cincin, cakram, pilar, badai) plus entitas energi khusus untuk teknik ikonik, guncangan
+  kamera, dan kilat layar. Tidak ada dua skill yang terlihat sama.
+- **Lima skill per martial soul**, terbuka bertahap di spirit ring 1, 2, 3, 5, dan 7.
+- **1.995 martial soul** dibangun dari sumber lore resmi: tabel Moegirlpedia, daftar abjad
+  wiki Soul Land, dan daftar lengkap 武魂大全. Termasuk bentuk evolusi, bentuk tahun ring
+  (10.000 dan 100.000 tahun), soul gabungan (武魂融合技), body soul setelah awakening kedua,
+  dan bentuk ultimate attribute.
+- **Aset sendiri.** 1.995 potret soul 16x16 digambar dengan kode (`tools/generate_assets.py`),
+  plus 15 texture item berlapis. Tidak ada satu pun item yang memakai texture placeholder.
 
-## Cara build (butuh JDK 17)
+## Sistem
 
-1. Install **JDK 17** (mis. dari https://adoptium.net).
-2. Buka folder proyek di terminal, jalankan:
-   - Windows: `gradlew.bat build`
-   - Linux/Mac: `./gradlew build`
-3. File jadi ada di `build/libs/soulland-1.0.0.jar`.
-4. Masukkan jar ke folder `mods` milik Forge 1.20.1 (client maupun server).
+| Sistem | Isi |
+|---|---|
+| Kultivasi | 10 peringkat, level 1-99, gerbang tiap 10 level |
+| Martial soul | Gacha saat kebangkitan, 1.995 kemungkinan, 5 skill per soul |
+| Spirit ring | 100 / 1.000 / 10.000 / 100.000 tahun, tiap ring +2 HP dan +0.5 attack |
+| Ledakan ring | Tombol `X`: energi seluruh ring dilepas sekaligus |
+| Sekte | Tang (+20% XP), Shrek (+12% damage), Bintang Luo (+10% kecepatan dan HP), Tujuh Harta (+20% HP dan penyembuhan) |
+| Meditasi | Tahan `C`, diam di tempat, menambah XP dan Spirit Power |
+| Evolusi | 6 ring + Inti Evolusi + 8 Esensi Jiwa, membuka bentuk lanjutan soul |
+| Soul beast | Monster dinamai menurut usianya (10 - 10.000 tahun) dan menjatuhkan ring |
+| Boss | Elder Guardian 120 HP, Wither 600 HP, Warden 800 HP, Ender Dragon 1000 HP |
 
-Build pertama mengunduh banyak file (ForgeGradle), butuh koneksi internet dan beberapa menit.
+## Tombol
 
-## Cara main
-
-1. **Login pertama** → upacara kebangkitan: martial soul diundi + buku panduan masuk inventory.
-2. **Berburu soul beast** (monster) → dapat XP kultivasi dan kadang Spirit Ring.
-3. **Serap spirit ring** (klik kanan) saat level mencukupi untuk membuka skill & melewati gerbang.
-4. Tekan **R** / **G** untuk skill martial soul.
-5. Naik hingga **Title Douluo (level 91+, 9 ring)**, lalu taklukkan **Ender Dragon**
-   dan serap Spirit Ring 100.000 tahun-nya.
+| Tombol | Fungsi |
+|---|---|
+| `R` `G` `F` `V` `Z` | Skill martial soul 1 sampai 5 |
+| `X` | Ledakan spirit ring |
+| `J` | Buka Kartu Martial Soul |
+| `K` | Panggil / sembunyikan companion martial soul |
+| `C` (tahan) | Meditasi |
 
 ## Perintah
 
 - `/soulinfo` — status kultivasi
 - `/martialsoul info` — detail martial soul
+- `/martialsoul summon` — munculkan companion
 - `/martialsoul reroll` — undi ulang (Creative saja)
+- `/sect info`, `/sect choose <nama>` — lihat dan pilih sekte
 - `/cultivation set <pemain> <level>` — admin/OP
+
+## Cara build (butuh JDK 17)
+
+1. Install **JDK 17** (mis. dari https://adoptium.net).
+2. Jalankan `./gradlew build` (Windows: `gradlew.bat build`).
+3. File jadi ada di `build/libs/soulland-1.1.0.jar`.
+
+Build pertama mengunduh banyak file (ForgeGradle), butuh koneksi internet dan beberapa menit.
+
+## Membangun ulang data & aset
+
+Data martial soul dan seluruh texture dibuat dari kode, jadi bisa direproduksi:
+
+```bash
+python3 tools/build_souls.py      # membangun data/soulland/martial_souls.json dari sumber lore
+python3 tools/generate_assets.py  # menggambar ulang seluruh texture soul dan item
+```
+
+Sumber lore mentah disimpan di `tools/data/` (tabel Moegirlpedia 中文/EN, daftar wiki, daftar
+武魂大全). `DESIGN.md` berisi arahan visual, `docs/brainstorm/` berisi rancangan v1.1.
 
 ## Multiplayer
 
-- Server: Forge 1.20.1 (47.2.0) + taruh jar di `mods` server.
-- Semua pemain wajib memasang mod yang sama di client mereka.
+Semua logika berjalan di server: gacha, level, ring, skill, sekte, evolusi, dan meditasi
+tersimpan per pemain. Semua pemain wajib memasang mod yang sama.
 
-## Kustomisasi
+## Lisensi
 
-- Tambah martial soul baru di `src/main/java/com/soulland/soul/MartialSouls.java`,
-  efek skill di `src/main/java/com/soulland/skill/SkillHandler.java`.
-- Halaman buku panduan di `src/main/java/com/soulland/book/GuideBook.java`.
+MIT. Terinspirasi dari novel dan anime Soul Land (Douluo Dalu) karya Tang Jia San Shao.

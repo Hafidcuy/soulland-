@@ -1,1 +1,7 @@
-{"parent":"item/generated","textures":{"layer0":"minecraft:item/nether_star"}}
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/spirit_ring_10000",
+    "layer1": "soulland:item/overlay_spark"
+  }
+}

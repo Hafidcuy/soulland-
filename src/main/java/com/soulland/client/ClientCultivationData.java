@@ -2,7 +2,9 @@ package com.soulland.client;
 
 import com.soulland.net.SyncCultivationPacket;
 
-/** Salinan data kultivasi di sisi client, hanya untuk tampilan (HUD). */
+import java.util.Map;
+
+/** Salinan data kultivasi di sisi client, hanya untuk tampilan (HUD dan kartu soul). */
 public final class ClientCultivationData {
     private ClientCultivationData() {}
 
@@ -11,6 +13,9 @@ public final class ClientCultivationData {
     public static int rings = 0;
     public static float energy = 100f;
     public static String soulId = "";
+    public static String sect = "";
+    public static int evolutionStage = 0;
+    public static Map<String, Integer> cooldowns = Map.of();
 
     public static void set(SyncCultivationPacket packet) {
         level = packet.level();
@@ -18,5 +23,8 @@ public final class ClientCultivationData {
         rings = packet.rings();
         energy = packet.energy();
         soulId = packet.soulId();
+        sect = packet.sect();
+        evolutionStage = packet.evolutionStage();
+        cooldowns = packet.cooldowns();
     }
 }
