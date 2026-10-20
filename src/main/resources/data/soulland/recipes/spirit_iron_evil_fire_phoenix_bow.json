@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "soulland:spirit_iron_ingot"
+    },
+    {
+      "item": "soulland:spirit_iron_ingot"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "result": {
+    "item": "soulland:spirit_iron_evil_fire_phoenix_bow",
+    "count": 1
+  }
+}
