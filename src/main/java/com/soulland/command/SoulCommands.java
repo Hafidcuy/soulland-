@@ -7,6 +7,8 @@ import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
+import com.soulland.soul.SoulSelection;
+import com.soulland.soul.SoulText;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -68,30 +70,26 @@ public final class SoulCommands {
                 return;
             }
             StringBuilder sb = new StringBuilder();
-            sb.append("§6=== ").append(soul.name()).append(" ===\n");
-            sb.append("§7Pemilik asli: ").append(soul.owner()).append(" | Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n");
-            sb.append("§f").append(soul.description()).append("\n");
-            soul.skills().forEach(sk -> sb.append("§e- ").append(sk.name())
-                    .append(" §7(").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost()).append("): §f")
-                    .append(sk.description()).append("\n"));
+            sb.append("§6=== ").append(SoulText.soulName(soul).getString()).append(" ===\n");
+            sb.append("§7Pemilik asli: ").append(soul.owner())
+                    .append(" | Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n");
+            sb.append("§f").append(SoulText.soulDescription(soul).getString()).append("\n");
+            soul.skills().forEach(sk -> sb.append("§e- ").append(SoulText.skillName(sk).getString())
+                    .append(" §7(").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost()).append("): ")
+                    .append(SoulText.skillDescription(sk).getString()).append("\n"));
             source.sendSuccess(() -> Component.literal(sb.toString()), false);
         });
         return 1;
     }
 
-    /** Undi ulang martial soul — HANYA boleh dalam mode Creative, sesuai desain dunia. */
+    /** Pilih ulang martial soul (mode pick ulang), HANYA boleh dalam mode Creative. */
     private static int reroll(CommandSourceStack source, ServerPlayer player) {
         if (!player.isCreative()) {
-            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir! Undi ulang hanya bisa dilakukan dalam mode Creative."));
+            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir! Pilih ulang hanya bisa dilakukan dalam mode Creative."));
             return 0;
         }
-        CultivationCapability.get(player).ifPresent(cap -> {
-            MartialSoul soul = MartialSouls.roll(player.getRandom());
-            cap.setMartialSoulId(soul.id());
-            cap.setAwakened(true);
-            CultivationManager.sync(player);
-            source.sendSuccess(() -> Component.literal("§bMartial soul-mu berubah menjadi: " + soul.name() + " (" + soul.rarity() + ")"), true);
-        });
+        SoulSelection.openCeremony(player, true);
+        source.sendSuccess(() -> Component.literal("Upacara Kebangkitan dibuka. Pilih martial soul baru dari daftar."), true);
         return 1;
     }
 }

@@ -1,12 +1,12 @@
 package com.soulland.event;
 
 import com.soulland.SoulLandMod;
-import com.soulland.book.GuideBook;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.item.ModItems;
-import com.soulland.soul.MartialSoul;
-import com.soulland.soul.MartialSouls;
+import com.soulland.skill.AttackEffects;
+import com.soulland.soul.RingHaloSync;
+import com.soulland.soul.SoulSelection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,27 +32,13 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = SoulLandMod.MODID)
 public class CommonEvents {
 
-    /** Login pertama: awakening ceremony — martial soul diundi (gacha), buku panduan diberikan. */
+    /** Login pertama: buka Upacara Kebangkitan. Martial soul dipilih pemain sendiri, bukan diundi. */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         CultivationCapability.get(player).ifPresent(cap -> {
             if (!cap.isAwakened()) {
-                MartialSoul soul = MartialSouls.roll(player.getRandom());
-                cap.setMartialSoulId(soul.id());
-                cap.setAwakened(true);
-                cap.setLevel(1);
-                cap.setEnergy(100f);
-
-                player.addItem(GuideBook.create());
-                player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
-                player.sendSystemMessage(Component.literal("§e✦ UPACARA KEBANGKITAN MARTIAL SOUL ✦"));
-                player.sendSystemMessage(Component.literal("§fMartial Soul-mu: §b" + soul.name() + " §7(" + soul.rarity() + ")"));
-                player.sendSystemMessage(Component.literal("§7Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()));
-                player.sendSystemMessage(Component.literal("§7" + soul.description()));
-                player.sendSystemMessage(Component.literal("§fBaca §a[Buku Panduan Dunia Soul Land]§f di inventory-mu untuk mempelajari segalanya."));
-                player.sendSystemMessage(Component.literal("§fBerburu soul beast → dapatkan Spirit Ring → naik peringkat → kalahkan §5Ender Dragon§f!"));
-                player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
+                SoulSelection.openCeremony(player, false);
             }
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
@@ -64,6 +50,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
+            RingHaloSync.broadcast(player);
         }
     }
 
@@ -71,6 +58,7 @@ public class CommonEvents {
     public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             CultivationManager.sync(player);
+            RingHaloSync.broadcast(player);
         }
     }
 
@@ -98,13 +86,14 @@ public class CommonEvents {
         });
     }
 
-    /** Bonus damage keluaran berdasarkan level kultivasi. */
+    /** Bonus damage keluaran berdasarkan level kultivasi, plus efek serangan khas tiap soul. */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof ServerPlayer player) {
             CultivationCapability.get(player).ifPresent(cap ->
                     event.setAmount(event.getAmount() * (1f + (cap.getLevel() - 1) * 0.01f + cap.getRings() * 0.05f)));
         }
+        AttackEffects.onLivingHurt(event);
     }
 
     /** Membunuh soul beast (monster) memberi XP kultivasi. */
@@ -127,7 +116,7 @@ public class CommonEvents {
         ItemStack ring = null;
         if (entity instanceof EnderDragon) {
             ring = new ItemStack(ModItems.SPIRIT_RING_100000.get());
-            broadcast(entity, "§5§lEnder Dragon — Kaisar Soul Beast terakhir — telah jatuh! Spirit Ring 100.000 tahun muncul!");
+            broadcast(entity, "§5§lEnder Dragon (Kaisar Soul Beast terakhir) telah jatuh! Spirit Ring 100.000 tahun muncul!");
         } else if (entity instanceof WitherBoss || entity instanceof Warden || entity instanceof ElderGuardian) {
             ring = new ItemStack(ModItems.SPIRIT_RING_10000.get());
             broadcast(entity, "§dBoss soul beast tumbang! Spirit Ring 10.000 tahun terjatuh.");
@@ -147,7 +136,7 @@ public class CommonEvents {
         }
     }
 
-    /** Boss diperkuat jauh melampaui vanilla — mereka adalah soul beast tingkat tinggi. */
+    /** Boss diperkuat jauh melampaui vanilla: mereka adalah soul beast tingkat tinggi. */
     @SubscribeEvent
     public static void onBossJoin(EntityJoinLevelEvent event) {
         Entity e = event.getEntity();
