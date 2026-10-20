@@ -3,6 +3,7 @@ package com.soulland.item;
 import com.soulland.CultivationRanks;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
+import com.soulland.cultivation.ICultivation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -51,8 +52,8 @@ public class SpiritRingItem extends Item {
         if (level.isClientSide) return InteractionResultHolder.success(stack);
 
         var capOpt = CultivationCapability.get(player);
-        if (capOpt.isEmpty()) return InteractionResultHolder.fail(stack);
-        var cap = capOpt.orElseThrow();
+        ICultivation cap = capOpt.orElse(null);
+        if (cap == null) return InteractionResultHolder.fail(stack);
 
         if (!cap.isAwakened()) {
             player.sendSystemMessage(Component.literal("§cKamu belum membangkitkan martial soul. Masuk kembali ke dunia untuk awakening."));
