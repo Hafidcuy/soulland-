@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "soulland:spirit_iron_ingot"
+    },
+    {
+      "item": "soulland:spirit_iron_ingot"
+    },
+    {
+      "item": "soulland:soul_crystal_shard"
+    },
+    {
+      "item": "soulland:soul_essence"
+    }
+  ],
+  "result": {
+    "item": "soulland:alchemy_station",
+    "count": 1
+  }
+}

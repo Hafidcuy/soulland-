@@ -108,6 +108,21 @@ public class ModNetwork {
                 .decoder(OpenLanguageScreenPacket::decode)
                 .consumerMainThread(OpenLanguageScreenPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(OpenAlchemyPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenAlchemyPacket::encode)
+                .decoder(OpenAlchemyPacket::decode)
+                .consumerMainThread(OpenAlchemyPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(CraftAlchemyPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(CraftAlchemyPacket::encode)
+                .decoder(CraftAlchemyPacket::decode)
+                .consumerMainThread(CraftAlchemyPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(AlchemyResultPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(AlchemyResultPacket::encode)
+                .decoder(AlchemyResultPacket::decode)
+                .consumerMainThread(AlchemyResultPacket::handle)
+                .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }
 }

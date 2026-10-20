@@ -20,6 +20,10 @@ public final class ClientBridge {
 
         void openLanguageScreen(boolean mandatory);
 
+        void openAlchemy(net.minecraft.core.BlockPos stationPos);
+
+        void onAlchemyResult(AlchemyResultPacket packet);
+
         void onChooseSoulResult(ChooseSoulResultPacket packet);
 
         void onCultivationSync(SyncCultivationPacket packet);
@@ -94,6 +98,16 @@ public final class ClientBridge {
     public static void openLanguageScreen(boolean mandatory) {
         Handler current = handler;
         if (current != null) current.openLanguageScreen(mandatory);
+    }
+
+    public static void openAlchemy(net.minecraft.core.BlockPos stationPos) {
+        Handler current = handler;
+        if (current != null) current.openAlchemy(stationPos);
+    }
+
+    public static void onAlchemyResult(AlchemyResultPacket packet) {
+        Handler current = handler;
+        if (current != null) current.onAlchemyResult(packet);
     }
 
 

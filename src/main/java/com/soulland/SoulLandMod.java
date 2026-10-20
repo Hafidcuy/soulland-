@@ -23,6 +23,7 @@ public class SoulLandMod {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         SpiritToolTier.registerSorting();
         ModItems.ITEMS.register(modBus);
+        com.soulland.block.ModBlocks.BLOCKS.register(modBus);
         ModCreativeTabs.TABS.register(modBus);
         com.soulland.entity.ModEntities.ENTITIES.register(modBus);
         com.soulland.particle.ModParticles.PARTICLES.register(modBus);
@@ -33,8 +34,8 @@ public class SoulLandMod {
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(ModNetwork::register);
         LOGGER.info("Soul Land: Douluo Dalu mod dimuat. Selamat datang di Benua Douluo!");
-        LOGGER.info("Martial soul terdaftar: {} (bisa diundi: {}).", com.soulland.soul.MartialSouls.all().size(),
-                com.soulland.soul.MartialSouls.rollableCount());
+        LOGGER.info("Martial soul terdaftar: {} (dipilih pemain sendiri di upacara, tanpa undian).",
+                com.soulland.soul.MartialSouls.all().size());
     }
 
     private void registerCommands(final RegisterCommandsEvent event) {

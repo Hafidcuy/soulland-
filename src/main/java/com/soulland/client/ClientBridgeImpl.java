@@ -1,5 +1,6 @@
 package com.soulland.client;
 
+import com.soulland.net.AlchemyResultPacket;
 import com.soulland.net.ChooseSoulResultPacket;
 import com.soulland.net.ClientBridge;
 import com.soulland.net.ManifestationPacket;
@@ -27,6 +28,16 @@ public final class ClientBridgeImpl implements ClientBridge.Handler {
     @Override
     public void openLanguageScreen(boolean mandatory) {
         ClientGuiHooks.openLanguageScreen(mandatory);
+    }
+
+    @Override
+    public void openAlchemy(net.minecraft.core.BlockPos stationPos) {
+        ClientGuiHooks.openAlchemy(stationPos);
+    }
+
+    @Override
+    public void onAlchemyResult(AlchemyResultPacket packet) {
+        ClientGuiHooks.onAlchemyResult(packet);
     }
 
 

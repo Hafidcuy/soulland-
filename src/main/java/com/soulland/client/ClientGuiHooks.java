@@ -1,9 +1,12 @@
 package com.soulland.client;
 
+import com.soulland.client.gui.AlchemyScreen;
 import com.soulland.client.gui.AwakeningScreen;
 import com.soulland.client.gui.LanguageSelectScreen;
+import com.soulland.net.AlchemyResultPacket;
 import com.soulland.net.ChooseSoulResultPacket;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 
 /**
  * Jembatan antara packet server dan GUI client. Dipanggil hanya dari sisi client
@@ -27,6 +30,21 @@ public final class ClientGuiHooks {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
         mc.setScreen(new LanguageSelectScreen(mandatory));
+    }
+
+    /** Membuka layar stasiun alchemy. */
+    public static void openAlchemy(BlockPos stationPos) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+        mc.setScreen(new AlchemyScreen(stationPos));
+    }
+
+    /** Menyalakan jawaban racikan dari server ke layar alchemy yang terbuka. */
+    public static void onAlchemyResult(AlchemyResultPacket packet) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.screen instanceof AlchemyScreen screen) {
+            screen.onServerResult(packet.crafted(), packet.recipeId());
+        }
     }
 
     /** Menyalakan hasil pilihan soul dari server ke layar yang sedang terbuka. */
