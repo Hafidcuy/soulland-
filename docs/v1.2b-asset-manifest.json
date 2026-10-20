@@ -1,0 +1,32 @@
+{
+  "design_read": "Tiga asset baru v1.2B: grade emas, station alchemy, pil fondasi. Palet inti tiap asset unik dan siluetnya tidak kembar.",
+  "items": [
+    {
+      "id": "spirit_ring_1000000",
+      "kind": "ring",
+      "palette": [
+        "#E8B84B",
+        "#FFE9A8",
+        "#9A6C12"
+      ]
+    },
+    {
+      "id": "alchemy_station",
+      "kind": "block",
+      "palette": [
+        "#4A5058",
+        "#3FC7A3",
+        "#E8B84B"
+      ]
+    },
+    {
+      "id": "foundation_pill",
+      "kind": "consumable",
+      "palette": [
+        "#8FBF6B",
+        "#D8C48A",
+        "#EAF7C8"
+      ]
+    }
+  ]
+}
