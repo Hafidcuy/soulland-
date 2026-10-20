@@ -10,6 +10,8 @@ import com.soulland.entity.SoulCompanion;
 import com.soulland.sect.Sect;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
+import com.soulland.soul.SoulSelection;
+import com.soulland.soul.SoulText;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -109,64 +111,26 @@ public final class SoulCommands {
                 return;
             }
             StringBuilder sb = new StringBuilder();
-            sb.append(soul.name()).append("\n");
-            sb.append("Pemilik asli: ").append(soul.owner()).append(" | Tipe: ").append(soul.type())
-                    .append(" | ").append(soul.rarity()).append(" | Elemen: ").append(soul.element()).append("\n");
-            sb.append(soul.description()).append("\n");
-            if (cap.getEvolutionStage() > 0 && base != null) {
-                sb.append("Bentuk dasar: ").append(base.name()).append("\n");
-            }
-            soul.skills().forEach(sk -> sb.append("- ").append(sk.name())
-                    .append(" (butuh ").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost())
-                    .append(", ").append(sk.cooldownTicks() / 20).append(" dtk): ").append(sk.description()).append("\n"));
+            sb.append("§6=== ").append(SoulText.soulName(soul).getString()).append(" ===\n");
+            sb.append("§7Pemilik asli: ").append(soul.owner())
+                    .append(" | Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n");
+            sb.append("§f").append(SoulText.soulDescription(soul).getString()).append("\n");
+            soul.skills().forEach(sk -> sb.append("§e- ").append(SoulText.skillName(sk).getString())
+                    .append(" §7(").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost()).append("): ")
+                    .append(SoulText.skillDescription(sk).getString()).append("\n"));
             source.sendSuccess(() -> Component.literal(sb.toString()), false);
         });
         return 1;
     }
 
-    private static int showSect(CommandSourceStack source, ServerPlayer player) {
-        CultivationCapability.get(player).ifPresent(cap -> {
-            Sect current = Sect.get(cap.getSect());
-            if (current == null) {
-                source.sendSuccess(() -> Component.literal(
-                        "Kamu belum memilih sekte. Pilih dengan /sect choose <nama> atau tekan J lalu tab SECT."), false);
-                return;
-            }
-            source.sendSuccess(() -> Component.literal(current.name() + "\n" + current.description()), false);
-        });
-        return 1;
-    }
-
-    private static int chooseSect(CommandSourceStack source, ServerPlayer player, String sectId) {
-        Sect sect = Sect.get(sectId.toLowerCase());
-        if (sect == null) {
-            source.sendFailure(Component.literal("Sekte tidak dikenal. Pilihan: "
-                    + Sect.all().stream().map(Sect::id).collect(Collectors.joining(", "))));
-            return 0;
-        }
-        CultivationCapability.get(player).ifPresent(cap -> {
-            cap.setSect(sect.id());
-            CultivationManager.applyStats(player);
-            CultivationManager.sync(player);
-            source.sendSuccess(() -> Component.literal("Kamu bergabung dengan " + sect.name() + "."), true);
-        });
-        return 1;
-    }
-
-    /** Undi ulang martial soul - HANYA boleh dalam mode Creative, sesuai desain dunia. */
+    /** Pilih ulang martial soul (mode pick ulang), HANYA boleh dalam mode Creative. */
     private static int reroll(CommandSourceStack source, ServerPlayer player) {
         if (!player.isCreative()) {
-            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir. Undi ulang hanya bisa dilakukan dalam mode Creative."));
+            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir! Pilih ulang hanya bisa dilakukan dalam mode Creative."));
             return 0;
         }
-        CultivationCapability.get(player).ifPresent(cap -> {
-            MartialSoul soul = MartialSouls.roll(player.getRandom());
-            cap.setMartialSoulId(soul.id());
-            cap.setAwakened(true);
-            cap.setEvolutionStage(0);
-            CultivationManager.sync(player);
-            source.sendSuccess(() -> Component.literal("Martial soul-mu berubah menjadi: " + soul.name() + " (" + soul.rarity() + ")"), true);
-        });
+        SoulSelection.openCeremony(player, true);
+        source.sendSuccess(() -> Component.literal("Upacara Kebangkitan dibuka. Pilih martial soul baru dari daftar."), true);
         return 1;
     }
 }

@@ -1,5 +1,6 @@
 package com.soulland.event;
 
+import com.soulland.SoulLandMod;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.ICultivation;
@@ -7,14 +8,9 @@ import com.soulland.book.GuideBook;
 import com.soulland.entity.SoulCompanion;
 import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
-import com.soulland.skill.SkillFx;
-import com.soulland.soul.Element;
-import com.soulland.soul.MartialSoul;
-import com.soulland.soul.MartialSouls;
-import com.soulland.soul.SoulBeast;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
+import com.soulland.skill.AttackEffects;
+import com.soulland.soul.RingHaloSync;
+import com.soulland.soul.SoulSelection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,35 +36,17 @@ import net.minecraftforge.fml.common.Mod;
 
 public class CommonEvents {
 
-    /**
-     * Undian martial soul otomatis saat pemain masuk dunia.
-     *
-     * <p>Forge 1.20.1 tidak selalu membakar {@link PlayerEvent.PlayerLoggedInEvent} saat
-     * pemain baru masuk, jadi undian juga dipancing dari {@link EntityJoinLevelEvent}.
-     * SetARA-nya: {@link com.soulland.cultivation.Awakening} yang menjaga agar undian
-     * terjadi sekali per masuk.
-     */
+    /** Login pertama: buka Upacara Kebangkitan. Martial soul dipilih pemain sendiri, bukan diundi. */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            com.soulland.cultivation.Awakening.roll(player);
-        }
-    }
-
-    /** Cadangan: kalau event login tidak terpancing, undian terjadi saat pemain masuk level. */
-    @SubscribeEvent
-    public static void onEntityJoin(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            com.soulland.cultivation.Awakening.roll(player);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            SoulCompanion.removeAll(player);
-            com.soulland.cultivation.Awakening.forget(player);
-        }
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        CultivationCapability.get(player).ifPresent(cap -> {
+            if (!cap.isAwakened()) {
+                SoulSelection.openCeremony(player, false);
+            }
+            CultivationManager.applyStats(player);
+            CultivationManager.sync(player);
+        });
     }
 
     @SubscribeEvent
@@ -76,6 +54,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
+            RingHaloSync.broadcast(player);
         }
     }
 
@@ -84,6 +63,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             SoulCompanion.removeAll(player);
             CultivationManager.sync(player);
+            RingHaloSync.broadcast(player);
         }
     }
 
@@ -127,64 +107,14 @@ public class CommonEvents {
         });
     }
 
-    /** Meditasi: diam di tempat mengisi kanal spiritual, menambah XP dan energi. */
-    private static void handleMeditation(net.minecraft.world.entity.player.Player player,
-                                         ICultivation cap) {
-        if (player.getDeltaMovement().horizontalDistanceSqr() > 0.0004) {
-            cap.setMeditating(false);
-            cap.setMeditationTicks(0);
-            player.sendSystemMessage(Component.literal("Meditasi terputus karena kamu bergerak."));
-            return;
-        }
-
-        int ticks = cap.getMeditationTicks() + 1;
-        cap.setMeditationTicks(ticks);
-
-        if (CultivationManager.canBreakthrough(cap)) {
-            if (ticks % 20 == 0) {
-                player.sendSystemMessage(Component.literal("Upacara terobosan: " + (ticks / 20) + "/3"));
-            }
-            if (ticks >= 60) {
-                if (consumeEssence(player, 1)) {
-                    cap.setMeditationTicks(0);
-                    CultivationManager.breakthrough(player);
-                } else {
-                    player.sendSystemMessage(Component.literal("Butuh 1 Esensi Jiwa untuk upacara terobosan."));
-                }
-            }
-            return;
-        }
-
-        if (ticks % 40 == 0) {
-            CultivationManager.addXp(player, 4);
-            cap.setEnergy(Math.min(100f, cap.getEnergy() + 12f));
-            if (player instanceof ServerPlayer sp) {
-                sp.serverLevel().sendParticles(ParticleTypes.SCULK_SOUL,
-                        player.getX(), player.getY() + 0.4, player.getZ(), 14, 0.45, 0.9, 0.45, 0.01);
-            }
-        }
-    }
-
-    /** Mengambil satu esensi jiwa dari inventory, true kalau berhasil. */
-    private static boolean consumeEssence(net.minecraft.world.entity.player.Player player, int amount) {
-        int left = amount;
-        for (int i = 0; i < player.getInventory().items.size() && left > 0; i++) {
-            var stack = player.getInventory().items.get(i);
-            if (!stack.is(ModItems.SOUL_ESSENCE.get())) continue;
-            int take = Math.min(left, stack.getCount());
-            stack.shrink(take);
-            left -= take;
-        }
-        return left == 0;
-    }
-
-    /** Bonus damage keluaran berdasarkan level kultivasi. */
+    /** Bonus damage keluaran berdasarkan level kultivasi, plus efek serangan khas tiap soul. */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof ServerPlayer player) {
             CultivationCapability.get(player).ifPresent(cap ->
                     event.setAmount(event.getAmount() * (1f + (cap.getLevel() - 1) * 0.01f + cap.getRings() * 0.05f)));
         }
+        AttackEffects.onLivingHurt(event);
     }
 
     /** Setiap pukulan biasa menyisakan kilatan warna martial soul di target. */
@@ -253,7 +183,7 @@ public class CommonEvents {
         ItemStack ring = null;
         if (entity instanceof EnderDragon) {
             ring = new ItemStack(ModItems.SPIRIT_RING_100000.get());
-            broadcast(entity, "Ender Dragon, Kaisar Soul Beast terakhir, telah jatuh. Spirit Ring 100.000 tahun muncul.");
+            broadcast(entity, "§5§lEnder Dragon (Kaisar Soul Beast terakhir) telah jatuh! Spirit Ring 100.000 tahun muncul!");
         } else if (entity instanceof WitherBoss || entity instanceof Warden || entity instanceof ElderGuardian) {
             ring = new ItemStack(ModItems.SPIRIT_RING_10000.get());
             broadcast(entity, "Boss soul beast tumbang. Spirit Ring 10.000 tahun terjatuh.");
@@ -278,7 +208,7 @@ public class CommonEvents {
         }
     }
 
-    /** Boss diperkuat jauh melampaui vanilla - mereka adalah soul beast tingkat tinggi. */
+    /** Boss diperkuat jauh melampaui vanilla: mereka adalah soul beast tingkat tinggi. */
     @SubscribeEvent
     public static void onBossJoin(EntityJoinLevelEvent event) {
         Entity e = event.getEntity();
