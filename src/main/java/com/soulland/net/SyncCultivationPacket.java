@@ -1,57 +1,49 @@
 package com.soulland.net;
 
-import com.soulland.client.ClientCultivationData;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/** Sinkronisasi data kultivasi server -> client (untuk HUD, kartu soul, dan bar skill). */
+/** Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, dan tampilan). */
 public record SyncCultivationPacket(
         int level,
         int xp,
         int rings,
         float energy,
         String soulId,
-        String sect,
-        int evolutionStage,
-        Map<String, Integer> cooldowns,
-        int chainCount,
-        String[] loadout,
-        int ringSkills
+        int[] ringAges,
+        int[] skillCooldowns,
+        boolean awakened
 ) {
-    /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
-    private static final char ENTRY_SEPARATOR = ';';
-    private static final char KEY_SEPARATOR = '=';
 
     public static void encode(SyncCultivationPacket msg, FriendlyByteBuf buf) {
-        buf.writeInt(msg.level());
-        buf.writeInt(msg.xp());
-        buf.writeInt(msg.rings());
-        buf.writeFloat(msg.energy());
-        buf.writeUtf(msg.soulId(), 64);
-        buf.writeUtf(msg.sect(), 32);
-        buf.writeInt(msg.evolutionStage());
-        buf.writeUtf(encodeCooldowns(msg.cooldowns()), 512);
-        buf.writeInt(msg.chainCount());
-        buf.writeUtf(encodeLoadout(msg.loadout()), 256);
-        buf.writeInt(msg.ringSkills());
+        buf.writeInt(msg.level);
+        buf.writeInt(msg.xp);
+        buf.writeInt(msg.rings);
+        buf.writeFloat(msg.energy);
+        buf.writeUtf(msg.soulId, 64);
+        buf.writeVarIntArray(msg.ringAges);
+        buf.writeVarIntArray(msg.skillCooldowns);
+        buf.writeBoolean(msg.awakened);
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
-        return new SyncCultivationPacket(buf.readInt(), buf.readInt(), buf.readInt(), buf.readFloat(),
-                buf.readUtf(64), buf.readUtf(32), buf.readInt(),
-                decodeCooldowns(buf.readUtf(512)), buf.readInt(),
-                decodeLoadout(buf.readUtf(256)), buf.readInt());
+        return new SyncCultivationPacket(
+                buf.readInt(),
+                buf.readInt(),
+                buf.readInt(),
+                buf.readFloat(),
+                buf.readUtf(64),
+                buf.readVarIntArray(),
+                buf.readVarIntArray(),
+                buf.readBoolean());
     }
 
     public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> ClientCultivationData.set(msg)));
+        ctx.get().enqueueWork(() -> ClientBridge.onCultivationSync(msg));
         ctx.get().setPacketHandled(true);
     }
 

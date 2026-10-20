@@ -28,46 +28,36 @@ public class ModNetwork {
                 .decoder(ActivateSkillPacket::decode)
                 .consumerMainThread(ActivateSkillPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(VisualFxPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(VisualFxPacket::encode)
-                .decoder(VisualFxPacket::decode)
-                .consumerMainThread(VisualFxPacket::handle)
+        CHANNEL.messageBuilder(OpenAwakeningGuiPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenAwakeningGuiPacket::encode)
+                .decoder(OpenAwakeningGuiPacket::decode)
+                .consumerMainThread(OpenAwakeningGuiPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(ToggleSoulPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ToggleSoulPacket::encode)
-                .decoder(ToggleSoulPacket::decode)
-                .consumerMainThread(ToggleSoulPacket::handle)
+        CHANNEL.messageBuilder(ChooseSoulPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ChooseSoulPacket::encode)
+                .decoder(ChooseSoulPacket::decode)
+                .consumerMainThread(ChooseSoulPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(MeditatePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(MeditatePacket::encode)
-                .decoder(MeditatePacket::decode)
-                .consumerMainThread(MeditatePacket::handle)
+        CHANNEL.messageBuilder(ChooseSoulResultPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ChooseSoulResultPacket::encode)
+                .decoder(ChooseSoulResultPacket::decode)
+                .consumerMainThread(ChooseSoulResultPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(RingBurstPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(RingBurstPacket::encode)
-                .decoder(RingBurstPacket::decode)
-                .consumerMainThread(RingBurstPacket::handle)
+        CHANNEL.messageBuilder(ManifestationPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ManifestationPacket::encode)
+                .decoder(ManifestationPacket::decode)
+                .consumerMainThread(ManifestationPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(ChooseSectPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(ChooseSectPacket::encode)
-                .decoder(ChooseSectPacket::decode)
-                .consumerMainThread(ChooseSectPacket::handle)
+        CHANNEL.messageBuilder(SyncRingAgesPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncRingAgesPacket::encode)
+                .decoder(SyncRingAgesPacket::decode)
+                .consumerMainThread(SyncRingAgesPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(BloodBurnPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(BloodBurnPacket::encode)
-                .decoder(BloodBurnPacket::decode)
-                .consumerMainThread(BloodBurnPacket::handle)
+        CHANNEL.messageBuilder(CloseAwakeningGuiPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(CloseAwakeningGuiPacket::encode)
+                .decoder(CloseAwakeningGuiPacket::decode)
+                .consumerMainThread(CloseAwakeningGuiPacket::handle)
                 .add();
-        CHANNEL.messageBuilder(AssignSkillPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
-                .encoder(AssignSkillPacket::encode)
-                .decoder(AssignSkillPacket::decode)
-                .consumerMainThread(AssignSkillPacket::handle)
-                .add();
-        CHANNEL.messageBuilder(OpenGuiPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(OpenGuiPacket::encode)
-                .decoder(OpenGuiPacket::decode)
-                .consumerMainThread(OpenGuiPacket::handle)
-                .add();
-        SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar.");
+        SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }
 }
