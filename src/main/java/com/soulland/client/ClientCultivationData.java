@@ -28,6 +28,12 @@ public final class ClientCultivationData {
     public static boolean awakened = false;
     /** Bahasa yang dipilih pemain: "id" atau "en". Kosong sebelum memilih. */
     public static String language = "";
+    /** Fondasi kultivasi 0-100, kemajuan menuju ambang peringkat berikutnya. */
+    public static int foundation = 0;
+    /** True kalau pemain sudah mencapai ambang God dan menunggu tribulasi. */
+    public static boolean tribulationReady = false;
+    /** Berapa spirit ring yang pernah bermutasi. */
+    public static int mutationCount = 0;
     /** Berapa kali sinkronisasi dari server diterima; dipakai layar untuk tahu jawaban server. */
     public static int syncCount = 0;
 
@@ -57,6 +63,9 @@ public final class ClientCultivationData {
         skillCooldowns = packet.skillCooldowns() == null ? new int[4] : packet.skillCooldowns();
         awakened = packet.awakened();
         language = packet.language() == null ? "" : packet.language();
+        foundation = packet.foundation();
+        tribulationReady = packet.tribulationReady();
+        mutationCount = packet.mutationCount();
         syncCount++;
     }
 

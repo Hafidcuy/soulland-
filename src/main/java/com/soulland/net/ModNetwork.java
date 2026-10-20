@@ -7,7 +7,12 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ModNetwork {
-    private static final String PROTOCOL = "2";
+    /**
+     * Protokol jaringan mod. Naik ke "3" pada v1.2B karena
+     * {@link SyncCultivationPacket} menambah bahasa pemain, fondasi, tanda
+     * tribulasi, dan jumlah mutasi ring.
+     */
+    private static final String PROTOCOL = "3";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(SoulLandMod.MODID, "main"),

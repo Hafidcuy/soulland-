@@ -21,6 +21,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SPIRIT_RING_1000.get());
                         output.accept(ModItems.SPIRIT_RING_10000.get());
                         output.accept(ModItems.SPIRIT_RING_100000.get());
+                        output.accept(ModItems.SPIRIT_RING_1000000.get());
                         output.accept(ModItems.MANIFESTATION_HOE.get());
                         output.accept(ModItems.MANIFESTATION_BLUE_SILVER_GRASS.get());
                         output.accept(ModItems.MANIFESTATION_HELL_CIVET.get());
@@ -40,6 +41,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SPIRIT_EMBER_LEAF.get());
                         output.accept(ModItems.CULTIVATION_PILL.get());
                         output.accept(ModItems.SWIFT_PILL.get());
+                        output.accept(ModItems.FOUNDATION_PILL.get());
+                        output.accept(ModItems.ALCHEMY_STATION_ITEM.get());
                     })
                     .build());
 

@@ -56,7 +56,8 @@ public final class CultivationManager {
                                 cap.getMartialSoulId(), cap.getSect(), cap.getEvolutionStage(), cooldowns,
                                 cap.getChainCount(), cap.getLoadout(), cap.getRingSkills(),
                                 cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened(),
-                                cap.getLanguage()));
+                                cap.getLanguage(), cap.getFoundation(), cap.isTribulationReady(),
+                                cap.getMutationCount()));
             }
         });
     }
@@ -80,11 +81,12 @@ public final class CultivationManager {
     public static void applyStats(Player player) {
         CultivationCapability.get(player).ifPresent(cap -> {
             double ringBonus = cap.getRings() * 2.0;
+            double mutationBonus = RingMutation.healthBonus(cap.getMutationCount());
             Sect sect = Sect.get(cap.getSect());
             double sectHealth = sect == null ? 0.0 : sect.healthBonus();
             double sectSpeed = sect == null ? 0.0 : sect.speedBonus();
 
-            double maxHealth = 20.0 + (cap.getLevel() - 1) * 0.5 + ringBonus;
+            double maxHealth = 20.0 + (cap.getLevel() - 1) * 0.5 + ringBonus + mutationBonus;
             maxHealth *= (1.0 + sectHealth);
 
             var health = player.getAttribute(Attributes.MAX_HEALTH);
@@ -97,7 +99,7 @@ public final class CultivationManager {
 
             var attack = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attack != null) {
-                attack.setBaseValue(1.0 + cap.getRings() * 0.5);
+                attack.setBaseValue(1.0 + cap.getRings() * 0.5 + RingMutation.damageBonus(cap.getMutationCount()));
             }
 
             var speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
@@ -117,6 +119,7 @@ public final class CultivationManager {
         int level = cap.getLevel();
         if (!CultivationRanks.isGateLevel(level)) return false;
         if (cap.getRings() < CultivationRanks.ringsRequiredAtGate(level)) return false;
+        if (!Foundation.canAttempt(cap.getFoundation())) return false;
         return cap.getXp() >= CultivationRanks.xpForNextLevel(level);
     }
 
@@ -132,9 +135,23 @@ public final class CultivationManager {
             if (!canBreakthrough(cap)) return;
             int level = cap.getLevel();
             String language = messageLanguage(player);
+            int chance = Foundation.successChancePercent(cap.getFoundation());
+
+            if (player.getRandom().nextInt(100) >= chance) {
+                cap.setFoundation(Foundation.afterFailure(cap.getFoundation()));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_failed",
+                        "Terobosan goyah. Fondasi melemah, kamu harus memeditasi lagi."));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_chance",
+                        "Peluang terobosan: %s%% (fondasi %s/100).",
+                        chance, cap.getFoundation()));
+                sync(player);
+                return;
+            }
+
             cap.setXp(cap.getXp() - CultivationRanks.xpForNextLevel(level));
             cap.setLevel(level + 1);
             cap.setGateNotified(false);
+            cap.setFoundation(0);
             applyStats(player);
             sync(player);
             player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_success",
@@ -144,7 +161,33 @@ public final class CultivationManager {
                 player.sendSystemMessage(SoulLang.text(language, "message.soulland.skill_unlock_next",
                         "Skill martial soul terbuka di spirit ring berikutnya."));
             }
+            if (cap.getLevel() >= CultivationRanks.GOD_THRESHOLD) {
+                markTribulationReady(player, cap, language);
+            }
         });
+    }
+
+    /**
+     * Tanda ambang dewa: fondasi sudah cukup kuat untuk menahan tribulasi.
+     * Sistem tribulasi lengkap menyusul di v1.6, jadi v1.2B hanya menandai
+     * dan Grounds lewat kilat serta pesan dunia.
+     */
+    private static void markTribulationReady(Player player, ICultivation cap, String language) {
+        if (cap.isTribulationReady()) return;
+        cap.setTribulationReady(true);
+        player.sendSystemMessage(SoulLang.text(language, "message.soulland.tribulation_ready",
+                "Langit bergemuruh. Ambang dewa terbuka: tribulasi akan turun."));
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK,
+                    player.getX(), player.getY() + 1.2, player.getZ(), 60, 0.8, 1.4, 0.8, 0.05);
+            serverPlayer.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.FLASH,
+                    player.getX(), player.getY() + 1.0, player.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
+            serverPlayer.serverLevel().getServer().getPlayerList().broadcastSystemMessage(
+                    SoulLang.text(language, "message.soulland.tribulation_world",
+                            "Langit di atas %s bergemuruh. Seseorang mencapai ambang dewa!", player.getName().getString()),
+                    false);
+        }
+        sync(player);
     }
 
     /** Menambah XP kultivasi. Level berhenti di gerbang (batas peringkat) sampai Players naik lewat upacara. */
@@ -185,6 +228,9 @@ public final class CultivationManager {
                 player.sendSystemMessage(SoulLang.text(language, "message.soulland.level_up",
                         "§a⬆ Level Spirit Power naik ke %s: %s!", cap.getLevel(),
                         CultivationRanks.rankName(cap.getLevel())));
+                if (cap.getLevel() >= CultivationRanks.GOD_THRESHOLD && !cap.isTribulationReady()) {
+                    markTribulationReady(player, cap, language);
+                }
             }
             sync(player);
         });

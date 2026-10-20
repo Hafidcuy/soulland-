@@ -29,6 +29,7 @@ public final class GuideBook {
             "book.soulland.page.martial_soul",
             "book.soulland.page.level",
             "book.soulland.page.rings",
+            "book.soulland.page.foundation",
             "book.soulland.page.skills",
             "book.soulland.page.beasts",
             "book.soulland.page.alchemy",

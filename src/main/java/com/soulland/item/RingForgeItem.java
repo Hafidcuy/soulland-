@@ -43,7 +43,7 @@ public class RingForgeItem extends Item {
         for (int i = 0; i < items.size(); i++) {
             ItemStack candidate = items.get(i);
             if (!(candidate.getItem() instanceof SpiritRingItem ring)) continue;
-            if (ring.tier() == SpiritRingItem.Tier.Y100000) continue;
+            if (ring.tier() == SpiritRingItem.Tier.Y1000000) continue;
             if (target == null || ring.tier().years < target.years) {
                 target = ring.tier();
                 targetIndex = i;
@@ -71,7 +71,8 @@ public class RingForgeItem extends Item {
             case Y100 -> ModItems.SPIRIT_RING_1000.get();
             case Y1000 -> ModItems.SPIRIT_RING_10000.get();
             case Y10000 -> ModItems.SPIRIT_RING_100000.get();
-            case Y100000 -> ModItems.SPIRIT_RING_100000.get();
+            case Y100000 -> ModItems.SPIRIT_RING_1000000.get();
+            case Y1000000 -> ModItems.SPIRIT_RING_1000000.get();
         };
     }
 

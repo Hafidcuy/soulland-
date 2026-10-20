@@ -6,7 +6,12 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.soulland.CultivationRanks;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
+import com.soulland.cultivation.Foundation;
 import com.soulland.entity.SoulCompanion;
+import com.soulland.lang.SoulLang;
+import com.soulland.net.ModNetwork;
+import com.soulland.net.OpenGuiPacket;
+import com.soulland.net.OpenLanguageScreenPacket;
 import com.soulland.sect.Sect;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
@@ -34,11 +39,16 @@ public final class SoulCommands {
         dispatcher.register(Commands.literal("panduan")
                 .executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
-                    com.soulland.net.ModNetwork.CHANNEL.send(
-                            net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
-                            new com.soulland.net.OpenGuiPacket(com.soulland.net.OpenGuiPacket.GUIDE));
+                    ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                            new OpenGuiPacket(OpenGuiPacket.GUIDE));
                     return 1;
                 }));
+
+        dispatcher.register(Commands.literal("soul")
+                .then(Commands.literal("language")
+                        .executes(ctx -> openLanguage(ctx.getSource(), ctx.getSource().getPlayerOrException())))
+                .then(Commands.literal("info")
+                        .executes(ctx -> showInfo(ctx.getSource(), ctx.getSource().getPlayerOrException()))));
 
         dispatcher.register(Commands.literal("martialsoul")
                 .then(Commands.literal("info")
@@ -87,47 +97,65 @@ public final class SoulCommands {
     }
 
     private static int showInfo(CommandSourceStack source, ServerPlayer player) {
+        String language = CultivationManager.messageLanguage(player);
         CultivationCapability.get(player).ifPresent(cap -> {
             MartialSoul soul = MartialSouls.effective(cap.getMartialSoulId(), cap.getEvolutionStage());
             Sect sect = Sect.get(cap.getSect());
-            source.sendSuccess(() -> Component.literal(
-                    "Status Kultivasi\n" +
-                            "Martial Soul: " + (soul == null ? "-" : soul.name()) + " (" + (soul == null ? "-" : soul.rarity()) + ")\n" +
-                            "Level Spirit Power: " + cap.getLevel() + " - " + CultivationRanks.rankName(cap.getLevel()) + "\n" +
-                            "XP: " + cap.getXp() + " / " + CultivationRanks.xpForNextLevel(cap.getLevel()) + "\n" +
-                            "Spirit Ring: " + cap.getRings() + " / " + CultivationRanks.MAX_RINGS + "\n" +
-                            "Spirit Power: " + (int) cap.getEnergy() + " / " + (int) CultivationRanks.MAX_ENERGY + "\n" +
-                            "Sekte: " + (sect == null ? "belum memilih" : sect.name())), false);
+            StringBuilder sb = new StringBuilder();
+            sb.append(SoulLang.text(language, "message.soulland.info.header", "Status Kultivasi")).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.soul", "Martial Soul: %s (%s)",
+                    soul == null ? "-" : SoulText.soulName(soul, language).getString(),
+                    soul == null ? "-" : SoulText.soulRarity(soul, language).getString())).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.level", "Level Spirit Power: %s - %s",
+                    cap.getLevel(), CultivationRanks.rankName(cap.getLevel()))).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.xp", "XP: %s / %s",
+                    cap.getXp(), CultivationRanks.xpForNextLevel(cap.getLevel()))).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.foundation", "Fondasi: %s / %s (peluang terobosan %s%%)",
+                    cap.getFoundation(), Foundation.MAX,
+                    Foundation.successChancePercent(cap.getFoundation()))).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.rings", "Spirit Ring: %s / %s",
+                    cap.getRings(), CultivationRanks.MAX_RINGS)).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.mutations", "Ring bermutasi: %s", cap.getMutationCount())).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.energy", "Spirit Power: %s / %s",
+                    (int) cap.getEnergy(), (int) CultivationRanks.MAX_ENERGY)).append('\n');
+            sb.append(SoulLang.text(language, "message.soulland.info.sect", "Sekte: %s",
+                    sect == null ? SoulLang.translate(language, "message.soulland.sect.none", "belum memilih")
+                            : sect.name()));
+            source.sendSuccess(() -> Component.literal(sb.toString()), false);
         });
         return 1;
     }
 
     private static int showSoul(CommandSourceStack source, ServerPlayer player) {
+        String language = CultivationManager.messageLanguage(player);
         CultivationCapability.get(player).ifPresent(cap -> {
-            MartialSoul base = MartialSouls.get(cap.getMartialSoulId());
             MartialSoul soul = MartialSouls.effective(cap.getMartialSoulId(), cap.getEvolutionStage());
             if (soul == null) {
-                source.sendFailure(Component.literal("Kamu belum membangkitkan martial soul."));
+                source.sendFailure(SoulLang.text(language, "message.soulland.soul.none",
+                        "Kamu belum membangkitkan martial soul."));
                 return;
             }
             StringBuilder sb = new StringBuilder();
-            sb.append("§6=== ").append(SoulText.soulName(soul).getString()).append(" ===\n");
-            sb.append("§7Pemilik asli: ").append(soul.owner())
-                    .append(" | Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n");
-            sb.append("§f").append(SoulText.soulDescription(soul).getString()).append("\n");
-            soul.skills().forEach(sk -> sb.append("§e- ").append(SoulText.skillName(sk).getString())
+            sb.append("§6=== ").append(SoulText.soulName(soul, language).getString()).append(" ===\n");
+            sb.append(SoulLang.text(language, "message.soulland.soul.owner", "§7Pemilik asli: %s | Tipe: %s | %s",
+                    SoulText.soulOwner(soul, language).getString(),
+                    SoulText.soulType(soul, language).getString(),
+                    SoulText.soulRarity(soul, language).getString())).append('\n');
+            sb.append("§f").append(SoulText.soulDescription(soul, language).getString()).append('\n');
+            soul.skills().forEach(sk -> sb.append("§e- ").append(SoulText.skillName(sk, language).getString())
                     .append(" §7(").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost()).append("): ")
-                    .append(SoulText.skillDescription(sk).getString()).append("\n"));
+                    .append(SoulText.skillDescription(sk, language).getString()).append('\n'));
             source.sendSuccess(() -> Component.literal(sb.toString()), false);
         });
         return 1;
     }
 
     private static int showSect(CommandSourceStack source, ServerPlayer player) {
+        String language = CultivationManager.messageLanguage(player);
         CultivationCapability.get(player).ifPresent(cap -> {
             Sect current = Sect.get(cap.getSect());
             if (current == null) {
-                source.sendSuccess(() -> Component.literal(
+                source.sendSuccess(() -> SoulLang.text(language, "message.soulland.sect.none_choice",
                         "Kamu belum memilih sekte. Pilih dengan /sect choose <nama> atau tekan J lalu tab SECT."), false);
                 return;
             }
@@ -137,29 +165,43 @@ public final class SoulCommands {
     }
 
     private static int chooseSect(CommandSourceStack source, ServerPlayer player, String sectId) {
+        String language = CultivationManager.messageLanguage(player);
         Sect sect = Sect.get(sectId.toLowerCase());
         if (sect == null) {
-            source.sendFailure(Component.literal("Sekte tidak dikenal. Pilihan: "
-                    + Sect.all().stream().map(Sect::id).collect(Collectors.joining(", "))));
+            source.sendFailure(SoulLang.text(language, "message.soulland.sect.unknown", "Sekte tidak dikenal. Pilihan: %s",
+                    Sect.all().stream().map(Sect::id).collect(Collectors.joining(", "))));
             return 0;
         }
         CultivationCapability.get(player).ifPresent(cap -> {
             cap.setSect(sect.id());
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
-            source.sendSuccess(() -> Component.literal("Kamu bergabung dengan " + sect.name() + "."), true);
+            source.sendSuccess(() -> SoulLang.text(language, "message.soulland.sect.chosen", "Kamu bergabung dengan %s.",
+                    sect.name()), true);
         });
+        return 1;
+    }
+
+    /** Membuka layar Pilih Bahasa kapan pun; pilihan langsung berlaku dan tersimpan. */
+    private static int openLanguage(CommandSourceStack source, ServerPlayer player) {
+        ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                new OpenLanguageScreenPacket(false));
+        source.sendSuccess(() -> SoulLang.text(CultivationManager.messageLanguage(player),
+                "message.soulland.language.opened", "Layar pilih bahasa dibuka."), true);
         return 1;
     }
 
     /** Pilih ulang martial soul (mode pick ulang), HANYA boleh dalam mode Creative. */
     private static int reroll(CommandSourceStack source, ServerPlayer player) {
+        String language = CultivationManager.messageLanguage(player);
         if (!player.isCreative()) {
-            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir! Pilih ulang hanya bisa dilakukan dalam mode Creative."));
+            source.sendFailure(SoulLang.text(language, "message.soulland.soul.reroll_blocked",
+                    "Martial soul adalah takdir sejak lahir! Pilih ulang hanya bisa dilakukan dalam mode Creative."));
             return 0;
         }
         SoulSelection.openCeremony(player, true);
-        source.sendSuccess(() -> Component.literal("Upacara Kebangkitan dibuka. Pilih martial soul baru dari daftar."), true);
+        source.sendSuccess(() -> SoulLang.text(language, "message.soulland.soul.reroll_opened",
+                "Upacara Kebangkitan dibuka. Pilih martial soul baru dari daftar."), true);
         return 1;
     }
 }

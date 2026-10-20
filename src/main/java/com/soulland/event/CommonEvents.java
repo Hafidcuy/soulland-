@@ -1,7 +1,9 @@
 package com.soulland.event;
 
+import com.soulland.CultivationRanks;
 import com.soulland.SoulLandMod;
 import com.soulland.cultivation.CultivationCapability;
+import com.soulland.cultivation.Foundation;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.ICultivation;
 import com.soulland.book.GuideBook;
@@ -9,6 +11,7 @@ import com.soulland.entity.SoulCompanion;
 import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
 import com.soulland.item.ToolCharge;
+import com.soulland.lang.SoulLang;
 import com.soulland.skill.AttackEffects;
 import com.soulland.skill.SkillFx;
 import com.soulland.soul.Element;
@@ -45,12 +48,20 @@ import net.minecraftforge.fml.common.Mod;
 
 public class CommonEvents {
 
-    /** Login pertama: buka Upacara Kebangkitan. Martial soul dipilih pemain sendiri, bukan diundi. */
+    /**
+     * Login pertama: kalau bahasa belum dipilih, layar Pilih Bahasa dibuka lebih
+     * dulu dan upacara Kebangkitan menyusul setelah pemain memilih. Login
+     * berikutnya tidak menampilkan layar bahasa lagi.
+     */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         CultivationCapability.get(player).ifPresent(cap -> {
-            if (!cap.isAwakened()) {
+            if (cap.getLanguage().isEmpty()) {
+                com.soulland.net.ModNetwork.CHANNEL.send(
+                        net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                        new com.soulland.net.OpenLanguageScreenPacket(true));
+            } else if (!cap.isAwakened()) {
                 SoulSelection.openCeremony(player, false);
             }
             CultivationManager.applyStats(player);
@@ -157,8 +168,10 @@ public class CommonEvents {
             CultivationManager.addXp(player, xp);
             advanceHuntContract(player, event.getEntity().level().getGameTime());
             Hints.show(player, Hints.ELEMENT,
-                    "Nama soul beast menyebut usianya dan elemennya. Elemen soul-mu yang menang "
-                            + "memberi +25% damage, kalah memberi -15%.");
+                    SoulLang.translate(CultivationManager.messageLanguage(player),
+                            "hint.soulland.element",
+                            "Nama soul beast menyebut usianya dan elemennya. Elemen soul-mu yang menang "
+                                    + "memberi +25% damage, kalah memberi -15%."));
         }
     }
 
@@ -170,8 +183,9 @@ public class CommonEvents {
             cap.setContractKills(kills);
             if (kills < HuntContractItem.TARGET) {
                 if (kills % 5 == 0) {
-                    player.sendSystemMessage(Component.literal("Kontrak perburuan: " + kills + "/"
-                            + HuntContractItem.TARGET + " soul beast."));
+                    player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player),
+                            "message.soulland.contract.progress", "Kontrak perburuan: %s/%s soul beast.",
+                            kills, HuntContractItem.TARGET));
                 }
                 return;
             }
@@ -179,7 +193,9 @@ public class CommonEvents {
             cap.setContractUntil(0L);
             player.getInventory().add(new ItemStack(ModItems.SPIRIT_RING_100.get()));
             player.getInventory().add(new ItemStack(ModItems.SOUL_ESSENCE.get(), 4));
-            player.sendSystemMessage(Component.literal("Kontrak perburuan selesai. Hadiah: spirit ring 100 tahun dan 4 esensi jiwa.")
+            player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player),
+                            "message.soulland.contract.done",
+                            "Kontrak perburuan selesai. Hadiah: spirit ring 100 tahun dan 4 esensi jiwa.")
                     .withStyle(ChatFormatting.GOLD));
             player.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
                     player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.05);
@@ -196,11 +212,14 @@ public class CommonEvents {
 
         ItemStack ring = null;
         if (entity instanceof EnderDragon) {
-            ring = new ItemStack(ModItems.SPIRIT_RING_100000.get());
-            broadcast(entity, "§5§lEnder Dragon (Kaisar Soul Beast terakhir) telah jatuh! Spirit Ring 100.000 tahun muncul!");
+            // Kaisar Soul Beast: hadiah puncak, grade Emas satu juta tahun.
+            ring = new ItemStack(ModItems.SPIRIT_RING_1000000.get());
+            broadcast(entity, "message.soulland.boss.dragon", ChatFormatting.DARK_PURPLE,
+                    "§5§lEnder Dragon (Kaisar Soul Beast terakhir) telah jatuh! Spirit Ring Emas 1.000.000 tahun muncul!");
         } else if (entity instanceof WitherBoss || entity instanceof Warden || entity instanceof ElderGuardian) {
-            ring = new ItemStack(ModItems.SPIRIT_RING_10000.get());
-            broadcast(entity, "Boss soul beast tumbang. Spirit Ring 10.000 tahun terjatuh.");
+            ring = new ItemStack(ModItems.SPIRIT_RING_100000.get());
+            broadcast(entity, "message.soulland.boss.tier", ChatFormatting.LIGHT_PURPLE,
+                    "Boss soul beast tumbang. Spirit Ring 100.000 tahun terjatuh.");
         } else if (entity instanceof Monster monster) {
             float hp = monster.getMaxHealth();
             double chance = hp >= 60 ? 0.35 : hp >= 30 ? 0.25 : 0.15;
@@ -339,35 +358,63 @@ public class CommonEvents {
         return Element.EARTH;
     }
 
-    private static void broadcast(LivingEntity entity, String message) {
-        if (entity.level() instanceof ServerLevel serverLevel && serverLevel.getServer() != null) {
-            serverLevel.getServer().getPlayerList().broadcastSystemMessage(Component.literal(message), false);
-        }
+    /**
+     * Kabar dunia soal soul beast besar. Setiap pemain menerima versinya
+     * sendiri, mengikuti bahasa yang ia pilih.
+     */
+    private static void broadcast(LivingEntity entity, String key, ChatFormatting color, String fallback) {
+        if (!(entity.level() instanceof ServerLevel serverLevel) || serverLevel.getServer() == null) return;
+        serverLevel.getServer().getPlayerList().getPlayers().forEach(player ->
+                player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player), key, fallback)
+                        .withStyle(color)));
     }
 
     private static void handleMeditation(net.minecraft.world.entity.player.Player player,
                                          ICultivation cap) {
+        String language = CultivationManager.messageLanguage(player);
         if (player.getDeltaMovement().horizontalDistanceSqr() > 0.0004) {
             cap.setMeditating(false);
             cap.setMeditationTicks(0);
-            player.sendSystemMessage(Component.literal("Meditasi terputus karena kamu bergerak."));
+            player.sendSystemMessage(SoulLang.text(language, "message.soulland.meditation_broken",
+                    "Meditasi terputus karena kamu bergerak."));
             return;
         }
 
         int ticks = cap.getMeditationTicks() + 1;
         cap.setMeditationTicks(ticks);
 
+        // Fondasi kultivasi bertambah pelan selama meditasi.
+        if (ticks % Foundation.TICKS_PER_POINT == 0) {
+            int before = cap.getFoundation();
+            cap.setFoundation(Foundation.gain(before, 1));
+            if (cap.getFoundation() > before && cap.getFoundation() % 10 == 0) {
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.foundation_gain",
+                        "§bFondasi kultivasi menguat: %s/100.", cap.getFoundation()));
+            }
+        }
+
         if (CultivationManager.canBreakthrough(cap)) {
             if (ticks % 20 == 0) {
-                player.sendSystemMessage(Component.literal("Upacara terobosan: " + (ticks / 20) + "/3"));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_progress",
+                        "Upacara terobosan: %s/3", ticks / 20));
             }
             if (ticks >= 60) {
                 if (consumeEssence(player, 1)) {
                     cap.setMeditationTicks(0);
                     CultivationManager.breakthrough(player);
                 } else {
-                    player.sendSystemMessage(Component.literal("Butuh 1 Esensi Jiwa untuk upacara terobosan."));
+                    player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_essence",
+                            "Butuh 1 Esensi Jiwa untuk upacara terobosan."));
                 }
+            }
+            return;
+        }
+
+        if (CultivationRanks.isGateLevel(cap.getLevel()) && !Foundation.canAttempt(cap.getFoundation())) {
+            if (ticks % 40 == 0) {
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.foundation_low",
+                        "§eFondasi belum cukup untuk upacara terobosan (butuh %s, sekarang %s).",
+                        Foundation.MIN_TO_ATTEMPT, cap.getFoundation()));
             }
             return;
         }

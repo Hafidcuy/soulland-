@@ -30,6 +30,9 @@ public record SyncCultivationPacket(
         int[] skillCooldowns,
         boolean awakened,
         String language,
+        int foundation,
+        boolean tribulationReady,
+        int mutationCount
 ) {
     /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
     private static final char ENTRY_SEPARATOR = ';';
@@ -51,10 +54,14 @@ public record SyncCultivationPacket(
         buf.writeVarIntArray(msg.skillCooldowns);
         buf.writeBoolean(msg.awakened);
         buf.writeUtf(msg.language == null ? "" : msg.language, 8);
+        buf.writeInt(msg.foundation);
+        buf.writeBoolean(msg.tribulationReady);
+        buf.writeInt(msg.mutationCount);
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
         return new SyncCultivationPacket(
+                buf.readInt(),
                 buf.readInt(),
                 buf.readInt(),
                 buf.readFloat(),
@@ -67,9 +74,11 @@ public record SyncCultivationPacket(
                 buf.readInt(),
                 buf.readVarIntArray(),
                 buf.readVarIntArray(),
+                buf.readBoolean(),
                 buf.readUtf(8),
                 buf.readInt(),
                 buf.readBoolean(),
+                buf.readInt());
     }
 
     public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {

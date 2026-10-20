@@ -2,6 +2,7 @@ package com.soulland.item;
 
 import com.soulland.SoulLandMod;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -16,10 +17,10 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SoulLandMod.MODID);
 
     public static final RegistryObject<Item> SOUL_ESSENCE = ITEMS.register("soul_essence",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> SOUL_CORE = ITEMS.register("soul_core",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
 
     public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100 = ITEMS.register("spirit_ring_100",
             () -> new SpiritRingItem(SpiritRingItem.Tier.Y100, new Item.Properties().rarity(Rarity.COMMON)));
@@ -29,42 +30,44 @@ public class ModItems {
             () -> new SpiritRingItem(SpiritRingItem.Tier.Y10000, new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100000 = ITEMS.register("spirit_ring_100000",
             () -> new SpiritRingItem(SpiritRingItem.Tier.Y100000, new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<SpiritRingItem> SPIRIT_RING_1000000 = ITEMS.register("spirit_ring_1000000",
+            () -> new SpiritRingItem(SpiritRingItem.Tier.Y1000000, new Item.Properties().rarity(Rarity.EPIC)));
 
     // Item manifestasi: bentuk visual martial soul yang muncul saat skill diaktifkan.
     public static final RegistryObject<Item> MANIFESTATION_HOE = ITEMS.register("manifestation_hoe",
-            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));
     public static final RegistryObject<Item> MANIFESTATION_BLUE_SILVER_GRASS = ITEMS.register("manifestation_blue_silver_grass",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> MANIFESTATION_HELL_CIVET = ITEMS.register("manifestation_hell_civet",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> MANIFESTATION_SAUSAGE = ITEMS.register("manifestation_sausage",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> MANIFESTATION_SEVEN_TREASURE_PAGODA = ITEMS.register("manifestation_seven_treasure_pagoda",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
     public static final RegistryObject<Item> MANIFESTATION_EVIL_FIRE_PHOENIX = ITEMS.register("manifestation_evil_fire_phoenix",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
     public static final RegistryObject<Item> MANIFESTATION_WHITE_TIGER = ITEMS.register("manifestation_white_tiger",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> MANIFESTATION_SOFT_BONE_RABBIT = ITEMS.register("manifestation_soft_bone_rabbit",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> MANIFESTATION_JADE_SERPENT = ITEMS.register("manifestation_jade_serpent",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> MANIFESTATION_CLEAR_SKY_HAMMER = ITEMS.register("manifestation_clear_sky_hammer",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
 
     // Material tempa: satu ingot per mutu tool.
     public static final RegistryObject<Item> SPIRIT_IRON_INGOT = ITEMS.register("spirit_iron_ingot",
-            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));
     public static final RegistryObject<Item> SPIRIT_STEEL_INGOT = ITEMS.register("spirit_steel_ingot",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> DEEP_SILVER_INGOT = ITEMS.register("deep_silver_ingot",
-            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
 
     // Kristal soul: bahan upgrade tool, juga berfungsi sebagai template smithing.
     public static final RegistryObject<Item> SOUL_CRYSTAL_SHARD = ITEMS.register("soul_crystal_shard",
-            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
-    // Consumable spirit: tiga herbal dan dua pil.
+    // Consumable spirit: tiga herbal dan tiga pil.
     public static final RegistryObject<Item> SPIRIT_DEW_LEAF = ITEMS.register("spirit_dew_leaf",
             () -> new SpiritConsumableItem(SpiritConsumableItem.Effect.HEAL, 6,
                     new Item.Properties().stacksTo(16).rarity(Rarity.COMMON)));
@@ -80,6 +83,15 @@ public class ModItems {
     public static final RegistryObject<Item> SWIFT_PILL = ITEMS.register("swift_pill",
             () -> new SpiritConsumableItem(SpiritConsumableItem.Effect.SWIFT, 0,
                     new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+    /** Pil Fondasi: menambah 25 poin fondasi kultivasi. */
+    public static final RegistryObject<Item> FOUNDATION_PILL = ITEMS.register("foundation_pill",
+            () -> new SpiritConsumableItem(SpiritConsumableItem.Effect.FOUNDATION, 25,
+                    new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
+
+    /** Item workstation alchemy, dipakai sebagai kunci crafting. */
+    public static final RegistryObject<Item> ALCHEMY_STATION_ITEM = ITEMS.register("alchemy_station",
+            () -> new BlockItem(com.soulland.block.ModBlocks.ALCHEMY_STATION.get(),
+                    new Item.Properties().stacksTo(1)));
 
     /**
      * 30 tool soul: 10 arketipe x 3 mutu material. Id mengikuti pola

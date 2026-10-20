@@ -99,9 +99,24 @@ public interface ICultivation {
     long getContractUntil();
     void setContractUntil(long gameTime);
 
+    /**
+     * Fondasi kultivasi, 0 sampai 100. Menyatakan kemajuan pemain menuju
+     * ambang peringkat berikutnya dan menentukan peluang sukses terobosan.
+     */
+    int getFoundation();
+    void setFoundation(int foundation);
+
     /** Bahasa yang dipilih pemain: "id" atau "en". Kosong kalau belum memilih. */
     String getLanguage();
     void setLanguage(String language);
+
+    /** True kalau pemain sudah mencapai ambang God dan menunggu tribulasi. */
+    boolean isTribulationReady();
+    void setTribulationReady(boolean ready);
+
+    /** Berapa spirit ring yang pernah bermutasi; sumber bonus stat permanen. */
+    int getMutationCount();
+    void setMutationCount(int count);
 
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);

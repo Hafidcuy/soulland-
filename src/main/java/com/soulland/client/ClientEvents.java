@@ -2,6 +2,7 @@ package com.soulland.client;
 
 import com.soulland.CultivationRanks;
 import com.soulland.SoulLandMod;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.ActivateSkillPacket;
 import com.soulland.net.BloodBurnPacket;
 import com.soulland.net.MeditatePacket;
@@ -77,19 +78,31 @@ public class ClientEvents {
             Minecraft mc = Minecraft.getInstance();
             if (mc.player == null || mc.options.hideGui) return;
 
+            String language = ClientCultivationData.effectiveLanguage();
             MartialSoul soul = MartialSouls.effective(ClientCultivationData.soulId, ClientCultivationData.evolutionStage);
             int x = 6;
             int y = 6;
 
             drawPortrait(gui, soul, x, y);
 
-            String rank = CultivationRanks.rankName(ClientCultivationData.level);
-            gui.drawString(mc.font, "Lv." + ClientCultivationData.level + "  " + rank, x + 21, y, IMPERIAL_GOLD);
-            String ringText = "Ring " + ClientCultivationData.rings + "/9";
+            String rank = SoulLang.rankName(ClientCultivationData.level, language).getString();
+            gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.level", "Lv.%s  %s",
+                    ClientCultivationData.level, rank), x + 21, y, IMPERIAL_GOLD);
+            String ringText = SoulLang.text(language, "gui.soulland.hud.rings", "Ring %s/%s",
+                    ClientCultivationData.rings, CultivationRanks.MAX_RINGS).getString();
             if (!ClientCultivationData.sect.isEmpty()) {
                 ringText = ringText + "  " + ClientCultivationData.sect;
             }
             gui.drawString(mc.font, ringText, x + 21, y + 10, 0xB8D8C8);
+
+            int foundationY = y + 20;
+            if (ClientCultivationData.foundation > 0
+                    || CultivationRanks.isGateLevel(ClientCultivationData.level)) {
+                gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.foundation",
+                                "Fondasi %s%%", ClientCultivationData.foundation).getString(),
+                        x + 21, foundationY, 0x8FD8C8);
+                foundationY += 10;
+            }
 
             drawSkillBar(gui, soul, x, y + 24);
             drawEnergy(gui, mc, x, y + 52);
@@ -97,8 +110,9 @@ public class ClientEvents {
             if (ClientCultivationData.chainCount > 0) {
                 int bonus = (int) (com.soulland.skill.SkillHandler.CHAIN_STEP
                         * Math.min(com.soulland.skill.SkillHandler.MAX_CHAIN, ClientCultivationData.chainCount) * 100);
-                gui.drawString(mc.font, "Rantai " + ClientCultivationData.chainCount
-                        + " (+" + bonus + "% damage)", x, y + 66, 0xFFD24A);
+                gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.chain",
+                                "Rantai %s (+%s%% damage)", ClientCultivationData.chainCount, bonus).getString(),
+                        x, y + 66, 0xFFD24A);
             }
         }
 
@@ -161,7 +175,10 @@ public class ClientEvents {
             if (filled > 0) {
                 gui.fill(x, y, x + filled, y + height, SOUL_JADE);
             }
-            gui.drawString(mc.font, "SP " + (int) ClientCultivationData.energy + "/100", x, y + 8, 0x9AD8C8);
+            String language = ClientCultivationData.effectiveLanguage();
+            gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.energy", "SP %s/%s",
+                    (int) ClientCultivationData.energy, (int) CultivationRanks.MAX_ENERGY).getString(),
+                    x, y + 8, 0x9AD8C8);
         }
     }
 }
