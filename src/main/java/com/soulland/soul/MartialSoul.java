@@ -12,7 +12,6 @@ public record MartialSoul(
         String type,
         String family,
         String rarity,
-        int weight,
         String description,
         String element,
         int color,

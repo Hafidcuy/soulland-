@@ -3,6 +3,7 @@ package com.soulland.cultivation;
 import com.soulland.CultivationRanks;
 import net.minecraft.nbt.CompoundTag;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,8 @@ public class Cultivation implements ICultivation {
     private int contractKills = 0;
     private long contractUntil = 0L;
     private final Map<String, Long> cooldowns = new HashMap<>();
+    /** Umur tiap ring (tahun). Kosong bila belum punya ring. */
+    private int[] ringAges = new int[0];
 
     @Override public boolean isAwakened() { return awakened; }
     @Override public void setAwakened(boolean awakened) { this.awakened = awakened; }
@@ -112,6 +115,25 @@ public class Cultivation implements ICultivation {
     @Override public void setBreakthroughReady(boolean ready) { this.breakthroughReady = ready; }
 
     @Override
+    public int[] getRingAges() {
+        return ringAges.clone();
+    }
+
+    @Override
+    public void setRingAges(int[] ages) {
+        this.ringAges = ages == null ? new int[0] : ages.clone();
+    }
+
+    @Override
+    public void addRing(int age) {
+        if (ringAges.length >= CultivationRanks.MAX_RINGS) return;
+        int[] grown = Arrays.copyOf(ringAges, ringAges.length + 1);
+        grown[ringAges.length] = age;
+        ringAges = grown;
+        setRings(ringAges.length);
+    }
+
+    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("awakened", awakened);
@@ -138,6 +160,7 @@ public class Cultivation implements ICultivation {
         CompoundTag cds = new CompoundTag();
         cooldowns.forEach((k, v) -> cds.putLong(k, v));
         tag.put("cooldowns", cds);
+        tag.putIntArray("ringAges", ringAges);
         return tag;
     }
 
@@ -168,6 +191,13 @@ public class Cultivation implements ICultivation {
         if (tag.contains("cooldowns")) {
             CompoundTag cds = tag.getCompound("cooldowns");
             for (String key : cds.getAllKeys()) cooldowns.put(key, cds.getLong(key));
+        }
+        // Save lama belum menyimpan umur ring: daftar dianggap kosong lalu diisi umur default
+        // sehingga jumlah ring tetap konsisten dengan data lama.
+        int[] saved = tag.contains("ringAges") ? tag.getIntArray("ringAges") : new int[0];
+        ringAges = new int[rings];
+        for (int i = 0; i < rings; i++) {
+            ringAges[i] = i < saved.length ? saved[i] : CultivationRanks.DEFAULT_RING_AGE;
         }
     }
 }
