@@ -1,15 +1,21 @@
 package com.soulland.net;
 
-import com.soulland.client.ClientCultivationData;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-/** Sinkronisasi data kultivasi server -> client (untuk HUD dan tampilan). */
-public record SyncCultivationPacket(int level, int xp, int rings, float energy, String soulId) {
+/** Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, dan tampilan). */
+public record SyncCultivationPacket(
+        int level,
+        int xp,
+        int rings,
+        float energy,
+        String soulId,
+        int[] ringAges,
+        int[] skillCooldowns,
+        boolean awakened
+) {
 
     public static void encode(SyncCultivationPacket msg, FriendlyByteBuf buf) {
         buf.writeInt(msg.level);
@@ -17,15 +23,25 @@ public record SyncCultivationPacket(int level, int xp, int rings, float energy, 
         buf.writeInt(msg.rings);
         buf.writeFloat(msg.energy);
         buf.writeUtf(msg.soulId, 64);
+        buf.writeVarIntArray(msg.ringAges);
+        buf.writeVarIntArray(msg.skillCooldowns);
+        buf.writeBoolean(msg.awakened);
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
-        return new SyncCultivationPacket(buf.readInt(), buf.readInt(), buf.readInt(), buf.readFloat(), buf.readUtf(64));
+        return new SyncCultivationPacket(
+                buf.readInt(),
+                buf.readInt(),
+                buf.readInt(),
+                buf.readFloat(),
+                buf.readUtf(64),
+                buf.readVarIntArray(),
+                buf.readVarIntArray(),
+                buf.readBoolean());
     }
 
     public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> ClientCultivationData.set(msg)));
+        ctx.get().enqueueWork(() -> ClientBridge.onCultivationSync(msg));
         ctx.get().setPacketHandled(true);
     }
 }

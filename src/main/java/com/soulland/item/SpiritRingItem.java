@@ -4,11 +4,13 @@ import com.soulland.CultivationRanks;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.ICultivation;
+import com.soulland.soul.RingHaloSync;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -74,10 +76,13 @@ public class SpiritRingItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
 
-        cap.setRings(cap.getRings() + 1);
+        cap.addRing(tier.years);
         if (!player.isCreative()) stack.shrink(1);
         CultivationManager.applyStats(player);
         CultivationManager.sync(player);
+        if (player instanceof ServerPlayer serverPlayer) {
+            RingHaloSync.broadcast(serverPlayer);
+        }
         player.sendSystemMessage(Component.literal("§a✦ Spirit Ring " + tier.years + " tahun diserap! Sekarang kamu punya " + cap.getRings() + " spirit ring. ✦")
                 .withStyle(ChatFormatting.GOLD));
         if (cap.getRings() == 1) {
@@ -85,6 +90,12 @@ public class SpiritRingItem extends Item {
         }
         if (cap.getRings() == 3) {
             player.sendSystemMessage(Component.literal("§eSkill 2 martial soul-mu terbuka! Tekan [G] untuk menggunakannya."));
+        }
+        if (cap.getRings() == CultivationRanks.RINGS_FOR_THIRD_SKILL) {
+            player.sendSystemMessage(Component.literal("§eSkill 3 martial soul-mu terbuka! Tekan [X] untuk menggunakannya."));
+        }
+        if (cap.getRings() == CultivationRanks.RINGS_FOR_FOURTH_SKILL) {
+            player.sendSystemMessage(Component.literal("§eSkill 4 martial soul-mu terbuka! Tekan [C] untuk menggunakannya."));
         }
         return InteractionResultHolder.success(stack);
     }

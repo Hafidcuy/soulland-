@@ -7,7 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ModNetwork {
-    private static final String PROTOCOL = "1";
+    private static final String PROTOCOL = "2";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(SoulLandMod.MODID, "main"),
@@ -28,6 +28,36 @@ public class ModNetwork {
                 .decoder(ActivateSkillPacket::decode)
                 .consumerMainThread(ActivateSkillPacket::handle)
                 .add();
-        SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar.");
+        CHANNEL.messageBuilder(OpenAwakeningGuiPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenAwakeningGuiPacket::encode)
+                .decoder(OpenAwakeningGuiPacket::decode)
+                .consumerMainThread(OpenAwakeningGuiPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ChooseSoulPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ChooseSoulPacket::encode)
+                .decoder(ChooseSoulPacket::decode)
+                .consumerMainThread(ChooseSoulPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ChooseSoulResultPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ChooseSoulResultPacket::encode)
+                .decoder(ChooseSoulResultPacket::decode)
+                .consumerMainThread(ChooseSoulResultPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ManifestationPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ManifestationPacket::encode)
+                .decoder(ManifestationPacket::decode)
+                .consumerMainThread(ManifestationPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(SyncRingAgesPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncRingAgesPacket::encode)
+                .decoder(SyncRingAgesPacket::decode)
+                .consumerMainThread(SyncRingAgesPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(CloseAwakeningGuiPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(CloseAwakeningGuiPacket::encode)
+                .decoder(CloseAwakeningGuiPacket::decode)
+                .consumerMainThread(CloseAwakeningGuiPacket::handle)
+                .add();
+        SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }
 }
