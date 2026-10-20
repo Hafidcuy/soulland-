@@ -98,6 +98,8 @@ public final class SkillHandler {
             SoulCompanion.echo(player);
 
             player.sendSystemMessage(Component.literal("[" + skill.name() + "]"));
+            com.soulland.event.Hints.show(player, com.soulland.event.Hints.SKILL,
+                    "Tekan J untuk mengatur loadout skill di Kartu Soul, tab SKILLS.");
         });
     }
 

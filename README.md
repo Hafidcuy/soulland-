@@ -93,6 +93,18 @@ Kurva kultivasi, format config, dan aset diambil dari sumber internet yang terca
 `docs/references/REFERENCES.md`. Konfigurasi Curios untuk pack ini ada di `config/` dan
 `datapacks/soulland_curios/`.
 
+## Tampilan
+
+| Layar | Tombol | Isi |
+|---|---|---|
+| Sambutan | otomatis saat pertama masuk | Cara main bernomor, angka level dan ring, daftar tombol, tombol Buka Panduan / Kartu Soul / Mulai |
+| Kartu Martial Soul | `J` | Potret besar, 4 tab (Soul, Skills, RINGS, SECT), 9 slot spirit ring, loadout skill 5 slot |
+| Panduan | `H` atau `/panduan` | 7 bagian: Cara Main, Martial Soul, Skill dan Loadout, Spirit Ring, Kultivasi, Sekte, Pertarungan, tiap bagian punya catatan |
+
+Arahan muncul satu kali per pemain dan hanya kalau pemicunya terjadi: hint Shift saat
+menyerap ring pertama, hint loadout saat skill pertama dipakai, hint elemen saat soul beast
+pertama diburu.
+
 ## Modpack
 
 Pack ini berisi mod inti `soulland` plus tujuh mod pendukung yang versinya diambil dari

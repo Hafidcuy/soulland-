@@ -63,6 +63,11 @@ public class ModNetwork {
                 .decoder(AssignSkillPacket::decode)
                 .consumerMainThread(AssignSkillPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(OpenGuiPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenGuiPacket::encode)
+                .decoder(OpenGuiPacket::decode)
+                .consumerMainThread(OpenGuiPacket::handle)
+                .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar.");
     }
 }

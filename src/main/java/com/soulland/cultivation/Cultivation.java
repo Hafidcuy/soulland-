@@ -24,6 +24,8 @@ public class Cultivation implements ICultivation {
     private long chainUntil = 0L;
     private int bloodBurnTicks = 0;
     private boolean breakthroughReady = false;
+    private boolean welcomeSeen = false;
+    private int hintFlags = 0;
     private int contractKills = 0;
     private long contractUntil = 0L;
     private final Map<String, Long> cooldowns = new HashMap<>();
@@ -100,6 +102,12 @@ public class Cultivation implements ICultivation {
     @Override public long getContractUntil() { return contractUntil; }
     @Override public void setContractUntil(long gameTime) { this.contractUntil = gameTime; }
 
+    @Override public int getHintFlags() { return hintFlags; }
+    @Override public void setHintFlags(int flags) { this.hintFlags = flags; }
+
+    @Override public boolean isWelcomeSeen() { return welcomeSeen; }
+    @Override public void setWelcomeSeen(boolean seen) { this.welcomeSeen = seen; }
+
     @Override public boolean isBreakthroughReady() { return breakthroughReady; }
     @Override public void setBreakthroughReady(boolean ready) { this.breakthroughReady = ready; }
 
@@ -122,6 +130,8 @@ public class Cultivation implements ICultivation {
         tag.putInt("contractKills", contractKills);
         tag.putLong("contractUntil", contractUntil);
         tag.putBoolean("breakthroughReady", breakthroughReady);
+        tag.putBoolean("welcomeSeen", welcomeSeen);
+        tag.putInt("hintFlags", hintFlags);
         for (int i = 0; i < loadout.length; i++) {
             tag.putString("loadout" + i, loadout[i] == null ? "" : loadout[i]);
         }
@@ -149,6 +159,8 @@ public class Cultivation implements ICultivation {
         contractKills = tag.getInt("contractKills");
         contractUntil = tag.getLong("contractUntil");
         breakthroughReady = tag.getBoolean("breakthroughReady");
+        welcomeSeen = tag.getBoolean("welcomeSeen");
+        hintFlags = tag.getInt("hintFlags");
         for (int i = 0; i < loadout.length; i++) {
             loadout[i] = tag.getString("loadout" + i);
         }

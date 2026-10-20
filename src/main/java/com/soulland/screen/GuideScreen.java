@@ -31,11 +31,41 @@ public class GuideScreen extends Screen {
     };
 
     private static final String[] TITLES = {
-            "Mulai", "Martial Soul", "Skill dan Loadout", "Spirit Ring",
+            "Cara Main", "Martial Soul", "Skill dan Loadout", "Spirit Ring",
             "Kultivasi", "Sekte", "Pertarungan"
     };
 
+    private static final String[] TIPS = {
+            "Semua angka di layar ini dibaca dari state pemain, jadi isinya selalu sama "
+                    + "dengan yang terjadi di dunia.",
+            "Nama soul beast menyebut usianya dan elemennya. Kalau elemen soul-mu kalah, "
+                    + "cari target lain atau bawa soul berunsur yang menang.",
+            "Skill spirit ring bisa dipasang ke slot mana pun dan disusun ulang sesering "
+                    + "kamu mau. Tidak ada biaya untuk mengganti.",
+            "Absorpsi brave bisa 55% gagal. Absorpsi biasa selalu aman, jadi pakai brave "
+                    + "kalau ring yang出让 terlalu rendah untukkai yang sekarang.",
+            "Upacara terobosan butuh 3 detik meditasi penuh dan 1 Esensi Jiwa. Bergerak "
+                    + "sedikit saja akan mengulang timer.",
+            "Sekte bisa diganti kapan saja lewat lencana sekte, jadi coba yang cocok "
+                    + "dengan cara mainmu.",
+            "Rantai soul hilang 4 detik setelah skill terakhir. Menyusun skill beruntun "
+                    + "adalah cara paling murah menaikkan damage."
+    };
+
     private static final String[][] BODIES = {
+            {
+                    "1. Buru soul beast. Namanya menyebut usianya dan elemennya, "
+                            + "misalnya 1.000 Tahun (Api) atau 10.000 Tahun (Es).",
+                    "2. Serap spirit ring yang jatuh. Syarat level: 100 tahun butuh 10, "
+                            + "1.000 butuh 20, 10.000 butuh 40, 100.000 butuh 70.",
+                    "3. Absorpsi brave: tahan Shift. 55% chance ring naik satu tingkat, "
+                            + "biaya 20% HP dan 40 Spirit Power.",
+                    "4. Susun loadout di Kartu Soul (J), tab SKILLS. Lima slot (R G F V Z) diisi bebas.",
+                    "5. Manfaatkan rantai soul: skill beruntun menambah +8% damage per mata, "
+                            + "maksimal 5 mata.",
+                    "6. Pilih target sesuai elemen. Menang +25% damage, kalah -15%.",
+                    "7. Naik peringkat lewat upacara terobosan: tahan C 3 detik + 1 Esensi Jiwa."
+            },
             {
                     "Saat pertama masuk dunia, kamu undergoes upward ceremony: martial soul",
                     "diundi secara acak, dan ritual itu diulang setiap kali kamu masuk lagi.",

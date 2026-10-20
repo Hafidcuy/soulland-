@@ -255,6 +255,9 @@ public class CommonEvents {
             int xp = (int) (event.getEntity().getMaxHealth() * 1.5) + 15;
             CultivationManager.addXp(player, xp);
             advanceHuntContract(player, event.getEntity().level().getGameTime());
+            Hints.show(player, Hints.ELEMENT,
+                    "Nama soul beast menyebut usianya dan elemennya. Elemen soul-mu yang menang "
+                            + "memberi +25% damage, kalah memberi -15%.");
         }
     }
 

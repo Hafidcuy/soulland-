@@ -15,6 +15,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.stream.Collectors;
 
@@ -26,6 +27,15 @@ public final class SoulCommands {
                 .executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
                     return showInfo(ctx.getSource(), player);
+                }));
+
+        dispatcher.register(Commands.literal("panduan")
+                .executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    com.soulland.net.ModNetwork.CHANNEL.send(
+                            net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                            new com.soulland.net.OpenGuiPacket(com.soulland.net.OpenGuiPacket.GUIDE));
+                    return 1;
                 }));
 
         dispatcher.register(Commands.literal("martialsoul")

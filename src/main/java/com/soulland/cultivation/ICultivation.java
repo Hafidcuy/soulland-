@@ -71,6 +71,14 @@ public interface ICultivation {
     int getBloodBurnTicks();
     void setBloodBurnTicks(int ticks);
 
+    /** Bitmask arahan yang sudah pernah ditampilkan ke pemain ini. */
+    int getHintFlags();
+    void setHintFlags(int flags);
+
+    /** True kalau layar sambutan sudah pernah dilihat, supaya tidak muncul terus. */
+    boolean isWelcomeSeen();
+    void setWelcomeSeen(boolean seen);
+
     /** True kalau ritual terobosan sudah dituntaskan, siap naik peringkat. */
     boolean isBreakthroughReady();
     void setBreakthroughReady(boolean ready);

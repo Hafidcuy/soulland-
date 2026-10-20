@@ -20,6 +20,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.ItemStack;
+import com.soulland.compat.CuriosBridge;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -264,8 +267,24 @@ public class SoulCardScreen extends Screen {
     private void drawRingsTab(GuiGraphics gui) {
         int x = panelLeft + 12;
         int y = panelTop + 30;
-        gui.drawString(this.font, "Setiap spirit ring memberi +2 HP maksimum dan +0.5 attack damage.",
-                x, y - 12, 0x8A8A8A);
+        gui.drawString(this.font, "Sembilan spirit ring melekat di tubuhmu.", x, y - 12, 0x8A8A8A);
+
+        Minecraft mc = Minecraft.getInstance();
+        int slotSize = 20;
+        int gap = 3;
+        for (int i = 0; i < 9; i++) {
+            int left = x + i * (slotSize + gap);
+            gui.fill(left, y, left + slotSize, y + slotSize, 0xB014161A);
+            gui.fill(left, y, left + slotSize, y + 1, 0x50E8C46A);
+            ItemStack stack = mc.player == null ? ItemStack.EMPTY : CuriosBridge.ringInSlot(mc.player, i);
+            if (!stack.isEmpty()) {
+                gui.renderItem(stack, left + 2, y + 2);
+                gui.drawString(this.font, String.valueOf(i + 1), left + 12, y + 10, 0xE8C46A);
+            } else {
+                gui.drawString(this.font, String.valueOf(i + 1), left + 6, y + 6, 0x707070);
+            }
+        }
+        y += slotSize + 8;
 
         int[] tierYears = {100, 100, 1000, 1000, 10000, 10000, 100000, 100000, 100000};
         for (int i = 0; i < 9; i++) {
@@ -277,17 +296,12 @@ public class SoulCardScreen extends Screen {
             y += 12;
         }
 
-        y += 6;
-        gui.drawString(this.font, "Ledakan spirit ring (tombol X): seluruh energi ring dilepas",
+        y += 4;
+        gui.drawString(this.font, "Tahan Shift + klik kanan ring: absorpsi brave, 55% chance naik tingkat.",
+                x, y, 0xD8A05A);
+        y += 11;
+        gui.drawString(this.font, "Tekan X: ledakan spirit ring, damage mengikuti jumlah ring.",
                 x, y, SOUL_JADE);
-        y += 11;
-        gui.drawString(this.font, "sekaligus, damage dan radius mengikuti jumlah ring.", x, y, 0x7A8A8A);
-        y += 14;
-        gui.drawString(this.font, "Skill spirit ring terbuka: " + ClientCultivationData.ringSkills, x, y, IMPERIAL_GOLD);
-        y += 11;
-        gui.drawString(this.font, "Tahan Shift + klik kanan ring = absorpsi berani (55%).", x, y, 0xD8442F);
-        y += 11;
-        gui.drawString(this.font, "Gagal? Ring hancur dan 25% HP hilang.", x, y, 0x8A6A6A);
     }
 
     // ------------------------------------------------------------------ tab SECT

@@ -118,7 +118,8 @@ public final class CultivationManager {
                         cap.setGateNotified(true);
                         player.sendSystemMessage(Component.literal(
                                 "§6Gerbang level " + lvl + " (" + CultivationRanks.rankName(lvl) + ") menutup jalanmu. "
-                                        + "Burulah soul beast dan serap Spirit Ring baru untuk menembus peringkat berikutnya."));
+                                        + "Burulah soul beast dan serap Spirit Ring baru, lalu tahan C "
+                                        + "bermeditasi 3 detik dengan 1 Esensi Jiwa untuk upacara terobosan."));
                     }
                     break;
                 }
