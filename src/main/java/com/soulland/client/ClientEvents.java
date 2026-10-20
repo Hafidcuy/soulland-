@@ -3,6 +3,7 @@ package com.soulland.client;
 import com.soulland.CultivationRanks;
 import com.soulland.SoulLandMod;
 import com.soulland.net.ActivateSkillPacket;
+import com.soulland.net.BloodBurnPacket;
 import com.soulland.net.MeditatePacket;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.RingBurstPacket;
@@ -63,6 +64,9 @@ public class ClientEvents {
         }
         if (KeyBindings.SOUL_CARD != null && KeyBindings.SOUL_CARD.consumeClick()) {
             mc.setScreen(new com.soulland.screen.SoulCardScreen());
+        }
+        if (KeyBindings.BLOOD_BURN != null && KeyBindings.BLOOD_BURN.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new BloodBurnPacket());
         }
         if (KeyBindings.MEDITATE != null) {
             boolean pressed = KeyBindings.MEDITATE.isDown();
@@ -126,6 +130,13 @@ public class ClientEvents {
 
             drawSkillBar(gui, soul, x, y + 24);
             drawEnergy(gui, mc, x, y + 52);
+
+            if (ClientCultivationData.chainCount > 0) {
+                int bonus = (int) (com.soulland.skill.SkillHandler.CHAIN_STEP
+                        * Math.min(com.soulland.skill.SkillHandler.MAX_CHAIN, ClientCultivationData.chainCount) * 100);
+                gui.drawString(mc.font, "Rantai " + ClientCultivationData.chainCount
+                        + " (+" + bonus + "% damage)", x, y + 66, 0xFFD24A);
+            }
         }
 
         private static void drawPortrait(GuiGraphics gui, MartialSoul soul, int x, int y) {
@@ -144,8 +155,8 @@ public class ClientEvents {
             int gap = 2;
             for (int slot = 0; slot < 5; slot++) {
                 int left = x + slot * (slotSize + gap);
-                SkillDef skill = soul == null ? null : soul.skill(slot);
-                boolean unlocked = skill != null && ClientCultivationData.rings >= skill.ringsRequired();
+                SkillDef skill = ClientSkills.resolve(soul, slot);
+                boolean unlocked = ClientSkills.isUnlocked(skill);
 
                 gui.fill(left, y, left + slotSize, y + slotSize, 0xB014161A);
 

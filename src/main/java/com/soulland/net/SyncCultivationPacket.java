@@ -19,7 +19,10 @@ public record SyncCultivationPacket(
         String soulId,
         String sect,
         int evolutionStage,
-        Map<String, Integer> cooldowns
+        Map<String, Integer> cooldowns,
+        int chainCount,
+        String[] loadout,
+        int ringSkills
 ) {
     /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
     private static final char ENTRY_SEPARATOR = ';';
@@ -34,18 +37,41 @@ public record SyncCultivationPacket(
         buf.writeUtf(msg.sect(), 32);
         buf.writeInt(msg.evolutionStage());
         buf.writeUtf(encodeCooldowns(msg.cooldowns()), 512);
+        buf.writeInt(msg.chainCount());
+        buf.writeUtf(encodeLoadout(msg.loadout()), 256);
+        buf.writeInt(msg.ringSkills());
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
         return new SyncCultivationPacket(buf.readInt(), buf.readInt(), buf.readInt(), buf.readFloat(),
                 buf.readUtf(64), buf.readUtf(32), buf.readInt(),
-                decodeCooldowns(buf.readUtf(512)));
+                decodeCooldowns(buf.readUtf(512)), buf.readInt(),
+                decodeLoadout(buf.readUtf(256)), buf.readInt());
     }
 
     public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
                 () -> () -> ClientCultivationData.set(msg)));
         ctx.get().setPacketHandled(true);
+    }
+
+    private static String encodeLoadout(String[] loadout) {
+        StringBuilder builder = new StringBuilder();
+        for (String skillId : loadout) {
+            if (builder.length() > 0) builder.append(",");
+            builder.append(skillId == null ? "" : skillId);
+        }
+        return builder.toString();
+    }
+
+    private static String[] decodeLoadout(String text) {
+        String[] loadout = new String[5];
+        if (text == null || text.isEmpty()) return loadout;
+        String[] parts = text.split(",", -1);
+        for (int i = 0; i < loadout.length && i < parts.length; i++) {
+            loadout[i] = parts[i];
+        }
+        return loadout;
     }
 
     private static String encodeCooldowns(Map<String, Integer> cooldowns) {

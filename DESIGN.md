@@ -72,6 +72,25 @@ makna. Tidak ada warna dekoratif.
 - Inti soul, inti evolusi, dan lencana sekte: bulatan + lapisan kilat.
 - Esensi jiwa, dupa meditasi, dan sosis ajaib: tekstur tunggal.
 
+## Mekanisme (biar tidak membosankan)
+
+Tujuh mekanisme mengubah keputusan pemain, bukan cuma menambah isi:
+
+| Mekanisme | Keputusan yang diambil pemain |
+|---|---|
+| Absorpsi berani | Ring aman atau risiko: 55% chance naik tingkat, 20% HP dan 40 Spirit Power dibayar, gagal berarti ring hancur |
+| Loadout skill | Lima slot diisi skill bebas, jadi build tiap pemain beda |
+| Rantai soul | Skill mana yang dipasang lebih dulu, karena tiap mata rantai menambah 8% damage |
+| Lawan elemen | Soul beast mana yang diburu, sesuai elemen soul yang dipakai |
+| Bakar darah | Spirit Power habis atau masih ada HP yang bisa dibakar |
+| Upacara terobosan | Syarat naik peringkat: meditasi 3 detik dengan 1 esensi jiwa |
+| Skill spirit ring | Ring mana yang diserap lebih dulu, karena tiap ring membuka satu skill |
+
+Visual di HUD mengikuti palet yang sama: rantai soul memakai aksen `Imperial Gold`, slot
+skill memakai warna tipe skill (merah serangan, hijau penyembuhan, emas buff, biru laut
+buff, ungu kontrol), dan peringatan absorpsi berani memakai `Crimson Soul` supaya
+bahaya selalu terbaca.
+
 ## Antarmuka
 
 ### HUD (kiri atas)

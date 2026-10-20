@@ -18,6 +18,12 @@ public class Cultivation implements ICultivation {
     private int evolutionStage = 0;
     private boolean meditating = false;
     private int meditationTicks = 0;
+    private final String[] loadout = new String[5];
+    private int ringSkills = 0;
+    private int chainCount = 0;
+    private long chainUntil = 0L;
+    private int bloodBurnTicks = 0;
+    private boolean breakthroughReady = false;
     private final Map<String, Long> cooldowns = new HashMap<>();
 
     @Override public boolean isAwakened() { return awakened; }
@@ -57,6 +63,38 @@ public class Cultivation implements ICultivation {
     @Override public int getMeditationTicks() { return meditationTicks; }
     @Override public void setMeditationTicks(int ticks) { this.meditationTicks = Math.max(0, ticks); }
 
+    @Override public int getRingSkills() { return ringSkills; }
+    @Override public void setRingSkills(int count) { this.ringSkills = Math.max(0, Math.min(10, count)); }
+
+    @Override public String[] getLoadout() { return loadout; }
+    @Override public void setLoadout(String[] values) {
+        for (int i = 0; i < loadout.length; i++) {
+            loadout[i] = (values != null && i < values.length && values[i] != null) ? values[i] : "";
+        }
+    }
+
+    @Override public String getLoadoutSkill(int slot) {
+        if (slot < 0 || slot >= loadout.length) return "";
+        return loadout[slot];
+    }
+
+    @Override public void setLoadoutSkill(int slot, String skillId) {
+        if (slot < 0 || slot >= loadout.length) return;
+        loadout[slot] = skillId == null ? "" : skillId;
+    }
+
+    @Override public int getChainCount() { return chainCount; }
+    @Override public void setChainCount(int count) { this.chainCount = Math.max(0, count); }
+
+    @Override public long getChainUntil() { return chainUntil; }
+    @Override public void setChainUntil(long gameTime) { this.chainUntil = gameTime; }
+
+    @Override public int getBloodBurnTicks() { return bloodBurnTicks; }
+    @Override public void setBloodBurnTicks(int ticks) { this.bloodBurnTicks = Math.max(0, ticks); }
+
+    @Override public boolean isBreakthroughReady() { return breakthroughReady; }
+    @Override public void setBreakthroughReady(boolean ready) { this.breakthroughReady = ready; }
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
@@ -69,6 +107,14 @@ public class Cultivation implements ICultivation {
         tag.putBoolean("gateNotified", gateNotified);
         tag.putString("sect", sect);
         tag.putInt("evolutionStage", evolutionStage);
+        tag.putInt("chainCount", chainCount);
+        tag.putLong("chainUntil", chainUntil);
+        tag.putInt("bloodBurnTicks", bloodBurnTicks);
+        tag.putInt("ringSkills", ringSkills);
+        tag.putBoolean("breakthroughReady", breakthroughReady);
+        for (int i = 0; i < loadout.length; i++) {
+            tag.putString("loadout" + i, loadout[i]);
+        }
         CompoundTag cds = new CompoundTag();
         cooldowns.forEach((k, v) -> cds.putLong(k, v));
         tag.put("cooldowns", cds);
@@ -86,6 +132,14 @@ public class Cultivation implements ICultivation {
         gateNotified = tag.getBoolean("gateNotified");
         sect = tag.getString("sect");
         evolutionStage = tag.getInt("evolutionStage");
+        chainCount = tag.getInt("chainCount");
+        chainUntil = tag.getLong("chainUntil");
+        bloodBurnTicks = tag.getInt("bloodBurnTicks");
+        ringSkills = tag.getInt("ringSkills");
+        breakthroughReady = tag.getBoolean("breakthroughReady");
+        for (int i = 0; i < loadout.length; i++) {
+            loadout[i] = tag.getString("loadout" + i);
+        }
         cooldowns.clear();
         if (tag.contains("cooldowns")) {
             CompoundTag cds = tag.getCompound("cooldowns");

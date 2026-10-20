@@ -31,6 +31,7 @@ public final class MartialSouls {
 
     private static final String DATA = "/data/soulland/martial_souls.json";
     private static final Map<String, MartialSoul> REGISTRY = new LinkedHashMap<>();
+    private static final Map<String, SkillDef> SKILL_INDEX = new LinkedHashMap<>();
 
     static {
         load();
@@ -70,6 +71,17 @@ public final class MartialSouls {
         return base;
     }
 
+    /** Cari skill berdasarkan id, baik skill soul maupun skill spirit ring. */
+    public static SkillDef skillById(String id) {
+        if (id == null || id.isEmpty()) return null;
+        return SKILL_INDEX.get(id);
+    }
+
+    /** Elemen tempur dari soul, dipakai untuk menghitung advantage lawannya. */
+    public static Element elementOf(MartialSoul soul) {
+        return soul == null ? Element.NONE : Element.fromSoulElement(soul.element());
+    }
+
     /** Berapa soul yang bisa diundi (bentuk evolusi berat 0 karena didapat lewat evolusi). */
     public static int rollableCount() {
         int count = 0;
@@ -107,8 +119,16 @@ public final class MartialSouls {
                 JsonArray souls = root.getAsJsonArray("souls");
                 for (JsonElement element : souls) {
                     MartialSoul soul = parseSoul(element.getAsJsonObject());
-                    if (soul != null) REGISTRY.put(soul.id(), soul);
+                    if (soul != null) {
+                        REGISTRY.put(soul.id(), soul);
+                        for (SkillDef skill : soul.skills()) {
+                            SKILL_INDEX.put(skill.id(), skill);
+                        }
+                    }
                 }
+            }
+            for (SkillDef skill : RingSkills.all()) {
+                SKILL_INDEX.put(skill.id(), skill);
             }
             SoulLandMod.LOGGER.info("Memuat {} martial soul dari data lore.", REGISTRY.size());
         } catch (Exception e) {

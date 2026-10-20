@@ -53,6 +53,16 @@ public class ModNetwork {
                 .decoder(ChooseSectPacket::decode)
                 .consumerMainThread(ChooseSectPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(BloodBurnPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(BloodBurnPacket::encode)
+                .decoder(BloodBurnPacket::decode)
+                .consumerMainThread(BloodBurnPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(AssignSkillPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(AssignSkillPacket::encode)
+                .decoder(AssignSkillPacket::decode)
+                .consumerMainThread(AssignSkillPacket::handle)
+                .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar.");
     }
 }

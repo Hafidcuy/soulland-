@@ -26,6 +26,7 @@ public class KeyBindings {
     public static KeyMapping SOUL_CARD;
     public static KeyMapping TOGGLE_SOUL;
     public static KeyMapping MEDITATE;
+    public static KeyMapping BLOOD_BURN;
 
     private static final List<KeyMapping> ALL = new ArrayList<>();
 
@@ -40,6 +41,7 @@ public class KeyBindings {
         SOUL_CARD = register(event, "key.soulland.soul_card", GLFW.GLFW_KEY_J);
         TOGGLE_SOUL = register(event, "key.soulland.toggle_soul", GLFW.GLFW_KEY_K);
         MEDITATE = register(event, "key.soulland.meditate", GLFW.GLFW_KEY_C);
+        BLOOD_BURN = register(event, "key.soulland.blood_burn", GLFW.GLFW_KEY_B);
     }
 
     private static KeyMapping register(RegisterKeyMappingsEvent event, String name, int key) {

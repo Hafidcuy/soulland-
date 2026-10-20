@@ -26,7 +26,8 @@ public final class CultivationManager {
                 });
                 ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> sp),
                         new SyncCultivationPacket(cap.getLevel(), cap.getXp(), cap.getRings(), cap.getEnergy(),
-                                cap.getMartialSoulId(), cap.getSect(), cap.getEvolutionStage(), cooldowns));
+                                cap.getMartialSoulId(), cap.getSect(), cap.getEvolutionStage(), cooldowns,
+                                cap.getChainCount(), cap.getLoadout(), cap.getRingSkills()));
             }
         });
     }
@@ -63,6 +64,37 @@ public final class CultivationManager {
             var speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speed != null) {
                 speed.setBaseValue(0.1 * (1.0 + sectSpeed));
+            }
+        });
+    }
+
+    /**
+     *_true kalau pemain sedang berdiri di gerbang peringkat dan sudah siap(upacara.
+     *
+     * <p>Gerbang Cultivation_Ranks butuh spirit ring, danuncak ritual: meditasi penuh
+     * selama 3 detik dengan satu Esensi Jiwa.
+     */
+    public static boolean canBreakthrough(ICultivation cap) {
+        int level = cap.getLevel();
+        if (!CultivationRanks.isGateLevel(level)) return false;
+        if (cap.getRings() < CultivationRanks.ringsRequiredAtGate(level)) return false;
+        return cap.getXp() >= CultivationRanks.xpForNextLevel(level);
+    }
+
+    /** Menaikkan peringkat satu tingkat lewat upacara terobosan. */
+    public static void breakthrough(Player player) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            if (!canBreakthrough(cap)) return;
+            int level = cap.getLevel();
+            cap.setXp(cap.getXp() - CultivationRanks.xpForNextLevel(level));
+            cap.setLevel(level + 1);
+            cap.setGateNotified(false);
+            applyStats(player);
+            sync(player);
+            player.sendSystemMessage(Component.literal("Upacara terobosan berhasil! Peringkat baru: "
+                    + CultivationRanks.rankName(cap.getLevel()) + "."));
+            if (cap.getLevel() % 10 == 1) {
+                player.sendSystemMessage(Component.literal("Skill martial soul terbuka di spirit ring berikutnya."));
             }
         });
     }

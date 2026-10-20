@@ -7,8 +7,10 @@ import com.soulland.book.GuideBook;
 import com.soulland.entity.SoulCompanion;
 import com.soulland.item.ModItems;
 import com.soulland.skill.SkillFx;
+import com.soulland.soul.Element;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
+import com.soulland.soul.SoulBeast;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -111,6 +113,17 @@ public class CommonEvents {
             if (cap.isMeditating()) {
                 handleMeditation(event.player, cap);
             }
+
+            long gameTime = event.player.level().getGameTime();
+            if (cap.getChainCount() > 0 && gameTime > cap.getChainUntil()) {
+                cap.setChainCount(0);
+                if (event.player instanceof ServerPlayer sp) {
+                    CultivationManager.sync(sp);
+                }
+            }
+            if (cap.getBloodBurnTicks() > 0) {
+                cap.setBloodBurnTicks(cap.getBloodBurnTicks() - 1);
+            }
         });
     }
 
@@ -127,6 +140,21 @@ public class CommonEvents {
         int ticks = cap.getMeditationTicks() + 1;
         cap.setMeditationTicks(ticks);
 
+        if (CultivationManager.canBreakthrough(cap)) {
+            if (ticks % 20 == 0) {
+                player.sendSystemMessage(Component.literal("Upacara terobosan: " + (ticks / 20) + "/3"));
+            }
+            if (ticks >= 60) {
+                if (consumeEssence(player, 1)) {
+                    cap.setMeditationTicks(0);
+                    CultivationManager.breakthrough(player);
+                } else {
+                    player.sendSystemMessage(Component.literal("Butuh 1 Esensi Jiwa untuk upacara terobosan."));
+                }
+            }
+            return;
+        }
+
         if (ticks % 40 == 0) {
             CultivationManager.addXp(player, 4);
             cap.setEnergy(Math.min(100f, cap.getEnergy() + 12f));
@@ -135,6 +163,19 @@ public class CommonEvents {
                         player.getX(), player.getY() + 0.4, player.getZ(), 14, 0.45, 0.9, 0.45, 0.01);
             }
         }
+    }
+
+    /** Mengambil satu esensi jiwa dari inventory, true kalau berhasil. */
+    private static boolean consumeEssence(net.minecraft.world.entity.player.Player player, int amount) {
+        int left = amount;
+        for (int i = 0; i < player.getInventory().items.size() && left > 0; i++) {
+            var stack = player.getInventory().items.get(i);
+            if (!stack.is(ModItems.SOUL_ESSENCE.get())) continue;
+            int take = Math.min(left, stack.getCount());
+            stack.shrink(take);
+            left -= take;
+        }
+        return left == 0;
     }
 
     /** Bonus damage keluaran berdasarkan level kultivasi. */
@@ -236,14 +277,15 @@ public class CommonEvents {
         if (atk != null) atk.setBaseValue(atk.getBaseValue() + dmgAdd);
     }
 
-    /** Monster biasa diberi nama soul beast sesuai usia soul beast-nya. */
+    /** Monster biasa diberi nama soul beast sesuai usia dan elemen tempurnya. */
     private static void nameSoulBeast(LivingEntity living) {
         if (!(living instanceof Monster monster)) return;
         if (monster.getCustomName() != null) return;
 
         float hp = monster.getMaxHealth();
         int years = hp >= 80 ? 10000 : hp >= 40 ? 1000 : hp >= 20 ? 100 : 10;
-        String name = monster.getType().getDescription().getString() + " " + years + " Tahun";
+        Element element = elementFor(monster);
+        String name = monster.getType().getDescription().getString() + " " + years + " Tahun (" + element.label() + ")";
 
         net.minecraft.ChatFormatting color = switch (years) {
             case 10000 -> net.minecraft.ChatFormatting.LIGHT_PURPLE;
@@ -253,7 +295,56 @@ public class CommonEvents {
         };
         monster.setCustomName(Component.literal(name).withStyle(color));
         monster.setCustomNameVisible(true);
-        living.getPersistentData().putInt("soulland_years", years);
+        SoulBeast.assign(monster, element, years);
+    }
+
+    /** Elemen tempur soul beast berdasarkan jenis mobnya, supaya target bisa dibaca pemain. */
+    private static Element elementFor(LivingEntity monster) {
+        if (monster instanceof net.minecraft.world.entity.monster.Blaze
+                || monster instanceof net.minecraft.world.entity.monster.MagmaCube
+                || monster instanceof net.minecraft.world.entity.monster.piglin.Piglin
+                || monster instanceof net.minecraft.world.entity.monster.piglin.PiglinBrute
+                || monster instanceof net.minecraft.world.entity.monster.Ghast) {
+            return Element.FIRE;
+        }
+        if (monster instanceof net.minecraft.world.entity.animal.SnowGolem
+                || monster instanceof net.minecraft.world.entity.monster.Stray
+                || monster instanceof net.minecraft.world.entity.animal.PolarBear) {
+            return Element.ICE;
+        }
+        if (monster instanceof net.minecraft.world.entity.monster.Creeper) {
+            return Element.LIGHTNING;
+        }
+        if (monster instanceof net.minecraft.world.entity.monster.Phantom
+                || monster instanceof net.minecraft.world.entity.monster.Witch
+                || monster instanceof net.minecraft.world.entity.boss.wither.WitherBoss
+                || monster instanceof net.minecraft.world.entity.monster.EnderMan) {
+            return Element.DARK;
+        }
+        if (monster instanceof net.minecraft.world.entity.monster.Slime
+                || monster instanceof net.minecraft.world.entity.monster.Drowned
+                || monster instanceof net.minecraft.world.entity.monster.Guardian) {
+            return Element.WATER;
+        }
+        if (monster instanceof net.minecraft.world.entity.monster.Silverfish
+                || monster instanceof net.minecraft.world.entity.monster.Endermite
+                || monster instanceof net.minecraft.world.entity.monster.CaveSpider
+                || monster instanceof net.minecraft.world.entity.monster.Spider) {
+            return Element.POISON;
+        }
+        if (monster instanceof net.minecraft.world.entity.animal.Wolf
+                || monster instanceof net.minecraft.world.entity.animal.Fox
+                || monster instanceof net.minecraft.world.entity.ambient.Bat) {
+            return Element.WIND;
+        }
+        if (monster instanceof net.minecraft.world.entity.animal.Cow
+                || monster instanceof net.minecraft.world.entity.animal.Sheep
+                || monster instanceof net.minecraft.world.entity.animal.Pig
+                || monster instanceof net.minecraft.world.entity.animal.Chicken
+                || monster instanceof net.minecraft.world.entity.animal.Bee) {
+            return Element.NATURE;
+        }
+        return Element.EARTH;
     }
 
     private static void broadcast(LivingEntity entity, String message) {

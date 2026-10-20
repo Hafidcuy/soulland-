@@ -16,6 +16,9 @@ public final class ClientCultivationData {
     public static String sect = "";
     public static int evolutionStage = 0;
     public static Map<String, Integer> cooldowns = Map.of();
+    public static int chainCount = 0;
+    public static String[] loadout = new String[5];
+    public static int ringSkills = 0;
 
     public static void set(SyncCultivationPacket packet) {
         level = packet.level();
@@ -26,5 +29,8 @@ public final class ClientCultivationData {
         sect = packet.sect();
         evolutionStage = packet.evolutionStage();
         cooldowns = packet.cooldowns();
+        chainCount = packet.chainCount();
+        loadout = packet.loadout();
+        ringSkills = packet.ringSkills();
     }
 }

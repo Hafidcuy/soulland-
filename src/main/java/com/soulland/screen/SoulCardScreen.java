@@ -2,11 +2,14 @@ package com.soulland.screen;
 
 import com.soulland.CultivationRanks;
 import com.soulland.client.ClientCultivationData;
+import com.soulland.client.ClientSkills;
+import com.soulland.net.AssignSkillPacket;
 import com.soulland.net.ChooseSectPacket;
 import com.soulland.net.ModNetwork;
 import com.soulland.sect.Sect;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
+import com.soulland.soul.RingSkills;
 import com.soulland.soul.SkillDef;
 import net.minecraft.ChatFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,6 +22,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -164,42 +168,93 @@ public class SoulCardScreen extends Screen {
 
     // ------------------------------------------------------------------ tab SKILLS
 
+    private static final int SLOT_COUNT = 5;
+    private final int[] slotBoxLeft = new int[SLOT_COUNT];
+    private final int[] slotBoxRight = new int[SLOT_COUNT];
+    private final int[] slotBoxTop = new int[SLOT_COUNT];
+    private final int[] slotBoxBottom = new int[SLOT_COUNT];
+    private final List<String> skillRowIds = new ArrayList<>();
+    private final List<int[]> skillRowBounds = new ArrayList<>();
+
     private void drawSkillsTab(GuiGraphics gui) {
         MartialSoul soul = currentSoul();
         int x = panelLeft + 12;
         int y = panelTop + 30;
         int width = panelWidth - 24;
+        skillRowIds.clear();
+        skillRowBounds.clear();
 
-        if (soul == null) {
-            gui.drawString(this.font, "Belum ada martial soul.", x, y, 0xB0B0B0);
-            return;
-        }
-
-        gui.drawString(this.font, "Tekan R, G, F, V, Z untuk memakai skill. Butuh spirit ring cukup.",
+        gui.drawString(this.font, "Klik skill untuk memasangnya ke slot. Klik slot untuk mengosongkan.",
                 x, y - 12, 0x8A8A8A);
 
-        for (int slot = 0; slot < soul.skills().size(); slot++) {
-            SkillDef skill = soul.skills().get(slot);
-            boolean unlocked = ClientCultivationData.rings >= skill.ringsRequired();
-            int color = unlocked ? 0xE8E8E8 : 0x707070;
-
-            gui.drawString(this.font, (slot + 1) + ". " + skill.name(), x, y, unlocked ? 0xF0F0F0 : 0x707070);
-            int metaY = y + 10;
-            gui.drawString(this.font, "energi " + (int) skill.energyCost()
-                    + "  cooldown " + (skill.cooldownTicks() / 20) + " dtk  butuh " + skill.ringsRequired() + " ring",
-                    x + 12, metaY, 0x7A7A7A);
-
-            int descY = metaY + 10;
-            for (FormattedCharSequence line : this.font.split(Component.literal(skill.description()), width - 14)) {
-                gui.drawString(this.font, line, x + 12, descY, color);
-                descY += 9;
+        int boxWidth = (width - 8) / SLOT_COUNT;
+        for (int slot = 0; slot < SLOT_COUNT; slot++) {
+            int left = x + slot * (boxWidth + 2);
+            SkillDef skill = ClientSkills.resolve(soul, slot);
+            slotBoxLeft[slot] = left;
+            slotBoxRight[slot] = left + boxWidth;
+            slotBoxTop[slot] = y;
+            slotBoxBottom[slot] = y + 18;
+            gui.fill(left, y, left + boxWidth, y + 18, 0xB014161A);
+            if (skill != null) {
+                gui.fill(left, y, left + boxWidth, y + 1, skillColor(skill));
+                String label = String.valueOf(slot + 1) + ". " + trim(gui, skill.name(), boxWidth - 4);
+                gui.drawString(this.font, label, left + 2, y + 6, 0xE0E0E0);
+            } else {
+                gui.drawString(this.font, String.valueOf(slot + 1) + ". -", left + 2, y + 6, 0x707070);
             }
-            if (!unlocked) {
-                gui.drawString(this.font, "Terkunci: butuh " + skill.ringsRequired() + " spirit ring",
-                        x + 12, descY, CRIMSON);
-            }
-            y = descY + 16;
         }
+
+        int listY = y + 26;
+        listY = drawSkillSection(gui, "Skill martial soul", soul == null ? List.of() : soul.skills(), x, listY, width);
+        listY += 4;
+        drawSkillSection(gui, "Skill spirit ring", unlockedRingSkills(), x, listY, width);
+    }
+
+    private List<SkillDef> unlockedRingSkills() {
+        List<SkillDef> unlocked = new ArrayList<>();
+        List<SkillDef> all = RingSkills.all();
+        for (int i = 0; i < Math.min(ClientCultivationData.ringSkills, all.size()); i++) {
+            unlocked.add(all.get(i));
+        }
+        return unlocked;
+    }
+
+    private int drawSkillSection(GuiGraphics gui, String title, List<SkillDef> skills, int x, int y, int width) {
+        gui.drawString(this.font, title, x, y, 0xE8C46A);
+        y += 11;
+        for (SkillDef skill : skills) {
+            boolean unlocked = ClientSkills.isUnlocked(skill);
+            int color = unlocked ? 0xE0E0E0 : 0x707070;
+            String label = trim(gui, skill.name(), width - 70);
+            gui.drawString(this.font, label, x, y, color);
+            String meta = "e" + (int) skill.energyCost() + " " + (skill.cooldownTicks() / 20) + "s";
+            gui.drawString(this.font, meta, x + width - 46, y, 0x7A7A7A);
+            if (unlocked) {
+                gui.drawString(this.font, "Pakai", x + width - 18, y, 0x4FC08D);
+            }
+            skillRowIds.add(skill.id());
+            skillRowBounds.add(new int[]{x, y - 2, x + width, y + 10});
+            y += 11;
+        }
+        return y;
+    }
+
+    private String trim(GuiGraphics gui, String text, int maxWidth) {
+        if (this.font.width(text) <= maxWidth) return text;
+        String cut = text;
+        while (cut.length() > 1 && this.font.width(cut + "..") > maxWidth) {
+            cut = cut.substring(0, cut.length() - 1);
+        }
+        return cut + "..";
+    }
+
+    private int skillColor(SkillDef skill) {
+        return switch (skill.target()) {
+            case SELF -> 0x4FC08D;
+            case ENEMY_NEAREST, ENEMY_AOE, ENEMY_LINE, ENEMY_CONE, POINT_AOE -> 0xD8442F;
+            case ALLY_AURA -> 0xE8C46A;
+        };
     }
 
     // ------------------------------------------------------------------ tab RINGS
@@ -223,9 +278,14 @@ public class SoulCardScreen extends Screen {
         y += 6;
         gui.drawString(this.font, "Ledakan spirit ring (tombol X): seluruh energi ring dilepas",
                 x, y, SOUL_JADE);
-        y += 12;
-        gui.drawString(this.font, "sekaligus, damage dan radius mengikuti jumlah ring.",
-                x, y, 0x7A8A8A);
+        y += 11;
+        gui.drawString(this.font, "sekaligus, damage dan radius mengikuti jumlah ring.", x, y, 0x7A8A8A);
+        y += 14;
+        gui.drawString(this.font, "Skill spirit ring terbuka: " + ClientCultivationData.ringSkills, x, y, IMPERIAL_GOLD);
+        y += 11;
+        gui.drawString(this.font, "Tahan Shift + klik kanan ring = absorpsi berani (55%).", x, y, 0xD8442F);
+        y += 11;
+        gui.drawString(this.font, "Gagal? Ring hancur dan 25% HP hilang.", x, y, 0x8A6A6A);
     }
 
     // ------------------------------------------------------------------ tab SECT
@@ -267,6 +327,25 @@ public class SoulCardScreen extends Screen {
                 return true;
             }
         }
+        if (activeTab == 1) {
+            for (int slot = 0; slot < SLOT_COUNT; slot++) {
+                if (mx >= slotBoxLeft[slot] && mx <= slotBoxRight[slot]
+                        && my >= slotBoxTop[slot] && my <= slotBoxBottom[slot]) {
+                    ModNetwork.CHANNEL.sendToServer(new AssignSkillPacket(slot, ""));
+                    return true;
+                }
+            }
+            for (int i = 0; i < skillRowBounds.size(); i++) {
+                int[] bounds = skillRowBounds.get(i);
+                if (mx >= bounds[0] && mx <= bounds[2] && my >= bounds[1] && my <= bounds[3]) {
+                    int freeSlot = firstFreeSlot();
+                    if (freeSlot >= 0) {
+                        ModNetwork.CHANNEL.sendToServer(new AssignSkillPacket(freeSlot, skillRowIds.get(i)));
+                    }
+                    return true;
+                }
+            }
+        }
         if (activeTab == 3 && mouseX >= panelLeft + 12 && mouseX <= panelLeft + panelWidth - 12) {
             int index = sectIndexAt(my);
             if (index >= 0 && index < Sect.all().size()) {
@@ -277,6 +356,15 @@ public class SoulCardScreen extends Screen {
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private int firstFreeSlot() {
+        String[] loadout = ClientCultivationData.loadout;
+        for (int slot = 0; slot < SLOT_COUNT; slot++) {
+            if (loadout == null || slot >= loadout.length) return slot;
+            if (loadout[slot] == null || loadout[slot].isEmpty()) return slot;
+        }
+        return -1;
     }
 
     private int sectIndexAt(int mouseY) {

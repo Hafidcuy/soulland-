@@ -47,6 +47,34 @@ public interface ICultivation {
     int getMeditationTicks();
     void setMeditationTicks(int ticks);
 
+    /** Lima slot tombol skill, diisi skill bebas. Kosong berarti pakai urutan bawaan. */
+    String[] getLoadout();
+    void setLoadout(String[] loadout);
+
+    /** Berapa skill spirit ring yang sudah terbuka. Normally sama dengan jumlah ring. */
+    int getRingSkills();
+    void setRingSkills(int count);
+
+    /** Skill yang terpasang di slot tertentu, atau null kalau slot pakai urutan bawaan. */
+    String getLoadoutSkill(int slot);
+    void setLoadoutSkill(int slot, String skillId);
+
+    /** Mata rantai soul yang sedang aktif. */
+    int getChainCount();
+    void setChainCount(int count);
+
+    /** Waktu game saat rantai terakhir ditambahkan. */
+    long getChainUntil();
+    void setChainUntil(long gameTime);
+
+    /** Sisa durasi bakar darah, dalam tick. */
+    int getBloodBurnTicks();
+    void setBloodBurnTicks(int ticks);
+
+    /** True kalau ritual terobosan sudah dituntaskan, siap naik peringkat. */
+    boolean isBreakthroughReady();
+    void setBreakthroughReady(boolean ready);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }

@@ -20,6 +20,20 @@ sekte, evolusi soul, soul beast, dan boss yang diperkuat.
 - **Aset sendiri.** 1.995 potret soul 16x16 digambar dengan kode (`tools/generate_assets.py`),
   plus 15 texture item berlapis. Tidak ada satu pun item yang memakai texture placeholder.
 
+## Mekanisme v1.2 (supaya tidak membosankan)
+
+Tujuh mekanisme yang mengubah keputusan pemain, bukan cuma menambah konten:
+
+| Mekanisme | Cara main | Kenapa tidak membosankan |
+|---|---|---|
+| **Absorpsi berani** | Tahan Shift + klik kanan ring: bayar 20% HP dan 40 Spirit Power, 55% chance ring naik satu tingkat dan skill ring tambahan terbuka. Gagal? Ring hancur, 25% HP hilang. | Absorpsi jadi keputusan, bukan formalitas |
+| **Loadout skill** | Lima slot tombol (R G F V Z) diisi skill bebas: skill martial soul atau skill spirit ring. Atur di Kartu Martial Soul, tab SKILLS. | Build berbeda tiap pemain, tidak ada urutan tunggal |
+| **Rantai soul** | Setiap skill yang berhasil menambah satu mata rantai, bertahan 4 detik. Tiap mata +8% damage, maksimal +40%. | Urutan skill jadi penting |
+| **Lawan elemen** | Nama soul beast menyebut elemennya (Api, Es, Petir, Angin, Air, Tanah, Racun, Tumbuhan, Cahaya, Gelap). Elemen soul menang +25% damage, kalah -15%. | Target harus dipilih, bukan di spam |
+| **Bakar darah** | Tombol B: tukar 25 HP jadi 30 Spirit Power, 8 detik damage +50%. Cooldown 45 detik, minimal 35 HP. | Ada jalan keluar desperate, ada risiko |
+| **Upacara terobosan** | Di gerbang peringkat, tahan C dan bermeditasi 3 detik penuh dengan 1 Esensi Jiwa. | Naik peringkat butuh ritual, bukan grind |
+| **Spirit ring skill** | Tiap ring membuka satu skill sendiri; skill ring bisa dipasang ke slot mana pun. | 9 ring berarti 9 skill ekstra |
+
 ## Sistem
 
 | Sistem | Isi |
@@ -42,7 +56,9 @@ sekte, evolusi soul, soul beast, dan boss yang diperkuat.
 | `X` | Ledakan spirit ring |
 | `J` | Buka Kartu Martial Soul |
 | `K` | Panggil / sembunyikan companion martial soul |
-| `C` (tahan) | Meditasi |
+| `C` (tahan) | Meditasi / upacara terobosan |
+| `B` | Bakar darah (tukar HP jadi Spirit Power) |
+| `Shift` + klik kanan ring | Absorpsi berani |
 
 ## Perintah
 
