@@ -15,7 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ComputeCameraAnglesEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
@@ -75,14 +75,16 @@ public class ClientEvents {
 
     private static boolean meditating = false;
 
-    /** Guncangan kamera saat skill besar dilepas. */
+    /** Guncangan dunia saat skill besar dilepas. */
     @SubscribeEvent
-    public static void onCameraAngles(ComputeCameraAnglesEvent event) {
+    public static void onRenderLevel(RenderLevelStageEvent event) {
         float shake = ClientFx.shake();
         if (shake <= 0f) return;
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
         double angle = Math.toRadians(shake * 6.0);
-        event.setYaw((float) (event.getYaw() + Math.cos(angle * 7.0) * shake * 2.0));
-        event.setPitch((float) (event.getPitch() + Math.sin(angle * 11.0) * shake * 1.5));
+        var pose = event.getPoseStack();
+        pose.mulPose(com.mojang.math.Axis.ZP.rotationDegrees((float) (Math.sin(angle * 9.0) * shake * 1.6)));
+        pose.translate(Math.sin(angle * 7.0) * shake * 0.12, Math.cos(angle * 11.0) * shake * 0.12, 0.0);
     }
 
     /** Kilat layar saat skill besar dilepas. */
@@ -93,7 +95,7 @@ public class ClientEvents {
         int color = ClientFx.flashColor();
         int argb = ((int) (alpha * 255) << 24) | (color & 0xFFFFFF);
         event.getGuiGraphics().fill(0, 0, event.getGuiGraphics().guiWidth(),
-                event.getGuiGraphics().guiHeight, argb);
+                event.getGuiGraphics().guiHeight(), argb);
     }
 
     @Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

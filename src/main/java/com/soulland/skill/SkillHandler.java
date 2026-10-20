@@ -132,7 +132,7 @@ public final class SkillHandler {
             SkillVisual visual = new SkillVisual(
                     com.soulland.soul.FxShape.RING, 0xE8C46A, 0xFFFFFF,
                     (float) radius, 120, null, 0.35f, 0x50E8C46A);
-            SkillFx.play(world, player, visual);
+            SkillFx.play(world, player, visual, SkillTarget.ENEMY_AOE, radius);
             sendVisualFx(player, visual);
             SoulCompanion.echo(player);
             player.sendSystemMessage(Component.literal("Ledakan spirit ring: " + rings + " ring melepaskan energinya."));
@@ -169,9 +169,10 @@ public final class SkillHandler {
             case ENEMY_LINE -> {
                 Vec3 look = player.getLookAngle();
                 Vec3 end = player.position().add(look.scale(radius));
+                Vec3 from = player.position();
                 AABB box = new AABB(
-                        player.position().min(end).subtract(1.5, 1.5, 1.5),
-                        player.position().max(end).add(1.5, 1.5, 1.5));
+                        Math.min(from.x, end.x) - 1.5, Math.min(from.y, end.y) - 1.5, Math.min(from.z, end.z) - 1.5,
+                        Math.max(from.x, end.x) + 1.5, Math.max(from.y, end.y) + 1.5, Math.max(from.z, end.z) + 1.5);
                 for (LivingEntity entity : world.getEntitiesOfClass(LivingEntity.class, box,
                         e -> e != player && e.isAlive() && !(e instanceof ServerPlayer))) {
                     hurt(world, player, entity, damage, skill, radius);

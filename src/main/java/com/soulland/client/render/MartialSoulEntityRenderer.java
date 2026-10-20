@@ -27,6 +27,11 @@ public class MartialSoulEntityRenderer extends EntityRenderer<MartialSoulEntity>
     }
 
     @Override
+    public net.minecraft.resources.ResourceLocation getTextureLocation(MartialSoulEntity entity) {
+        return GLOW;
+    }
+
+    @Override
     public void render(MartialSoulEntity entity, float yaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight) {
         String soulId = entity.soulId();

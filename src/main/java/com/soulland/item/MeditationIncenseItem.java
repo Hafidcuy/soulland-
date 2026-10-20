@@ -44,8 +44,10 @@ public class MeditationIncenseItem extends Item {
         if (!player.isCreative()) {
             stack.shrink(1);
         }
-        level.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE,
-                player.getX(), player.getY() + 1.0, player.getZ(), 20, 0.3, 0.6, 0.3, 0.02);
+        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE,
+                    player.getX(), player.getY() + 1.0, player.getZ(), 20, 0.3, 0.6, 0.3, 0.02);
+        }
         player.sendSystemMessage(Component.literal("Dupa menyala. Qi-mu beralir perlahan.")
                 .withStyle(ChatFormatting.LIGHT_PURPLE));
         return InteractionResultHolder.success(stack);

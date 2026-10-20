@@ -28,6 +28,11 @@ public class SoulVfxEntityRenderer extends EntityRenderer<SoulVfxEntity> {
     }
 
     @Override
+    public net.minecraft.resources.ResourceLocation getTextureLocation(SoulVfxEntity entity) {
+        return GLOW;
+    }
+
+    @Override
     public void render(SoulVfxEntity entity, float yaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight) {
         float progress = entity.progress();

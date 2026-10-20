@@ -21,11 +21,11 @@ public class MartialSoulEntity extends Entity {
     private static final EntityDataAccessor<String> DATA_SOUL =
             SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> DATA_ECHO =
-            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_TINT =
-            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.INTEGER);
-    private static final EntityDataAccessor<java.util.UUID> DATA_OWNER =
-            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.UUID);
+            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<String> DATA_OWNER =
+            SynchedEntityData.defineId(MartialSoulEntity.class, EntityDataSerializers.STRING);
 
     private int echoTicks = 0;
     private double anchorX;
@@ -42,15 +42,21 @@ public class MartialSoulEntity extends Entity {
         this.entityData.define(DATA_SOUL, "");
         this.entityData.define(DATA_ECHO, 0);
         this.entityData.define(DATA_TINT, 0xFFFFFF);
-        this.entityData.define(DATA_OWNER, java.util.UUID.randomUUID());
+        this.entityData.define(DATA_OWNER, "");
     }
 
     public void setOwner(java.util.UUID uuid) {
-        this.entityData.set(DATA_OWNER, uuid);
+        this.entityData.set(DATA_OWNER, uuid == null ? "" : uuid.toString());
     }
 
     public java.util.UUID getOwnerId() {
-        return this.entityData.get(DATA_OWNER);
+        String value = this.entityData.get(DATA_OWNER);
+        if (value == null || value.isEmpty()) return null;
+        try {
+            return java.util.UUID.fromString(value);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public String soulId() {
@@ -123,7 +129,8 @@ public class MartialSoulEntity extends Entity {
     }
 
     private ServerPlayer owner() {
-        java.util.UUID uuid = this.entityData.get(DATA_OWNER);
+        java.util.UUID uuid = getOwnerId();
+        if (uuid == null) return null;
         if (this.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
             return serverLevel.getServer().getPlayerList().getPlayer(uuid);
         }
@@ -149,15 +156,15 @@ public class MartialSoulEntity extends Entity {
     public void addAdditionalSaveData(CompoundTag tag) {
         tag.putString("Soul", this.entityData.get(DATA_SOUL));
         tag.putInt("Tint", this.entityData.get(DATA_TINT));
-        tag.putUUID("Owner", this.entityData.get(DATA_OWNER));
+        tag.putString("Owner", this.entityData.get(DATA_OWNER));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         this.entityData.set(DATA_SOUL, tag.getString("Soul"));
         this.entityData.set(DATA_TINT, tag.getInt("Tint"));
-        if (tag.hasUUID("Owner")) {
-            this.entityData.set(DATA_OWNER, tag.getUUID("Owner"));
+        if (tag.contains("Owner")) {
+            this.entityData.set(DATA_OWNER, tag.getString("Owner"));
         }
     }
 }

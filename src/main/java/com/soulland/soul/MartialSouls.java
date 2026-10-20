@@ -193,6 +193,6 @@ public final class MartialSouls {
 
     private static MobEffect effect(String id) {
         if (id == null || id.isEmpty()) return null;
-        return BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(id)).orElse(null);
+        return BuiltInRegistries.MOB_EFFECT.get(new ResourceLocation(id));
     }
 }

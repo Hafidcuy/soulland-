@@ -38,11 +38,10 @@ public class EvolutionCoreItem extends Item {
             return InteractionResultHolder.sidedSuccess(stack, true);
         }
 
-        var capOpt = CultivationCapability.get(player);
-        if (capOpt.isEmpty()) {
+        var cap = CultivationCapability.get(player).orElse(null);
+        if (cap == null) {
             return InteractionResultHolder.fail(stack);
         }
-        var cap = capOpt.get();
 
         MartialSoul soul = MartialSouls.get(cap.getMartialSoulId());
         if (soul == null) {
@@ -79,8 +78,10 @@ public class EvolutionCoreItem extends Item {
         MartialSoul evolved = MartialSouls.get(soul.evolutionId());
         player.sendSystemMessage(Component.literal("Martial soul-mu berevolusi menjadi " + evolved.name() + "!")
                 .withStyle(ChatFormatting.LIGHT_PURPLE));
-        player.level().sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
-                player.getX(), player.getY() + 1.0, player.getZ(), 60, 1.0, 1.4, 1.0, 0.1);
+        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
+                    player.getX(), player.getY() + 1.0, player.getZ(), 60, 1.0, 1.4, 1.0, 0.1);
+        }
         return InteractionResultHolder.success(stack);
     }
 

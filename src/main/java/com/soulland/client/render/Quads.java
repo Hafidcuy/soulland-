@@ -1,7 +1,7 @@
 package com.soulland.client.render;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.OverlayTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
@@ -74,7 +74,7 @@ public final class Quads {
                 .color(r, g, b, a)
                 .uv(u, v)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .light(light)
+                .uv2(light)
                 .normal(0f, 1f, 0f)
                 .endVertex();
     }

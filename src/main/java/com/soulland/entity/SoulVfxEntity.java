@@ -29,13 +29,13 @@ public class SoulVfxEntity extends Entity {
     }
 
     private static final EntityDataAccessor<Integer> DATA_MODE =
-            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_COLOR =
-            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_COLOR2 =
-            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_LIFE =
-            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> DATA_SIZE =
             SynchedEntityData.defineId(SoulVfxEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> DATA_DIR_X =

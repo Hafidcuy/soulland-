@@ -41,8 +41,8 @@ public final class CultivationManager {
         CultivationCapability.get(player).ifPresent(cap -> {
             double ringBonus = cap.getRings() * 2.0;
             Sect sect = Sect.get(cap.getSect());
-            double sectHealth = sect == null ? 0.0 : sect.healthBonus;
-            double sectSpeed = sect == null ? 0.0 : sect.speedBonus;
+            double sectHealth = sect == null ? 0.0 : sect.healthBonus();
+            double sectSpeed = sect == null ? 0.0 : sect.speedBonus();
 
             double maxHealth = 20.0 + (cap.getLevel() - 1) * 0.5 + ringBonus;
             maxHealth *= (1.0 + sectHealth);
@@ -73,7 +73,7 @@ public final class CultivationManager {
             if (cap.getLevel() >= CultivationRanks.MAX_LEVEL) return;
 
             Sect sect = Sect.get(cap.getSect());
-            int gained = sect == null ? amount : (int) Math.round(amount * (1.0 + sect.xpBonus));
+            int gained = sect == null ? amount : (int) Math.round(amount * (1.0 + sect.xpBonus()));
 
             int xp = cap.getXp() + gained;
             boolean leveled = false;

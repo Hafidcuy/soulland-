@@ -3,6 +3,7 @@ package com.soulland.skill;
 import com.soulland.entity.SoulVfxEntity;
 import com.soulland.soul.FxShape;
 import com.soulland.soul.SkillDef;
+import com.soulland.soul.SkillTarget;
 import com.soulland.soul.SkillVisual;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
@@ -31,7 +32,12 @@ public final class SkillFx {
     private static final RandomSource RANDOM = RandomSource.create();
 
     public static void play(ServerLevel level, ServerPlayer player, SkillDef skill) {
-        SkillVisual visual = skill.visual();
+        play(level, player, skill.visual(), skill.target(), skill.radius());
+    }
+
+    /** Gambar efek untuk visual yang tidak berasal dari skill, misalnya ledakan spirit ring. */
+    public static void play(ServerLevel level, ServerPlayer player, SkillVisual visual,
+                            SkillTarget target, double radius) {
         Vec3 origin = player.position().add(0.0, 1.0, 0.0);
         Vec3 look = player.getLookAngle();
 
