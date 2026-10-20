@@ -106,6 +106,7 @@ public class SpiritRingItem extends Item {
     private InteractionResultHolder<ItemStack> absorbNormal(Level level, Player player, ItemStack stack, ICultivation cap) {
         cap.setRings(cap.getRings() + 1);
         cap.setRingSkills(Math.max(cap.getRingSkills(), cap.getRings()));
+        player.heal(player.getMaxHealth() * 0.10f);
         if (!player.isCreative()) {
             stack.shrink(1);
         }

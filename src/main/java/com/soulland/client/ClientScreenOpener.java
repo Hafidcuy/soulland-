@@ -21,6 +21,10 @@ public final class ClientScreenOpener {
         Minecraft.getInstance().setScreen(new SoulCardScreen());
     }
 
+    public static void openGuide() {
+        Minecraft.getInstance().setScreen(new com.soulland.screen.GuideScreen());
+    }
+
     public static void openSectTab() {
         Minecraft.getInstance().setScreen(new SoulCardScreen(3));
     }

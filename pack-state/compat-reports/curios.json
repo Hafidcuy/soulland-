@@ -1,0 +1,29 @@
+{
+  "id": "curios",
+  "scope": {
+    "mods": [
+      "curios"
+    ],
+    "projectContext": "pack-state/project-context.json"
+  },
+  "decision": "accept",
+  "summary": "Sembilan spirit ring adalah aksesori, bukan item tas. Curios memberi slot aksesori yang bisa dipakai untuk menyimpan cincin dan lencana sekte.",
+  "checks": {
+    "loaderAlignment": "aligned",
+    "versionAlignment": "aligned",
+    "serverSuitability": "required",
+    "dependencyBurden": "low",
+    "overlapRisk": "low",
+    "balanceRisk": "low",
+    "operationalRisk": "low"
+  },
+  "conditions": [
+    "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
+    "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
+  ],
+  "requiredAdaptations": [],
+  "blockingIssues": [],
+  "evidence": [
+    "https://modrinth.com/mod/curios"
+  ]
+}

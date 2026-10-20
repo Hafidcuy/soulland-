@@ -15,6 +15,7 @@ Aturan visual (lihat DESIGN.md):
 import io
 import math
 import os
+import zlib
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -318,6 +319,46 @@ def draw_tool_ring(img, base, light, dark, accent):
     disc(d, 8, 2, 1.0, accent)
 
 
+def draw_beast_serpent(img, base, light, dark, accent):
+    d = ImageDraw.Draw(img)
+    points = [(3, 4), (6, 6), (5, 10), (9, 12), (12, 9), (12, 5)]
+    for i in range(len(points) - 1):
+        thick_line(d, points[i][0], points[i][1], points[i + 1][0], points[i + 1][1], 2, base)
+        thick_line(d, points[i][0], points[i][1] - 1, points[i + 1][0], points[i + 1][1] - 1, 1, light)
+    disc(d, 12, 4, 1.8, base)
+    disc(d, 12, 3, 0.7, accent)
+
+
+def draw_beast_spider(img, base, light, dark, accent):
+    d = ImageDraw.Draw(img)
+    disc(d, 8, 9, 2.6, base)
+    disc(d, 8, 9, 1.4, light)
+    for i in range(3):
+        y = 7 + i * 2
+        thick_line(d, 6, y, 2, y - 2, 1, dark)
+        thick_line(d, 10, y, 14, y - 2, 1, dark)
+    rect(d, 7, 6, 8, 7, accent)
+
+
+def draw_beast_fish(img, base, light, dark, accent):
+    d = ImageDraw.Draw(img)
+    ellipse(d, 7, 8, 4.6, 2.8, base)
+    ellipse(d, 6, 8, 3.0, 1.8, light)
+    tri(d, [(11, 8), (15, 5), (15, 11)], dark)
+    rect(d, 5, 7, 6, 8, accent)
+
+
+def draw_beast_antler(img, base, light, dark, accent):
+    d = ImageDraw.Draw(img)
+    thick_line(d, 8, 15, 8, 8, 2, base)
+    ellipse(d, 8, 6, 3.0, 2.8, base)
+    for side in (-1, 1):
+        thick_line(d, 8 + side * 2, 4, 8 + side * 5, 1, 1, accent)
+        thick_line(d, 8 + side * 3, 3, 8 + side * 5, 5, 1, light)
+    rect(d, 6, 5, 6, 6, dark)
+    rect(d, 9, 5, 9, 6, dark)
+
+
 def draw_element_orb(img, base, light, dark, accent):
     d = ImageDraw.Draw(img)
     disc(d, 8, 8, 5.2, dark)
@@ -512,9 +553,11 @@ def draw_fusion_orb(img, base, light, dark, accent):
 
 
 FAMILY_VARIANTS = {
-    "Tool": [draw_tool_hammer, draw_tool_blade, draw_tool_staff, draw_tool_ring],
+    "Tool": [draw_tool_hammer, draw_tool_blade, draw_tool_staff, draw_tool_ring,
+             draw_tool_hammer, draw_tool_staff, draw_tool_blade, draw_tool_ring],
     "Beast": [draw_beast_head, draw_beast_horned, draw_beast_winged, draw_beast_coiled,
-              draw_beast_quadruped, draw_beast_clawed, draw_beast_eye, draw_beast_fanged],
+              draw_beast_quadruped, draw_beast_clawed, draw_beast_eye, draw_beast_fanged,
+              draw_beast_serpent, draw_beast_spider, draw_beast_fish, draw_beast_antler],
     "Plant": [draw_plant_blades, draw_plant_bloom, draw_plant_vine, draw_plant_thorn],
     "Dragon": [draw_dragon_head, draw_dragon_wyrm, draw_dragon_winged, draw_dragon_horned],
     "Element": [draw_element_orb, draw_element_flame, draw_element_shard],
@@ -545,9 +588,7 @@ def hash_color(text, salt=0):
 def add_detail(img, soul_id, accent):
     """Tambah detail kecil sesuai sidik soul supaya potret tidak kembar."""
     d = ImageDraw.Draw(img)
-    h = 0
-    for ch in soul_id:
-        h = (h * 131 + ord(ch)) & 0xFFFFFFFF
+    h = zlib.crc32(soul_id.encode("utf-8"))
     d2 = ImageDraw.Draw(img)
     if h % 3 == 0:
         thick_line(d2, 3, 3, 5, 1, 1, accent)
@@ -560,10 +601,46 @@ def add_detail(img, soul_id, accent):
             disc(d2, x, 15, 0.7, accent)
 
 
+def hue_to_rgb(hue, saturation, value):
+    h = (hue % 360) / 60.0
+    c = value * saturation
+    x = c * (1 - abs((h % 2) - 1))
+    m = value - c
+    if h < 1:
+        r, g, b = c, x, 0
+    elif h < 2:
+        r, g, b = x, c, 0
+    elif h < 3:
+        r, g, b = 0, c, x
+    elif h < 4:
+        r, g, b = 0, x, c
+    elif h < 5:
+        r, g, b = x,0, c
+    else:
+        r, g, b = c, 0, x
+    return (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255), 255)
+
+
 def palette_for(soul):
-    base = c(soul["color"])
-    accent = hash_color(soul["id"])
-    return base, shift(base, 1.35), shift(base, 0.55), accent
+    """Warna dasar diacak per soul, warna elemen dipakai sebagai aksen mata.
+
+    Dengan begitu dua soul dalam keluarga yang sama tidak pernah punya warna sama,
+    sementara elemen soul tetap terbaca dari mata dan detail.
+    """
+    seed = zlib.crc32(soul["id"].encode("utf-8"))
+
+    hue = seed % 360
+    saturation = 0.45 + ((seed >> 9) % 40) / 100.0
+    value = 0.62 + ((seed >> 17) % 30) / 100.0
+
+    base = hue_to_rgb(hue, saturation, value)
+    light = hue_to_rgb(hue, min(1.0, saturation * 0.75), min(1.0, value * 1.35))
+    dark = hue_to_rgb(hue, min(1.0, saturation * 1.25), value * 0.45)
+
+    accent = c(soul["color"])
+    if soul["family"] in ("Fusion", "Element"):
+        accent = hue_to_rgb((hue + 150) % 360, 0.8, 1.0)
+    return base, light, dark, accent
 
 
 def draw_tool(img, base, light, dark, accent):
@@ -949,6 +1026,57 @@ def draw_soul_core(img):
         disc(d, 8 + math.cos(math.radians(a)) * 6, 8 + math.sin(math.radians(a)) * 6, 0.9, (0xCF, 0xF2, 0xFF, 255))
 
 
+def draw_guide_item(img):
+    d = ImageDraw.Draw(img)
+    rect(d, 2, 2, 13, 13, (0x2E, 0x4A, 0x38, 255))
+    rect(d, 3, 3, 12, 12, (0x4F, 0x7A, 0x5E, 255))
+    rect(d, 5, 4, 11, 12, (0xF0, 0xE8, 0xD0, 255))
+    for y in range(6, 12, 2):
+        rect(d, 6, y, 10, y, (0x8A, 0x61, 0x16, 255))
+    rect(d, 2, 2, 3, 13, (0x1E, 0x30, 0x24, 255))
+    disc(d, 8, 5, 1.4, (0xE8, 0xC4, 0x6A, 255))
+
+
+def draw_qi_pill(img):
+    d = ImageDraw.Draw(img)
+    disc(d, 6, 10, 3.2, (0x1F, 0x6B, 0x4B, 255))
+    disc(d, 6, 10, 2.4, (0x4F, 0xC0, 0x8D, 255))
+    disc(d, 10, 6, 3.2, (0x1F, 0x6B, 0x4B, 255))
+    disc(d, 10, 6, 2.4, (0x7B, 0xE0, 0xB0, 255))
+    disc(d, 5, 9, 0.8, (0xD8, 0xFF, 0xEC, 240))
+    disc(d, 9, 5, 0.8, (0xD8, 0xFF, 0xEC, 240))
+
+
+def draw_soul_crystal(img):
+    d = ImageDraw.Draw(img)
+    tri(d, [(8, 1), (12, 7), (8, 14), (4, 7)], (0x3A, 0x1E, 0x66, 255))
+    tri(d, [(8, 3), (10, 7), (8, 12), (6, 7)], (0x8B, 0x5C, 0xF6, 255))
+    tri(d, [(8, 5), (9, 7), (8, 10), (7, 7)], (0xE6, 0xD2, 0xFF, 255))
+    for x, y in ((2, 3), (13, 11), (4, 12)):
+        disc(d, x, y, 0.8, (0xC8, 0xB0, 0xFF, 220))
+
+
+def draw_ring_forge(img):
+    d = ImageDraw.Draw(img)
+    rect(d, 3, 10, 12, 13, (0x5A, 0x50, 0x46, 255))
+    rect(d, 4, 9, 11, 10, (0x8A, 0x7C, 0x6A, 255))
+    thick_line(d, 8, 2, 8, 9, 2, (0x9A, 0x6A, 0x2E, 255))
+    rect(d, 5, 1, 11, 3, (0xC9, 0xA2, 0x27, 255))
+    rect(d, 6, 1, 10, 1, (0xFF, 0xF3, 0xC4, 255))
+    disc(d, 8, 6, 1.4, (0xE8, 0xC4, 0x6A, 255))
+
+
+def draw_hunt_contract(img):
+    d = ImageDraw.Draw(img)
+    rect(d, 3, 2, 12, 13, (0xE8, 0xDC, 0xBE, 255))
+    rect(d, 3, 2, 4, 13, (0xC0, 0xA8, 0x7C, 255))
+    rect(d, 11, 2, 12, 13, (0xC0, 0xA8, 0x7C, 255))
+    for y in range(4, 12, 2):
+        rect(d, 6, y, 10, y, (0x6A, 0x4A, 0x2E, 255))
+    disc(d, 11, 11, 1.8, (0xD8, 0x44, 0x2F, 255))
+    disc(d, 11, 11, 0.9, (0xFF, 0x9A, 0x80, 255))
+
+
 def draw_overlay_glow(img):
     d = ImageDraw.Draw(img)
     for r in range(7, 2, -1):
@@ -1086,6 +1214,11 @@ MODELS = {
     "sect_token": {"layers": ["sect_token", "overlay_glow"]},
     "meditation_incense": {"layers": ["meditation_incense"]},
     "martial_soul_manual": {"layers": ["martial_soul_manual"], "gui": True},
+    "soul_guide": {"layers": ["soul_guide"]},
+    "qi_pill": {"layers": ["qi_pill"]},
+    "soul_crystal": {"layers": ["soul_crystal", "overlay_glow"]},
+    "ring_forge": {"layers": ["ring_forge"]},
+    "hunt_contract": {"layers": ["hunt_contract"]},
 }
 
 
@@ -1104,6 +1237,112 @@ def write_models():
         with open(os.path.join(base, item_id + ".json"), "w", encoding="utf-8") as handle:
             json.dump(model, handle, indent=2)
             handle.write("\n")
+
+
+# ------------------------------------------------------------------ tekstur partikel
+
+def draw_particle_textures():
+    """Setiap partikel kustom punya texture sendiri di textures/particle/."""
+    import math
+
+    def new_particle():
+        return new_image(16)
+
+    # soul_flame: nyala naik, warm
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for i in range(16):
+        t = i / 15
+        half = 3.2 * (1.0 - t * 0.7)
+        for y in range(16 - i - 6, 16 - i):
+            if 0 <= y < 16:
+                for x in range(int(7.5 - half), int(8.5 + half)):
+                    d.point((x, y), (255, int(200 - t * 120), int(90 - t * 60), 220))
+    disc(d, 8, 10, 1.6, (255, 244, 196, 235))
+    save(img, "particle", "soul_flame.png")
+
+    # soul_spark: titik terang dengan ekor
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    disc(d, 8, 8, 1.5, (255, 255, 255, 240))
+    disc(d, 8, 8, 0.8, (220, 240, 255, 255))
+    for x, y in ((7, 9), (6, 10), (9, 7), (10, 6)):
+        d.point((x, y), (180, 220, 255, 170))
+    save(img, "particle", "soul_spark.png")
+
+    # soul_shadow: gumpalan gelap
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y, r in ((7, 9, 3.2), (9, 8, 2.6), (8, 10, 2.2)):
+        disc(d, x, y, r, (40, 28, 58, 190))
+    disc(d, 7, 8, 1.4, (86, 62, 116, 210))
+    save(img, "particle", "soul_shadow.png")
+
+    # soul_ripple: cincin tipis
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for r in (6.5, 4.5, 2.5):
+        d.ellipse([8 - r, 8 - r * 0.6, 8 + r, 8 + r * 0.6], outline=(210, 240, 255, 190))
+    save(img, "particle", "soul_ripple.png")
+
+    # soul_star: bintang berkedip
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for i in range(16):
+        d.point((8, i), (255, 250, 220, 230))
+        d.point((i, 8), (255, 250, 220, 230))
+    for x, y in ((5, 5), (11, 5), (5, 11), (11, 11)):
+        d.point((x, y), (255, 240, 190, 190))
+    disc(d, 8, 8, 1.2, (255, 255, 255, 255))
+    save(img, "particle", "soul_star.png")
+
+    # soul_blood: tetesan merah
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    disc(d, 8, 9, 2.4, (150, 20, 24, 225))
+    disc(d, 7, 8, 1.0, (226, 70, 60, 240))
+    disc(d, 7, 7, 0.6, (255, 140, 120, 235))
+    save(img, "particle", "soul_blood.png")
+
+    # soul_frost: serpihan es
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y, r in ((6, 6, 1.6), (10, 8, 1.3), (8, 11, 1.5)):
+        disc(d, x, y, r, (200, 238, 255, 225))
+        disc(d, x - 0.4, y - 0.4, 0.5, (255, 255, 255, 240))
+    save(img, "particle", "soul_frost.png")
+
+    # soul_thunder: kilat zigzag
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y in ((8, 1), (7, 4), (9, 6), (6, 9), (8, 11), (7, 14)):
+        d.point((x, y), (230, 244, 255, 245))
+    for x, y in ((9, 3), (8, 7), (7, 12)):
+        d.point((x, y), (150, 200, 255, 190))
+    save(img, "particle", "soul_thunder.png")
+
+    # soul_mist: kabut naik
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y, r in ((6, 11, 3.0), (10, 10, 2.6), (8, 8, 2.2), (7, 6, 1.6)):
+        disc(d, x, y, r, (190, 225, 215, 150))
+    save(img, "particle", "soul_mist.png")
+
+    # soul_embers: bara kecil naik
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y, r in ((7, 10, 1.3), (9, 8, 1.0), (8, 5, 0.8)):
+        disc(d, x, y, r, (255, 150, 60, 220))
+    disc(d, 7, 10, 0.6, (255, 226, 160, 235))
+    save(img, "particle", "soul_embers.png")
+
+    # soul_shards: serpihan soul
+    img = new_particle()
+    d = ImageDraw.Draw(img)
+    for x, y in ((6, 7), (9, 6), (7, 11), (10, 10)):
+        d.point((x, y), (190, 235, 255, 230))
+        d.point((x + 1, y), (140, 200, 240, 180))
+    save(img, "particle", "soul_shards.png")
 
 
 # ------------------------------------------------------------------ main
@@ -1126,7 +1365,7 @@ def main():
             SOUL_DRAWERS[drawn](img, tuple(c(v) for v in SOUL_PALETTE[drawn]))
         else:
             options = FAMILY_VARIANTS.get(soul["family"], [draw_beast])
-            index = abs(hash(soul["id"])) % len(options)
+            index = zlib.crc32(soul["id"].encode("utf-8")) % len(options)
             options[index](img, *palette_for(soul))
             add_detail(img, soul["id"], palette_for(soul)[3])
         img = add_outline(img)
@@ -1149,6 +1388,11 @@ def main():
         "sect_medallion_shrek": lambda img: draw_sect_medallion(img, c(0x7A2E2E), c(0xC05A4A), c(0x3A1414), c(0xFFD24A)),
         "sect_medallion_starluo": lambda img: draw_sect_medallion(img, c(0x2E6E52), c(0x63C79A), c(0x14301F), c(0xF2C14E)),
         "sect_medallion_qibao": lambda img: draw_sect_medallion(img, c(0x8A6116), c(0xE8C46A), c(0x3A2A0A), c(0xFFF3C4)),
+        "soul_guide": draw_guide_item,
+        "qi_pill": draw_qi_pill,
+        "soul_crystal": draw_soul_crystal,
+        "ring_forge": draw_ring_forge,
+        "hunt_contract": draw_hunt_contract,
     }
     overlays = {
         "overlay_glow": draw_overlay_glow,
@@ -1166,6 +1410,8 @@ def main():
         save(img, "item", item_id + ".png")
 
     write_models()
+
+    draw_particle_textures()
 
     save(draw_fx_ring(), "fx", "ring.png")
     save(draw_fx_beam(), "fx", "beam.png")

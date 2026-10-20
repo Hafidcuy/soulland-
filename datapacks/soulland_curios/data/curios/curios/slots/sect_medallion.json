@@ -1,0 +1,5 @@
+{
+  "order": 30,
+  "icon": "soulland:item/slot_empty_sect_medallion",
+  "validators": ["curios:tag"]
+}

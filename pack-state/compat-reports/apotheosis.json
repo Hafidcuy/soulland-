@@ -1,0 +1,29 @@
+{
+  "id": "apotheosis",
+  "scope": {
+    "mods": [
+      "apotheosis"
+    ],
+    "projectContext": "pack-state/project-context.json"
+  },
+  "decision": "accept",
+  "summary": "Spirit ring bisa punya afiks dan rune, jadi equipped terasa seperti barang sungguhan.",
+  "checks": {
+    "loaderAlignment": "aligned",
+    "versionAlignment": "aligned",
+    "serverSuitability": "required",
+    "dependencyBurden": "medium",
+    "overlapRisk": "low",
+    "balanceRisk": "low",
+    "operationalRisk": "low"
+  },
+  "conditions": [
+    "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
+    "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
+  ],
+  "requiredAdaptations": [],
+  "blockingIssues": [],
+  "evidence": [
+    "https://modrinth.com/mod/apotheosis"
+  ]
+}

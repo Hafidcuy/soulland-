@@ -1,0 +1,16 @@
+{
+  "sessions": 800,
+  "seed": 20261020,
+  "finishedRate": 1.0,
+  "averageLevel": 99.0,
+  "medianLevel": 99,
+  "p90Level": 99,
+  "averageTurns": 452.245,
+  "riskyAttempts": 4059,
+  "riskyWinRate": 54.86573047548657,
+  "averageRingLost": 2.29,
+  "averageDeaths": 15.36625,
+  "averageBloodBurns": 19.43375,
+  "skillsPerTurn": 1.8269687890413382,
+  "stuckRate": 0.0
+}

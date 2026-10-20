@@ -75,6 +75,14 @@ public interface ICultivation {
     boolean isBreakthroughReady();
     void setBreakthroughReady(boolean ready);
 
+    /** Jumlah soul beast yang sudah diburu dalam kontrak perburuan berjalan. */
+    int getContractKills();
+    void setContractKills(int kills);
+
+    /** Waktu game saat kontrak perburuan berakhir. */
+    long getContractUntil();
+    void setContractUntil(long gameTime);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }

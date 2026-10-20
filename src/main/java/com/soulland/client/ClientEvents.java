@@ -65,6 +65,9 @@ public class ClientEvents {
         if (KeyBindings.SOUL_CARD != null && KeyBindings.SOUL_CARD.consumeClick()) {
             mc.setScreen(new com.soulland.screen.SoulCardScreen());
         }
+        if (KeyBindings.OPEN_GUIDE != null && KeyBindings.OPEN_GUIDE.consumeClick()) {
+            mc.setScreen(new com.soulland.screen.GuideScreen());
+        }
         if (KeyBindings.BLOOD_BURN != null && KeyBindings.BLOOD_BURN.consumeClick()) {
             ModNetwork.CHANNEL.sendToServer(new BloodBurnPacket());
         }

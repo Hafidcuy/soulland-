@@ -32,6 +32,11 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SECT_MEDALLION_SHREK.get());
                         output.accept(ModItems.SECT_MEDALLION_STARLUO.get());
                         output.accept(ModItems.SECT_MEDALLION_QIBAO.get());
+                        output.accept(ModItems.SOUL_GUIDE.get());
+                        output.accept(ModItems.QI_PILL.get());
+                        output.accept(ModItems.SOUL_CRYSTAL.get());
+                        output.accept(ModItems.RING_FORGE.get());
+                        output.accept(ModItems.HUNT_CONTRACT.get());
                     })
                     .build());
 }

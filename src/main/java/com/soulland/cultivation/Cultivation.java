@@ -24,6 +24,8 @@ public class Cultivation implements ICultivation {
     private long chainUntil = 0L;
     private int bloodBurnTicks = 0;
     private boolean breakthroughReady = false;
+    private int contractKills = 0;
+    private long contractUntil = 0L;
     private final Map<String, Long> cooldowns = new HashMap<>();
 
     @Override public boolean isAwakened() { return awakened; }
@@ -92,6 +94,12 @@ public class Cultivation implements ICultivation {
     @Override public int getBloodBurnTicks() { return bloodBurnTicks; }
     @Override public void setBloodBurnTicks(int ticks) { this.bloodBurnTicks = Math.max(0, ticks); }
 
+    @Override public int getContractKills() { return contractKills; }
+    @Override public void setContractKills(int kills) { this.contractKills = Math.max(0, kills); }
+
+    @Override public long getContractUntil() { return contractUntil; }
+    @Override public void setContractUntil(long gameTime) { this.contractUntil = gameTime; }
+
     @Override public boolean isBreakthroughReady() { return breakthroughReady; }
     @Override public void setBreakthroughReady(boolean ready) { this.breakthroughReady = ready; }
 
@@ -111,6 +119,8 @@ public class Cultivation implements ICultivation {
         tag.putLong("chainUntil", chainUntil);
         tag.putInt("bloodBurnTicks", bloodBurnTicks);
         tag.putInt("ringSkills", ringSkills);
+        tag.putInt("contractKills", contractKills);
+        tag.putLong("contractUntil", contractUntil);
         tag.putBoolean("breakthroughReady", breakthroughReady);
         for (int i = 0; i < loadout.length; i++) {
             tag.putString("loadout" + i, loadout[i]);
@@ -136,6 +146,8 @@ public class Cultivation implements ICultivation {
         chainUntil = tag.getLong("chainUntil");
         bloodBurnTicks = tag.getInt("bloodBurnTicks");
         ringSkills = tag.getInt("ringSkills");
+        contractKills = tag.getInt("contractKills");
+        contractUntil = tag.getLong("contractUntil");
         breakthroughReady = tag.getBoolean("breakthroughReady");
         for (int i = 0; i < loadout.length; i++) {
             loadout[i] = tag.getString("loadout" + i);

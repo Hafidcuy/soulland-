@@ -5,12 +5,14 @@ import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.ICultivation;
 import com.soulland.book.GuideBook;
 import com.soulland.entity.SoulCompanion;
+import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
 import com.soulland.skill.SkillFx;
 import com.soulland.soul.Element;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SoulBeast;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -38,27 +40,50 @@ import net.minecraftforge.fml.common.Mod;
 
 public class CommonEvents {
 
-    /** Login pertama: awakening ceremony - martial soul diundi (gacha), buku panduan diberikan. */
+    /**
+     * Login: upwards ceremony with a fresh draw of martial soul.
+     *
+     * <p>Every time you enter the world the soul is rolled again, as if destiny had written
+     * a new page. Cultivation, rings, and sect are carried over; the soul itself, its
+     * evolution, and the skill loadout start fresh.
+     */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         CultivationCapability.get(player).ifPresent(cap -> {
-            if (!cap.isAwakened()) {
-                MartialSoul soul = MartialSouls.roll(player.getRandom());
-                cap.setMartialSoulId(soul.id());
-                cap.setAwakened(true);
+            boolean firstTime = !cap.isAwakened();
+            MartialSoul previous = MartialSouls.get(cap.getMartialSoulId());
+            MartialSoul soul = MartialSouls.roll(player.getRandom());
+            boolean changed = previous == null || !previous.id().equals(soul.id());
+
+            cap.setMartialSoulId(soul.id());
+            cap.setAwakened(true);
+            cap.setEvolutionStage(0);
+            cap.setChainCount(0);
+            if (firstTime) {
                 cap.setLevel(1);
                 cap.setEnergy(100f);
+            }
+            if (changed) {
+                cap.setLoadout(new String[5]);
+            }
 
+            if (firstTime) {
                 player.addItem(GuideBook.create());
                 player.sendSystemMessage(Component.literal("UPACARA KEBANGKITAN MARTIAL SOUL"));
-                player.sendSystemMessage(Component.literal("Martial Soul-mu: " + soul.name() + " (" + soul.rarity() + ")"));
-                player.sendSystemMessage(Component.literal("Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()
-                        + " | Elemen: " + soul.element()));
-                player.sendSystemMessage(Component.literal(soul.description()));
-                player.sendSystemMessage(Component.literal("Tekan K untuk memunculkan martial soul di belakangmu."));
-                player.sendSystemMessage(Component.literal("Tekan J untuk membuka kartu soul, R G F V Z untuk skill."));
+            } else {
+                player.sendSystemMessage(Component.literal("Undian martial soul: " + soul.name()
+                        + (previous == null ? "" : " (sebelumnya " + previous.name() + ")")));
             }
+            player.sendSystemMessage(Component.literal("Martial Soul-mu: " + soul.name() + " (" + soul.rarity() + ")"));
+            player.sendSystemMessage(Component.literal("Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()
+                    + " | Elemen: " + soul.element()));
+            player.sendSystemMessage(Component.literal(soul.description()));
+            player.sendSystemMessage(Component.literal("Tekan K untuk memunculkan martial soul, J untuk kartu soul, "
+                    + "R G F V Z untuk skill, B untuk bakar darah."));
+            player.sendSystemMessage(Component.literal("Absorpsi berani: tahan Shift saat klik kanan spirit ring."));
+            player.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
+                    player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.05);
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
         });
@@ -104,7 +129,7 @@ public class CommonEvents {
 
         CultivationCapability.get(event.player).ifPresent(cap -> {
             if (cap.getEnergy() < 100f) {
-                cap.setEnergy(cap.getEnergy() + 0.15f);
+                cap.setEnergy(cap.getEnergy() + 0.05f);
                 if (event.player.tickCount % 20 == 0 && event.player instanceof ServerPlayer sp) {
                     CultivationManager.sync(sp);
                 }
@@ -209,9 +234,35 @@ public class CommonEvents {
     public static void onKill(LivingDeathEvent event) {
         if (event.getEntity().level().isClientSide) return;
         if (event.getSource().getEntity() instanceof ServerPlayer player && event.getEntity() instanceof Monster) {
-            int xp = Math.max(5, (int) (event.getEntity().getMaxHealth() / 2));
+            int xp = (int) (event.getEntity().getMaxHealth() * 1.5) + 15;
             CultivationManager.addXp(player, xp);
+            advanceHuntContract(player, event.getEntity().level().getGameTime());
         }
+    }
+
+    /** Kontrak perburuan: setiap soul beast yang diburu menambah satu, target tercapai memberi hadiah. */
+    private static void advanceHuntContract(ServerPlayer player, long gameTime) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            if (cap.getContractUntil() <= gameTime) return;
+            int kills = cap.getContractKills() + 1;
+            cap.setContractKills(kills);
+            if (kills < HuntContractItem.TARGET) {
+                if (kills % 5 == 0) {
+                    player.sendSystemMessage(Component.literal("Kontrak perburuan: " + kills + "/"
+                            + HuntContractItem.TARGET + " soul beast."));
+                }
+                return;
+            }
+            cap.setContractKills(0);
+            cap.setContractUntil(0L);
+            player.getInventory().add(new ItemStack(ModItems.SPIRIT_RING_100.get()));
+            player.getInventory().add(new ItemStack(ModItems.SOUL_ESSENCE.get(), 4));
+            player.sendSystemMessage(Component.literal("Kontrak perburuan selesai. Hadiah: spirit ring 100 tahun dan 4 esensi jiwa.")
+                    .withStyle(ChatFormatting.GOLD));
+            player.serverLevel().sendParticles(net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
+                    player.getX(), player.getY() + 1.0, player.getZ(), 40, 0.6, 1.0, 0.6, 0.05);
+            CultivationManager.sync(player);
+        });
     }
 
     /** Soul beast menjatuhkan spirit ring dan esensi jiwa; boss menjatuhkan ring langka. */

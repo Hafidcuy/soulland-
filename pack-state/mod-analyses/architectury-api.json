@@ -1,0 +1,80 @@
+{
+  "slug": "architectury-api",
+  "displayName": "Architectury API",
+  "aliases": [
+    "architectury-api"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/architectury-api",
+    "github": "https://github.com/architectury/architectury",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/architectury-api"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "23w40a",
+      "23w41a",
+      "24w09a",
+      "24w12a",
+      "24w14a",
+      "24w14potato",
+      "24w40a",
+      "26.1",
+      "26.1.1",
+      "26.1.2",
+      "26.2",
+      "26.3"
+    ],
+    "loaders": [
+      "fabric",
+      "forge",
+      "neoforge",
+      "quilt"
+    ],
+    "clientRequirement": "required",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [
+      "P7dR8mSH"
+    ],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "low",
+    "progressionRisk": "low",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Beberapa mod kandidat butuh Architectury API; satu versi Forge 1.20.1 dipasang supaya tidak bentrok dengan versi berbeda.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project architectury-api versid -",
+    "Rilis Forge 1.20.1 ditemukan: 9.2.14+forge"
+  ]
+}

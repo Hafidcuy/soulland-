@@ -1,6 +1,7 @@
 package com.soulland.skill;
 
 import com.soulland.entity.SoulVfxEntity;
+import com.soulland.particle.ModParticles;
 import com.soulland.soul.FxShape;
 import com.soulland.soul.SkillDef;
 import com.soulland.soul.SkillTarget;
@@ -73,7 +74,8 @@ public final class SkillFx {
                 dust(level, origin.x + x, origin.y + y, origin.z + z, v.color(), 1, 0.02);
             }
         }
-        secondary(level, ParticleTypes.END_ROD, origin, v, 0.6, 0.05);
+        secondary(level, ModParticles.SOUL_MIST.get(), origin, v, 0.6, 0.05);
+        secondary(level, ModParticles.SOUL_STAR.get(), origin, v, 0.5, 0.02);
     }
 
     private static void line(ServerLevel level, Vec3 origin, Vec3 look, SkillVisual v) {
@@ -84,8 +86,10 @@ public final class SkillFx {
             Vec3 p = origin.lerp(end, t);
             dust(level, p.x, p.y, p.z, v.color(), 2, 0.25);
         }
-        secondary(level, ParticleTypes.ELECTRIC_SPARK, origin.add(look.scale(v.size() * 0.5)),
+        secondary(level, ModParticles.SOUL_SPARK.get(), origin.add(look.scale(v.size() * 0.5)),
                 v, v.size() * 0.4, 0.02);
+        secondary(level, ModParticles.SOUL_THUNDER.get(), origin.add(look.scale(v.size() * 0.7)),
+                v, v.size() * 0.3, 0.05);
     }
 
     private static void cone(ServerLevel level, Vec3 origin, Vec3 look, SkillVisual v) {
@@ -99,7 +103,10 @@ public final class SkillFx {
                     .add(Math.cos(angle) * spread * RANDOM.nextDouble(), 0.0, Math.sin(angle) * spread * RANDOM.nextDouble());
             dust(level, p.x, p.y, p.z, v.color(), 3, 0.2);
         }
-        secondary(level, ParticleTypes.FLAME, origin.add(look.scale(v.size() * 0.6)), v, v.size() * 0.3, 0.03);
+        secondary(level, ModParticles.SOUL_FLAME.get(), origin.add(look.scale(v.size() * 0.6)),
+                v, v.size() * 0.3, 0.03);
+        secondary(level, ModParticles.SOUL_EMBERS.get(), origin.add(look.scale(v.size() * 0.35)),
+                v, v.size() * 0.25, 0.04);
     }
 
     private static void ring(ServerLevel level, Vec3 origin, SkillVisual v) {
@@ -111,7 +118,7 @@ public final class SkillFx {
             double z = origin.z + Math.sin(angle) * (v.size() + jitter);
             dust(level, x, origin.y, z, v.color(), 1, 0.05);
         }
-        secondary(level, ParticleTypes.END_ROD, origin, v, v.size() * 0.7, 0.02);
+        secondary(level, ModParticles.SOUL_RIPPLE.get(), origin, v, v.size() * 0.7, 0.02);
     }
 
     private static void plane(ServerLevel level, Vec3 origin, SkillVisual v) {
@@ -123,7 +130,8 @@ public final class SkillFx {
             double z = origin.z + Math.sin(angle) * radius;
             dust(level, x, origin.y, z, v.color(), 1, 0.08);
         }
-        level.sendParticles(ParticleTypes.EXPLOSION, origin.x, origin.y, origin.z, 1, 0.1, 0.1, 0.1, 0.0);
+        secondary(level, ModParticles.SOUL_SHARDS.get(), origin, v, v.size() * 0.6, 0.04);
+        secondary(level, ModParticles.SOUL_EMBERS.get(), origin, v, v.size() * 0.5, 0.03);
     }
 
     private static void column(ServerLevel level, Vec3 origin, SkillVisual v) {
@@ -138,7 +146,8 @@ public final class SkillFx {
                         v.color(), 2, 0.06);
             }
         }
-        secondary(level, ParticleTypes.ELECTRIC_SPARK, origin, v, v.size() * 0.35, 0.05);
+        secondary(level, ModParticles.SOUL_MIST.get(), origin, v, v.size() * 0.35, 0.04);
+        secondary(level, ModParticles.SOUL_FROST.get(), origin, v, v.size() * 0.3, 0.03);
     }
 
     private static void burst(ServerLevel level, Vec3 origin, Vec3 look, SkillVisual v) {
@@ -154,7 +163,8 @@ public final class SkillFx {
                     origin.x + x * 0.2, origin.y + y * 0.2, origin.z + z * 0.2, 1,
                     x * 0.35, y * 0.35, z * 0.35, 0.0);
         }
-        level.sendParticles(ParticleTypes.SCULK_SOUL, origin.x, origin.y, origin.z, 12, 0.4, 0.4, 0.4, 0.02);
+        secondary(level, ModParticles.SOUL_BLOOD.get(), origin, v, 0.8, 0.05);
+        secondary(level, ModParticles.SOUL_SHADOW.get(), origin, v, 1.0, 0.03);
     }
 
     // ------------------------------------------------------------------ struktur energi

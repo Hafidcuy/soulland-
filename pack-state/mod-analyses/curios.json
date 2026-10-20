@@ -1,0 +1,77 @@
+{
+  "slug": "curios",
+  "displayName": "Curios API",
+  "aliases": [
+    "curios"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/curios",
+    "github": "https://github.com/TheIllusiveC4/Curios",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/curios"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "1.21.11",
+      "1.21.4",
+      "1.21.5",
+      "1.21.6",
+      "1.21.7",
+      "1.21.8",
+      "1.21.9",
+      "26.1",
+      "26.1.1",
+      "26.1.2",
+      "26.2",
+      "26.3"
+    ],
+    "loaders": [
+      "fabric",
+      "forge",
+      "neoforge"
+    ],
+    "clientRequirement": "required",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "low",
+    "progressionRisk": "low",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Sembilan spirit ring adalah aksesori, bukan item tas. Curios memberi slot aksesori yang bisa dipakai untuk menyimpan cincin dan lencana sekte.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project curios versid -",
+    "Rilis Forge 1.20.1 ditemukan: 5.14.1+1.20.1"
+  ]
+}

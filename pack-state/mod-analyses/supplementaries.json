@@ -1,0 +1,80 @@
+{
+  "slug": "supplementaries",
+  "displayName": "Supplementaries",
+  "aliases": [
+    "supplementaries"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/supplementaries",
+    "github": "https://github.com/MehVahdJukaar/Supplementaries",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/supplementaries"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "1.17.1",
+      "1.18",
+      "1.18.1",
+      "1.18.2",
+      "1.19",
+      "1.19.1",
+      "1.19.2",
+      "1.19.4",
+      "1.20",
+      "1.20.1",
+      "1.21",
+      "1.21.1"
+    ],
+    "loaders": [
+      "fabric",
+      "forge",
+      "neoforge"
+    ],
+    "clientRequirement": "optional",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [
+      "P7dR8mSH",
+      "twkfQtEc"
+    ],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "low",
+    "progressionRisk": "low",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Bangunan klan, tenda, dan altar ritual butuh blok dekoratif; supplementaries menutup kebutuhan itu tanpa menambah mob atau progression.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project supplementaries versid -",
+    "Rilis Forge 1.20.1 ditemukan: 1.20-3.1.44-forge"
+  ]
+}

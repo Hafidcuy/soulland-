@@ -1,0 +1,5 @@
+{
+  "order": 20,
+  "icon": "soulland:item/slot_empty_spirit_ring",
+  "validators": ["curios:tag"]
+}

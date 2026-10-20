@@ -23,6 +23,7 @@ public class SoulLandMod {
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.TABS.register(modBus);
         com.soulland.entity.ModEntities.ENTITIES.register(modBus);
+        com.soulland.particle.ModParticles.PARTICLES.register(modBus);
         modBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
     }

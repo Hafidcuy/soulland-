@@ -1,0 +1,81 @@
+{
+  "slug": "terralith",
+  "displayName": "Terralith",
+  "aliases": [
+    "terralith"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/terralith",
+    "github": "https://github.com/Stardust-Labs-MC/Terralith",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/terralith"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "1.21.3",
+      "1.21.4",
+      "1.21.5",
+      "1.21.6",
+      "1.21.7",
+      "1.21.8",
+      "1.21.9",
+      "26.1",
+      "26.1.1",
+      "26.1.2",
+      "26.2",
+      "26.3"
+    ],
+    "loaders": [
+      "datapack",
+      "fabric",
+      "forge",
+      "neoforge",
+      "quilt"
+    ],
+    "clientRequirement": "optional",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [
+      "XaDC71GB"
+    ],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "medium",
+    "progressionRisk": "low",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Alternatif worldgen dengan permukaan lebih beragam, dipakai kalau moonlight terbukti bentrok dengan batasan server.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project terralith versid -",
+    "Rilis Forge 1.20.1 ditemukan: 2.5.4"
+  ]
+}

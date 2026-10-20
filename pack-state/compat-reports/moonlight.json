@@ -1,0 +1,29 @@
+{
+  "id": "moonlight",
+  "scope": {
+    "mods": [
+      "moonlight"
+    ],
+    "projectContext": "pack-state/project-context.json"
+  },
+  "decision": "accept",
+  "summary": "Dunia Soul Land butuh bioma yang berbeda dari vanilla. Moonlight memberi variasi permukaan tanpa bentrok dengan mod biome lain.",
+  "checks": {
+    "loaderAlignment": "aligned",
+    "versionAlignment": "aligned",
+    "serverSuitability": "required",
+    "dependencyBurden": "medium",
+    "overlapRisk": "low",
+    "balanceRisk": "low",
+    "operationalRisk": "low"
+  },
+  "conditions": [
+    "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
+    "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
+  ],
+  "requiredAdaptations": [],
+  "blockingIssues": [],
+  "evidence": [
+    "https://modrinth.com/mod/moonlight"
+  ]
+}

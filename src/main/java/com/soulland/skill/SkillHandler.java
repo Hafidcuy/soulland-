@@ -169,7 +169,7 @@ public final class SkillHandler {
             }
 
             int rings = cap.getRings();
-            double scale = 1.0 + (cap.getLevel() - 1) * 0.02 + rings * 0.05;
+            double scale = 1.0 + (cap.getLevel() - 1) * 0.05 + rings * 0.12;
             float chainBonus = 1f + CHAIN_STEP * Math.min(MAX_CHAIN, cap.getChainCount());
             float damage = (float) (6.0 * rings * scale * chainBonus);
             double radius = 3.0 + rings * 0.6;
@@ -210,7 +210,7 @@ public final class SkillHandler {
     private static boolean execute(ServerPlayer player, int level, int rings, SkillDef skill, MartialSoul soul,
                                    float chainBonus, float bloodBonus) {
         ServerLevel world = player.serverLevel();
-        double scale = 1.0 + (level - 1) * 0.02 + rings * 0.05;
+        double scale = 1.0 + (level - 1) * 0.05 + rings * 0.12;
         float damage = (float) (skill.damage() * scale * chainBonus * bloodBonus);
         float heal = (float) (skill.heal() * (1.0 + rings * 0.03));
         double radius = skill.radius();

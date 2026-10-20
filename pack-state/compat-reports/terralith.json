@@ -1,0 +1,29 @@
+{
+  "id": "terralith",
+  "scope": {
+    "mods": [
+      "terralith"
+    ],
+    "projectContext": "pack-state/project-context.json"
+  },
+  "decision": "accept",
+  "summary": "Alternatif worldgen dengan permukaan lebih beragam, dipakai kalau moonlight terbukti bentrok dengan batasan server.",
+  "checks": {
+    "loaderAlignment": "aligned",
+    "versionAlignment": "aligned",
+    "serverSuitability": "required",
+    "dependencyBurden": "medium",
+    "overlapRisk": "low",
+    "balanceRisk": "low",
+    "operationalRisk": "low"
+  },
+  "conditions": [
+    "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
+    "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
+  ],
+  "requiredAdaptations": [],
+  "blockingIssues": [],
+  "evidence": [
+    "https://modrinth.com/mod/terralith"
+  ]
+}

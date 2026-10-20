@@ -1,0 +1,73 @@
+{
+  "slug": "apotheosis",
+  "displayName": "Apotheosis",
+  "aliases": [
+    "apotheosis"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/apotheosis",
+    "github": "https://github.com/Shadows-of-Fire/Apotheosis",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/apotheosis"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "1.20.1",
+      "1.21.1",
+      "26.1.2"
+    ],
+    "loaders": [
+      "forge",
+      "neoforge"
+    ],
+    "clientRequirement": "required",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [
+      "DGaH8Rh0",
+      "DfxVkOAO",
+      "nU0bVIaL",
+      "pL8MtgqY",
+      "tCkE8p2N"
+    ],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "low",
+    "progressionRisk": "medium",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Spirit ring bisa punya afiks dan rune, jadi equipped terasa seperti barang sungguhan.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project apotheosis versid -",
+    "Rilis Forge 1.20.1 ditemukan: 7.4.8"
+  ]
+}

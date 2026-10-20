@@ -45,8 +45,10 @@ public class SoulCardScreen extends Screen {
     private int activeTab = 0;
     private int panelLeft;
     private int panelTop;
-    private int panelWidth = 320;
-    private int panelHeight = 196;
+    private int panelWidth = 300;
+    private int panelHeight = 180;
+    private static final ResourceLocation PANEL =
+            new ResourceLocation("soulland", "textures/gui/panel_card.png");
     private int[] tabLeft = new int[4];
     private int[] tabTop = new int[4];
     private int[] tabRight = new int[4];
@@ -85,8 +87,8 @@ public class SoulCardScreen extends Screen {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
         renderBackground(gui);
-        gui.fill(panelLeft, panelTop, panelLeft + panelWidth, panelTop + panelHeight, 0xF014161A);
-        gui.fill(panelLeft, panelTop, panelLeft + panelWidth, panelTop + 1, IMPERIAL_GOLD);
+        gui.blit(PANEL, panelLeft, panelTop, 0, 0, panelWidth, panelHeight, panelWidth, panelHeight);
+        gui.fill(panelLeft + 4, panelTop + 4, panelLeft + panelWidth - 4, panelTop + 5, 0x50E8C46A);
         gui.fill(panelLeft, panelTop + panelHeight - 1, panelLeft + panelWidth, panelTop + panelHeight, 0x40E8C46A);
 
         drawTabs(gui, mouseX, mouseY);

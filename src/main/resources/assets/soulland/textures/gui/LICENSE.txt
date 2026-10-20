@@ -1,0 +1,4 @@
+Panel GUI di folder ini berasal dari "Pixel UI pack" oleh Kenney Vleugels (https://kenney.nl/assets/pixel-ui-pack).
+Lisensi: Creative Commons Zero v1.0 (CC0) - https://creativecommons.org/publicdomain/zero/1.0/
+Bahan 9-slice dipakai untuk menyusun panel kartu soul dan panel panduan.
+Semua texture lain (potret soul, item, partikel) digambar sendiri oleh tools/generate_assets.py.

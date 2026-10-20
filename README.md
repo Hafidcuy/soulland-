@@ -58,6 +58,7 @@ Tujuh mekanisme yang mengubah keputusan pemain, bukan cuma menambah konten:
 | `K` | Panggil / sembunyikan companion martial soul |
 | `C` (tahan) | Meditasi / upacara terobosan |
 | `B` | Bakar darah (tukar HP jadi Spirit Power) |
+| `H` | Buka Panduan Soul Land (tampilan sendiri) |
 | `Shift` + klik kanan ring | Absorpsi berani |
 
 ## Perintah
@@ -76,6 +77,34 @@ Tujuh mekanisme yang mengubah keputusan pemain, bukan cuma menambah konten:
 3. File jadi ada di `build/libs/soulland-1.1.0.jar`.
 
 Build pertama mengunduh banyak file (ForgeGradle), butuh koneksi internet dan beberapa menit.
+
+## Pack-state dan referensi
+
+Proyek ini dikelola dengan alur skill `minecraft-pack-builder` dan `pack-context`, jadi
+memiliki memori proyek yang persisten di `pack-state/`:
+
+- `pack-state/project-context.json` - target, batasan, mod yang diterima, risiko, gap.
+- `pack-state/mod-analyses/*.json` - analisis 8 kandidat mod dari data Modrinth nyata.
+- `pack-state/compat-reports/*.json` - keputusan terima/tolak beserta alasannya.
+- `pack-state/integration-docs/*.md` - dokumen integrasi dan rancang ulang v1.3.
+- `pack-state/simulation-report.json` - hasil simulasi ritme main.
+
+Kurva kultivasi, format config, dan aset diambil dari sumber internet yang tercatat di
+`docs/references/REFERENCES.md`. Konfigurasi Curios untuk pack ini ada di `config/` dan
+`datapacks/soulland_curios/`.
+
+## Simulasi dan pengujian
+
+```bash
+python3 tools/simulate.py --sessions 800   # main 800 sesi, cetak ritme dan risiko
+python3 tools/build_souls.py               # bangun ulang data 1.995 martial soul
+python3 tools/generate_assets.py           # gambar ulang seluruh texture
+python3 tools/build_pack_state.py         # scan ulang kandidat mod dari Modrinth
+```
+
+Simulasi menemukan tiga cacat balance yang sudah diperbaiki: kurva XP terlalu curam
+(100 + 25 * level jadi 80 + 12 * level), Spirit power pulih terlalu cepat sehingga Bakar
+Darah tidak pernah terpakai, dan damage skill tumbuh terlalu datar.
 
 ## Membangun ulang data & aset
 

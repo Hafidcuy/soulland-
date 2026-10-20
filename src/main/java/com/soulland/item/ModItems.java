@@ -40,6 +40,21 @@ public class ModItems {
     public static final RegistryObject<Item> SOUL_CORE = ITEMS.register("soul_core",
             () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
 
+    public static final RegistryObject<GuideItem> SOUL_GUIDE = ITEMS.register("soul_guide",
+            () -> new GuideItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<QiPillItem> QI_PILL = ITEMS.register("qi_pill",
+            () -> new QiPillItem(new Item.Properties().stacksTo(16)));
+
+    public static final RegistryObject<SoulCrystalItem> SOUL_CRYSTAL = ITEMS.register("soul_crystal",
+            () -> new SoulCrystalItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<RingForgeItem> RING_FORGE = ITEMS.register("ring_forge",
+            () -> new RingForgeItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
+
+    public static final RegistryObject<HuntContractItem> HUNT_CONTRACT = ITEMS.register("hunt_contract",
+            () -> new HuntContractItem(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+
     public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_TANG = ITEMS.register("sect_medallion_tang",
             () -> new SectMedallionItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON), "tang"));
     public static final RegistryObject<SectMedallionItem> SECT_MEDALLION_SHREK = ITEMS.register("sect_medallion_shrek",

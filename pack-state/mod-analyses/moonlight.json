@@ -1,0 +1,79 @@
+{
+  "slug": "moonlight",
+  "displayName": "Moonlight Lib",
+  "aliases": [
+    "moonlight"
+  ],
+  "identity": {
+    "mcmod": null,
+    "modrinth": "https://modrinth.com/mod/moonlight",
+    "github": "https://github.com/MehVahdJukaar/Moonlight/tree/multi-loader",
+    "curseforge": null
+  },
+  "releaseSources": [
+    {
+      "platform": "modrinth",
+      "status": "official",
+      "url": "https://modrinth.com/mod/moonlight"
+    }
+  ],
+  "support": {
+    "minecraftVersions": [
+      "1.18.2",
+      "1.19",
+      "1.19.1",
+      "1.19.2",
+      "1.19.3",
+      "1.19.4",
+      "1.20",
+      "1.20.1",
+      "1.20.4",
+      "1.21",
+      "1.21.1",
+      "26.1.2"
+    ],
+    "loaders": [
+      "fabric",
+      "forge",
+      "neoforge"
+    ],
+    "clientRequirement": "optional",
+    "serverRequirement": "required"
+  },
+  "dependencies": {
+    "required": [
+      "P7dR8mSH"
+    ],
+    "optional": [],
+    "incompatible": []
+  },
+  "configuration": {
+    "entryPoints": [],
+    "commands": [],
+    "permissions": [],
+    "dataDrivenSurfaces": []
+  },
+  "behaviorSurfaces": {
+    "worldgen": [],
+    "items": [],
+    "entities": [],
+    "progression": [],
+    "automation": [],
+    "economy": []
+  },
+  "risks": {
+    "versionRisk": "low",
+    "worldgenRisk": "low",
+    "progressionRisk": "low",
+    "operationalRisk": "low"
+  },
+  "recommendation": {
+    "status": "accepted",
+    "summary": "Dunia Soul Land butuh bioma yang berbeda dari vanilla. Moonlight memberi variasi permukaan tanpa bentrok dengan mod biome lain.",
+    "nextChecks": []
+  },
+  "evidence": [
+    "Modrinth project moonlight versid -",
+    "Rilis Forge 1.20.1 ditemukan: 1.20-2.16.37-forge"
+  ]
+}

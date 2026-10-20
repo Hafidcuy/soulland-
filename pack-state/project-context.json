@@ -1,0 +1,137 @@
+{
+  "packName": "soul-land-douluo-dalu",
+  "minecraftVersion": "1.20.1",
+  "loader": "forge",
+  "distribution": "server-first",
+  "goals": [
+    "Dunia Soul Land (Douluo Dalu) yang terasa seperti cultivation simulator, bukan sekadar mod-item.",
+    "Setiap keputusan pemain punya konsekuensi: absorpsi berani, loadout skill, rantai soul, lawan elemen.",
+    "Soul beast berburu dengan usia dan elemen yang terbaca, jadi target bisa dipilih.",
+    "Semua aset dibuat sendiri, tidak ada texture placeholder.",
+    "Rilis otomatis lewat GitHub Actions dan GitHub Release."
+  ],
+  "hardConstraints": [
+    "Forge 1.20.1 dengan Java 17.",
+    "Server-first: semua mekanik wajib jalan di dedicated server tanpa client mod.",
+    "Tidak boleh ada kelas client yang termuat di sisi server (RuntimeDistCleaner).",
+    "Data martial soul dan aset harus bisa dibangun ulang dari kode.",
+    "CI harus menjalankan compile dan uji boot server sebelum release terbit."
+  ],
+  "acceptedMods": [
+    {
+      "slug": "jade",
+      "displayName": "Jade 🔍",
+      "role": "HUD dan minimap",
+      "serverRequirement": "optional",
+      "clientRequirement": "required",
+      "source": "https://modrinth.com/mod/jade"
+    },
+    {
+      "slug": "curios",
+      "displayName": "Curios API",
+      "role": "Slot aksesori",
+      "serverRequirement": "required",
+      "clientRequirement": "required",
+      "source": "https://modrinth.com/mod/curios"
+    },
+    {
+      "slug": "waystones",
+      "displayName": "Waystones",
+      "role": "Jaringan teleportasi",
+      "serverRequirement": "required",
+      "clientRequirement": "required",
+      "source": "https://modrinth.com/mod/waystones"
+    },
+    {
+      "slug": "moonlight",
+      "displayName": "Moonlight Lib",
+      "role": "Bioma dan worldgen",
+      "serverRequirement": "required",
+      "clientRequirement": "optional",
+      "source": "https://modrinth.com/mod/moonlight"
+    },
+    {
+      "slug": "supplementaries",
+      "displayName": "Supplementaries",
+      "role": "Dekorasi dan furnitur",
+      "serverRequirement": "required",
+      "clientRequirement": "optional",
+      "source": "https://modrinth.com/mod/supplementaries"
+    },
+    {
+      "slug": "apotheosis",
+      "displayName": "Apotheosis",
+      "role": "Affix dan rune",
+      "serverRequirement": "required",
+      "clientRequirement": "required",
+      "source": "https://modrinth.com/mod/apotheosis"
+    },
+    {
+      "slug": "architectury-api",
+      "displayName": "Architectury API",
+      "role": "Library",
+      "serverRequirement": "required",
+      "clientRequirement": "required",
+      "source": "https://modrinth.com/mod/architectury-api"
+    },
+    {
+      "slug": "terralith",
+      "displayName": "Terralith",
+      "role": "Bioma dan worldgen",
+      "serverRequirement": "required",
+      "clientRequirement": "optional",
+      "source": "https://modrinth.com/mod/terralith"
+    }
+  ],
+  "rejectedMods": [],
+  "pendingMods": [],
+  "openCapabilityGaps": [
+    "Slot spirit ring sebagai aksesori belum memakai Curios: cincin masih di inventory biasa.",
+    "Dunia belum punya wilayah soul beast khusus; soul beast masih monster vanilla yang diberi nama.",
+    "Belum ada afiks dan rune pada spirit ring meski afiks mod sudah masuk daftar kandidat."
+  ],
+  "knownRisks": [
+    "Mod worldgen (moonlight, terralith) sama-sama mengubah biome, tidak boleh dipakai berdua.",
+    "Curios menambah API aksesori: logika ring slot di mod inti harus di Hintergründe ke slot Curios.",
+    "Jade hanya client-side: pemain tanpa Jade tetap bisa bermain, tapi tidak punya minimap."
+  ],
+  "artifacts": {
+    "modAnalyses": [
+      "pack-state/mod-analyses/jade.json",
+      "pack-state/mod-analyses/curios.json",
+      "pack-state/mod-analyses/waystones.json",
+      "pack-state/mod-analyses/moonlight.json",
+      "pack-state/mod-analyses/supplementaries.json",
+      "pack-state/mod-analyses/apotheosis.json",
+      "pack-state/mod-analyses/architectury-api.json",
+      "pack-state/mod-analyses/terralith.json"
+    ],
+    "compatReports": [
+      "pack-state/compat-reports/jade.json",
+      "pack-state/compat-reports/curios.json",
+      "pack-state/compat-reports/waystones.json",
+      "pack-state/compat-reports/moonlight.json",
+      "pack-state/compat-reports/supplementaries.json",
+      "pack-state/compat-reports/apotheosis.json",
+      "pack-state/compat-reports/architectury-api.json",
+      "pack-state/compat-reports/terralith.json"
+    ],
+    "integrationDocs": [
+      "pack-state/integration-docs/soul-land-core.md"
+    ]
+  },
+  "evidence": [
+    "https://modrinth.com/mod/apotheosis",
+    "https://modrinth.com/mod/architectury-api",
+    "https://modrinth.com/mod/curios",
+    "https://modrinth.com/mod/jade",
+    "https://modrinth.com/mod/moonlight",
+    "https://modrinth.com/mod/supplementaries",
+    "https://modrinth.com/mod/terralith",
+    "https://modrinth.com/mod/waystones"
+  ],
+  "hypotheses": [
+    "Pemain akan lebih tertarik ke loop ABSORPSI BERANI + LOADOUT daripada ke grind XP murni.",
+    "Nama soul beast yang menyebut usia dan elemen akan cukup untuk membuat targeting terasa disengaja."
+  ]
+}
