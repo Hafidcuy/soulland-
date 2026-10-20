@@ -78,7 +78,7 @@ public class SpiritRingItem extends Item {
         if (!player.isCreative()) stack.shrink(1);
         CultivationManager.applyStats(player);
         CultivationManager.sync(player);
-        player.sendSystemMessage(Component.literal("§a✦ Spirit Ring " + tier.years + " tahun diserap! Sekarang kamu punya " + cap.getRings() + " spirit ring. ✦")
+        player.sendSystemMessage(Component.literal("§aSpirit Ring " + tier.years + " tahun diserap. Sekarang kamu punya " + cap.getRings() + " spirit ring.")
                 .withStyle(ChatFormatting.GOLD));
         if (cap.getRings() == 1) {
             player.sendSystemMessage(Component.literal("Skill 1 terbuka. Tekan [R] untuk menggunakannya."));
