@@ -41,15 +41,31 @@ import net.minecraftforge.fml.common.Mod;
 public class CommonEvents {
 
     /**
-     * Login: upwards ceremony with a fresh draw of martial soul.
+     * Undian martial soul otomatis saat pemain masuk dunia.
      *
-     * <p>Every time you enter the world the soul is rolled again, as if destiny had written
-     * a new page. Cultivation, rings, and sect are carried over; the soul itself, its
-     * evolution, and the skill loadout start fresh.
+     * <p>Forge 1.20.1 tidak selalu membakar {@link PlayerEvent.PlayerLoggedInEvent} saat
+     * pemain baru masuk, jadi undian juga dipancing dari {@link EntityJoinLevelEvent} dengan
+     * penjaga sesi supaya hanya terjadi sekali per masuk.
      */
+    private static final java.util.Set<java.util.UUID> ROLLED = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        if (event.getEntity() instanceof ServerPlayer player) {
+            rollMartialSoul(player);
+        }
+    }
+
+    /** Cadangan: kalau event login tidak terpancing, undian terjadi saat pemain masuk level. */
+    @SubscribeEvent
+    public static void onEntityJoin(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            rollMartialSoul(player);
+        }
+    }
+
+    private static void rollMartialSoul(ServerPlayer player) {
+        if (!ROLLED.add(player.getUUID())) return;
         CultivationCapability.get(player).ifPresent(cap -> {
             boolean firstTime = !cap.isAwakened();
             MartialSoul previous = MartialSouls.get(cap.getMartialSoulId());
@@ -63,9 +79,11 @@ public class CommonEvents {
             if (firstTime) {
                 cap.setLevel(1);
                 cap.setEnergy(100f);
+                cap.setRings(0);
+                cap.setRingSkills(0);
             }
             if (changed) {
-                cap.setLoadout(new String[5]);
+                cap.setLoadout(new String[]{"", "", "", "", ""});
             }
 
             if (firstTime) {
@@ -336,6 +354,7 @@ public class CommonEvents {
         float hp = monster.getMaxHealth();
         int years = hp >= 80 ? 10000 : hp >= 40 ? 1000 : hp >= 20 ? 100 : 10;
         Element element = elementFor(monster);
+        element = elementForBiome(element, monster);
         String name = monster.getType().getDescription().getString() + " " + years + " Tahun (" + element.label() + ")";
 
         net.minecraft.ChatFormatting color = switch (years) {
@@ -347,6 +366,24 @@ public class CommonEvents {
         monster.setCustomName(Component.literal(name).withStyle(color));
         monster.setCustomNameVisible(true);
         SoulBeast.assign(monster, element, years);
+    }
+
+    /**
+     * Bioma mengubah karakter soul beast: wilayah Moonlight dipenuhi spirit hutan, jadi
+     * elemennya berpindah ke Tumbuhan dan Cahaya. Ini yang membuat berburu terasa berbeda
+     * di tiap wilayah.
+     */
+    private static Element elementForBiome(Element element, LivingEntity monster) {
+        var biome = monster.level().getBiome(monster.blockPosition());
+        String id = biome.unwrapKey().map(key -> key.location().toString()).orElse("");
+        if (id.contains("moonlight")) {
+            return switch (element) {
+                case FIRE, EARTH, NONE -> Element.NATURE;
+                case ICE, WATER -> Element.LIGHT;
+                default -> element;
+            };
+        }
+        return element;
     }
 
     /** Elemen tempur soul beast berdasarkan jenis mobnya, supaya target bisa dibaca pemain. */

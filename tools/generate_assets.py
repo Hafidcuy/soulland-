@@ -1231,7 +1231,7 @@ def write_models():
         model = {"parent": "item/generated",
                  "textures": {"layer%d" % i: "soulland:item/" + layer for i, layer in enumerate(spec["layers"])}}
         if spec.get("gui"):
-            model["overrides"] = [{"predicate": {"custom": {"gui": 1}},
+            model["overrides"] = [{"predicate": {"custom": 1.0},
                                    "model": "item/generated",
                                    "textures": {"layer0": "soulland:item/" + spec["layers"][0]}}]
         with open(os.path.join(base, item_id + ".json"), "w", encoding="utf-8") as handle:

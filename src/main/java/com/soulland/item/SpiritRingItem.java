@@ -3,6 +3,7 @@ package com.soulland.item;
 import com.soulland.CultivationRanks;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
+import com.soulland.compat.CuriosBridge;
 import com.soulland.cultivation.ICultivation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -104,6 +105,11 @@ public class SpiritRingItem extends Item {
     }
 
     private InteractionResultHolder<ItemStack> absorbNormal(Level level, Player player, ItemStack stack, ICultivation cap) {
+        if (CuriosBridge.available() && CuriosBridge.storeRing(player, stack.copy())) {
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
+        }
         cap.setRings(cap.getRings() + 1);
         cap.setRingSkills(Math.max(cap.getRingSkills(), cap.getRings()));
         player.heal(player.getMaxHealth() * 0.10f);

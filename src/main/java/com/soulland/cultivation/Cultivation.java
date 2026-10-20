@@ -18,7 +18,7 @@ public class Cultivation implements ICultivation {
     private int evolutionStage = 0;
     private boolean meditating = false;
     private int meditationTicks = 0;
-    private final String[] loadout = new String[5];
+    private final String[] loadout = {"", "", "", "", ""};
     private int ringSkills = 0;
     private int chainCount = 0;
     private long chainUntil = 0L;
@@ -123,7 +123,7 @@ public class Cultivation implements ICultivation {
         tag.putLong("contractUntil", contractUntil);
         tag.putBoolean("breakthroughReady", breakthroughReady);
         for (int i = 0; i < loadout.length; i++) {
-            tag.putString("loadout" + i, loadout[i]);
+            tag.putString("loadout" + i, loadout[i] == null ? "" : loadout[i]);
         }
         CompoundTag cds = new CompoundTag();
         cooldowns.forEach((k, v) -> cds.putLong(k, v));

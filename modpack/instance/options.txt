@@ -1,0 +1,10 @@
+fov:0.0
+renderDistance:10
+simulationDistance:8
+graphicsMode:1
+particles:2
+ao:true
+entityShadows:true
+maxFps:120
+guiScale:3
+soundCategory_master:0.6

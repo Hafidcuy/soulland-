@@ -37,6 +37,7 @@ public class MeditationIncenseItem extends Item {
 
         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1, false, true));
         player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 0, false, true));
+        player.addEffect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 1200, 0, false, true));
 
         CultivationCapability.get(player).ifPresent(cap ->
                 cap.setEnergy(Math.min(100f, cap.getEnergy() + 40f)));

@@ -108,6 +108,26 @@ def get_json(path):
     return None
 
 
+# Adaptasi spesifik: apa yang diubah supaya mod ini服务于pack Soul Land.
+ADAPTATIONS = {
+    "curios": "Sembilan slot spirit_ring dibuat lewat config/curios-common.toml. Jembatan "
+              "CuriosBridge di mod inti memindahkan ring ke slot Curios lewat API Curios "
+              "bila Curios terpasang, dan tetap jalan di inventory bila tidak.",
+    "apotheosis": "Spirit ring diperlakukan sebagai barang biasa, jadi afiks Apotheosis "
+                  "menerapanya otomatis. Tidak ada kode tambahan yang dibutuhkan.",
+    "jade": "HUD kultivasi dimodul tetap di kiri atas, Jade hanya mengisi minimap. Nama "
+            "soul beast sudah menyebut usia dan elemen, jadi panel Jade langsung terbaca.",
+    "moonlight": "Bioma Moonlight mengganti elemen soul beast menjadi Tumbuhan dan Cahaya, "
+                 "sehingga berburu di wilayah itu terasa berbeda dari wilayah biasa.",
+    "supplementaries": "Dekorasi dipakai untukugerbang klan dan altar ritual. Mod inti "
+                       "menyediakan Dupa Meditasi sebagai barang ritual yang memperkuat "
+                       "kultivasi, jadi dekorasi dan mekaniknya saling menguatkan.",
+    "waystones": "Jaringan waystone dipakai untuk berpindah antar wilayah berburu soul "
+                 "beast. Tidak ada perubahan kode, hanya konfigurasi jaringan.",
+    "architectury-api": "Library, tidak ada perubahan.",
+}
+
+
 def analyze(candidate):
     project = get_json("/project/" + candidate["slug"])
     if project is None:
@@ -210,7 +230,7 @@ def analyze(candidate):
             "Pasang versi Forge " + MC_VERSION + " yang persis dari Modrinth.",
             "Uji boot server Forge dengan mod terpasang sebelum pack dipakai.",
         ] if target else ["Tidak ada rilis yang cocok untuk Forge " + MC_VERSION + "."],
-        "requiredAdaptations": [],
+        "requiredAdaptations": [ADAPTATIONS[project["slug"]]] if target and ADAPTATIONS.get(project["slug"]) else [],
         "blockingIssues": [] if target else ["Tidak mendukung Forge " + MC_VERSION + "."],
         "evidence": [
             "https://modrinth.com/mod/" + project["slug"],

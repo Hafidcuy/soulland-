@@ -21,7 +21,9 @@
     "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
     "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
   ],
-  "requiredAdaptations": [],
+  "requiredAdaptations": [
+    "Jaringan waystone dipakai untuk berpindah antar wilayah berburu soul beast. Tidak ada perubahan kode, hanya konfigurasi jaringan."
+  ],
   "blockingIssues": [],
   "evidence": [
     "https://modrinth.com/mod/waystones"

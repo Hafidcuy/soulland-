@@ -1,0 +1,23 @@
+# Konfigurasi Curios untuk pack Soul Land: Douluo Dalu.
+#
+# Format slot mengikuti dokumentasi resmi Curios:
+# https://docs.illusivesoulworks.com/curios/configuration#slot-configuration
+#
+# Setiap entri memuat: id;size;operation;order;icon;drop_rule
+#   id        = identifier slot type
+#   size      = jumlah slot bawaan
+#   operation = SET | ADD | REMOVE
+#   order     = urutan di GUI Curios
+#   icon      = lokasi icon slot
+#   drop_rule = DEFAULT | ALWAYS_DROP | ALWAYS_KEEP | DESTROY
+
+slots = [
+    "id=spirit_ring;size=9;operation=SET;order=20;icon=soulland:item/slot_empty_spirit_ring;drop_rule=ALWAYS_KEEP",
+    "id=sect_medallion;size=1;operation=SET;order=30;icon=soulland:item/slot_empty_sect_medallion;drop_rule=ALWAYS_KEEP"
+]
+
+# Maksimal slot per halaman GUI Curios.
+maxSlotsPerPage = 48
+
+# Simpan aksesori saat pemain mati.
+keepCurios = "onDeath"

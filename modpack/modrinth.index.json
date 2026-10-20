@@ -1,0 +1,150 @@
+{
+  "formatVersion": 1,
+  "game": "minecraft",
+  "versionId": "1.2.0",
+  "name": "Soul Land: Douluo Dalu",
+  "summary": "Cultivation simulator Benua Douluo: 1.995 martial soul, 9.975 skill, spirit ring, sekte, evolusi soul, dan companion martial soul.",
+  "files": [
+    {
+      "path": "mods/curios-forge-5.14.1%2B1.20.1.jar",
+      "hashes": {
+        "sha1": "452175b95ad3db6ff58bb8968f6bf7a9d1e0f480"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/vvuO3ImH/versions/IPQlZkz1/curios-forge-5.14.1%2B1.20.1.jar"
+      ],
+      "fileSize": 398066,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/Jade-1.20.1-Forge-11.13.3.jar",
+      "hashes": {
+        "sha1": "d08e64e66521d69e083c8525f1fc507f1c202384"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/nvQzSEkH/versions/xJQHCmWJ/Jade-1.20.1-Forge-11.13.3.jar"
+      ],
+      "fileSize": 553487,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/waystones-forge-1.20.1-14.1.21.jar",
+      "hashes": {
+        "sha1": "61952fb248a9689fe46d5ffb223fcc41e31fef1a"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/LOpKHB2A/versions/Y0IgdaoP/waystones-forge-1.20.1-14.1.21.jar"
+      ],
+      "fileSize": 536782,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/moonlight-1.20-2.16.37-forge.jar",
+      "hashes": {
+        "sha1": "a04155ec07a586416543039d61028e2a582f0b04"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/twkfQtEc/versions/b1cuadwV/moonlight-1.20-2.16.37-forge.jar"
+      ],
+      "fileSize": 1425211,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/supplementaries-1.20-3.1.44-forge.jar",
+      "hashes": {
+        "sha1": "01e9bd4c264c6e04c7613095438bf0eee657b16f"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/fFEIiSDQ/versions/foXRPXFH/supplementaries-1.20-3.1.44-forge.jar"
+      ],
+      "fileSize": 13686603,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/Apotheosis-1.20.1-7.4.8.jar",
+      "hashes": {
+        "sha1": "e508c4724a24f0c80836818fcdd3df6424b1fc40"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/rqFWfVlz/versions/tT3CLYvK/Apotheosis-1.20.1-7.4.8.jar"
+      ],
+      "fileSize": 2803994,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/architectury-9.2.14-forge.jar",
+      "hashes": {
+        "sha1": "a52918a500ff421180a1cbd1a0cabee712134ec4"
+      },
+      "downloads": [
+        "https://cdn.modrinth.com/data/lhGA9TYQ/versions/1MKTLiiG/architectury-9.2.14-forge.jar"
+      ],
+      "fileSize": 580602,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    },
+    {
+      "path": "mods/soulland-1.2.0.jar",
+      "hashes": {
+        "sha1": "",
+        "sha512": ""
+      },
+      "downloads": [],
+      "fileSize": 0,
+      "env": {
+        "client": "required",
+        "server": "required"
+      }
+    }
+  ],
+  "dependencies": {
+    "curios": {
+      "version_id": "IPQlZkz1",
+      "project_id": "vvuO3ImH"
+    },
+    "jade": {
+      "version_id": "xJQHCmWJ",
+      "project_id": "nvQzSEkH"
+    },
+    "waystones": {
+      "version_id": "Y0IgdaoP",
+      "project_id": "LOpKHB2A"
+    },
+    "moonlight": {
+      "version_id": "b1cuadwV",
+      "project_id": "twkfQtEc"
+    },
+    "supplementaries": {
+      "version_id": "foXRPXFH",
+      "project_id": "fFEIiSDQ"
+    },
+    "apotheosis": {
+      "version_id": "tT3CLYvK",
+      "project_id": "rqFWfVlz"
+    },
+    "architectury-api": {
+      "version_id": "1MKTLiiG",
+      "project_id": "lhGA9TYQ"
+    }
+  }
+}

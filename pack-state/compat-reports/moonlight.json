@@ -21,7 +21,9 @@
     "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
     "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
   ],
-  "requiredAdaptations": [],
+  "requiredAdaptations": [
+    "Bioma Moonlight mengganti elemen soul beast menjadi Tumbuhan dan Cahaya, sehingga berburu di wilayah itu terasa berbeda dari wilayah biasa."
+  ],
   "blockingIssues": [],
   "evidence": [
     "https://modrinth.com/mod/moonlight"

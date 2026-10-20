@@ -1,8 +1,8 @@
 package com.soulland.soul;
 
-import java.util.EnumMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Elemen tempur dan aturan lawannya.
@@ -26,7 +26,7 @@ public enum Element {
 
     private final String label;
     private final int color;
-    private final Map<Element, Boolean> beats = new EnumMap<>(Element.class);
+    private final List<Element> beats = new ArrayList<>();
 
     Element(String label, int color) {
         this.label = label;
@@ -43,7 +43,7 @@ public enum Element {
 
     /** True kalau elemen ini mengalahi elemen lain. */
     public boolean beats(Element other) {
-        return Boolean.TRUE.equals(beats.get(other));
+        return beats.contains(other);
     }
 
     /**
@@ -59,9 +59,7 @@ public enum Element {
     }
 
     private void setBeats(Element... others) {
-        for (Element other : others) {
-            beats.put(other, Boolean.TRUE);
-        }
+        beats.addAll(Arrays.asList(others));
     }
 
     static {

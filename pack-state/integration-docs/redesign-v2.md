@@ -70,14 +70,33 @@ Prinsip: skill data-driven. Menambah skill berarti menambah data, bukan menambah
 kode. Semua efek visual diturunkan dari `SkillVisual`, jadi dua skill tidak pernah
 terlihat sama.
 
-## 6. Bukti dan verifikasi
+## 6. Modpack: mod yang dipakai dan cara dimodifikasi
+
+Pack berisi mod inti `soulland` plus tujuh mod pendukung. Semuanya diambil dari Modrinth
+dengan versi Forge 1.20.1 yang terverifikasi (`modpack/modrinth.index.json`).
+
+| Mod | Yang diubah supaya dipakai pack ini |
+|---|---|
+| Curios | `config/curios-common.toml` membuat sembilan slot `spirit_ring`. `CuriosBridge` di mod inti memindahkan ring ke slot itu lewat API Curios (lewat refleksi supaya Curios tetap opsional), dan tetap jalan di inventory bila Curios tidak ada. |
+| Apotheosis | Spirit ring diperlakukan sebagai barang biasa, jadi afiks dan rune langsung berlaku tanpa kode tambahan. |
+| Jade | HUD kultivasi tetap di mod inti; Jade hanya untuk minimap. Nama soul beast sudah menyebut usia dan elemen, jadi panel Jade langsung terbaca. |
+| Moonlight | Bioma Moonlight mengganti elemen soul beast menjadi Tumbuhan dan Cahaya, jadi berburu di wilayah itu terasa berbeda. |
+| Supplementaries | Dekorasi klan dipakai untuk altar ritual; Dupa Meditasi di mod inti memperkuat kultivasi saat meditasi. |
+| Waystones | Dipakai untuk berpindah antar wilayah berburu. Tidak ada perubahan kode, hanya konfigurasi jaringan. |
+| Architectury API | Library. Satu versi Forge 1.20.1 saja yang dipasang. |
+
+Terralith dicatat sebagai cadangan Moonlight karena dua mod worldgen tidak boleh berdua.
+
+## 7. Bukti dan verifikasi
 
 | Yang diuji | Cara | Status |
 |---|---|---|
 | Compile | `gradle build` | lulus |
 | Boot dedicated server | `gradle runServer` | "Done" tanpa error |
 | Ritme main | `tools/simulate.py` 800 sesi | 452 giliran, 15 kematian |
-| Aset lengkap | cek path texture vs data soul | 0 potret hilang |
+| Aset lengkap | `python3 tools/verify_assets.py` | 1.995 potret, 20 model, 11 partikel, 9.975 skill, 0 hilang |
+| Unit test | `gradle test` (JUnit 5) | 14 test lulus: kurva XP, gerbang, matriks elemen, roundtrip NBT |
+| Simulasi main | `python3 tools/simulate.py --sessions 800` | 452 giliran, 15 kematian, 0 sesi mandek |
 | Rilis | GitHub Actions, tag `v*` | build + boot test + release |
 
 ## 7. Capability gap yang masih terbuka

@@ -93,10 +93,30 @@ Kurva kultivasi, format config, dan aset diambil dari sumber internet yang terca
 `docs/references/REFERENCES.md`. Konfigurasi Curios untuk pack ini ada di `config/` dan
 `datapacks/soulland_curios/`.
 
+## Modpack
+
+Pack ini berisi mod inti `soulland` plus tujuh mod pendukung yang versinya diambil dari
+Modrinth: Curios (sembilan slot spirit ring), Jade, Waystones, Moonlight, Supplementaries,
+Apotheosis, dan Architectury API.
+
+| Mod | Yang diubah supaya dipakai pack ini |
+|---|---|
+| Curios | `config/curios-common.toml` membuat sembilan slot `spirit_ring`; `CuriosBridge` memindahkan ring ke sana lewat API Curios dan tetap jalan di inventory bila Curios tidak ada. |
+| Apotheosis | Afiks dan rune langsung berlaku pada spirit ring. |
+| Jade | Hanya minimap; HUD kultivasi tetap milik mod inti. Nama soul beast menyebut usia dan elemen. |
+| Moonlight | Bioma Moonlight mengganti elemen soul beast menjadi Tumbuhan dan Cahaya. |
+| Supplementaries | Dekorasi klan untuk altar ritual; Dupa Meditasi memperkuat kultivasi. |
+| Waystones | Jaringan warp untuk berburu soul beast di wilayah lain. |
+
+Index Modrinth, config, dan setelan instance ada di `modpack/`.
+
 ## Simulasi dan pengujian
 
 ```bash
+./gradlew test                           # 14 unit test (kurva XP, elemen, NBT)
+python3 tools/verify_assets.py           # cek tidak ada aset yang hilang
 python3 tools/simulate.py --sessions 800   # main 800 sesi, cetak ritme dan risiko
+python3 tools/build_modpack.py          # bangun ulang index modpack dari Modrinth
 python3 tools/build_souls.py               # bangun ulang data 1.995 martial soul
 python3 tools/generate_assets.py           # gambar ulang seluruh texture
 python3 tools/build_pack_state.py         # scan ulang kandidat mod dari Modrinth

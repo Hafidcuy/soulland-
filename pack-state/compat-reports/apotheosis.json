@@ -21,7 +21,9 @@
     "Pasang versi Forge 1.20.1 yang persis dari Modrinth.",
     "Uji boot server Forge dengan mod terpasang sebelum pack dipakai."
   ],
-  "requiredAdaptations": [],
+  "requiredAdaptations": [
+    "Spirit ring diperlakukan sebagai barang biasa, jadi afiks Apotheosis menerapanya otomatis. Tidak ada kode tambahan yang dibutuhkan."
+  ],
   "blockingIssues": [],
   "evidence": [
     "https://modrinth.com/mod/apotheosis"
