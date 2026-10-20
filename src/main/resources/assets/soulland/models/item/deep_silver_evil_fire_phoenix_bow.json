@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/deep_silver_evil_fire_phoenix_bow"
+  }
+}

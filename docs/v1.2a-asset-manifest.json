@@ -1,0 +1,473 @@
+{
+  "design_read": "kumpulan alat dan bahan untuk pemain yang sudah familiar dengan martial soul, gaya soul-tinted metal, dial ENERGY 2 / RHYTHM 3 / MOTION 1",
+  "items": [
+    {
+      "id": "spirit_iron_hoe_sword",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "hoe",
+      "archetype": "sword",
+      "palette": [
+        "#B8C6D8",
+        "#3C6BA8",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_blue_silver_grass_spear",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "blue_silver_grass",
+      "archetype": "spear",
+      "palette": [
+        "#4A7FD1",
+        "#DCEEFF",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_hell_civet_fang",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "hell_civet",
+      "archetype": "fang",
+      "palette": [
+        "#6A3FA0",
+        "#191622",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_sausage_fan",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "sausage",
+      "archetype": "fan",
+      "palette": [
+        "#E2703A",
+        "#F3E3C2",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_seven_treasure_pagoda_seal",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "seven_treasure_pagoda",
+      "archetype": "seal",
+      "palette": [
+        "#2E9E92",
+        "#E8A33C",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_evil_fire_phoenix_bow",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "evil_fire_phoenix",
+      "archetype": "bow",
+      "palette": [
+        "#C8321E",
+        "#F2C13C",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_white_tiger_claw",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "white_tiger",
+      "archetype": "claw",
+      "palette": [
+        "#F1EEE8",
+        "#2B2622",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_soft_bone_rabbit_staff",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "soft_bone_rabbit",
+      "archetype": "staff",
+      "palette": [
+        "#E4DCC4",
+        "#8C8578",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_jade_serpent_dagger",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "jade_serpent",
+      "archetype": "dagger",
+      "palette": [
+        "#2F9E78",
+        "#9FE8C4",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_iron_clear_sky_hammer_hammer",
+      "kind": "tool",
+      "tier": "spirit_iron",
+      "soul": "clear_sky_hammer",
+      "archetype": "hammer",
+      "palette": [
+        "#4C5563",
+        "#F0C23C",
+        "#B4BEC9"
+      ]
+    },
+    {
+      "id": "spirit_steel_hoe_sword",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "hoe",
+      "archetype": "sword",
+      "palette": [
+        "#B8C6D8",
+        "#3C6BA8",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_blue_silver_grass_spear",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "blue_silver_grass",
+      "archetype": "spear",
+      "palette": [
+        "#4A7FD1",
+        "#DCEEFF",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_hell_civet_fang",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "hell_civet",
+      "archetype": "fang",
+      "palette": [
+        "#6A3FA0",
+        "#191622",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_sausage_fan",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "sausage",
+      "archetype": "fan",
+      "palette": [
+        "#E2703A",
+        "#F3E3C2",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_seven_treasure_pagoda_seal",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "seven_treasure_pagoda",
+      "archetype": "seal",
+      "palette": [
+        "#2E9E92",
+        "#E8A33C",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_evil_fire_phoenix_bow",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "evil_fire_phoenix",
+      "archetype": "bow",
+      "palette": [
+        "#C8321E",
+        "#F2C13C",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_white_tiger_claw",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "white_tiger",
+      "archetype": "claw",
+      "palette": [
+        "#F1EEE8",
+        "#2B2622",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_soft_bone_rabbit_staff",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "soft_bone_rabbit",
+      "archetype": "staff",
+      "palette": [
+        "#E4DCC4",
+        "#8C8578",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_jade_serpent_dagger",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "jade_serpent",
+      "archetype": "dagger",
+      "palette": [
+        "#2F9E78",
+        "#9FE8C4",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "spirit_steel_clear_sky_hammer_hammer",
+      "kind": "tool",
+      "tier": "spirit_steel",
+      "soul": "clear_sky_hammer",
+      "archetype": "hammer",
+      "palette": [
+        "#4C5563",
+        "#F0C23C",
+        "#8E97B4"
+      ]
+    },
+    {
+      "id": "deep_silver_hoe_sword",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "hoe",
+      "archetype": "sword",
+      "palette": [
+        "#B8C6D8",
+        "#3C6BA8",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_blue_silver_grass_spear",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "blue_silver_grass",
+      "archetype": "spear",
+      "palette": [
+        "#4A7FD1",
+        "#DCEEFF",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_hell_civet_fang",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "hell_civet",
+      "archetype": "fang",
+      "palette": [
+        "#6A3FA0",
+        "#191622",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_sausage_fan",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "sausage",
+      "archetype": "fan",
+      "palette": [
+        "#E2703A",
+        "#F3E3C2",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_seven_treasure_pagoda_seal",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "seven_treasure_pagoda",
+      "archetype": "seal",
+      "palette": [
+        "#2E9E92",
+        "#E8A33C",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_evil_fire_phoenix_bow",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "evil_fire_phoenix",
+      "archetype": "bow",
+      "palette": [
+        "#C8321E",
+        "#F2C13C",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_white_tiger_claw",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "white_tiger",
+      "archetype": "claw",
+      "palette": [
+        "#F1EEE8",
+        "#2B2622",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_soft_bone_rabbit_staff",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "soft_bone_rabbit",
+      "archetype": "staff",
+      "palette": [
+        "#E4DCC4",
+        "#8C8578",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_jade_serpent_dagger",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "jade_serpent",
+      "archetype": "dagger",
+      "palette": [
+        "#2F9E78",
+        "#9FE8C4",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "deep_silver_clear_sky_hammer_hammer",
+      "kind": "tool",
+      "tier": "deep_silver",
+      "soul": "clear_sky_hammer",
+      "archetype": "hammer",
+      "palette": [
+        "#4C5563",
+        "#F0C23C",
+        "#DDE7F5"
+      ]
+    },
+    {
+      "id": "spirit_iron_ingot",
+      "kind": "material",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#B4BEC9",
+        "#6E7885",
+        "#E8EDF2"
+      ]
+    },
+    {
+      "id": "spirit_steel_ingot",
+      "kind": "material",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#8E97B4",
+        "#4A5168",
+        "#C6CEEA"
+      ]
+    },
+    {
+      "id": "deep_silver_ingot",
+      "kind": "material",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#DDE7F5",
+        "#55657A",
+        "#7FE8E0"
+      ]
+    },
+    {
+      "id": "soul_crystal_shard",
+      "kind": "material",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#6FC7E8",
+        "#9A6FD6",
+        "#EAFBFF"
+      ]
+    },
+    {
+      "id": "spirit_dew_leaf",
+      "kind": "consumable",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#4FB8A8",
+        "#1F6B5E",
+        "#CFEFE9"
+      ]
+    },
+    {
+      "id": "spirit_moss_sprout",
+      "kind": "consumable",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#6FA83C",
+        "#2F5E24",
+        "#BFD98A"
+      ]
+    },
+    {
+      "id": "spirit_ember_leaf",
+      "kind": "consumable",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#E2622A",
+        "#7A3320",
+        "#F6C46A"
+      ]
+    },
+    {
+      "id": "cultivation_pill",
+      "kind": "consumable",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#E0A93B",
+        "#A2701B",
+        "#FFF0C0"
+      ]
+    },
+    {
+      "id": "swift_pill",
+      "kind": "consumable",
+      "tier": null,
+      "soul": null,
+      "archetype": null,
+      "palette": [
+        "#8A5FD6",
+        "#C9D2DE",
+        "#F0E9FF"
+      ]
+    }
+  ]
+}
