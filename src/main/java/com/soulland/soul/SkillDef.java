@@ -1,1 +1,11 @@
-cGFja2FnZSBjb20uc291bGxhbmQuc291bDsKCi8qKiBEZWZpbmlzaSBzYXR1IHNraWxsIG1hcnRpYWwgc291bC4gKi8KcHVibGljIHJlY29yZCBTa2lsbERlZigKICAgICAgICBTdHJpbmcgaWQsCiAgICAgICAgU3RyaW5nIG5hbWUsCiAgICAgICAgU3RyaW5nIGRlc2NyaXB0aW9uLAogICAgICAgIGZsb2F0IGVuZXJneUNvc3QsCiAgICAgICAgaW50IGNvb2xkb3duVGlja3MsCiAgICAgICAgaW50IHJpbmdzUmVxdWlyZWQKKSB7fQo=
+package com.soulland.soul;
+
+/** Definisi satu skill martial soul. */
+public record SkillDef(
+        String id,
+        String name,
+        String description,
+        float energyCost,
+        int cooldownTicks,
+        int ringsRequired
+) {}

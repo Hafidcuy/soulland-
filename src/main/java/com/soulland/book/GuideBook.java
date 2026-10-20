@@ -1,1 +1,61 @@
-cGFja2FnZSBjb20uc291bGxhbmQuYm9vazsKCmltcG9ydCBjb20uc291bGxhbmQuc291bC5NYXJ0aWFsU291bHM7CmltcG9ydCBuZXQubWluZWNyYWZ0Lm5idC5MaXN0VGFnOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uYnQuU3RyaW5nVGFnOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uZXR3b3JrLmNoYXQuQ29tcG9uZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5pdGVtLkl0ZW1TdGFjazsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuaXRlbS5JdGVtczsKCmltcG9ydCBqYXZhLnV0aWwuQXJyYXlMaXN0OwppbXBvcnQgamF2YS51dGlsLkxpc3Q7CgovKiogQnVrdSBwYW5kdWFuIGxlbmdrYXAgZHVuaWEgU291bCBMYW5kLCBkaWJlcmlrYW4gb3RvbWF0aXMga2VwYWRhIHNldGlhcCBwZW1haW4gYmFydS4gKi8KcHVibGljIGZpbmFsIGNsYXNzIEd1aWRlQm9vayB7CiAgICBwcml2YXRlIEd1aWRlQm9vaygpIHt9CgogICAgcHVibGljIHN0YXRpYyBJdGVtU3RhY2sgY3JlYXRlKCkgewogICAgICAgIEl0ZW1TdGFjayBib29rID0gbmV3IEl0ZW1TdGFjayhJdGVtcy5XUklUVEVOX0JPT0spOwogICAgICAgIHZhciB0YWcgPSBib29rLmdldE9yQ3JlYXRlVGFnKCk7CiAgICAgICAgdGFnLnB1dFN0cmluZygidGl0bGUiLCAiUGFuZHVhbiBEdW5pYSBTb3VsIExhbmQiKTsKICAgICAgICB0YWcucHV0U3RyaW5nKCJhdXRob3IiLCAiVGFuZyBTYW4iKTsKICAgICAgICB0YWcucHV0SW50KCJnZW5lcmF0aW9uIiwgMCk7CgogICAgICAgIExpc3Q8U3RyaW5nPiBwYWdlcyA9IG5ldyBBcnJheUxpc3Q8PigpOwogICAgICAgIHBhZ2VzLmFkZCgiU0VMQU1BVCBEQVRBTkcgREkgQkVOVUEgRE9VTFVPXG5cbkthbXUgdGVsYWggbWVtYmFuZ2tpdGthbiBNYXJ0aWFsIFNvdWwhIEJ1a3UgaW5pIG1lbmplbGFza2FuIHNlbHVydWggc2lzdGVtIGR1bmlhIFNvdWwgTGFuZDoga3VsdGl2YXNpLCBzcGlyaXQgcmluZywgc2tpbGwsIHNvdWwgYmVhc3QsIGRhbiBqYWxhbiBtZW51anUgVGl0bGUgRG91bHVvLiIpOwogICAgICAgIHBhZ2VzLmFkZCgiMS4gTUFSVElBTCBTT1VMIChXVSBIVU4pXG5cblNhYXQgcGVydGFtYSBtYXN1ayBkdW5pYSwgbWFydGlhbCBzb3VsLW11IGRpdW5kaSBzZWNhcmEgYWNhayAoZ2FjaGEpLCBzZXBlcnRpIHRha2RpciBzYWF0IGxhaGlyLlxuSGFzaWwgdW5kaWFuIGJlcnNpZmF0IHBlcm1hbmVuIGRhbiBIQU5ZQSBiaXNhIGRpdWJhaCBkYWxhbSBtb2RlIENyZWF0aXZlIGRlbmdhbiBwZXJpbnRhaCAvbWFydGlhbHNvdWwgcmVyb2xsLiIpOwogICAgICAgIHBhZ2VzLmFkZCgiMi4gTEVWRUwgU1BJUklUIFBPV0VSXG5cbkxldmVsIDEtOTkuIEJ1bnVoIHNvdWwgYmVhc3QgKG1vbnN0ZXIpIHVudHVrIG1lbmRhcGF0IFhQIGt1bHRpdmFzaS5cblNldGlhcCAxMCBsZXZlbCBhZGEgR0VSQkFORyBwZXJpbmdrYXQ6IGthbXUgdGlkYWsgYmlzYSBuYWlrIGxldmVsIHNlYmVsdW0gbWVueWVyYXAgc3Bpcml0IHJpbmcgYmFydS4iKTsKICAgICAgICBwYWdlcy5hZGQoIjMuIFBFUklOR0tBVCBLVUxUSVZBU0lcblxuMS0xMCBTcGlyaXQgU2Nob2xhclxuMTEtMjAgU3Bpcml0IE1hc3RlclxuMjEtMzAgR3JhbmRtYXN0ZXJcbjMxLTQwIFNwaXJpdCBFbGRlclxuNDEtNTAgU3Bpcml0IEFuY2VzdG9yXG41MS02MCBTcGlyaXQgS2luZ1xuNjEtNzAgU3Bpcml0IEVtcGVyb3JcbjcxLTgwIFNwaXJpdCBTYWdlXG44MS05MCBTcGlyaXQgRG91bHVvXG45MS05OSBUaXRsZSBEb3VsdW8iKTsKICAgICAgICBwYWdlcy5hZGQoIjQuIFNQSVJJVCBSSU5HXG5cbkRpZGFwYXQgZGFyaSBtZW1idW51aCBzb3VsIGJlYXN0OlxuLSAxMDAgdGFodW4gKG1vbnN0ZXIgbGVtYWgpXG4tIDEuMDAwIHRhaHVuIChtb25zdGVyIHNlZGFuZylcbi0gMTAuMDAwIHRhaHVuIChtb25zdGVyIGt1YXQgJiBib3NzKVxuLSAxMDAuMDAwIHRhaHVuIChFbmRlciBEcmFnb24hKVxuS2xpayBrYW5hbiByaW5nIHVudHVrIG1lbnllcmFwbnlhLiBBZGEgc3lhcmF0IGxldmVsIG1pbmltdW0uIik7CiAgICAgICAgcGFnZXMuYWRkKCI1LiBTS0lMTCBNQVJUSUFMIFNPVUxcblxuU2V0aWFwIG1hcnRpYWwgc291bCBwdW55YSAyIHNraWxsOlxuLSBTa2lsbCAxIHRlcmJ1a2EgZGkgMSBzcGlyaXQgcmluZyAtPiB0ZWthbiBbUl1cbi0gU2tpbGwgMiB0ZXJidWthIGRpIDMgc3Bpcml0IHJpbmcgLT4gdGVrYW4gW0ddXG5Ta2lsbCBtZW1ha2FpIFNwaXJpdCBQb3dlciAoZW5lcmdpIGJpcnUgZGkgSFVEKSBkYW4gcHVueWEgY29vbGRvd24uIik7CiAgICAgICAgcGFnZXMuYWRkKCI2LiBTUElSSVQgUE9XRVIgKEVORVJHSSlcblxuRW5lcmdpIG1ha3NpbXVtIDEwMCBkYW4gcHVsaWggb3RvbWF0aXMgc2VpcmluZyB3YWt0dS4gTGloYXQgbGV2ZWwsIHBlcmluZ2thdCwgcmluZywgZGFuIGVuZXJnaW11IGRpIEhVRCBraXJpIGF0YXMsIGF0YXUga2V0aWsgL3NvdWxpbmZvLiIpOwogICAgICAgIHBhZ2VzLmFkZCgiNy4gU09VTCBCRUFTVCAmIEJPU1NcblxuTW9uc3RlciBhZGFsYWggc291bCBiZWFzdC4gQm9zcyBkdW5pYSBpbmkgSkFVSCBsZWJpaCBrdWF0IGRhcmkgYmlhc2E6XG4tIEVsZGVyIEd1YXJkaWFuIChIUCAxMjApXG4tIFdpdGhlciAoSFAgNjAwKVxuLSBXYXJkZW4gKEhQIDgwMClcbi0gRU5ERVIgRFJBR09OIChIUCAxMDAwKSAtIGJvc3MgYWtoaXIhIE1lbWJ1bnVobnlhIG1lbWJlcmkgcmluZyAxMDAuMDAwIHRhaHVuLiIpOwogICAgICAgIHBhZ2VzLmFkZCgiOC4gVFVKVUFOIEFLSElSXG5cbkphZGlsYWggVGl0bGUgRG91bHVvIChsZXZlbCA5MSspIGRlbmdhbiA5IHNwaXJpdCByaW5nLCBsYWx1IGthbGFoa2FuIEVuZGVyIERyYWdvbiwgS2Fpc2FyIFNvdWwgQmVhc3QgdGVyYWtoaXIuIFNlcmFwIHJpbmcgMTAwLjAwMCB0YWh1bm55YSBkYW4gbmFtYW11IGFrYW4gbWVsZWdlbmRhIGRpIEJlbnVhIERvdWx1by4iKTsKICAgICAgICBwYWdlcy5hZGQoIjkuIFBFUklOVEFIIChDT01NQU5EKVxuXG4vc291bGluZm8gLSBsaWhhdCBzdGF0dXMga3VsdGl2YXNpbXVcbi9tYXJ0aWFsc291bCBpbmZvIC0gZGV0YWlsIG1hcnRpYWwgc291bC1tdVxuL21hcnRpYWxzb3VsIHJlcm9sbCAtIHVuZGkgdWxhbmcgKENyZWF0aXZlIHNhamEpXG4vY3VsdGl2YXRpb24gc2V0IDxwZW1haW4+IDxsZXZlbD4gLSBhZG1pbi9PUCIpOwogICAgICAgIHBhZ2VzLmFkZCgiMTAuIE1VTFRJUExBWUVSXG5cblNpc3RlbSBpbmkgYmVyamFsYW4gcGVudWggZGkgc2VydmVyOiBnYWNoYSwgbGV2ZWwsIHJpbmcsIGRhbiBza2lsbCBzZXRpYXAgcGVtYWluIHRlcnNpbXBhbiBzZW5kaXJpLXNlbmRpcmkuIEFqYWsgdGVtYW5tdSwgYmVudHVrIHRpbSAoc3VwcG9ydCBQYWdvZGEgc2FuZ2F0IG1lbWJhbnR1ISksIGRhbiB0YWtsdWtrYW4gYm9zcyBiZXJzYW1hLiIpOwoKICAgICAgICAvLyBEYWZ0YXIgbWFydGlhbCBzb3VsICsgc2tpbGwtbnlhIGRpaGFzaWxrYW4gb3RvbWF0aXMgZGFyaSByZWdpc3RyeSBhZ2FyIHNlbGFsdSBha3VyYXQuCiAgICAgICAgTWFydGlhbFNvdWxzLmFsbCgpLmZvckVhY2goc291bCAtPiB7CiAgICAgICAgICAgIFN0cmluZ0J1aWxkZXIgc2IgPSBuZXcgU3RyaW5nQnVpbGRlcigpOwogICAgICAgICAgICBzYi5hcHBlbmQoc291bC5uYW1lKCkudG9VcHBlckNhc2UoKSkuYXBwZW5kKCJcbiIpOwogICAgICAgICAgICBzYi5hcHBlbmQoIlBlbWlsaWs6ICIpLmFwcGVuZChzb3VsLm93bmVyKCkpLmFwcGVuZCgiXG4iKTsKICAgICAgICAgICAgc2IuYXBwZW5kKCJUaXBlOiAiKS5hcHBlbmQoc291bC50eXBlKCkpLmFwcGVuZCgiIHwgIikuYXBwZW5kKHNvdWwucmFyaXR5KCkpLmFwcGVuZCgiXG5cbiIpOwogICAgICAgICAgICBzb3VsLnNraWxscygpLmZvckVhY2goc2sgLT4gc2IuYXBwZW5kKCItICIpLmFwcGVuZChzay5uYW1lKCkpLmFwcGVuZCgiICgiKS5hcHBlbmQoc2sucmluZ3NSZXF1aXJlZCgpKS5hcHBlbmQoIiByaW5nKTogIikuYXBwZW5kKHNrLmRlc2NyaXB0aW9uKCkpLmFwcGVuZCgiXG4iKSk7CiAgICAgICAgICAgIHBhZ2VzLmFkZCh0cmltUGFnZShzYi50b1N0cmluZygpKSk7CiAgICAgICAgfSk7CgogICAgICAgIHBhZ2VzLmFkZCgiU0VMQU1BVCBCRVJLVUxUSVZBU0khXG5cblwiVGlkYWsgYWRhIG1hcnRpYWwgc291bCB5YW5nIHNhbXBhaCwgeWFuZyBhZGEgaGFueWEgc3Bpcml0IG1hc3RlciB5YW5nIHNhbXBhaC5cIiAtIEdyYW5kbWFzdGVyIFl1IFhpYW9nYW5nXG5cbkJlcmxhdGlobGFoLCBiZXJidXJ1IGJlcnNhbWEgdGltLCBkYW4gamFuZ2FuIG1lbnllcmFoLiBKYWxhbiBtZW51anUgZGV3YSBkaW11bGFpIGRhcmkgbGV2ZWwgMS4iKTsKCiAgICAgICAgTGlzdFRhZyBsaXN0ID0gbmV3IExpc3RUYWcoKTsKICAgICAgICBmb3IgKFN0cmluZyBwYWdlIDogcGFnZXMpIHsKICAgICAgICAgICAgbGlzdC5hZGQoU3RyaW5nVGFnLnZhbHVlT2YoQ29tcG9uZW50LlNlcmlhbGl6ZXIudG9Kc29uKENvbXBvbmVudC5saXRlcmFsKHBhZ2UpKSkpOwogICAgICAgIH0KICAgICAgICB0YWcucHV0KCJwYWdlcyIsIGxpc3QpOwogICAgICAgIHRhZy5wdXQoImZpbHRlcmVkX3BhZ2VzIiwgbmV3IExpc3RUYWcoKSk7CiAgICAgICAgcmV0dXJuIGJvb2s7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgU3RyaW5nIHRyaW1QYWdlKFN0cmluZyB0ZXh0KSB7CiAgICAgICAgcmV0dXJuIHRleHQubGVuZ3RoKCkgPD0gODAwID8gdGV4dCA6IHRleHQuc3Vic3RyaW5nKDAsIDc5NykgKyAiLi4uIjsKICAgIH0KfQo=
+package com.soulland.book;
+
+import com.soulland.soul.MartialSouls;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/** Buku panduan lengkap dunia Soul Land, diberikan otomatis kepada setiap pemain baru. */
+public final class GuideBook {
+    private GuideBook() {}
+
+    public static ItemStack create() {
+        ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
+        var tag = book.getOrCreateTag();
+        tag.putString("title", "Panduan Dunia Soul Land");
+        tag.putString("author", "Tang San");
+        tag.putInt("generation", 0);
+
+        List<String> pages = new ArrayList<>();
+        pages.add("SELAMAT DATANG DI BENUA DOULUO\n\nKamu telah membangkitkan Martial Soul! Buku ini menjelaskan seluruh sistem dunia Soul Land: kultivasi, spirit ring, skill, soul beast, dan jalan menuju Title Douluo.");
+        pages.add("1. MARTIAL SOUL (WU HUN)\n\nSaat pertama masuk dunia, martial soul-mu diundi secara acak (gacha), seperti takdir saat lahir.\nHasil undian bersifat permanen dan HANYA bisa diubah dalam mode Creative dengan perintah /martialsoul reroll.");
+        pages.add("2. LEVEL SPIRIT POWER\n\nLevel 1-99. Bunuh soul beast (monster) untuk mendapat XP kultivasi.\nSetiap 10 level ada GERBANG peringkat: kamu tidak bisa naik level sebelum menyerap spirit ring baru.");
+        pages.add("3. PERINGKAT KULTIVASI\n\n1-10 Spirit Scholar\n11-20 Spirit Master\n21-30 Grandmaster\n31-40 Spirit Elder\n41-50 Spirit Ancestor\n51-60 Spirit King\n61-70 Spirit Emperor\n71-80 Spirit Sage\n81-90 Spirit Douluo\n91-99 Title Douluo");
+        pages.add("4. SPIRIT RING\n\nDidapat dari membunuh soul beast:\n- 100 tahun (monster lemah)\n- 1.000 tahun (monster sedang)\n- 10.000 tahun (monster kuat & boss)\n- 100.000 tahun (Ender Dragon!)\nKlik kanan ring untuk menyerapnya. Ada syarat level minimum.");
+        pages.add("5. SKILL MARTIAL SOUL\n\nSetiap martial soul punya 2 skill:\n- Skill 1 terbuka di 1 spirit ring -> tekan [R]\n- Skill 2 terbuka di 3 spirit ring -> tekan [G]\nSkill memakai Spirit Power (energi biru di HUD) dan punya cooldown.");
+        pages.add("6. SPIRIT POWER (ENERGI)\n\nEnergi maksimum 100 dan pulih otomatis seiring waktu. Lihat level, peringkat, ring, dan energimu di HUD kiri atas, atau ketik /soulinfo.");
+        pages.add("7. SOUL BEAST & BOSS\n\nMonster adalah soul beast. Boss dunia ini JAUH lebih kuat dari biasa:\n- Elder Guardian (HP 120)\n- Wither (HP 600)\n- Warden (HP 800)\n- ENDER DRAGON (HP 1000) - boss akhir! Membunuhnya memberi ring 100.000 tahun.");
+        pages.add("8. TUJUAN AKHIR\n\nJadilah Title Douluo (level 91+) dengan 9 spirit ring, lalu kalahkan Ender Dragon, Kaisar Soul Beast terakhir. Serap ring 100.000 tahunnya dan namamu akan melegenda di Benua Douluo.");
+        pages.add("9. PERINTAH (COMMAND)\n\n/soulinfo - lihat status kultivasimu\n/martialsoul info - detail martial soul-mu\n/martialsoul reroll - undi ulang (Creative saja)\n/cultivation set <pemain> <level> - admin/OP");
+        pages.add("10. MULTIPLAYER\n\nSistem ini berjalan penuh di server: gacha, level, ring, dan skill setiap pemain tersimpan sendiri-sendiri. Ajak temanmu, bentuk tim (support Pagoda sangat membantu!), dan taklukkan boss bersama.");
+
+        // Daftar martial soul + skill-nya dihasilkan otomatis dari registry agar selalu akurat.
+        MartialSouls.all().forEach(soul -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(soul.name().toUpperCase()).append("\n");
+            sb.append("Pemilik: ").append(soul.owner()).append("\n");
+            sb.append("Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n\n");
+            soul.skills().forEach(sk -> sb.append("- ").append(sk.name()).append(" (").append(sk.ringsRequired()).append(" ring): ").append(sk.description()).append("\n"));
+            pages.add(trimPage(sb.toString()));
+        });
+
+        pages.add("SELAMAT BERKULTIVASI!\n\n\"Tidak ada martial soul yang sampah, yang ada hanya spirit master yang sampah.\" - Grandmaster Yu Xiaogang\n\nBerlatihlah, berburu bersama tim, dan jangan menyerah. Jalan menuju dewa dimulai dari level 1.");
+
+        ListTag list = new ListTag();
+        for (String page : pages) {
+            list.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(page))));
+        }
+        tag.put("pages", list);
+        tag.put("filtered_pages", new ListTag());
+        return book;
+    }
+
+    private static String trimPage(String text) {
+        return text.length() <= 800 ? text : text.substring(0, 797) + "...";
+    }
+}

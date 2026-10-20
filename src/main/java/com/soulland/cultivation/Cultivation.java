@@ -1,1 +1,74 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY3VsdGl2YXRpb247CgppbXBvcnQgY29tLnNvdWxsYW5kLkN1bHRpdmF0aW9uUmFua3M7CmltcG9ydCBuZXQubWluZWNyYWZ0Lm5idC5Db21wb3VuZFRhZzsKCmltcG9ydCBqYXZhLnV0aWwuSGFzaE1hcDsKaW1wb3J0IGphdmEudXRpbC5NYXA7CgpwdWJsaWMgY2xhc3MgQ3VsdGl2YXRpb24gaW1wbGVtZW50cyBJQ3VsdGl2YXRpb24gewogICAgcHJpdmF0ZSBib29sZWFuIGF3YWtlbmVkID0gZmFsc2U7CiAgICBwcml2YXRlIFN0cmluZyBtYXJ0aWFsU291bElkID0gIiI7CiAgICBwcml2YXRlIGludCBsZXZlbCA9IDE7CiAgICBwcml2YXRlIGludCB4cCA9IDA7CiAgICBwcml2YXRlIGludCByaW5ncyA9IDA7CiAgICBwcml2YXRlIGZsb2F0IGVuZXJneSA9IEN1bHRpdmF0aW9uUmFua3MuTUFYX0VORVJHWTsKICAgIHByaXZhdGUgYm9vbGVhbiBnYXRlTm90aWZpZWQgPSBmYWxzZTsKICAgIHByaXZhdGUgZmluYWwgTWFwPFN0cmluZywgTG9uZz4gY29vbGRvd25zID0gbmV3IEhhc2hNYXA8PigpOwoKICAgIEBPdmVycmlkZSBwdWJsaWMgYm9vbGVhbiBpc0F3YWtlbmVkKCkgeyByZXR1cm4gYXdha2VuZWQ7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRBd2FrZW5lZChib29sZWFuIGF3YWtlbmVkKSB7IHRoaXMuYXdha2VuZWQgPSBhd2FrZW5lZDsgfQoKICAgIEBPdmVycmlkZSBwdWJsaWMgU3RyaW5nIGdldE1hcnRpYWxTb3VsSWQoKSB7IHJldHVybiBtYXJ0aWFsU291bElkOyB9CiAgICBAT3ZlcnJpZGUgcHVibGljIHZvaWQgc2V0TWFydGlhbFNvdWxJZChTdHJpbmcgaWQpIHsgdGhpcy5tYXJ0aWFsU291bElkID0gaWQgPT0gbnVsbCA/ICIiIDogaWQ7IH0KCiAgICBAT3ZlcnJpZGUgcHVibGljIGludCBnZXRMZXZlbCgpIHsgcmV0dXJuIGxldmVsOyB9CiAgICBAT3ZlcnJpZGUgcHVibGljIHZvaWQgc2V0TGV2ZWwoaW50IGxldmVsKSB7IHRoaXMubGV2ZWwgPSBNYXRoLm1heCgxLCBNYXRoLm1pbihDdWx0aXZhdGlvblJhbmtzLk1BWF9MRVZFTCwgbGV2ZWwpKTsgfQoKICAgIEBPdmVycmlkZSBwdWJsaWMgaW50IGdldFhwKCkgeyByZXR1cm4geHA7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRYcChpbnQgeHApIHsgdGhpcy54cCA9IE1hdGgubWF4KDAsIHhwKTsgfQoKICAgIEBPdmVycmlkZSBwdWJsaWMgaW50IGdldFJpbmdzKCkgeyByZXR1cm4gcmluZ3M7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRSaW5ncyhpbnQgcmluZ3MpIHsgdGhpcy5yaW5ncyA9IE1hdGgubWF4KDAsIE1hdGgubWluKEN1bHRpdmF0aW9uUmFua3MuTUFYX1JJTkdTLCByaW5ncykpOyB9CgogICAgQE92ZXJyaWRlIHB1YmxpYyBmbG9hdCBnZXRFbmVyZ3koKSB7IHJldHVybiBlbmVyZ3k7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRFbmVyZ3koZmxvYXQgZW5lcmd5KSB7IHRoaXMuZW5lcmd5ID0gTWF0aC5tYXgoMGYsIE1hdGgubWluKEN1bHRpdmF0aW9uUmFua3MuTUFYX0VORVJHWSwgZW5lcmd5KSk7IH0KCiAgICBAT3ZlcnJpZGUgcHVibGljIGxvbmcgZ2V0Q29vbGRvd25VbnRpbChTdHJpbmcgc2tpbGxJZCkgeyByZXR1cm4gY29vbGRvd25zLmdldE9yRGVmYXVsdChza2lsbElkLCAwTCk7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRDb29sZG93bihTdHJpbmcgc2tpbGxJZCwgbG9uZyBnYW1lVGltZVVudGlsKSB7IGNvb2xkb3ducy5wdXQoc2tpbGxJZCwgZ2FtZVRpbWVVbnRpbCk7IH0KCiAgICBAT3ZlcnJpZGUgcHVibGljIGJvb2xlYW4gaXNHYXRlTm90aWZpZWQoKSB7IHJldHVybiBnYXRlTm90aWZpZWQ7IH0KICAgIEBPdmVycmlkZSBwdWJsaWMgdm9pZCBzZXRHYXRlTm90aWZpZWQoYm9vbGVhbiBub3RpZmllZCkgeyB0aGlzLmdhdGVOb3RpZmllZCA9IG5vdGlmaWVkOyB9CgogICAgQE92ZXJyaWRlCiAgICBwdWJsaWMgQ29tcG91bmRUYWcgc2VyaWFsaXplTkJUKCkgewogICAgICAgIENvbXBvdW5kVGFnIHRhZyA9IG5ldyBDb21wb3VuZFRhZygpOwogICAgICAgIHRhZy5wdXRCb29sZWFuKCJhd2FrZW5lZCIsIGF3YWtlbmVkKTsKICAgICAgICB0YWcucHV0U3RyaW5nKCJtYXJ0aWFsU291bCIsIG1hcnRpYWxTb3VsSWQpOwogICAgICAgIHRhZy5wdXRJbnQoImxldmVsIiwgbGV2ZWwpOwogICAgICAgIHRhZy5wdXRJbnQoInhwIiwgeHApOwogICAgICAgIHRhZy5wdXRJbnQoInJpbmdzIiwgcmluZ3MpOwogICAgICAgIHRhZy5wdXRGbG9hdCgiZW5lcmd5IiwgZW5lcmd5KTsKICAgICAgICB0YWcucHV0Qm9vbGVhbigiZ2F0ZU5vdGlmaWVkIiwgZ2F0ZU5vdGlmaWVkKTsKICAgICAgICBDb21wb3VuZFRhZyBjZHMgPSBuZXcgQ29tcG91bmRUYWcoKTsKICAgICAgICBjb29sZG93bnMuZm9yRWFjaCgoaywgdikgLT4gY2RzLnB1dExvbmcoaywgdikpOwogICAgICAgIHRhZy5wdXQoImNvb2xkb3ducyIsIGNkcyk7CiAgICAgICAgcmV0dXJuIHRhZzsKICAgIH0KCiAgICBAT3ZlcnJpZGUKICAgIHB1YmxpYyB2b2lkIGRlc2VyaWFsaXplTkJUKENvbXBvdW5kVGFnIHRhZykgewogICAgICAgIGF3YWtlbmVkID0gdGFnLmdldEJvb2xlYW4oImF3YWtlbmVkIik7CiAgICAgICAgbWFydGlhbFNvdWxJZCA9IHRhZy5nZXRTdHJpbmcoIm1hcnRpYWxTb3VsIik7CiAgICAgICAgbGV2ZWwgPSB0YWcuZ2V0SW50KCJsZXZlbCIpOwogICAgICAgIHhwID0gdGFnLmdldEludCgieHAiKTsKICAgICAgICByaW5ncyA9IHRhZy5nZXRJbnQoInJpbmdzIik7CiAgICAgICAgZW5lcmd5ID0gdGFnLmNvbnRhaW5zKCJlbmVyZ3kiKSA/IHRhZy5nZXRGbG9hdCgiZW5lcmd5IikgOiBDdWx0aXZhdGlvblJhbmtzLk1BWF9FTkVSR1k7CiAgICAgICAgZ2F0ZU5vdGlmaWVkID0gdGFnLmdldEJvb2xlYW4oImdhdGVOb3RpZmllZCIpOwogICAgICAgIGNvb2xkb3ducy5jbGVhcigpOwogICAgICAgIGlmICh0YWcuY29udGFpbnMoImNvb2xkb3ducyIpKSB7CiAgICAgICAgICAgIENvbXBvdW5kVGFnIGNkcyA9IHRhZy5nZXRDb21wb3VuZCgiY29vbGRvd25zIik7CiAgICAgICAgICAgIGZvciAoU3RyaW5nIGtleSA6IGNkcy5nZXRBbGxLZXlzKCkpIGNvb2xkb3ducy5wdXQoa2V5LCBjZHMuZ2V0TG9uZyhrZXkpKTsKICAgICAgICB9CiAgICB9Cn0K
+package com.soulland.cultivation;
+
+import com.soulland.CultivationRanks;
+import net.minecraft.nbt.CompoundTag;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Cultivation implements ICultivation {
+    private boolean awakened = false;
+    private String martialSoulId = "";
+    private int level = 1;
+    private int xp = 0;
+    private int rings = 0;
+    private float energy = CultivationRanks.MAX_ENERGY;
+    private boolean gateNotified = false;
+    private final Map<String, Long> cooldowns = new HashMap<>();
+
+    @Override public boolean isAwakened() { return awakened; }
+    @Override public void setAwakened(boolean awakened) { this.awakened = awakened; }
+
+    @Override public String getMartialSoulId() { return martialSoulId; }
+    @Override public void setMartialSoulId(String id) { this.martialSoulId = id == null ? "" : id; }
+
+    @Override public int getLevel() { return level; }
+    @Override public void setLevel(int level) { this.level = Math.max(1, Math.min(CultivationRanks.MAX_LEVEL, level)); }
+
+    @Override public int getXp() { return xp; }
+    @Override public void setXp(int xp) { this.xp = Math.max(0, xp); }
+
+    @Override public int getRings() { return rings; }
+    @Override public void setRings(int rings) { this.rings = Math.max(0, Math.min(CultivationRanks.MAX_RINGS, rings)); }
+
+    @Override public float getEnergy() { return energy; }
+    @Override public void setEnergy(float energy) { this.energy = Math.max(0f, Math.min(CultivationRanks.MAX_ENERGY, energy)); }
+
+    @Override public long getCooldownUntil(String skillId) { return cooldowns.getOrDefault(skillId, 0L); }
+    @Override public void setCooldown(String skillId, long gameTimeUntil) { cooldowns.put(skillId, gameTimeUntil); }
+
+    @Override public boolean isGateNotified() { return gateNotified; }
+    @Override public void setGateNotified(boolean notified) { this.gateNotified = notified; }
+
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("awakened", awakened);
+        tag.putString("martialSoul", martialSoulId);
+        tag.putInt("level", level);
+        tag.putInt("xp", xp);
+        tag.putInt("rings", rings);
+        tag.putFloat("energy", energy);
+        tag.putBoolean("gateNotified", gateNotified);
+        CompoundTag cds = new CompoundTag();
+        cooldowns.forEach((k, v) -> cds.putLong(k, v));
+        tag.put("cooldowns", cds);
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag tag) {
+        awakened = tag.getBoolean("awakened");
+        martialSoulId = tag.getString("martialSoul");
+        level = tag.getInt("level");
+        xp = tag.getInt("xp");
+        rings = tag.getInt("rings");
+        energy = tag.contains("energy") ? tag.getFloat("energy") : CultivationRanks.MAX_ENERGY;
+        gateNotified = tag.getBoolean("gateNotified");
+        cooldowns.clear();
+        if (tag.contains("cooldowns")) {
+            CompoundTag cds = tag.getCompound("cooldowns");
+            for (String key : cds.getAllKeys()) cooldowns.put(key, cds.getLong(key));
+        }
+    }
+}

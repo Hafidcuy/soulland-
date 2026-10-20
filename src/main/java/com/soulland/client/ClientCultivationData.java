@@ -1,1 +1,22 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY2xpZW50OwoKaW1wb3J0IGNvbS5zb3VsbGFuZC5uZXQuU3luY0N1bHRpdmF0aW9uUGFja2V0OwoKLyoqIFNhbGluYW4gZGF0YSBrdWx0aXZhc2kgZGkgc2lzaSBjbGllbnQsIGhhbnlhIHVudHVrIHRhbXBpbGFuIChIVUQpLiAqLwpwdWJsaWMgZmluYWwgY2xhc3MgQ2xpZW50Q3VsdGl2YXRpb25EYXRhIHsKICAgIHByaXZhdGUgQ2xpZW50Q3VsdGl2YXRpb25EYXRhKCkge30KCiAgICBwdWJsaWMgc3RhdGljIGludCBsZXZlbCA9IDE7CiAgICBwdWJsaWMgc3RhdGljIGludCB4cCA9IDA7CiAgICBwdWJsaWMgc3RhdGljIGludCByaW5ncyA9IDA7CiAgICBwdWJsaWMgc3RhdGljIGZsb2F0IGVuZXJneSA9IDEwMGY7CiAgICBwdWJsaWMgc3RhdGljIFN0cmluZyBzb3VsSWQgPSAiIjsKCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgc2V0KFN5bmNDdWx0aXZhdGlvblBhY2tldCBwYWNrZXQpIHsKICAgICAgICBsZXZlbCA9IHBhY2tldC5sZXZlbCgpOwogICAgICAgIHhwID0gcGFja2V0LnhwKCk7CiAgICAgICAgcmluZ3MgPSBwYWNrZXQucmluZ3MoKTsKICAgICAgICBlbmVyZ3kgPSBwYWNrZXQuZW5lcmd5KCk7CiAgICAgICAgc291bElkID0gcGFja2V0LnNvdWxJZCgpOwogICAgfQp9Cg==
+package com.soulland.client;
+
+import com.soulland.net.SyncCultivationPacket;
+
+/** Salinan data kultivasi di sisi client, hanya untuk tampilan (HUD). */
+public final class ClientCultivationData {
+    private ClientCultivationData() {}
+
+    public static int level = 1;
+    public static int xp = 0;
+    public static int rings = 0;
+    public static float energy = 100f;
+    public static String soulId = "";
+
+    public static void set(SyncCultivationPacket packet) {
+        level = packet.level();
+        xp = packet.xp();
+        rings = packet.rings();
+        energy = packet.energy();
+        soulId = packet.soulId();
+    }
+}

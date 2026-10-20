@@ -1,1 +1,43 @@
-cGFja2FnZSBjb20uc291bGxhbmQ7CgovKiogUGVyaW5na2F0IGt1bHRpdmFzaSBkaSBkdW5pYSBTb3VsIExhbmQgKERvdWx1byBEYWx1KSwgbGV2ZWwgMS05OS4gKi8KcHVibGljIGZpbmFsIGNsYXNzIEN1bHRpdmF0aW9uUmFua3MgewogICAgcHJpdmF0ZSBDdWx0aXZhdGlvblJhbmtzKCkge30KCiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBTdHJpbmdbXSBSQU5LUyA9IHsKICAgICAgICAgICAgIlNwaXJpdCBTY2hvbGFyIiwgICAgICAvLyAxLTEwCiAgICAgICAgICAgICJTcGlyaXQgTWFzdGVyIiwgICAgICAgLy8gMTEtMjAKICAgICAgICAgICAgIlNwaXJpdCBHcmFuZG1hc3RlciIsICAvLyAyMS0zMAogICAgICAgICAgICAiU3Bpcml0IEVsZGVyIiwgICAgICAgIC8vIDMxLTQwCiAgICAgICAgICAgICJTcGlyaXQgQW5jZXN0b3IiLCAgICAgLy8gNDEtNTAKICAgICAgICAgICAgIlNwaXJpdCBLaW5nIiwgICAgICAgICAvLyA1MS02MAogICAgICAgICAgICAiU3Bpcml0IEVtcGVyb3IiLCAgICAgIC8vIDYxLTcwCiAgICAgICAgICAgICJTcGlyaXQgU2FnZSIsICAgICAgICAgLy8gNzEtODAKICAgICAgICAgICAgIlNwaXJpdCBEb3VsdW8iLCAgICAgICAvLyA4MS05MAogICAgICAgICAgICAiVGl0bGUgRG91bHVvIiAgICAgICAgIC8vIDkxLTk5CiAgICB9OwoKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgaW50IE1BWF9MRVZFTCA9IDk5OwogICAgcHVibGljIHN0YXRpYyBmaW5hbCBpbnQgTUFYX1JJTkdTID0gOTsKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgZmxvYXQgTUFYX0VORVJHWSA9IDEwMGY7CgogICAgcHVibGljIHN0YXRpYyBTdHJpbmcgcmFua05hbWUoaW50IGxldmVsKSB7CiAgICAgICAgaW50IGlkeCA9IE1hdGgubWF4KDAsIE1hdGgubWluKFJBTktTLmxlbmd0aCAtIDEsIChsZXZlbCAtIDEpIC8gMTApKTsKICAgICAgICByZXR1cm4gUkFOS1NbaWR4XTsKICAgIH0KCiAgICAvKiogTGV2ZWwgZ2VyYmFuZzogdW50dWsgbmFpayBtZWxld2F0aSBsZXZlbCAxMC8yMC8uLi4vOTAgcGVtYWluIHdhamliIHB1bnlhIHNwaXJpdCByaW5nIHRhbWJhaGFuLiAqLwogICAgcHVibGljIHN0YXRpYyBib29sZWFuIGlzR2F0ZUxldmVsKGludCBsZXZlbCkgewogICAgICAgIHJldHVybiBsZXZlbCA+IDAgJiYgbGV2ZWwgJSAxMCA9PSAwICYmIGxldmVsIDwgTUFYX0xFVkVMOwogICAgfQoKICAgIC8qKiBKdW1sYWggcmluZyBtaW5pbXVtIGFnYXIgYm9sZWggbmFpayBkYXJpIGxldmVsIGdlcmJhbmcgdGVyc2VidXQuICovCiAgICBwdWJsaWMgc3RhdGljIGludCByaW5nc1JlcXVpcmVkQXRHYXRlKGludCBsZXZlbCkgewogICAgICAgIHJldHVybiBsZXZlbCAvIDEwOwogICAgfQoKICAgIC8qKiBYUCB5YW5nIGRpYnV0dWhrYW4gdW50dWsgbmFpayBkYXJpIGxldmVsIHNhYXQgaW5pIGtlIGxldmVsIGJlcmlrdXRueWEuICovCiAgICBwdWJsaWMgc3RhdGljIGludCB4cEZvck5leHRMZXZlbChpbnQgbGV2ZWwpIHsKICAgICAgICByZXR1cm4gMTAwICsgbGV2ZWwgKiAyNTsKICAgIH0KfQo=
+package com.soulland;
+
+/** Peringkat kultivasi di dunia Soul Land (Douluo Dalu), level 1-99. */
+public final class CultivationRanks {
+    private CultivationRanks() {}
+
+    private static final String[] RANKS = {
+            "Spirit Scholar",      // 1-10
+            "Spirit Master",       // 11-20
+            "Spirit Grandmaster",  // 21-30
+            "Spirit Elder",        // 31-40
+            "Spirit Ancestor",     // 41-50
+            "Spirit King",         // 51-60
+            "Spirit Emperor",      // 61-70
+            "Spirit Sage",         // 71-80
+            "Spirit Douluo",       // 81-90
+            "Title Douluo"         // 91-99
+    };
+
+    public static final int MAX_LEVEL = 99;
+    public static final int MAX_RINGS = 9;
+    public static final float MAX_ENERGY = 100f;
+
+    public static String rankName(int level) {
+        int idx = Math.max(0, Math.min(RANKS.length - 1, (level - 1) / 10));
+        return RANKS[idx];
+    }
+
+    /** Level gerbang: untuk naik melewati level 10/20/.../90 pemain wajib punya spirit ring tambahan. */
+    public static boolean isGateLevel(int level) {
+        return level > 0 && level % 10 == 0 && level < MAX_LEVEL;
+    }
+
+    /** Jumlah ring minimum agar boleh naik dari level gerbang tersebut. */
+    public static int ringsRequiredAtGate(int level) {
+        return level / 10;
+    }
+
+    /** XP yang dibutuhkan untuk naik dari level saat ini ke level berikutnya. */
+    public static int xpForNextLevel(int level) {
+        return 100 + level * 25;
+    }
+}

@@ -1,1 +1,31 @@
-cGFja2FnZSBjb20uc291bGxhbmQubmV0OwoKaW1wb3J0IGNvbS5zb3VsbGFuZC5jbGllbnQuQ2xpZW50Q3VsdGl2YXRpb25EYXRhOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uZXR3b3JrLkZyaWVuZGx5Qnl0ZUJ1ZjsKaW1wb3J0IG5ldC5taW5lY3JhZnRmb3JnZS5hcGkuZGlzdG1hcmtlci5EaXN0OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmZtbC5EaXN0RXhlY3V0b3I7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UubmV0d29yay5OZXR3b3JrRXZlbnQ7CgppbXBvcnQgamF2YS51dGlsLmZ1bmN0aW9uLlN1cHBsaWVyOwoKLyoqIFNpbmtyb25pc2FzaSBkYXRhIGt1bHRpdmFzaSBzZXJ2ZXIgLT4gY2xpZW50ICh1bnR1ayBIVUQgZGFuIHRhbXBpbGFuKS4gKi8KcHVibGljIHJlY29yZCBTeW5jQ3VsdGl2YXRpb25QYWNrZXQoaW50IGxldmVsLCBpbnQgeHAsIGludCByaW5ncywgZmxvYXQgZW5lcmd5LCBTdHJpbmcgc291bElkKSB7CgogICAgcHVibGljIHN0YXRpYyB2b2lkIGVuY29kZShTeW5jQ3VsdGl2YXRpb25QYWNrZXQgbXNnLCBGcmllbmRseUJ5dGVCdWYgYnVmKSB7CiAgICAgICAgYnVmLndyaXRlSW50KG1zZy5sZXZlbCk7CiAgICAgICAgYnVmLndyaXRlSW50KG1zZy54cCk7CiAgICAgICAgYnVmLndyaXRlSW50KG1zZy5yaW5ncyk7CiAgICAgICAgYnVmLndyaXRlRmxvYXQobXNnLmVuZXJneSk7CiAgICAgICAgYnVmLndyaXRlVXRmKG1zZy5zb3VsSWQsIDY0KTsKICAgIH0KCiAgICBwdWJsaWMgc3RhdGljIFN5bmNDdWx0aXZhdGlvblBhY2tldCBkZWNvZGUoRnJpZW5kbHlCeXRlQnVmIGJ1ZikgewogICAgICAgIHJldHVybiBuZXcgU3luY0N1bHRpdmF0aW9uUGFja2V0KGJ1Zi5yZWFkSW50KCksIGJ1Zi5yZWFkSW50KCksIGJ1Zi5yZWFkSW50KCksIGJ1Zi5yZWFkRmxvYXQoKSwgYnVmLnJlYWRVdGYoNjQpKTsKICAgIH0KCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgaGFuZGxlKFN5bmNDdWx0aXZhdGlvblBhY2tldCBtc2csIFN1cHBsaWVyPE5ldHdvcmtFdmVudC5Db250ZXh0PiBjdHgpIHsKICAgICAgICBjdHguZ2V0KCkuZW5xdWV1ZVdvcmsoKCkgLT4gRGlzdEV4ZWN1dG9yLnVuc2FmZVJ1bldoZW5PbihEaXN0LkNMSUVOVCwKICAgICAgICAgICAgICAgICgpIC0+ICgpIC0+IENsaWVudEN1bHRpdmF0aW9uRGF0YS5zZXQobXNnKSkpOwogICAgICAgIGN0eC5nZXQoKS5zZXRQYWNrZXRIYW5kbGVkKHRydWUpOwogICAgfQp9Cg==
+package com.soulland.net;
+
+import com.soulland.client.ClientCultivationData;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
+
+/** Sinkronisasi data kultivasi server -> client (untuk HUD dan tampilan). */
+public record SyncCultivationPacket(int level, int xp, int rings, float energy, String soulId) {
+
+    public static void encode(SyncCultivationPacket msg, FriendlyByteBuf buf) {
+        buf.writeInt(msg.level);
+        buf.writeInt(msg.xp);
+        buf.writeInt(msg.rings);
+        buf.writeFloat(msg.energy);
+        buf.writeUtf(msg.soulId, 64);
+    }
+
+    public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
+        return new SyncCultivationPacket(buf.readInt(), buf.readInt(), buf.readInt(), buf.readFloat(), buf.readUtf(64));
+    }
+
+    public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> ClientCultivationData.set(msg)));
+        ctx.get().setPacketHandled(true);
+    }
+}

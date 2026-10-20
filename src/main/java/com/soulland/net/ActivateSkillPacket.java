@@ -1,1 +1,30 @@
-cGFja2FnZSBjb20uc291bGxhbmQubmV0OwoKaW1wb3J0IGNvbS5zb3VsbGFuZC5za2lsbC5Ta2lsbEhhbmRsZXI7CmltcG9ydCBuZXQubWluZWNyYWZ0Lm5ldHdvcmsuRnJpZW5kbHlCeXRlQnVmOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5zZXJ2ZXIubGV2ZWwuU2VydmVyUGxheWVyOwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLm5ldHdvcmsuTmV0d29ya0V2ZW50OwoKaW1wb3J0IGphdmEudXRpbC5mdW5jdGlvbi5TdXBwbGllcjsKCi8qKiBQZXJtaW50YWFuIGFrdGl2YXNpIHNraWxsIGRhcmkgY2xpZW50IC0+IHNlcnZlci4gU2VtdWEgdmFsaWRhc2kgJiBlZmVrIGRpamFsYW5rYW4gZGkgc2VydmVyLiAqLwpwdWJsaWMgcmVjb3JkIEFjdGl2YXRlU2tpbGxQYWNrZXQoaW50IHNsb3QpIHsKCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgZW5jb2RlKEFjdGl2YXRlU2tpbGxQYWNrZXQgbXNnLCBGcmllbmRseUJ5dGVCdWYgYnVmKSB7CiAgICAgICAgYnVmLndyaXRlSW50KG1zZy5zbG90KTsKICAgIH0KCiAgICBwdWJsaWMgc3RhdGljIEFjdGl2YXRlU2tpbGxQYWNrZXQgZGVjb2RlKEZyaWVuZGx5Qnl0ZUJ1ZiBidWYpIHsKICAgICAgICByZXR1cm4gbmV3IEFjdGl2YXRlU2tpbGxQYWNrZXQoYnVmLnJlYWRJbnQoKSk7CiAgICB9CgogICAgcHVibGljIHN0YXRpYyB2b2lkIGhhbmRsZShBY3RpdmF0ZVNraWxsUGFja2V0IG1zZywgU3VwcGxpZXI8TmV0d29ya0V2ZW50LkNvbnRleHQ+IGN0eCkgewogICAgICAgIGN0eC5nZXQoKS5lbnF1ZXVlV29yaygoKSAtPiB7CiAgICAgICAgICAgIFNlcnZlclBsYXllciBwbGF5ZXIgPSBjdHguZ2V0KCkuZ2V0U2VuZGVyKCk7CiAgICAgICAgICAgIGlmIChwbGF5ZXIgIT0gbnVsbCkgewogICAgICAgICAgICAgICAgU2tpbGxIYW5kbGVyLmFjdGl2YXRlKHBsYXllciwgbXNnLnNsb3QpOwogICAgICAgICAgICB9CiAgICAgICAgfSk7CiAgICAgICAgY3R4LmdldCgpLnNldFBhY2tldEhhbmRsZWQodHJ1ZSk7CiAgICB9Cn0K
+package com.soulland.net;
+
+import com.soulland.skill.SkillHandler;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
+
+/** Permintaan aktivasi skill dari client -> server. Semua validasi & efek dijalankan di server. */
+public record ActivateSkillPacket(int slot) {
+
+    public static void encode(ActivateSkillPacket msg, FriendlyByteBuf buf) {
+        buf.writeInt(msg.slot);
+    }
+
+    public static ActivateSkillPacket decode(FriendlyByteBuf buf) {
+        return new ActivateSkillPacket(buf.readInt());
+    }
+
+    public static void handle(ActivateSkillPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            ServerPlayer player = ctx.get().getSender();
+            if (player != null) {
+                SkillHandler.activate(player, msg.slot);
+            }
+        });
+        ctx.get().setPacketHandled(true);
+    }
+}

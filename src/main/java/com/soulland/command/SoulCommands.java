@@ -1,1 +1,97 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY29tbWFuZDsKCmltcG9ydCBjb20ubW9qYW5nLmJyaWdhZGllci5Db21tYW5kRGlzcGF0Y2hlcjsKaW1wb3J0IGNvbS5tb2phbmcuYnJpZ2FkaWVyLmFyZ3VtZW50cy5JbnRlZ2VyQXJndW1lbnRUeXBlOwppbXBvcnQgY29tLnNvdWxsYW5kLkN1bHRpdmF0aW9uUmFua3M7CmltcG9ydCBjb20uc291bGxhbmQuY3VsdGl2YXRpb24uQ3VsdGl2YXRpb25DYXBhYmlsaXR5OwppbXBvcnQgY29tLnNvdWxsYW5kLmN1bHRpdmF0aW9uLkN1bHRpdmF0aW9uTWFuYWdlcjsKaW1wb3J0IGNvbS5zb3VsbGFuZC5zb3VsLk1hcnRpYWxTb3VsOwppbXBvcnQgY29tLnNvdWxsYW5kLnNvdWwuTWFydGlhbFNvdWxzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5jb21tYW5kcy5Db21tYW5kU291cmNlU3RhY2s7CmltcG9ydCBuZXQubWluZWNyYWZ0LmNvbW1hbmRzLkNvbW1hbmRzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5jb21tYW5kcy5hcmd1bWVudHMuRW50aXR5QXJndW1lbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0Lm5ldHdvcmsuY2hhdC5Db21wb25lbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0LnNlcnZlci5sZXZlbC5TZXJ2ZXJQbGF5ZXI7CgpwdWJsaWMgZmluYWwgY2xhc3MgU291bENvbW1hbmRzIHsKICAgIHByaXZhdGUgU291bENvbW1hbmRzKCkge30KCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgcmVnaXN0ZXIoQ29tbWFuZERpc3BhdGNoZXI8Q29tbWFuZFNvdXJjZVN0YWNrPiBkaXNwYXRjaGVyKSB7CiAgICAgICAgZGlzcGF0Y2hlci5yZWdpc3RlcihDb21tYW5kcy5saXRlcmFsKCJzb3VsaW5mbyIpCiAgICAgICAgICAgICAgICAuZXhlY3V0ZXMoY3R4IC0+IHsKICAgICAgICAgICAgICAgICAgICBTZXJ2ZXJQbGF5ZXIgcGxheWVyID0gY3R4LmdldFNvdXJjZSgpLmdldFBsYXllck9yRXhjZXB0aW9uKCk7CiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHNob3dJbmZvKGN0eC5nZXRTb3VyY2UoKSwgcGxheWVyKTsKICAgICAgICAgICAgICAgIH0pKTsKCiAgICAgICAgZGlzcGF0Y2hlci5yZWdpc3RlcihDb21tYW5kcy5saXRlcmFsKCJtYXJ0aWFsc291bCIpCiAgICAgICAgICAgICAgICAudGhlbihDb21tYW5kcy5saXRlcmFsKCJpbmZvIikKICAgICAgICAgICAgICAgICAgICAgICAgLmV4ZWN1dGVzKGN0eCAtPiBzaG93U291bChjdHguZ2V0U291cmNlKCksIGN0eC5nZXRTb3VyY2UoKS5nZXRQbGF5ZXJPckV4Y2VwdGlvbigpKSkpCiAgICAgICAgICAgICAgICAudGhlbihDb21tYW5kcy5saXRlcmFsKCJyZXJvbGwiKQogICAgICAgICAgICAgICAgICAgICAgICAuZXhlY3V0ZXMoY3R4IC0+IHJlcm9sbChjdHguZ2V0U291cmNlKCksIGN0eC5nZXRTb3VyY2UoKS5nZXRQbGF5ZXJPckV4Y2VwdGlvbigpKSkpKTsKCiAgICAgICAgZGlzcGF0Y2hlci5yZWdpc3RlcihDb21tYW5kcy5saXRlcmFsKCJjdWx0aXZhdGlvbiIpCiAgICAgICAgICAgICAgICAucmVxdWlyZXMoc3JjIC0+IHNyYy5oYXNQZXJtaXNzaW9uKDIpKQogICAgICAgICAgICAgICAgLnRoZW4oQ29tbWFuZHMubGl0ZXJhbCgic2V0IikKICAgICAgICAgICAgICAgICAgICAgICAgLnRoZW4oQ29tbWFuZHMuYXJndW1lbnQoInBsYXllciIsIEVudGl0eUFyZ3VtZW50LnBsYXllcigpKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC50aGVuKENvbW1hbmRzLmFyZ3VtZW50KCJsZXZlbCIsIEludGVnZXJBcmd1bWVudFR5cGUuaW50ZWdlcigxLCBDdWx0aXZhdGlvblJhbmtzLk1BWF9MRVZFTCkpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAuZXhlY3V0ZXMoY3R4IC0+IHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZXJ2ZXJQbGF5ZXIgdGFyZ2V0ID0gRW50aXR5QXJndW1lbnQuZ2V0UGxheWVyKGN0eCwgInBsYXllciIpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBsZXZlbCA9IEludGVnZXJBcmd1bWVudFR5cGUuZ2V0SW50ZWdlcihjdHgsICJsZXZlbCIpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEN1bHRpdmF0aW9uQ2FwYWJpbGl0eS5nZXQodGFyZ2V0KS5pZlByZXNlbnQoY2FwIC0+IGNhcC5zZXRMZXZlbChsZXZlbCkpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEN1bHRpdmF0aW9uTWFuYWdlci5hcHBseVN0YXRzKHRhcmdldCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ3VsdGl2YXRpb25NYW5hZ2VyLnN5bmModGFyZ2V0KTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjdHguZ2V0U291cmNlKCkuc2VuZFN1Y2Nlc3MoKCkgLT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIENvbXBvbmVudC5saXRlcmFsKCJMZXZlbCAiICsgdGFyZ2V0LmdldE5hbWUoKS5nZXRTdHJpbmcoKSArICIgZGlhdHVyIGtlICIgKyBsZXZlbCArICIuIiksIHRydWUpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAxOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfSkpKSkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIGludCBzaG93SW5mbyhDb21tYW5kU291cmNlU3RhY2sgc291cmNlLCBTZXJ2ZXJQbGF5ZXIgcGxheWVyKSB7CiAgICAgICAgQ3VsdGl2YXRpb25DYXBhYmlsaXR5LmdldChwbGF5ZXIpLmlmUHJlc2VudChjYXAgLT4gewogICAgICAgICAgICBNYXJ0aWFsU291bCBzb3VsID0gTWFydGlhbFNvdWxzLmdldChjYXAuZ2V0TWFydGlhbFNvdWxJZCgpKTsKICAgICAgICAgICAgc291cmNlLnNlbmRTdWNjZXNzKCgpIC0+IENvbXBvbmVudC5saXRlcmFsKAogICAgICAgICAgICAgICAgICAgICLCpzY9PT0gU3RhdHVzIEt1bHRpdmFzaSA9PT1cbiIgKwogICAgICAgICAgICAgICAgICAgICLCp2ZNYXJ0aWFsIFNvdWw6IMKnYiIgKyAoc291bCA9PSBudWxsID8gIi0iIDogc291bC5uYW1lKCkpICsgIiDCpzcoIiArIChzb3VsID09IG51bGwgPyAiLSIgOiBzb3VsLnJhcml0eSgpKSArICIpXG4iICsKICAgICAgICAgICAgICAgICAgICAiwqdmTGV2ZWwgU3Bpcml0IFBvd2VyOiDCp2EiICsgY2FwLmdldExldmVsKCkgKyAiIMKnNy0gIiArIEN1bHRpdmF0aW9uUmFua3MucmFua05hbWUoY2FwLmdldExldmVsKCkpICsgIlxuIiArCiAgICAgICAgICAgICAgICAgICAgIsKnZlhQOiAiICsgY2FwLmdldFhwKCkgKyAiIC8gIiArIEN1bHRpdmF0aW9uUmFua3MueHBGb3JOZXh0TGV2ZWwoY2FwLmdldExldmVsKCkpICsgIlxuIiArCiAgICAgICAgICAgICAgICAgICAgIsKnZlNwaXJpdCBSaW5nOiDCp2QiICsgY2FwLmdldFJpbmdzKCkgKyAiIC8gOVxuIiArCiAgICAgICAgICAgICAgICAgICAgIsKnZlNwaXJpdCBQb3dlciAoZW5lcmdpKTogwqdiIiArIChpbnQpIGNhcC5nZXRFbmVyZ3koKSArICIgLyAxMDAiKSwgZmFsc2UpOwogICAgICAgIH0pOwogICAgICAgIHJldHVybiAxOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIGludCBzaG93U291bChDb21tYW5kU291cmNlU3RhY2sgc291cmNlLCBTZXJ2ZXJQbGF5ZXIgcGxheWVyKSB7CiAgICAgICAgQ3VsdGl2YXRpb25DYXBhYmlsaXR5LmdldChwbGF5ZXIpLmlmUHJlc2VudChjYXAgLT4gewogICAgICAgICAgICBNYXJ0aWFsU291bCBzb3VsID0gTWFydGlhbFNvdWxzLmdldChjYXAuZ2V0TWFydGlhbFNvdWxJZCgpKTsKICAgICAgICAgICAgaWYgKHNvdWwgPT0gbnVsbCkgewogICAgICAgICAgICAgICAgc291cmNlLnNlbmRGYWlsdXJlKENvbXBvbmVudC5saXRlcmFsKCJLYW11IGJlbHVtIG1lbWJhbmdraXRrYW4gbWFydGlhbCBzb3VsLiIpKTsKICAgICAgICAgICAgICAgIHJldHVybjsKICAgICAgICAgICAgfQogICAgICAgICAgICBTdHJpbmdCdWlsZGVyIHNiID0gbmV3IFN0cmluZ0J1aWxkZXIoKTsKICAgICAgICAgICAgc2IuYXBwZW5kKCLCpzY9PT0gIikuYXBwZW5kKHNvdWwubmFtZSgpKS5hcHBlbmQoIiA9PT1cbiIpOwogICAgICAgICAgICBzYi5hcHBlbmQoIsKnN1BlbWlsaWsgYXNsaTogIikuYXBwZW5kKHNvdWwub3duZXIoKSkuYXBwZW5kKCIgfCBUaXBlOiAiKS5hcHBlbmQoc291bC50eXBlKCkpLmFwcGVuZCgiIHwgIikuYXBwZW5kKHNvdWwucmFyaXR5KCkpLmFwcGVuZCgiXG4iKTsKICAgICAgICAgICAgc2IuYXBwZW5kKCLCp2YiKS5hcHBlbmQoc291bC5kZXNjcmlwdGlvbigpKS5hcHBlbmQoIlxuIik7CiAgICAgICAgICAgIHNvdWwuc2tpbGxzKCkuZm9yRWFjaChzayAtPiBzYi5hcHBlbmQoIsKnZS0gIikuYXBwZW5kKHNrLm5hbWUoKSkKICAgICAgICAgICAgICAgICAgICAuYXBwZW5kKCIgwqc3KCIpLmFwcGVuZChzay5yaW5nc1JlcXVpcmVkKCkpLmFwcGVuZCgiIHJpbmcsIGVuZXJnaSAiKS5hcHBlbmQoKGludCkgc2suZW5lcmd5Q29zdCgpKS5hcHBlbmQoIik6IMKnZiIpCiAgICAgICAgICAgICAgICAgICAgLmFwcGVuZChzay5kZXNjcmlwdGlvbigpKS5hcHBlbmQoIlxuIikpOwogICAgICAgICAgICBzb3VyY2Uuc2VuZFN1Y2Nlc3MoKCkgLT4gQ29tcG9uZW50LmxpdGVyYWwoc2IudG9TdHJpbmcoKSksIGZhbHNlKTsKICAgICAgICB9KTsKICAgICAgICByZXR1cm4gMTsKICAgIH0KCiAgICAvKiogVW5kaSB1bGFuZyBtYXJ0aWFsIHNvdWwg4oCUIEhBTllBIGJvbGVoIGRhbGFtIG1vZGUgQ3JlYXRpdmUsIHNlc3VhaSBkZXNhaW4gZHVuaWEuICovCiAgICBwcml2YXRlIHN0YXRpYyBpbnQgcmVyb2xsKENvbW1hbmRTb3VyY2VTdGFjayBzb3VyY2UsIFNlcnZlclBsYXllciBwbGF5ZXIpIHsKICAgICAgICBpZiAoIXBsYXllci5pc0NyZWF0aXZlKCkpIHsKICAgICAgICAgICAgc291cmNlLnNlbmRGYWlsdXJlKENvbXBvbmVudC5saXRlcmFsKCJNYXJ0aWFsIHNvdWwgYWRhbGFoIHRha2RpciBzZWphayBsYWhpciEgVW5kaSB1bGFuZyBoYW55YSBiaXNhIGRpbGFrdWthbiBkYWxhbSBtb2RlIENyZWF0aXZlLiIpKTsKICAgICAgICAgICAgcmV0dXJuIDA7CiAgICAgICAgfQogICAgICAgIEN1bHRpdmF0aW9uQ2FwYWJpbGl0eS5nZXQocGxheWVyKS5pZlByZXNlbnQoY2FwIC0+IHsKICAgICAgICAgICAgTWFydGlhbFNvdWwgc291bCA9IE1hcnRpYWxTb3Vscy5yb2xsKHBsYXllci5nZXRSYW5kb20oKSk7CiAgICAgICAgICAgIGNhcC5zZXRNYXJ0aWFsU291bElkKHNvdWwuaWQoKSk7CiAgICAgICAgICAgIGNhcC5zZXRBd2FrZW5lZCh0cnVlKTsKICAgICAgICAgICAgQ3VsdGl2YXRpb25NYW5hZ2VyLnN5bmMocGxheWVyKTsKICAgICAgICAgICAgc291cmNlLnNlbmRTdWNjZXNzKCgpIC0+IENvbXBvbmVudC5saXRlcmFsKCLCp2JNYXJ0aWFsIHNvdWwtbXUgYmVydWJhaCBtZW5qYWRpOiAiICsgc291bC5uYW1lKCkgKyAiICgiICsgc291bC5yYXJpdHkoKSArICIpIiksIHRydWUpOwogICAgICAgIH0pOwogICAgICAgIHJldHVybiAxOwogICAgfQp9Cg==
+package com.soulland.command;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.soulland.CultivationRanks;
+import com.soulland.cultivation.CultivationCapability;
+import com.soulland.cultivation.CultivationManager;
+import com.soulland.soul.MartialSoul;
+import com.soulland.soul.MartialSouls;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+
+public final class SoulCommands {
+    private SoulCommands() {}
+
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("soulinfo")
+                .executes(ctx -> {
+                    ServerPlayer player = ctx.getSource().getPlayerOrException();
+                    return showInfo(ctx.getSource(), player);
+                }));
+
+        dispatcher.register(Commands.literal("martialsoul")
+                .then(Commands.literal("info")
+                        .executes(ctx -> showSoul(ctx.getSource(), ctx.getSource().getPlayerOrException())))
+                .then(Commands.literal("reroll")
+                        .executes(ctx -> reroll(ctx.getSource(), ctx.getSource().getPlayerOrException()))));
+
+        dispatcher.register(Commands.literal("cultivation")
+                .requires(src -> src.hasPermission(2))
+                .then(Commands.literal("set")
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.argument("level", IntegerArgumentType.integer(1, CultivationRanks.MAX_LEVEL))
+                                        .executes(ctx -> {
+                                            ServerPlayer target = EntityArgument.getPlayer(ctx, "player");
+                                            int level = IntegerArgumentType.getInteger(ctx, "level");
+                                            CultivationCapability.get(target).ifPresent(cap -> cap.setLevel(level));
+                                            CultivationManager.applyStats(target);
+                                            CultivationManager.sync(target);
+                                            ctx.getSource().sendSuccess(() ->
+                                                    Component.literal("Level " + target.getName().getString() + " diatur ke " + level + "."), true);
+                                            return 1;
+                                        })))));
+    }
+
+    private static int showInfo(CommandSourceStack source, ServerPlayer player) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            MartialSoul soul = MartialSouls.get(cap.getMartialSoulId());
+            source.sendSuccess(() -> Component.literal(
+                    "§6=== Status Kultivasi ===\n" +
+                    "§fMartial Soul: §b" + (soul == null ? "-" : soul.name()) + " §7(" + (soul == null ? "-" : soul.rarity()) + ")\n" +
+                    "§fLevel Spirit Power: §a" + cap.getLevel() + " §7- " + CultivationRanks.rankName(cap.getLevel()) + "\n" +
+                    "§fXP: " + cap.getXp() + " / " + CultivationRanks.xpForNextLevel(cap.getLevel()) + "\n" +
+                    "§fSpirit Ring: §d" + cap.getRings() + " / 9\n" +
+                    "§fSpirit Power (energi): §b" + (int) cap.getEnergy() + " / 100"), false);
+        });
+        return 1;
+    }
+
+    private static int showSoul(CommandSourceStack source, ServerPlayer player) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            MartialSoul soul = MartialSouls.get(cap.getMartialSoulId());
+            if (soul == null) {
+                source.sendFailure(Component.literal("Kamu belum membangkitkan martial soul."));
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("§6=== ").append(soul.name()).append(" ===\n");
+            sb.append("§7Pemilik asli: ").append(soul.owner()).append(" | Tipe: ").append(soul.type()).append(" | ").append(soul.rarity()).append("\n");
+            sb.append("§f").append(soul.description()).append("\n");
+            soul.skills().forEach(sk -> sb.append("§e- ").append(sk.name())
+                    .append(" §7(").append(sk.ringsRequired()).append(" ring, energi ").append((int) sk.energyCost()).append("): §f")
+                    .append(sk.description()).append("\n"));
+            source.sendSuccess(() -> Component.literal(sb.toString()), false);
+        });
+        return 1;
+    }
+
+    /** Undi ulang martial soul — HANYA boleh dalam mode Creative, sesuai desain dunia. */
+    private static int reroll(CommandSourceStack source, ServerPlayer player) {
+        if (!player.isCreative()) {
+            source.sendFailure(Component.literal("Martial soul adalah takdir sejak lahir! Undi ulang hanya bisa dilakukan dalam mode Creative."));
+            return 0;
+        }
+        CultivationCapability.get(player).ifPresent(cap -> {
+            MartialSoul soul = MartialSouls.roll(player.getRandom());
+            cap.setMartialSoulId(soul.id());
+            cap.setAwakened(true);
+            CultivationManager.sync(player);
+            source.sendSuccess(() -> Component.literal("§bMartial soul-mu berubah menjadi: " + soul.name() + " (" + soul.rarity() + ")"), true);
+        });
+        return 1;
+    }
+}

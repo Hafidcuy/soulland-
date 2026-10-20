@@ -1,1 +1,99 @@
-cGx1Z2lucyB7CiAgICBpZCAnZWNsaXBzZScKICAgIGlkICdpZGVhJwogICAgaWQgJ21hdmVuLXB1Ymxpc2gnCiAgICBpZCAnbmV0Lm1pbmVjcmFmdGZvcmdlLmdyYWRsZScgdmVyc2lvbiAnWzYuMCw2LjIpJwp9Cgp2ZXJzaW9uID0gbW9kX3ZlcnNpb24KZ3JvdXAgPSBtb2RfZ3JvdXBfaWQKCmJhc2UgewogICAgYXJjaGl2ZXNOYW1lID0gbW9kX2lkCn0KCmphdmEudG9vbGNoYWluLmxhbmd1YWdlVmVyc2lvbiA9IEphdmFMYW5ndWFnZVZlcnNpb24ub2YoMTcpCgpwcmludGxuICJKYXZhOiAke1N5c3RlbS5nZXRQcm9wZXJ0eSAnamF2YS52ZXJzaW9uJ30sIEpWTTogJHtTeXN0ZW0uZ2V0UHJvcGVydHkgJ2phdmEudm0udmVyc2lvbid9ICgke1N5c3RlbS5nZXRQcm9wZXJ0eSAnamF2YS52ZW5kb3InfSksIEFyY2g6ICR7U3lzdGVtLmdldFByb3BlcnR5ICdvcy5hcmNoJ30iCgptaW5lY3JhZnQgewogICAgbWFwcGluZ3MgY2hhbm5lbDogbWFwcGluZ19jaGFubmVsLCB2ZXJzaW9uOiBtYXBwaW5nX3ZlcnNpb24KCiAgICBjb3B5SWRlUmVzb3VyY2VzID0gdHJ1ZQoKICAgIHJ1bnMgewogICAgICAgIGNvbmZpZ3VyZUVhY2ggewogICAgICAgICAgICB3b3JraW5nRGlyZWN0b3J5IHByb2plY3QuZmlsZSgncnVuJykKICAgICAgICAgICAgcHJvcGVydHkgJ2ZvcmdlLmxvZ2dpbmcubWFya2VycycsICdSRUdJU1RSSUVTJwogICAgICAgICAgICBwcm9wZXJ0eSAnZm9yZ2UubG9nZ2luZy5jb25zb2xlLmxldmVsJywgJ2RlYnVnJwogICAgICAgICAgICBtb2RzIHsKICAgICAgICAgICAgICAgICIke21vZF9pZH0iIHsKICAgICAgICAgICAgICAgICAgICBzb3VyY2Ugc291cmNlU2V0cy5tYWluCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGNsaWVudCB7CiAgICAgICAgICAgIHByb3BlcnR5ICdmb3JnZS5lbmFibGVkR2FtZVRlc3ROYW1lc3BhY2VzJywgbW9kX2lkCiAgICAgICAgfQoKICAgICAgICBzZXJ2ZXIgewogICAgICAgICAgICBwcm9wZXJ0eSAnZm9yZ2UuZW5hYmxlZEdhbWVUZXN0TmFtZXNwYWNlcycsIG1vZF9pZAogICAgICAgICAgICBhcmdzICctLW5vZ3VpJwogICAgICAgIH0KCiAgICAgICAgZGF0YSB7CiAgICAgICAgICAgIGFyZ3MgJy0tbW9kJywgbW9kX2lkLCAnLS1hbGwnLCAnLS1vdXRwdXQnLCBmaWxlKCdzcmMvZ2VuZXJhdGVkL3Jlc291cmNlcy8nKSwgJy0tZXhpc3RpbmcnLCBmaWxlKCdzcmMvbWFpbi9yZXNvdXJjZXMvJykKICAgICAgICB9CiAgICB9Cn0KCnNvdXJjZVNldHMubWFpbi5yZXNvdXJjZXMgeyBzcmNEaXIgJ3NyYy9nZW5lcmF0ZWQvcmVzb3VyY2VzJyB9CgpyZXBvc2l0b3JpZXMgewp9CgpkZXBlbmRlbmNpZXMgewogICAgbWluZWNyYWZ0ICJuZXQubWluZWNyYWZ0Zm9yZ2U6Zm9yZ2U6JHttaW5lY3JhZnRfdmVyc2lvbn0tJHtmb3JnZV92ZXJzaW9ufSIKfQoKdGFza3Mud2l0aFR5cGUoUHJvY2Vzc1Jlc291cmNlcykuY29uZmlndXJlRWFjaCB7CiAgICBkZWYgcmVwbGFjZVByb3BlcnRpZXMgPSBbCiAgICAgICAgICAgIG1pbmVjcmFmdF92ZXJzaW9uOiBtaW5lY3JhZnRfdmVyc2lvbiwgbWluZWNyYWZ0X3ZlcnNpb25fcmFuZ2U6IG1pbmVjcmFmdF92ZXJzaW9uX3JhbmdlLAogICAgICAgICAgICBmb3JnZV92ZXJzaW9uOiBmb3JnZV92ZXJzaW9uLCBmb3JnZV92ZXJzaW9uX3JhbmdlOiBmb3JnZV92ZXJzaW9uX3JhbmdlLAogICAgICAgICAgICBsb2FkZXJfdmVyc2lvbl9yYW5nZTogbG9hZGVyX3ZlcnNpb25fcmFuZ2UsCiAgICAgICAgICAgIG1vZF9pZDogbW9kX2lkLCBtb2RfbmFtZTogbW9kX25hbWUsIG1vZF9saWNlbnNlOiBtb2RfbGljZW5zZSwgbW9kX3ZlcnNpb246IG1vZF92ZXJzaW9uLAogICAgICAgICAgICBtb2RfYXV0aG9yczogbW9kX2F1dGhvcnMsIG1vZF9kZXNjcmlwdGlvbjogbW9kX2Rlc2NyaXB0aW9uLAogICAgXQogICAgaW5wdXRzLnByb3BlcnRpZXMgcmVwbGFjZVByb3BlcnRpZXMKCiAgICBmaWxlc01hdGNoaW5nKFsnTUVUQS1JTkYvbW9kcy50b21sJywgJ3BhY2subWNtZXRhJ10pIHsKICAgICAgICBleHBhbmQgcmVwbGFjZVByb3BlcnRpZXMKICAgIH0KfQoKdGFzayBzb3VyY2VzSmFyKHR5cGU6IEphcikgewogICAgYXJjaGl2ZUNsYXNzaWZpZXIgPSAnc291cmNlcycKICAgIGZyb20gc291cmNlU2V0cy5tYWluLmFsbEphdmEKfQoKYXJ0aWZhY3RzIHsKICAgIGFyY2hpdmVzIHNvdXJjZXNKYXIKfQoKamFyIHsKICAgIG1hbmlmZXN0IHsKICAgICAgICBhdHRyaWJ1dGVzKFsKICAgICAgICAgICAgICAgICJTcGVjaWZpY2F0aW9uLVRpdGxlIiAgIDogbW9kX2lkLAogICAgICAgICAgICAgICAgIlNwZWNpZmljYXRpb24tVmVuZG9yIiAgOiBtb2RfYXV0aG9ycywKICAgICAgICAgICAgICAgICJTcGVjaWZpY2F0aW9uLVZlcnNpb24iIDogIjEiLAogICAgICAgICAgICAgICAgIkltcGxlbWVudGF0aW9uLVRpdGxlIiAgOiBwcm9qZWN0Lm5hbWUsCiAgICAgICAgICAgICAgICAiSW1wbGVtZW50YXRpb24tVmVyc2lvbiI6IHByb2plY3QuamFyLmFyY2hpdmVWZXJzaW9uLAogICAgICAgICAgICAgICAgIkltcGxlbWVudGF0aW9uLVZlbmRvciIgOiBtb2RfYXV0aG9ycwogICAgICAgIF0pCiAgICB9Cn0KCnRhc2tzLndpdGhUeXBlKEphdmFDb21waWxlKS5jb25maWd1cmVFYWNoIHsKICAgIG9wdGlvbnMuZW5jb2RpbmcgPSAnVVRGLTgnCn0K
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+        }
+
+        data {
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    def replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties
+    }
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"   : mod_id,
+                "Specification-Vendor"  : mod_authors,
+                "Specification-Version" : "1",
+                "Implementation-Title"  : project.name,
+                "Implementation-Version": project.jar.archiveVersion,
+                "Implementation-Vendor" : mod_authors
+        ])
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

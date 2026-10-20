@@ -1,1 +1,21 @@
-cGFja2FnZSBjb20uc291bGxhbmQuaXRlbTsKCmltcG9ydCBjb20uc291bGxhbmQuU291bExhbmRNb2Q7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLml0ZW0uSXRlbTsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuaXRlbS5SYXJpdHk7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UucmVnaXN0cmllcy5EZWZlcnJlZFJlZ2lzdGVyOwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLnJlZ2lzdHJpZXMuRm9yZ2VSZWdpc3RyaWVzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLnJlZ2lzdHJpZXMuUmVnaXN0cnlPYmplY3Q7CgpwdWJsaWMgY2xhc3MgTW9kSXRlbXMgewogICAgcHVibGljIHN0YXRpYyBmaW5hbCBEZWZlcnJlZFJlZ2lzdGVyPEl0ZW0+IElURU1TID0gRGVmZXJyZWRSZWdpc3Rlci5jcmVhdGUoRm9yZ2VSZWdpc3RyaWVzLklURU1TLCBTb3VsTGFuZE1vZC5NT0RJRCk7CgogICAgcHVibGljIHN0YXRpYyBmaW5hbCBSZWdpc3RyeU9iamVjdDxTcGlyaXRSaW5nSXRlbT4gU1BJUklUX1JJTkdfMTAwID0gSVRFTVMucmVnaXN0ZXIoInNwaXJpdF9yaW5nXzEwMCIsCiAgICAgICAgICAgICgpIC0+IG5ldyBTcGlyaXRSaW5nSXRlbShTcGlyaXRSaW5nSXRlbS5UaWVyLlkxMDAsIG5ldyBJdGVtLlByb3BlcnRpZXMoKS5yYXJpdHkoUmFyaXR5LkNPTU1PTikpKTsKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgUmVnaXN0cnlPYmplY3Q8U3Bpcml0UmluZ0l0ZW0+IFNQSVJJVF9SSU5HXzEwMDAgPSBJVEVNUy5yZWdpc3Rlcigic3Bpcml0X3JpbmdfMTAwMCIsCiAgICAgICAgICAgICgpIC0+IG5ldyBTcGlyaXRSaW5nSXRlbShTcGlyaXRSaW5nSXRlbS5UaWVyLlkxMDAwLCBuZXcgSXRlbS5Qcm9wZXJ0aWVzKCkucmFyaXR5KFJhcml0eS5VTkNPTU1PTikpKTsKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgUmVnaXN0cnlPYmplY3Q8U3Bpcml0UmluZ0l0ZW0+IFNQSVJJVF9SSU5HXzEwMDAwID0gSVRFTVMucmVnaXN0ZXIoInNwaXJpdF9yaW5nXzEwMDAwIiwKICAgICAgICAgICAgKCkgLT4gbmV3IFNwaXJpdFJpbmdJdGVtKFNwaXJpdFJpbmdJdGVtLlRpZXIuWTEwMDAwLCBuZXcgSXRlbS5Qcm9wZXJ0aWVzKCkucmFyaXR5KFJhcml0eS5SQVJFKSkpOwogICAgcHVibGljIHN0YXRpYyBmaW5hbCBSZWdpc3RyeU9iamVjdDxTcGlyaXRSaW5nSXRlbT4gU1BJUklUX1JJTkdfMTAwMDAwID0gSVRFTVMucmVnaXN0ZXIoInNwaXJpdF9yaW5nXzEwMDAwMCIsCiAgICAgICAgICAgICgpIC0+IG5ldyBTcGlyaXRSaW5nSXRlbShTcGlyaXRSaW5nSXRlbS5UaWVyLlkxMDAwMDAsIG5ldyBJdGVtLlByb3BlcnRpZXMoKS5yYXJpdHkoUmFyaXR5LkVQSUMpKSk7Cn0K
+package com.soulland.item;
+
+import com.soulland.SoulLandMod;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+public class ModItems {
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SoulLandMod.MODID);
+
+    public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100 = ITEMS.register("spirit_ring_100",
+            () -> new SpiritRingItem(SpiritRingItem.Tier.Y100, new Item.Properties().rarity(Rarity.COMMON)));
+    public static final RegistryObject<SpiritRingItem> SPIRIT_RING_1000 = ITEMS.register("spirit_ring_1000",
+            () -> new SpiritRingItem(SpiritRingItem.Tier.Y1000, new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<SpiritRingItem> SPIRIT_RING_10000 = ITEMS.register("spirit_ring_10000",
+            () -> new SpiritRingItem(SpiritRingItem.Tier.Y10000, new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<SpiritRingItem> SPIRIT_RING_100000 = ITEMS.register("spirit_ring_100000",
+            () -> new SpiritRingItem(SpiritRingItem.Tier.Y100000, new Item.Properties().rarity(Rarity.EPIC)));
+}

@@ -1,1 +1,23 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY2xpZW50OwoKaW1wb3J0IGNvbS5tb2phbmcuYmxhemUzZC5wbGF0Zm9ybS5JbnB1dENvbnN0YW50czsKaW1wb3J0IGNvbS5zb3VsbGFuZC5Tb3VsTGFuZE1vZDsKaW1wb3J0IG5ldC5taW5lY3JhZnQuY2xpZW50LktleU1hcHBpbmc7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuY2xpZW50LmV2ZW50LlJlZ2lzdGVyS2V5TWFwcGluZ3NFdmVudDsKaW1wb3J0IG5ldC5taW5lY3JhZnRmb3JnZS5ldmVudGJ1cy5hcGkuU3Vic2NyaWJlRXZlbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuZm1sLmNvbW1vbi5Nb2Q7CmltcG9ydCBvcmcubHdqZ2wuZ2xmdy5HTEZXOwoKQE1vZC5FdmVudEJ1c1N1YnNjcmliZXIobW9kaWQgPSBTb3VsTGFuZE1vZC5NT0RJRCwgYnVzID0gTW9kLkV2ZW50QnVzU3Vic2NyaWJlci5CdXMuTU9EKQpwdWJsaWMgY2xhc3MgS2V5QmluZGluZ3MgewogICAgcHVibGljIHN0YXRpYyBLZXlNYXBwaW5nIFNLSUxMXzE7CiAgICBwdWJsaWMgc3RhdGljIEtleU1hcHBpbmcgU0tJTExfMjsKCiAgICBAU3Vic2NyaWJlRXZlbnQKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCByZWdpc3RlcktleXMoUmVnaXN0ZXJLZXlNYXBwaW5nc0V2ZW50IGV2ZW50KSB7CiAgICAgICAgU0tJTExfMSA9IG5ldyBLZXlNYXBwaW5nKCJrZXkuc291bGxhbmQuc2tpbGwxIiwgR0xGVy5HTEZXX0tFWV9SLCAia2V5LmNhdGVnb3JpZXMuc291bGxhbmQiKTsKICAgICAgICBTS0lMTF8yID0gbmV3IEtleU1hcHBpbmcoImtleS5zb3VsbGFuZC5za2lsbDIiLCBHTEZXLkdMRldfS0VZX0csICJrZXkuY2F0ZWdvcmllcy5zb3VsbGFuZCIpOwogICAgICAgIGV2ZW50LnJlZ2lzdGVyKFNLSUxMXzEpOwogICAgICAgIGV2ZW50LnJlZ2lzdGVyKFNLSUxMXzIpOwogICAgfQp9Cg==
+package com.soulland.client;
+
+import com.mojang.blaze3d.platform.InputConstants;
+import com.soulland.SoulLandMod;
+import net.minecraft.client.KeyMapping;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import org.lwjgl.glfw.GLFW;
+
+@Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class KeyBindings {
+    public static KeyMapping SKILL_1;
+    public static KeyMapping SKILL_2;
+
+    @SubscribeEvent
+    public static void registerKeys(RegisterKeyMappingsEvent event) {
+        SKILL_1 = new KeyMapping("key.soulland.skill1", GLFW.GLFW_KEY_R, "key.categories.soulland");
+        SKILL_2 = new KeyMapping("key.soulland.skill2", GLFW.GLFW_KEY_G, "key.categories.soulland");
+        event.register(SKILL_1);
+        event.register(SKILL_2);
+    }
+}

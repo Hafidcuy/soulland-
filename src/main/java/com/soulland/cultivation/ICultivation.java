@@ -1,1 +1,33 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY3VsdGl2YXRpb247CgppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uYnQuQ29tcG91bmRUYWc7CgovKiogRGF0YSBrdWx0aXZhc2kgc2VvcmFuZyBwZW1haW46IGxldmVsIHNwaXJpdCBwb3dlciwgbWFydGlhbCBzb3VsLCBzcGlyaXQgcmluZywgZW5lcmdpLCBjb29sZG93bi4gKi8KcHVibGljIGludGVyZmFjZSBJQ3VsdGl2YXRpb24gewogICAgYm9vbGVhbiBpc0F3YWtlbmVkKCk7CiAgICB2b2lkIHNldEF3YWtlbmVkKGJvb2xlYW4gYXdha2VuZWQpOwoKICAgIFN0cmluZyBnZXRNYXJ0aWFsU291bElkKCk7CiAgICB2b2lkIHNldE1hcnRpYWxTb3VsSWQoU3RyaW5nIGlkKTsKCiAgICBpbnQgZ2V0TGV2ZWwoKTsKICAgIHZvaWQgc2V0TGV2ZWwoaW50IGxldmVsKTsKCiAgICBpbnQgZ2V0WHAoKTsKICAgIHZvaWQgc2V0WHAoaW50IHhwKTsKCiAgICBpbnQgZ2V0UmluZ3MoKTsKICAgIHZvaWQgc2V0UmluZ3MoaW50IHJpbmdzKTsKCiAgICBmbG9hdCBnZXRFbmVyZ3koKTsKICAgIHZvaWQgc2V0RW5lcmd5KGZsb2F0IGVuZXJneSk7CgogICAgbG9uZyBnZXRDb29sZG93blVudGlsKFN0cmluZyBza2lsbElkKTsKICAgIHZvaWQgc2V0Q29vbGRvd24oU3RyaW5nIHNraWxsSWQsIGxvbmcgZ2FtZVRpbWVVbnRpbCk7CgogICAgYm9vbGVhbiBpc0dhdGVOb3RpZmllZCgpOwogICAgdm9pZCBzZXRHYXRlTm90aWZpZWQoYm9vbGVhbiBub3RpZmllZCk7CgogICAgQ29tcG91bmRUYWcgc2VyaWFsaXplTkJUKCk7CiAgICB2b2lkIGRlc2VyaWFsaXplTkJUKENvbXBvdW5kVGFnIG5idCk7Cn0K
+package com.soulland.cultivation;
+
+import net.minecraft.nbt.CompoundTag;
+
+/** Data kultivasi seorang pemain: level spirit power, martial soul, spirit ring, energi, cooldown. */
+public interface ICultivation {
+    boolean isAwakened();
+    void setAwakened(boolean awakened);
+
+    String getMartialSoulId();
+    void setMartialSoulId(String id);
+
+    int getLevel();
+    void setLevel(int level);
+
+    int getXp();
+    void setXp(int xp);
+
+    int getRings();
+    void setRings(int rings);
+
+    float getEnergy();
+    void setEnergy(float energy);
+
+    long getCooldownUntil(String skillId);
+    void setCooldown(String skillId, long gameTimeUntil);
+
+    boolean isGateNotified();
+    void setGateNotified(boolean notified);
+
+    CompoundTag serializeNBT();
+    void deserializeNBT(CompoundTag nbt);
+}

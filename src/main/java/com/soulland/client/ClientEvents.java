@@ -1,1 +1,60 @@
-cGFja2FnZSBjb20uc291bGxhbmQuY2xpZW50OwoKaW1wb3J0IGNvbS5zb3VsbGFuZC5DdWx0aXZhdGlvblJhbmtzOwppbXBvcnQgY29tLnNvdWxsYW5kLlNvdWxMYW5kTW9kOwppbXBvcnQgY29tLnNvdWxsYW5kLm5ldC5BY3RpdmF0ZVNraWxsUGFja2V0OwppbXBvcnQgY29tLnNvdWxsYW5kLm5ldC5Nb2ROZXR3b3JrOwppbXBvcnQgY29tLnNvdWxsYW5kLnNvdWwuTWFydGlhbFNvdWw7CmltcG9ydCBjb20uc291bGxhbmQuc291bC5NYXJ0aWFsU291bHM7CmltcG9ydCBuZXQubWluZWNyYWZ0LmNsaWVudC5NaW5lY3JhZnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0LmNsaWVudC5ndWkuR3VpR3JhcGhpY3M7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuYXBpLmRpc3RtYXJrZXIuRGlzdDsKaW1wb3J0IG5ldC5taW5lY3JhZnRmb3JnZS5jbGllbnQuZXZlbnQuUmVnaXN0ZXJHdWlPdmVybGF5c0V2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmNsaWVudC5ndWkub3ZlcmxheS5WYW5pbGxhR3VpT3ZlcmxheTsKaW1wb3J0IG5ldC5taW5lY3JhZnRmb3JnZS5ldmVudC5UaWNrRXZlbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuZXZlbnRidXMuYXBpLlN1YnNjcmliZUV2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmZtbC5jb21tb24uTW9kOwoKQE1vZC5FdmVudEJ1c1N1YnNjcmliZXIobW9kaWQgPSBTb3VsTGFuZE1vZC5NT0RJRCwgdmFsdWUgPSBEaXN0LkNMSUVOVCkKcHVibGljIGNsYXNzIENsaWVudEV2ZW50cyB7CgogICAgQFN1YnNjcmliZUV2ZW50CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgb25DbGllbnRUaWNrKFRpY2tFdmVudC5DbGllbnRUaWNrRXZlbnQgZXZlbnQpIHsKICAgICAgICBpZiAoZXZlbnQucGhhc2UgIT0gVGlja0V2ZW50LlBoYXNlLkVORCkgcmV0dXJuOwogICAgICAgIE1pbmVjcmFmdCBtYyA9IE1pbmVjcmFmdC5nZXRJbnN0YW5jZSgpOwogICAgICAgIGlmIChtYy5wbGF5ZXIgPT0gbnVsbCB8fCBtYy5zY3JlZW4gIT0gbnVsbCkgcmV0dXJuOwogICAgICAgIGlmIChLZXlCaW5kaW5ncy5TS0lMTF8xICE9IG51bGwgJiYgS2V5QmluZGluZ3MuU0tJTExfMS5jb25zdW1lQ2xpY2soKSkgewogICAgICAgICAgICBNb2ROZXR3b3JrLkNIQU5ORUwuc2VuZFRvU2VydmVyKG5ldyBBY3RpdmF0ZVNraWxsUGFja2V0KDApKTsKICAgICAgICB9CiAgICAgICAgaWYgKEtleUJpbmRpbmdzLlNLSUxMXzIgIT0gbnVsbCAmJiBLZXlCaW5kaW5ncy5TS0lMTF8yLmNvbnN1bWVDbGljaygpKSB7CiAgICAgICAgICAgIE1vZE5ldHdvcmsuQ0hBTk5FTC5zZW5kVG9TZXJ2ZXIobmV3IEFjdGl2YXRlU2tpbGxQYWNrZXQoMSkpOwogICAgICAgIH0KICAgIH0KCiAgICBATW9kLkV2ZW50QnVzU3Vic2NyaWJlcihtb2RpZCA9IFNvdWxMYW5kTW9kLk1PRElELCBidXMgPSBNb2QuRXZlbnRCdXNTdWJzY3JpYmVyLkJ1cy5NT0QsIHZhbHVlID0gRGlzdC5DTElFTlQpCiAgICBwdWJsaWMgc3RhdGljIGNsYXNzIE92ZXJsYXlSZWdpc3RyYXIgewogICAgICAgIEBTdWJzY3JpYmVFdmVudAogICAgICAgIHB1YmxpYyBzdGF0aWMgdm9pZCByZWdpc3Rlck92ZXJsYXlzKFJlZ2lzdGVyR3VpT3ZlcmxheXNFdmVudCBldmVudCkgewogICAgICAgICAgICBldmVudC5yZWdpc3RlckFib3ZlKFZhbmlsbGFHdWlPdmVybGF5LkhPVEJBUi5pZCgpLCAic291bGxhbmRfaHVkIiwKICAgICAgICAgICAgICAgICAgICAoZm9yZ2VHdWksIGd1aUdyYXBoaWNzLCBwYXJ0aWFsVGljaywgc2NyZWVuV2lkdGgsIHNjcmVlbkhlaWdodCkgLT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlbmRlckh1ZChndWlHcmFwaGljcykpOwogICAgICAgIH0KCiAgICAgICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCByZW5kZXJIdWQoR3VpR3JhcGhpY3MgZ3VpKSB7CiAgICAgICAgICAgIE1pbmVjcmFmdCBtYyA9IE1pbmVjcmFmdC5nZXRJbnN0YW5jZSgpOwogICAgICAgICAgICBpZiAobWMucGxheWVyID09IG51bGwgfHwgbWMub3B0aW9ucy5oaWRlR3VpKSByZXR1cm47CgogICAgICAgICAgICBNYXJ0aWFsU291bCBzb3VsID0gTWFydGlhbFNvdWxzLmdldChDbGllbnRDdWx0aXZhdGlvbkRhdGEuc291bElkKTsKICAgICAgICAgICAgU3RyaW5nIHNvdWxOYW1lID0gc291bCA9PSBudWxsID8gIiIgOiBzb3VsLm5hbWUoKTsKCiAgICAgICAgICAgIGludCB4ID0gNiwgeSA9IDY7CiAgICAgICAgICAgIGd1aS5kcmF3U3RyaW5nKG1jLmZvbnQsICJMdi4iICsgQ2xpZW50Q3VsdGl2YXRpb25EYXRhLmxldmVsICsgIiAiICsgQ3VsdGl2YXRpb25SYW5rcy5yYW5rTmFtZShDbGllbnRDdWx0aXZhdGlvbkRhdGEubGV2ZWwpLCB4LCB5LCAweEZGRDk2Nik7CiAgICAgICAgICAgIGd1aS5kcmF3U3RyaW5nKG1jLmZvbnQsICJSaW5nOiAiICsgQ2xpZW50Q3VsdGl2YXRpb25EYXRhLnJpbmdzICsgIi85IiArIChzb3VsTmFtZS5pc0VtcHR5KCkgPyAiIiA6ICIgfCAiICsgc291bE5hbWUpLCB4LCB5ICsgMTAsIDB4RkY5REZGKTsKICAgICAgICAgICAgaW50IGJhclcgPSA4MDsKICAgICAgICAgICAgaW50IGZpbGxlZCA9IChpbnQpIChiYXJXICogKENsaWVudEN1bHRpdmF0aW9uRGF0YS5lbmVyZ3kgLyAxMDBmKSk7CiAgICAgICAgICAgIGd1aS5maWxsKHgsIHkgKyAyMSwgeCArIGJhclcsIHkgKyAyNiwgMHg4MDAwMDAwMCk7CiAgICAgICAgICAgIGd1aS5maWxsKHgsIHkgKyAyMSwgeCArIGZpbGxlZCwgeSArIDI2LCAweEZGMzNBQUZGKTsKICAgICAgICAgICAgZ3VpLmRyYXdTdHJpbmcobWMuZm9udCwgIlNQICIgKyAoaW50KSBDbGllbnRDdWx0aXZhdGlvbkRhdGEuZW5lcmd5ICsgIi8xMDAiLCB4ICsgYmFyVyArIDQsIHkgKyAyMCwgMHg5OUNDRkYpOwogICAgICAgIH0KICAgIH0KfQo=
+package com.soulland.client;
+
+import com.soulland.CultivationRanks;
+import com.soulland.SoulLandMod;
+import com.soulland.net.ActivateSkillPacket;
+import com.soulland.net.ModNetwork;
+import com.soulland.soul.MartialSoul;
+import com.soulland.soul.MartialSouls;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber(modid = SoulLandMod.MODID, value = Dist.CLIENT)
+public class ClientEvents {
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.screen != null) return;
+        if (KeyBindings.SKILL_1 != null && KeyBindings.SKILL_1.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(0));
+        }
+        if (KeyBindings.SKILL_2 != null && KeyBindings.SKILL_2.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(1));
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class OverlayRegistrar {
+        @SubscribeEvent
+        public static void registerOverlays(RegisterGuiOverlaysEvent event) {
+            event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "soulland_hud",
+                    (forgeGui, guiGraphics, partialTick, screenWidth, screenHeight) ->
+                            renderHud(guiGraphics));
+        }
+
+        private static void renderHud(GuiGraphics gui) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player == null || mc.options.hideGui) return;
+
+            MartialSoul soul = MartialSouls.get(ClientCultivationData.soulId);
+            String soulName = soul == null ? "" : soul.name();
+
+            int x = 6, y = 6;
+            gui.drawString(mc.font, "Lv." + ClientCultivationData.level + " " + CultivationRanks.rankName(ClientCultivationData.level), x, y, 0xFFD966);
+            gui.drawString(mc.font, "Ring: " + ClientCultivationData.rings + "/9" + (soulName.isEmpty() ? "" : " | " + soulName), x, y + 10, 0xFF9DFF);
+            int barW = 80;
+            int filled = (int) (barW * (ClientCultivationData.energy / 100f));
+            gui.fill(x, y + 21, x + barW, y + 26, 0x80000000);
+            gui.fill(x, y + 21, x + filled, y + 26, 0xFF33AAFF);
+            gui.drawString(mc.font, "SP " + (int) ClientCultivationData.energy + "/100", x + barW + 4, y + 20, 0x99CCFF);
+        }
+    }
+}

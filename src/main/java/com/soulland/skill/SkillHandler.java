@@ -1,1 +1,234 @@
-cGFja2FnZSBjb20uc291bGxhbmQuc2tpbGw7CgppbXBvcnQgY29tLnNvdWxsYW5kLmN1bHRpdmF0aW9uLkN1bHRpdmF0aW9uQ2FwYWJpbGl0eTsKaW1wb3J0IGNvbS5zb3VsbGFuZC5jdWx0aXZhdGlvbi5DdWx0aXZhdGlvbk1hbmFnZXI7CmltcG9ydCBjb20uc291bGxhbmQuc291bC5NYXJ0aWFsU291bDsKaW1wb3J0IGNvbS5zb3VsbGFuZC5zb3VsLk1hcnRpYWxTb3VsczsKaW1wb3J0IGNvbS5zb3VsbGFuZC5zb3VsLlNraWxsRGVmOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5jb3JlLnBhcnRpY2xlcy5QYXJ0aWNsZVR5cGVzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uZXR3b3JrLmNoYXQuQ29tcG9uZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5zZXJ2ZXIubGV2ZWwuU2VydmVyTGV2ZWw7CmltcG9ydCBuZXQubWluZWNyYWZ0LnNlcnZlci5sZXZlbC5TZXJ2ZXJQbGF5ZXI7CmltcG9ydCBuZXQubWluZWNyYWZ0LnNvdW5kcy5Tb3VuZEV2ZW50czsKaW1wb3J0IG5ldC5taW5lY3JhZnQuc291bmRzLlNvdW5kU291cmNlOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5lZmZlY3QuTW9iRWZmZWN0SW5zdGFuY2U7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLmVmZmVjdC5Nb2JFZmZlY3RzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5lbnRpdHkuTGl2aW5nRW50aXR5OwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5lbnRpdHkucHJvamVjdGlsZS5TbWFsbEZpcmViYWxsOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5waHlzLkFBQkI7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLnBoeXMuVmVjMzsKCmltcG9ydCBqYXZhLnV0aWwuTGlzdDsKCi8qKiBFa3Nla3VzaSBzZWx1cnVoIHNraWxsIG1hcnRpYWwgc291bC4gQmVyamFsYW4gc2VwZW51aG55YSBkaSBzZXJ2ZXIgKGFtYW4gdW50dWsgbXVsdGlwbGF5ZXIpLiAqLwpwdWJsaWMgZmluYWwgY2xhc3MgU2tpbGxIYW5kbGVyIHsKICAgIHByaXZhdGUgU2tpbGxIYW5kbGVyKCkge30KCiAgICBwdWJsaWMgc3RhdGljIHZvaWQgYWN0aXZhdGUoU2VydmVyUGxheWVyIHBsYXllciwgaW50IHNsb3QpIHsKICAgICAgICBDdWx0aXZhdGlvbkNhcGFiaWxpdHkuZ2V0KHBsYXllcikuaWZQcmVzZW50KGNhcCAtPiB7CiAgICAgICAgICAgIGlmICghY2FwLmlzQXdha2VuZWQoKSkgcmV0dXJuOwogICAgICAgICAgICBNYXJ0aWFsU291bCBzb3VsID0gTWFydGlhbFNvdWxzLmdldChjYXAuZ2V0TWFydGlhbFNvdWxJZCgpKTsKICAgICAgICAgICAgaWYgKHNvdWwgPT0gbnVsbCkgcmV0dXJuOwogICAgICAgICAgICBTa2lsbERlZiBza2lsbCA9IHNvdWwuc2tpbGwoc2xvdCk7CiAgICAgICAgICAgIGlmIChza2lsbCA9PSBudWxsKSByZXR1cm47CgogICAgICAgICAgICBpZiAoY2FwLmdldFJpbmdzKCkgPCBza2lsbC5yaW5nc1JlcXVpcmVkKCkpIHsKICAgICAgICAgICAgICAgIHBsYXllci5zZW5kU3lzdGVtTWVzc2FnZShDb21wb25lbnQubGl0ZXJhbCgiwqdjU2tpbGwgXCIiICsgc2tpbGwubmFtZSgpICsgIlwiIHRlcmt1bmNpLiBCdXR1aCAiICsgc2tpbGwucmluZ3NSZXF1aXJlZCgpICsgIiBzcGlyaXQgcmluZy4iKSk7CiAgICAgICAgICAgICAgICByZXR1cm47CiAgICAgICAgICAgIH0KICAgICAgICAgICAgbG9uZyBub3cgPSBwbGF5ZXIubGV2ZWwoKS5nZXRHYW1lVGltZSgpOwogICAgICAgICAgICBsb25nIHVudGlsID0gY2FwLmdldENvb2xkb3duVW50aWwoc2tpbGwuaWQoKSk7CiAgICAgICAgICAgIGlmIChub3cgPCB1bnRpbCkgewogICAgICAgICAgICAgICAgbG9uZyByZW1haW4gPSAodW50aWwgLSBub3cpIC8gMjA7CiAgICAgICAgICAgICAgICBwbGF5ZXIuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnY1NraWxsIG1hc2loIGNvb2xkb3duOiAiICsgcmVtYWluICsgIiBkZXRpay4iKSk7CiAgICAgICAgICAgICAgICByZXR1cm47CiAgICAgICAgICAgIH0KICAgICAgICAgICAgaWYgKGNhcC5nZXRFbmVyZ3koKSA8IHNraWxsLmVuZXJneUNvc3QoKSkgewogICAgICAgICAgICAgICAgcGxheWVyLnNlbmRTeXN0ZW1NZXNzYWdlKENvbXBvbmVudC5saXRlcmFsKCLCp2NTcGlyaXQgUG93ZXIgdGlkYWsgY3VrdXAgKGJ1dHVoICIgKyAoaW50KSBza2lsbC5lbmVyZ3lDb3N0KCkgKyAiKS4iKSk7CiAgICAgICAgICAgICAgICByZXR1cm47CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGlmICghZXhlY3V0ZShwbGF5ZXIsIHNraWxsLmlkKCkpKSByZXR1cm47CgogICAgICAgICAgICBjYXAuc2V0RW5lcmd5KGNhcC5nZXRFbmVyZ3koKSAtIHNraWxsLmVuZXJneUNvc3QoKSk7CiAgICAgICAgICAgIGNhcC5zZXRDb29sZG93bihza2lsbC5pZCgpLCBub3cgKyBza2lsbC5jb29sZG93blRpY2tzKCkpOwogICAgICAgICAgICBDdWx0aXZhdGlvbk1hbmFnZXIuc3luYyhwbGF5ZXIpOwogICAgICAgICAgICBwbGF5ZXIuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnYuKcpiAiICsgc2tpbGwubmFtZSgpICsgIiDinKYiKSk7CiAgICAgICAgfSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgYm9vbGVhbiBleGVjdXRlKFNlcnZlclBsYXllciBwLCBTdHJpbmcgaWQpIHsKICAgICAgICBTZXJ2ZXJMZXZlbCBsZXZlbCA9IHAuc2VydmVyTGV2ZWwoKTsKICAgICAgICBkb3VibGUgc2NhbGUgPSAxLjAgKyBwLmdldENhcGFiaWxpdHkoY29tLnNvdWxsYW5kLmN1bHRpdmF0aW9uLkN1bHRpdmF0aW9uQ2FwYWJpbGl0eS5DQVApCiAgICAgICAgICAgICAgICAubWFwKGMgLT4gKGMuZ2V0TGV2ZWwoKSAtIDEpICogMC4wMikub3JFbHNlKDAuMCk7CiAgICAgICAgTGlzdDxMaXZpbmdFbnRpdHk+IGFyb3VuZDYgPSBlbnRpdGllc0Fyb3VuZChwLCA2KTsKICAgICAgICBWZWMzIGxvb2sgPSBwLmdldExvb2tBbmdsZSgpOwoKICAgICAgICBzd2l0Y2ggKGlkKSB7CiAgICAgICAgICAgIC8vIENhbmdrdWwKICAgICAgICAgICAgY2FzZSAiaG9lX2hlYWwiIC0+IHsgcC5oZWFsKDZmKTsgZWZmZWN0KHAsIE1vYkVmZmVjdHMuU0FUVVJBVElPTiwgNjAsIDApOyBwYXJ0aWNsZXMobGV2ZWwsIHAsIFBhcnRpY2xlVHlwZXMuSEFQUFlfVklMTEFHRVIpOyB9CiAgICAgICAgICAgIGNhc2UgImhvZV9zbGFtIiAtPiB7IGFvZURhbWFnZShwLCBhcm91bmQ2LCA1ICogc2NhbGUsIDAuNik7IHNvdW5kKGxldmVsLCBwLCBTb3VuZEV2ZW50cy5QTEFZRVJfQVRUQUNLX1NXRUVQKTsgfQogICAgICAgICAgICAvLyBCbHVlIFNpbHZlciBHcmFzcwogICAgICAgICAgICBjYXNlICJic2dfZW50YW5nbGUiIC0+IHsKICAgICAgICAgICAgICAgIGZvciAoTGl2aW5nRW50aXR5IGUgOiBlbnRpdGllc0Fyb3VuZChwLCA4KSkgewogICAgICAgICAgICAgICAgICAgIGVmZmVjdChlLCBNb2JFZmZlY3RzLk1PVkVNRU5UX1NMT1dET1dOLCAxMDAsIDYpOwogICAgICAgICAgICAgICAgICAgIGVmZmVjdChlLCBNb2JFZmZlY3RzLldFQUtORVNTLCAxMDAsIDEpOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgcGFydGljbGVzKGxldmVsLCBwLCBQYXJ0aWNsZVR5cGVzLlNQT1JFX0JMT1NTT01fQUlSKTsKICAgICAgICAgICAgfQogICAgICAgICAgICBjYXNlICJic2dfcGFyYXNpdGUiIC0+IHsKICAgICAgICAgICAgICAgIExpdmluZ0VudGl0eSB0ID0gbmVhcmVzdChwLCAxMCk7CiAgICAgICAgICAgICAgICBpZiAodCA9PSBudWxsKSB7IHAuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnY1RpZGFrIGFkYSBtdXN1aCBkaSBqYW5na2F1YW4uIikpOyByZXR1cm4gZmFsc2U7IH0KICAgICAgICAgICAgICAgIGVmZmVjdCh0LCBNb2JFZmZlY3RzLlBPSVNPTiwgMTYwLCAxKTsKICAgICAgICAgICAgICAgIHAuaGVhbCg0Zik7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgLy8gSGVsbCBDaXZldAogICAgICAgICAgICBjYXNlICJjaXZldF9kYXNoIiAtPiB7CiAgICAgICAgICAgICAgICBwLnNldERlbHRhTW92ZW1lbnQobG9vay5zY2FsZSgxLjgpLmFkZCgwLCAwLjI1LCAwKSk7CiAgICAgICAgICAgICAgICBwLmh1cnRNYXJrZWQgPSB0cnVlOwogICAgICAgICAgICAgICAgTGl2aW5nRW50aXR5IHQgPSBuZWFyZXN0KHAsIDUpOwogICAgICAgICAgICAgICAgaWYgKHQgIT0gbnVsbCkgdC5odXJ0KHAuZGFtYWdlU291cmNlcygpLnBsYXllckF0dGFjayhwKSwgKGZsb2F0KSAoOSAqIHNjYWxlKSk7CiAgICAgICAgICAgICAgICBzb3VuZChsZXZlbCwgcCwgU291bmRFdmVudHMuUExBWUVSX0FUVEFDS19TV0VFUCk7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgY2FzZSAiY2l2ZXRfc2xhc2giIC0+IHsgYW9lRGFtYWdlKHAsIGVudGl0aWVzQXJvdW5kKHAsIDQpLCAxMCAqIHNjYWxlLCAwLjMpOyBlZmZlY3QocCwgTW9iRWZmZWN0cy5NT1ZFTUVOVF9TUEVFRCwgMjAwLCAxKTsgfQogICAgICAgICAgICAvLyBTb3NpcyBPc2NhcgogICAgICAgICAgICBjYXNlICJzYXVzYWdlX2hlYWwiIC0+IHsgcC5oZWFsKDhmKTsgZWZmZWN0KHAsIE1vYkVmZmVjdHMuU0FUVVJBVElPTiwgMTAwLCAxKTsgcGFydGljbGVzKGxldmVsLCBwLCBQYXJ0aWNsZVR5cGVzLkhFQVJUKTsgfQogICAgICAgICAgICBjYXNlICJzYXVzYWdlX2ZseSIgLT4geyBlZmZlY3QocCwgTW9iRWZmZWN0cy5NT1ZFTUVOVF9TUEVFRCwgNDAwLCAxKTsgZWZmZWN0KHAsIE1vYkVmZmVjdHMuU0xPV19GQUxMSU5HLCA0MDAsIDApOyBlZmZlY3QocCwgTW9iRWZmZWN0cy5KVU1QLCA0MDAsIDEpOyBwLnJlc2V0RmFsbERpc3RhbmNlKCk7IH0KICAgICAgICAgICAgLy8gUGFnb2RhIE5pbmcgUm9uZ3JvbmcKICAgICAgICAgICAgY2FzZSAicGFnb2RhX3Bvd2VyIiAtPiB7CiAgICAgICAgICAgICAgICBmb3IgKFNlcnZlclBsYXllciBhbGx5IDogYWxsaWVzKHAsIDEyKSkgewogICAgICAgICAgICAgICAgICAgIGVmZmVjdChhbGx5LCBNb2JFZmZlY3RzLkRBTUFHRV9CT09TVCwgNjAwLCAxKTsKICAgICAgICAgICAgICAgICAgICBlZmZlY3QoYWxseSwgTW9iRWZmZWN0cy5BQlNPUlBUSU9OLCA2MDAsIDEpOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgcGFydGljbGVzKGxldmVsLCBwLCBQYXJ0aWNsZVR5cGVzLkVORF9ST0QpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGNhc2UgInBhZ29kYV9oZWFsIiAtPiB7CiAgICAgICAgICAgICAgICBmb3IgKFNlcnZlclBsYXllciBhbGx5IDogYWxsaWVzKHAsIDEyKSkgewogICAgICAgICAgICAgICAgICAgIGFsbHkuaGVhbCgxMGYpOwogICAgICAgICAgICAgICAgICAgIGVmZmVjdChhbGx5LCBNb2JFZmZlY3RzLlJFR0VORVJBVElPTiwgMjAwLCAwKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5UT1RFTV9PRl9VTkRZSU5HKTsKICAgICAgICAgICAgfQogICAgICAgICAgICAvLyBQaG9lbml4IE1hIEhvbmdqdW4KICAgICAgICAgICAgY2FzZSAicGhvZW5peF9saW5lIiAtPiB7CiAgICAgICAgICAgICAgICBmb3IgKExpdmluZ0VudGl0eSBlIDogZW50aXRpZXNBcm91bmQocCwgNykpIHsKICAgICAgICAgICAgICAgICAgICBWZWMzIHRvID0gZS5wb3NpdGlvbigpLnN1YnRyYWN0KHAucG9zaXRpb24oKSkubm9ybWFsaXplKCk7CiAgICAgICAgICAgICAgICAgICAgaWYgKHRvLmRvdChsb29rKSA+IDAuNSkgewogICAgICAgICAgICAgICAgICAgICAgICBlLmh1cnQocC5kYW1hZ2VTb3VyY2VzKCkucGxheWVyQXR0YWNrKHApLCAoZmxvYXQpICg4ICogc2NhbGUpKTsKICAgICAgICAgICAgICAgICAgICAgICAgZS5zZXRTZWNvbmRzT25GaXJlKDUpOwogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5GTEFNRSk7CiAgICAgICAgICAgICAgICBzb3VuZChsZXZlbCwgcCwgU291bmRFdmVudHMuQkxBWkVfU0hPT1QpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGNhc2UgInBob2VuaXhfbWV0ZW9yIiAtPiB7CiAgICAgICAgICAgICAgICBWZWMzIGNlbnRlciA9IHAucG9zaXRpb24oKS5hZGQobG9vay5zY2FsZSg4KSk7CiAgICAgICAgICAgICAgICBmb3IgKGludCBpID0gMDsgaSA8IDU7IGkrKykgewogICAgICAgICAgICAgICAgICAgIFNtYWxsRmlyZWJhbGwgZmIgPSBuZXcgU21hbGxGaXJlYmFsbChsZXZlbCwgcCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgIChsZXZlbC5yYW5kb20ubmV4dERvdWJsZSgpIC0gMC41KSAqIDAuNCwgLTIuMiwgKGxldmVsLnJhbmRvbS5uZXh0RG91YmxlKCkgLSAwLjUpICogMC40KTsKICAgICAgICAgICAgICAgICAgICBmYi5zZXRQb3MoY2VudGVyLnggKyAobGV2ZWwucmFuZG9tLm5leHREb3VibGUoKSAtIDAuNSkgKiA2LCBjZW50ZXIueSArIDEyLCBjZW50ZXIueiArIChsZXZlbC5yYW5kb20ubmV4dERvdWJsZSgpIC0gMC41KSAqIDYpOwogICAgICAgICAgICAgICAgICAgIGxldmVsLmFkZEZyZXNoRW50aXR5KGZiKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICAvLyBXaGl0ZSBUaWdlciBEYWkgTXViYWkKICAgICAgICAgICAgY2FzZSAidGlnZXJfd2F2ZSIgLT4gewogICAgICAgICAgICAgICAgZm9yIChMaXZpbmdFbnRpdHkgZSA6IGVudGl0aWVzQXJvdW5kKHAsIDEwKSkgewogICAgICAgICAgICAgICAgICAgIFZlYzMgdG8gPSBlLnBvc2l0aW9uKCkuc3VidHJhY3QocC5wb3NpdGlvbigpKTsKICAgICAgICAgICAgICAgICAgICBpZiAodG8ubm9ybWFsaXplKCkuZG90KGxvb2spID4gMC43KSB7CiAgICAgICAgICAgICAgICAgICAgICAgIGUuaHVydChwLmRhbWFnZVNvdXJjZXMoKS5wbGF5ZXJBdHRhY2socCksIChmbG9hdCkgKDEyICogc2NhbGUpKTsKICAgICAgICAgICAgICAgICAgICAgICAgZS5zZXREZWx0YU1vdmVtZW50KGxvb2suc2NhbGUoMS4yKS5hZGQoMCwgMC4zLCAwKSk7CiAgICAgICAgICAgICAgICAgICAgICAgIGUuaHVydE1hcmtlZCA9IHRydWU7CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgc291bmQobGV2ZWwsIHAsIFNvdW5kRXZlbnRzLkdFTkVSSUNfRVhQTE9ERSk7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgY2FzZSAidGlnZXJfdmFqcmEiIC0+IHsgZWZmZWN0KHAsIE1vYkVmZmVjdHMuREFNQUdFX0JPT1NULCA2MDAsIDEpOyBlZmZlY3QocCwgTW9iRWZmZWN0cy5EQU1BR0VfUkVTSVNUQU5DRSwgNjAwLCAxKTsgcGFydGljbGVzKGxldmVsLCBwLCBQYXJ0aWNsZVR5cGVzLkdMT1cpOyB9CiAgICAgICAgICAgIC8vIEtlbGluY2kgWGlhbyBXdQogICAgICAgICAgICBjYXNlICJyYWJiaXRfY2hhcm0iIC0+IHsKICAgICAgICAgICAgICAgIGZvciAoTGl2aW5nRW50aXR5IGUgOiBlbnRpdGllc0Fyb3VuZChwLCA4KSkgewogICAgICAgICAgICAgICAgICAgIGVmZmVjdChlLCBNb2JFZmZlY3RzLkNPTkZVU0lPTiwgMTYwLCAwKTsKICAgICAgICAgICAgICAgICAgICBlZmZlY3QoZSwgTW9iRWZmZWN0cy5XRUFLTkVTUywgMTYwLCAxKTsKICAgICAgICAgICAgICAgICAgICBpZiAoZSBpbnN0YW5jZW9mIG5ldC5taW5lY3JhZnQud29ybGQuZW50aXR5Lk1vYiBtb2IpIG1vYi5zZXRUYXJnZXQobnVsbCk7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBwYXJ0aWNsZXMobGV2ZWwsIHAsIFBhcnRpY2xlVHlwZXMuSEVBUlQpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGNhc2UgInJhYmJpdF9ibGluayIgLT4gewogICAgICAgICAgICAgICAgVmVjMyBkZXN0ID0gcC5wb3NpdGlvbigpLmFkZChsb29rLnNjYWxlKDgpKTsKICAgICAgICAgICAgICAgIHAudGVsZXBvcnRUbyhkZXN0LngsIGRlc3QueSwgZGVzdC56KTsKICAgICAgICAgICAgICAgIHAucmVzZXRGYWxsRGlzdGFuY2UoKTsKICAgICAgICAgICAgICAgIHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5QT1JUQUwpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIC8vIFVsYXIgRHVndSBZYW4KICAgICAgICAgICAgY2FzZSAic2VycGVudF9taXN0IiAtPiB7CiAgICAgICAgICAgICAgICBmb3IgKExpdmluZ0VudGl0eSBlIDogYXJvdW5kNikgewogICAgICAgICAgICAgICAgICAgIGVmZmVjdChlLCBNb2JFZmZlY3RzLlBPSVNPTiwgMjAwLCAxKTsKICAgICAgICAgICAgICAgICAgICBlZmZlY3QoZSwgTW9iRWZmZWN0cy5NT1ZFTUVOVF9TTE9XRE9XTiwgMjAwLCAxKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5TTkVFWkUpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGNhc2UgInNlcnBlbnRfYml0ZSIgLT4gewogICAgICAgICAgICAgICAgTGl2aW5nRW50aXR5IHQgPSBuZWFyZXN0KHAsIDQuNSk7CiAgICAgICAgICAgICAgICBpZiAodCA9PSBudWxsKSB7IHAuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnY1RpZGFrIGFkYSBtdXN1aCBjdWt1cCBkZWthdC4iKSk7IHJldHVybiBmYWxzZTsgfQogICAgICAgICAgICAgICAgdC5odXJ0KHAuZGFtYWdlU291cmNlcygpLnBsYXllckF0dGFjayhwKSwgKGZsb2F0KSAoMTQgKiBzY2FsZSkpOwogICAgICAgICAgICAgICAgZWZmZWN0KHQsIE1vYkVmZmVjdHMuUE9JU09OLCAxNjAsIDIpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIC8vIENsZWFyIFNreSBIYW1tZXIKICAgICAgICAgICAgY2FzZSAiaGFtbWVyX3NsYW0iIC0+IHsKICAgICAgICAgICAgICAgIGZvciAoTGl2aW5nRW50aXR5IGUgOiBlbnRpdGllc0Fyb3VuZChwLCA3KSkgewogICAgICAgICAgICAgICAgICAgIGUuaHVydChwLmRhbWFnZVNvdXJjZXMoKS5wbGF5ZXJBdHRhY2socCksIChmbG9hdCkgKDE2ICogc2NhbGUpKTsKICAgICAgICAgICAgICAgICAgICBlLnNldERlbHRhTW92ZW1lbnQoZS5wb3NpdGlvbigpLnN1YnRyYWN0KHAucG9zaXRpb24oKSkubm9ybWFsaXplKCkuc2NhbGUoMS4wKS5hZGQoMCwgMC45LCAwKSk7CiAgICAgICAgICAgICAgICAgICAgZS5odXJ0TWFya2VkID0gdHJ1ZTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5FWFBMT1NJT04pOwogICAgICAgICAgICAgICAgc291bmQobGV2ZWwsIHAsIFNvdW5kRXZlbnRzLkdFTkVSSUNfRVhQTE9ERSk7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgY2FzZSAiaGFtbWVyX2Nsb2FrIiAtPiB7IGVmZmVjdChwLCBNb2JFZmZlY3RzLkRBTUFHRV9CT09TVCwgNDAwLCAyKTsgZWZmZWN0KHAsIE1vYkVmZmVjdHMuTU9WRU1FTlRfU1BFRUQsIDQwMCwgMSk7IHBhcnRpY2xlcyhsZXZlbCwgcCwgUGFydGljbGVUeXBlcy5DUklUKTsgfQogICAgICAgICAgICBkZWZhdWx0IC0+IHsgcmV0dXJuIGZhbHNlOyB9CiAgICAgICAgfQogICAgICAgIHJldHVybiB0cnVlOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIExpc3Q8TGl2aW5nRW50aXR5PiBlbnRpdGllc0Fyb3VuZChTZXJ2ZXJQbGF5ZXIgcCwgZG91YmxlIHIpIHsKICAgICAgICByZXR1cm4gcC5sZXZlbCgpLmdldEVudGl0aWVzT2ZDbGFzcyhMaXZpbmdFbnRpdHkuY2xhc3MsCiAgICAgICAgICAgICAgICBuZXcgQUFCQihwLnBvc2l0aW9uKCkuc3VidHJhY3QociwgciwgciksIHAucG9zaXRpb24oKS5hZGQociwgciwgcikpLAogICAgICAgICAgICAgICAgZSAtPiBlICE9IHAgJiYgZS5pc0FsaXZlKCkgJiYgIShlIGluc3RhbmNlb2YgU2VydmVyUGxheWVyKSk7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgTGl2aW5nRW50aXR5IG5lYXJlc3QoU2VydmVyUGxheWVyIHAsIGRvdWJsZSByKSB7CiAgICAgICAgTGl2aW5nRW50aXR5IGJlc3QgPSBudWxsOwogICAgICAgIGRvdWJsZSBiZXN0RGlzdCA9IERvdWJsZS5NQVhfVkFMVUU7CiAgICAgICAgZm9yIChMaXZpbmdFbnRpdHkgZSA6IGVudGl0aWVzQXJvdW5kKHAsIHIpKSB7CiAgICAgICAgICAgIGRvdWJsZSBkID0gZS5kaXN0YW5jZVRvU3FyKHApOwogICAgICAgICAgICBpZiAoZCA8IGJlc3REaXN0KSB7IGJlc3REaXN0ID0gZDsgYmVzdCA9IGU7IH0KICAgICAgICB9CiAgICAgICAgcmV0dXJuIGJlc3Q7CiAgICB9CgogICAgcHJpdmF0ZSBzdGF0aWMgTGlzdDxTZXJ2ZXJQbGF5ZXI+IGFsbGllcyhTZXJ2ZXJQbGF5ZXIgcCwgZG91YmxlIHIpIHsKICAgICAgICByZXR1cm4gcC5zZXJ2ZXJMZXZlbCgpLnBsYXllcnMoKS5zdHJlYW0oKQogICAgICAgICAgICAgICAgLmZpbHRlcihvIC0+IG8uZGlzdGFuY2VUbyhwKSA8PSByKQogICAgICAgICAgICAgICAgLnRvTGlzdCgpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgYW9lRGFtYWdlKFNlcnZlclBsYXllciBwLCBMaXN0PExpdmluZ0VudGl0eT4gdGFyZ2V0cywgZG91YmxlIGRtZywgZG91YmxlIGtub2NrVXApIHsKICAgICAgICBmb3IgKExpdmluZ0VudGl0eSBlIDogdGFyZ2V0cykgewogICAgICAgICAgICBlLmh1cnQocC5kYW1hZ2VTb3VyY2VzKCkucGxheWVyQXR0YWNrKHApLCAoZmxvYXQpIGRtZyk7CiAgICAgICAgICAgIGlmIChrbm9ja1VwID4gMCkgewogICAgICAgICAgICAgICAgZS5zZXREZWx0YU1vdmVtZW50KGUuZ2V0RGVsdGFNb3ZlbWVudCgpLmFkZCgwLCBrbm9ja1VwLCAwKSk7CiAgICAgICAgICAgICAgICBlLmh1cnRNYXJrZWQgPSB0cnVlOwogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgZWZmZWN0KExpdmluZ0VudGl0eSBlLCBuZXQubWluZWNyYWZ0LndvcmxkLmVmZmVjdC5Nb2JFZmZlY3QgZWZmZWN0LCBpbnQgdGlja3MsIGludCBhbXApIHsKICAgICAgICBlLmFkZEVmZmVjdChuZXcgTW9iRWZmZWN0SW5zdGFuY2UoZWZmZWN0LCB0aWNrcywgYW1wLCBmYWxzZSwgdHJ1ZSkpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgcGFydGljbGVzKFNlcnZlckxldmVsIGxldmVsLCBTZXJ2ZXJQbGF5ZXIgcCwgbmV0Lm1pbmVjcmFmdC5jb3JlLnBhcnRpY2xlcy5QYXJ0aWNsZU9wdGlvbnMgcGFydGljbGUpIHsKICAgICAgICBsZXZlbC5zZW5kUGFydGljbGVzKHBhcnRpY2xlLCBwLmdldFgoKSwgcC5nZXRZKCkgKyAxLCBwLmdldFooKSwgMjQsIDEuMiwgMS4yLCAxLjIsIDAuMDUpOwogICAgfQoKICAgIHByaXZhdGUgc3RhdGljIHZvaWQgc291bmQoU2VydmVyTGV2ZWwgbGV2ZWwsIFNlcnZlclBsYXllciBwLCBuZXQubWluZWNyYWZ0LnNvdW5kcy5Tb3VuZEV2ZW50IHNvdW5kKSB7CiAgICAgICAgbGV2ZWwucGxheVNvdW5kKG51bGwsIHAuYmxvY2tQb3NpdGlvbigpLCBzb3VuZCwgU291bmRTb3VyY2UuUExBWUVSUywgMWYsIDFmKTsKICAgIH0KfQo=
+package com.soulland.skill;
+
+import com.soulland.cultivation.CultivationCapability;
+import com.soulland.cultivation.CultivationManager;
+import com.soulland.soul.MartialSoul;
+import com.soulland.soul.MartialSouls;
+import com.soulland.soul.SkillDef;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
+
+/** Eksekusi seluruh skill martial soul. Berjalan sepenuhnya di server (aman untuk multiplayer). */
+public final class SkillHandler {
+    private SkillHandler() {}
+
+    public static void activate(ServerPlayer player, int slot) {
+        CultivationCapability.get(player).ifPresent(cap -> {
+            if (!cap.isAwakened()) return;
+            MartialSoul soul = MartialSouls.get(cap.getMartialSoulId());
+            if (soul == null) return;
+            SkillDef skill = soul.skill(slot);
+            if (skill == null) return;
+
+            if (cap.getRings() < skill.ringsRequired()) {
+                player.sendSystemMessage(Component.literal("§cSkill \"" + skill.name() + "\" terkunci. Butuh " + skill.ringsRequired() + " spirit ring."));
+                return;
+            }
+            long now = player.level().getGameTime();
+            long until = cap.getCooldownUntil(skill.id());
+            if (now < until) {
+                long remain = (until - now) / 20;
+                player.sendSystemMessage(Component.literal("§cSkill masih cooldown: " + remain + " detik."));
+                return;
+            }
+            if (cap.getEnergy() < skill.energyCost()) {
+                player.sendSystemMessage(Component.literal("§cSpirit Power tidak cukup (butuh " + (int) skill.energyCost() + ")."));
+                return;
+            }
+
+            if (!execute(player, skill.id())) return;
+
+            cap.setEnergy(cap.getEnergy() - skill.energyCost());
+            cap.setCooldown(skill.id(), now + skill.cooldownTicks());
+            CultivationManager.sync(player);
+            player.sendSystemMessage(Component.literal("§b✦ " + skill.name() + " ✦"));
+        });
+    }
+
+    private static boolean execute(ServerPlayer p, String id) {
+        ServerLevel level = p.serverLevel();
+        double scale = 1.0 + p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
+                .map(c -> (c.getLevel() - 1) * 0.02).orElse(0.0);
+        List<LivingEntity> around6 = entitiesAround(p, 6);
+        Vec3 look = p.getLookAngle();
+
+        switch (id) {
+            // Cangkul
+            case "hoe_heal" -> { p.heal(6f); effect(p, MobEffects.SATURATION, 60, 0); particles(level, p, ParticleTypes.HAPPY_VILLAGER); }
+            case "hoe_slam" -> { aoeDamage(p, around6, 5 * scale, 0.6); sound(level, p, SoundEvents.PLAYER_ATTACK_SWEEP); }
+            // Blue Silver Grass
+            case "bsg_entangle" -> {
+                for (LivingEntity e : entitiesAround(p, 8)) {
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, 100, 6);
+                    effect(e, MobEffects.WEAKNESS, 100, 1);
+                }
+                particles(level, p, ParticleTypes.SPORE_BLOSSOM_AIR);
+            }
+            case "bsg_parasite" -> {
+                LivingEntity t = nearest(p, 10);
+                if (t == null) { p.sendSystemMessage(Component.literal("§cTidak ada musuh di jangkauan.")); return false; }
+                effect(t, MobEffects.POISON, 160, 1);
+                p.heal(4f);
+            }
+            // Hell Civet
+            case "civet_dash" -> {
+                p.setDeltaMovement(look.scale(1.8).add(0, 0.25, 0));
+                p.hurtMarked = true;
+                LivingEntity t = nearest(p, 5);
+                if (t != null) t.hurt(p.damageSources().playerAttack(p), (float) (9 * scale));
+                sound(level, p, SoundEvents.PLAYER_ATTACK_SWEEP);
+            }
+            case "civet_slash" -> { aoeDamage(p, entitiesAround(p, 4), 10 * scale, 0.3); effect(p, MobEffects.MOVEMENT_SPEED, 200, 1); }
+            // Sosis Oscar
+            case "sausage_heal" -> { p.heal(8f); effect(p, MobEffects.SATURATION, 100, 1); particles(level, p, ParticleTypes.HEART); }
+            case "sausage_fly" -> { effect(p, MobEffects.MOVEMENT_SPEED, 400, 1); effect(p, MobEffects.SLOW_FALLING, 400, 0); effect(p, MobEffects.JUMP, 400, 1); p.resetFallDistance(); }
+            // Pagoda Ning Rongrong
+            case "pagoda_power" -> {
+                for (ServerPlayer ally : allies(p, 12)) {
+                    effect(ally, MobEffects.DAMAGE_BOOST, 600, 1);
+                    effect(ally, MobEffects.ABSORPTION, 600, 1);
+                }
+                particles(level, p, ParticleTypes.END_ROD);
+            }
+            case "pagoda_heal" -> {
+                for (ServerPlayer ally : allies(p, 12)) {
+                    ally.heal(10f);
+                    effect(ally, MobEffects.REGENERATION, 200, 0);
+                }
+                particles(level, p, ParticleTypes.TOTEM_OF_UNDYING);
+            }
+            // Phoenix Ma Hongjun
+            case "phoenix_line" -> {
+                for (LivingEntity e : entitiesAround(p, 7)) {
+                    Vec3 to = e.position().subtract(p.position()).normalize();
+                    if (to.dot(look) > 0.5) {
+                        e.hurt(p.damageSources().playerAttack(p), (float) (8 * scale));
+                        e.setSecondsOnFire(5);
+                    }
+                }
+                particles(level, p, ParticleTypes.FLAME);
+                sound(level, p, SoundEvents.BLAZE_SHOOT);
+            }
+            case "phoenix_meteor" -> {
+                Vec3 center = p.position().add(look.scale(8));
+                for (int i = 0; i < 5; i++) {
+                    SmallFireball fb = new SmallFireball(level, p,
+                            (level.random.nextDouble() - 0.5) * 0.4, -2.2, (level.random.nextDouble() - 0.5) * 0.4);
+                    fb.setPos(center.x + (level.random.nextDouble() - 0.5) * 6, center.y + 12, center.z + (level.random.nextDouble() - 0.5) * 6);
+                    level.addFreshEntity(fb);
+                }
+            }
+            // White Tiger Dai Mubai
+            case "tiger_wave" -> {
+                for (LivingEntity e : entitiesAround(p, 10)) {
+                    Vec3 to = e.position().subtract(p.position());
+                    if (to.normalize().dot(look) > 0.7) {
+                        e.hurt(p.damageSources().playerAttack(p), (float) (12 * scale));
+                        e.setDeltaMovement(look.scale(1.2).add(0, 0.3, 0));
+                        e.hurtMarked = true;
+                    }
+                }
+                sound(level, p, SoundEvents.GENERIC_EXPLODE);
+            }
+            case "tiger_vajra" -> { effect(p, MobEffects.DAMAGE_BOOST, 600, 1); effect(p, MobEffects.DAMAGE_RESISTANCE, 600, 1); particles(level, p, ParticleTypes.GLOW); }
+            // Kelinci Xiao Wu
+            case "rabbit_charm" -> {
+                for (LivingEntity e : entitiesAround(p, 8)) {
+                    effect(e, MobEffects.CONFUSION, 160, 0);
+                    effect(e, MobEffects.WEAKNESS, 160, 1);
+                    if (e instanceof net.minecraft.world.entity.Mob mob) mob.setTarget(null);
+                }
+                particles(level, p, ParticleTypes.HEART);
+            }
+            case "rabbit_blink" -> {
+                Vec3 dest = p.position().add(look.scale(8));
+                p.teleportTo(dest.x, dest.y, dest.z);
+                p.resetFallDistance();
+                particles(level, p, ParticleTypes.PORTAL);
+            }
+            // Ular Dugu Yan
+            case "serpent_mist" -> {
+                for (LivingEntity e : around6) {
+                    effect(e, MobEffects.POISON, 200, 1);
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, 200, 1);
+                }
+                particles(level, p, ParticleTypes.SNEEZE);
+            }
+            case "serpent_bite" -> {
+                LivingEntity t = nearest(p, 4.5);
+                if (t == null) { p.sendSystemMessage(Component.literal("§cTidak ada musuh cukup dekat.")); return false; }
+                t.hurt(p.damageSources().playerAttack(p), (float) (14 * scale));
+                effect(t, MobEffects.POISON, 160, 2);
+            }
+            // Clear Sky Hammer
+            case "hammer_slam" -> {
+                for (LivingEntity e : entitiesAround(p, 7)) {
+                    e.hurt(p.damageSources().playerAttack(p), (float) (16 * scale));
+                    e.setDeltaMovement(e.position().subtract(p.position()).normalize().scale(1.0).add(0, 0.9, 0));
+                    e.hurtMarked = true;
+                }
+                particles(level, p, ParticleTypes.EXPLOSION);
+                sound(level, p, SoundEvents.GENERIC_EXPLODE);
+            }
+            case "hammer_cloak" -> { effect(p, MobEffects.DAMAGE_BOOST, 400, 2); effect(p, MobEffects.MOVEMENT_SPEED, 400, 1); particles(level, p, ParticleTypes.CRIT); }
+            default -> { return false; }
+        }
+        return true;
+    }
+
+    private static List<LivingEntity> entitiesAround(ServerPlayer p, double r) {
+        return p.level().getEntitiesOfClass(LivingEntity.class,
+                new AABB(p.position().subtract(r, r, r), p.position().add(r, r, r)),
+                e -> e != p && e.isAlive() && !(e instanceof ServerPlayer));
+    }
+
+    private static LivingEntity nearest(ServerPlayer p, double r) {
+        LivingEntity best = null;
+        double bestDist = Double.MAX_VALUE;
+        for (LivingEntity e : entitiesAround(p, r)) {
+            double d = e.distanceToSqr(p);
+            if (d < bestDist) { bestDist = d; best = e; }
+        }
+        return best;
+    }
+
+    private static List<ServerPlayer> allies(ServerPlayer p, double r) {
+        return p.serverLevel().players().stream()
+                .filter(o -> o.distanceTo(p) <= r)
+                .toList();
+    }
+
+    private static void aoeDamage(ServerPlayer p, List<LivingEntity> targets, double dmg, double knockUp) {
+        for (LivingEntity e : targets) {
+            e.hurt(p.damageSources().playerAttack(p), (float) dmg);
+            if (knockUp > 0) {
+                e.setDeltaMovement(e.getDeltaMovement().add(0, knockUp, 0));
+                e.hurtMarked = true;
+            }
+        }
+    }
+
+    private static void effect(LivingEntity e, net.minecraft.world.effect.MobEffect effect, int ticks, int amp) {
+        e.addEffect(new MobEffectInstance(effect, ticks, amp, false, true));
+    }
+
+    private static void particles(ServerLevel level, ServerPlayer p, net.minecraft.core.particles.ParticleOptions particle) {
+        level.sendParticles(particle, p.getX(), p.getY() + 1, p.getZ(), 24, 1.2, 1.2, 1.2, 0.05);
+    }
+
+    private static void sound(ServerLevel level, ServerPlayer p, net.minecraft.sounds.SoundEvent sound) {
+        level.playSound(null, p.blockPosition(), sound, SoundSource.PLAYERS, 1f, 1f);
+    }
+}

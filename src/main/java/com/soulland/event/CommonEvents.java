@@ -1,1 +1,180 @@
-cGFja2FnZSBjb20uc291bGxhbmQuZXZlbnQ7CgppbXBvcnQgY29tLnNvdWxsYW5kLlNvdWxMYW5kTW9kOwppbXBvcnQgY29tLnNvdWxsYW5kLmJvb2suR3VpZGVCb29rOwppbXBvcnQgY29tLnNvdWxsYW5kLmN1bHRpdmF0aW9uLkN1bHRpdmF0aW9uQ2FwYWJpbGl0eTsKaW1wb3J0IGNvbS5zb3VsbGFuZC5jdWx0aXZhdGlvbi5DdWx0aXZhdGlvbk1hbmFnZXI7CmltcG9ydCBjb20uc291bGxhbmQuaXRlbS5Nb2RJdGVtczsKaW1wb3J0IGNvbS5zb3VsbGFuZC5zb3VsLk1hcnRpYWxTb3VsOwppbXBvcnQgY29tLnNvdWxsYW5kLnNvdWwuTWFydGlhbFNvdWxzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uZXR3b3JrLmNoYXQuQ29tcG9uZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5zZXJ2ZXIubGV2ZWwuU2VydmVyTGV2ZWw7CmltcG9ydCBuZXQubWluZWNyYWZ0LnNlcnZlci5sZXZlbC5TZXJ2ZXJQbGF5ZXI7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLmVudGl0eS5FbnRpdHk7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLmVudGl0eS5MaXZpbmdFbnRpdHk7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLmVudGl0eS5haS5hdHRyaWJ1dGVzLkF0dHJpYnV0ZXM7CmltcG9ydCBuZXQubWluZWNyYWZ0LndvcmxkLmVudGl0eS5ib3NzLmVuZGVyZHJhZ29uLkVuZGVyRHJhZ29uOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5lbnRpdHkuYm9zcy53aXRoZXIuV2l0aGVyQm9zczsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuZW50aXR5Lml0ZW0uSXRlbUVudGl0eTsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuZW50aXR5Lm1vbnN0ZXIuRWxkZXJHdWFyZGlhbjsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuZW50aXR5Lm1vbnN0ZXIuTW9uc3RlcjsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuZW50aXR5Lm1vbnN0ZXIud2FyZGVuLldhcmRlbjsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuaXRlbS5JdGVtU3RhY2s7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuZXZlbnQuVGlja0V2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmV2ZW50LmVudGl0eS5FbnRpdHlKb2luTGV2ZWxFdmVudDsKaW1wb3J0IG5ldC5taW5lY3JhZnRmb3JnZS5ldmVudC5lbnRpdHkubGl2aW5nLkxpdmluZ0RlYXRoRXZlbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuZXZlbnQuZW50aXR5LmxpdmluZy5MaXZpbmdEcm9wc0V2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmV2ZW50LmVudGl0eS5saXZpbmcuTGl2aW5nSHVydEV2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmV2ZW50LmVudGl0eS5wbGF5ZXIuUGxheWVyRXZlbnQ7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UuZXZlbnRidXMuYXBpLlN1YnNjcmliZUV2ZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLmZtbC5jb21tb24uTW9kOwoKQE1vZC5FdmVudEJ1c1N1YnNjcmliZXIobW9kaWQgPSBTb3VsTGFuZE1vZC5NT0RJRCkKcHVibGljIGNsYXNzIENvbW1vbkV2ZW50cyB7CgogICAgLyoqIExvZ2luIHBlcnRhbWE6IGF3YWtlbmluZyBjZXJlbW9ueSDigJQgbWFydGlhbCBzb3VsIGRpdW5kaSAoZ2FjaGEpLCBidWt1IHBhbmR1YW4gZGliZXJpa2FuLiAqLwogICAgQFN1YnNjcmliZUV2ZW50CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgb25Mb2dpbihQbGF5ZXJFdmVudC5QbGF5ZXJMb2dnZWRJbkV2ZW50IGV2ZW50KSB7CiAgICAgICAgaWYgKCEoZXZlbnQuZ2V0RW50aXR5KCkgaW5zdGFuY2VvZiBTZXJ2ZXJQbGF5ZXIgcGxheWVyKSkgcmV0dXJuOwogICAgICAgIEN1bHRpdmF0aW9uQ2FwYWJpbGl0eS5nZXQocGxheWVyKS5pZlByZXNlbnQoY2FwIC0+IHsKICAgICAgICAgICAgaWYgKCFjYXAuaXNBd2FrZW5lZCgpKSB7CiAgICAgICAgICAgICAgICBNYXJ0aWFsU291bCBzb3VsID0gTWFydGlhbFNvdWxzLnJvbGwocGxheWVyLmdldFJhbmRvbSgpKTsKICAgICAgICAgICAgICAgIGNhcC5zZXRNYXJ0aWFsU291bElkKHNvdWwuaWQoKSk7CiAgICAgICAgICAgICAgICBjYXAuc2V0QXdha2VuZWQodHJ1ZSk7CiAgICAgICAgICAgICAgICBjYXAuc2V0TGV2ZWwoMSk7CiAgICAgICAgICAgICAgICBjYXAuc2V0RW5lcmd5KDEwMGYpOwoKICAgICAgICAgICAgICAgIHBsYXllci5hZGRJdGVtKEd1aWRlQm9vay5jcmVhdGUoKSk7CiAgICAgICAgICAgICAgICBwbGF5ZXIuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnNuKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkOKVkCIpKTsKICAgICAgICAgICAgICAgIHBsYXllci5zZW5kU3lzdGVtTWVzc2FnZShDb21wb25lbnQubGl0ZXJhbCgiwqdl4pymIFVQQUNBUkEgS0VCQU5HS0lUQU4gTUFSVElBTCBTT1VMIOKcpiIpKTsKICAgICAgICAgICAgICAgIHBsYXllci5zZW5kU3lzdGVtTWVzc2FnZShDb21wb25lbnQubGl0ZXJhbCgiwqdmTWFydGlhbCBTb3VsLW11OiDCp2IiICsgc291bC5uYW1lKCkgKyAiIMKnNygiICsgc291bC5yYXJpdHkoKSArICIpIikpOwogICAgICAgICAgICAgICAgcGxheWVyLnNlbmRTeXN0ZW1NZXNzYWdlKENvbXBvbmVudC5saXRlcmFsKCLCpzdQZW1pbGlrIGFzbGk6ICIgKyBzb3VsLm93bmVyKCkgKyAiIHwgVGlwZTogIiArIHNvdWwudHlwZSgpKSk7CiAgICAgICAgICAgICAgICBwbGF5ZXIuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnNyIgKyBzb3VsLmRlc2NyaXB0aW9uKCkpKTsKICAgICAgICAgICAgICAgIHBsYXllci5zZW5kU3lzdGVtTWVzc2FnZShDb21wb25lbnQubGl0ZXJhbCgiwqdmQmFjYSDCp2FbQnVrdSBQYW5kdWFuIER1bmlhIFNvdWwgTGFuZF3Cp2YgZGkgaW52ZW50b3J5LW11IHVudHVrIG1lbXBlbGFqYXJpIHNlZ2FsYW55YS4iKSk7CiAgICAgICAgICAgICAgICBwbGF5ZXIuc2VuZFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwoIsKnZkJlcmJ1cnUgc291bCBiZWFzdCDihpIgZGFwYXRrYW4gU3Bpcml0IFJpbmcg4oaSIG5haWsgcGVyaW5na2F0IOKGkiBrYWxhaGthbiDCpzVFbmRlciBEcmFnb27Cp2YhIikpOwogICAgICAgICAgICAgICAgcGxheWVyLnNlbmRTeXN0ZW1NZXNzYWdlKENvbXBvbmVudC5saXRlcmFsKCLCpzbilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZDilZAiKSk7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgQ3VsdGl2YXRpb25NYW5hZ2VyLmFwcGx5U3RhdHMocGxheWVyKTsKICAgICAgICAgICAgQ3VsdGl2YXRpb25NYW5hZ2VyLnN5bmMocGxheWVyKTsKICAgICAgICB9KTsKICAgIH0KCiAgICBAU3Vic2NyaWJlRXZlbnQKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBvblJlc3Bhd24oUGxheWVyRXZlbnQuUGxheWVyUmVzcGF3bkV2ZW50IGV2ZW50KSB7CiAgICAgICAgaWYgKGV2ZW50LmdldEVudGl0eSgpIGluc3RhbmNlb2YgU2VydmVyUGxheWVyIHBsYXllcikgewogICAgICAgICAgICBDdWx0aXZhdGlvbk1hbmFnZXIuYXBwbHlTdGF0cyhwbGF5ZXIpOwogICAgICAgICAgICBDdWx0aXZhdGlvbk1hbmFnZXIuc3luYyhwbGF5ZXIpOwogICAgICAgIH0KICAgIH0KCiAgICBAU3Vic2NyaWJlRXZlbnQKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBvbkNoYW5nZURpbWVuc2lvbihQbGF5ZXJFdmVudC5QbGF5ZXJDaGFuZ2VkRGltZW5zaW9uRXZlbnQgZXZlbnQpIHsKICAgICAgICBpZiAoZXZlbnQuZ2V0RW50aXR5KCkgaW5zdGFuY2VvZiBTZXJ2ZXJQbGF5ZXIgcGxheWVyKSB7CiAgICAgICAgICAgIEN1bHRpdmF0aW9uTWFuYWdlci5zeW5jKHBsYXllcik7CiAgICAgICAgfQogICAgfQoKICAgIC8qKiBEYXRhIGt1bHRpdmFzaSBpa3V0IHNhYXQgcGVtYWluIG1hdGkvcmVzcGF3biAoY2xvbmUpLiAqLwogICAgQFN1YnNjcmliZUV2ZW50CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgb25DbG9uZShQbGF5ZXJFdmVudC5DbG9uZSBldmVudCkgewogICAgICAgIGV2ZW50LmdldE9yaWdpbmFsKCkucmV2aXZlQ2FwcygpOwogICAgICAgIGV2ZW50LmdldE9yaWdpbmFsKCkuZ2V0Q2FwYWJpbGl0eShDdWx0aXZhdGlvbkNhcGFiaWxpdHkuQ0FQKS5pZlByZXNlbnQob2xkQ2FwIC0+CiAgICAgICAgICAgICAgICBldmVudC5nZXRFbnRpdHkoKS5nZXRDYXBhYmlsaXR5KEN1bHRpdmF0aW9uQ2FwYWJpbGl0eS5DQVApLmlmUHJlc2VudChuZXdDYXAgLT4KICAgICAgICAgICAgICAgICAgICAgICAgbmV3Q2FwLmRlc2VyaWFsaXplTkJUKG9sZENhcC5zZXJpYWxpemVOQlQoKSkpKTsKICAgICAgICBldmVudC5nZXRPcmlnaW5hbCgpLmludmFsaWRhdGVDYXBzKCk7CiAgICB9CgogICAgLyoqIFJlZ2VuZXJhc2kgc3Bpcml0IGVuZXJneSArIGphZ2Egc2lua3JvbmlzYXNpIHJpbmdhbi4gKi8KICAgIEBTdWJzY3JpYmVFdmVudAogICAgcHVibGljIHN0YXRpYyB2b2lkIG9uUGxheWVyVGljayhUaWNrRXZlbnQuUGxheWVyVGlja0V2ZW50IGV2ZW50KSB7CiAgICAgICAgaWYgKGV2ZW50LnBoYXNlICE9IFRpY2tFdmVudC5QaGFzZS5FTkQgfHwgZXZlbnQucGxheWVyLmxldmVsKCkuaXNDbGllbnRTaWRlKSByZXR1cm47CiAgICAgICAgQ3VsdGl2YXRpb25DYXBhYmlsaXR5LmdldChldmVudC5wbGF5ZXIpLmlmUHJlc2VudChjYXAgLT4gewogICAgICAgICAgICBpZiAoY2FwLmdldEVuZXJneSgpIDwgMTAwZikgewogICAgICAgICAgICAgICAgY2FwLnNldEVuZXJneShjYXAuZ2V0RW5lcmd5KCkgKyAwLjE1Zik7IC8vIH4zIGVuZXJnaS9kZXRpawogICAgICAgICAgICAgICAgaWYgKGV2ZW50LnBsYXllci50aWNrQ291bnQgJSAyMCA9PSAwICYmIGV2ZW50LnBsYXllciBpbnN0YW5jZW9mIFNlcnZlclBsYXllciBzcCkgewogICAgICAgICAgICAgICAgICAgIEN1bHRpdmF0aW9uTWFuYWdlci5zeW5jKHNwKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0pOwogICAgfQoKICAgIC8qKiBCb251cyBkYW1hZ2Uga2VsdWFyYW4gYmVyZGFzYXJrYW4gbGV2ZWwga3VsdGl2YXNpLiAqLwogICAgQFN1YnNjcmliZUV2ZW50CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgb25MaXZpbmdIdXJ0KExpdmluZ0h1cnRFdmVudCBldmVudCkgewogICAgICAgIGlmIChldmVudC5nZXRTb3VyY2UoKS5nZXRFbnRpdHkoKSBpbnN0YW5jZW9mIFNlcnZlclBsYXllciBwbGF5ZXIpIHsKICAgICAgICAgICAgQ3VsdGl2YXRpb25DYXBhYmlsaXR5LmdldChwbGF5ZXIpLmlmUHJlc2VudChjYXAgLT4KICAgICAgICAgICAgICAgICAgICBldmVudC5zZXRBbW91bnQoZXZlbnQuZ2V0QW1vdW50KCkgKiAoMWYgKyAoY2FwLmdldExldmVsKCkgLSAxKSAqIDAuMDFmICsgY2FwLmdldFJpbmdzKCkgKiAwLjA1ZikpKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIE1lbWJ1bnVoIHNvdWwgYmVhc3QgKG1vbnN0ZXIpIG1lbWJlcmkgWFAga3VsdGl2YXNpLiAqLwogICAgQFN1YnNjcmliZUV2ZW50CiAgICBwdWJsaWMgc3RhdGljIHZvaWQgb25LaWxsKExpdmluZ0RlYXRoRXZlbnQgZXZlbnQpIHsKICAgICAgICBpZiAoZXZlbnQuZ2V0RW50aXR5KCkubGV2ZWwoKS5pc0NsaWVudFNpZGUpIHJldHVybjsKICAgICAgICBpZiAoZXZlbnQuZ2V0U291cmNlKCkuZ2V0RW50aXR5KCkgaW5zdGFuY2VvZiBTZXJ2ZXJQbGF5ZXIgcGxheWVyICYmIGV2ZW50LmdldEVudGl0eSgpIGluc3RhbmNlb2YgTW9uc3RlcikgewogICAgICAgICAgICBpbnQgeHAgPSBNYXRoLm1heCg1LCAoaW50KSAoZXZlbnQuZ2V0RW50aXR5KCkuZ2V0TWF4SGVhbHRoKCkgLyAyKSk7CiAgICAgICAgICAgIEN1bHRpdmF0aW9uTWFuYWdlci5hZGRYcChwbGF5ZXIsIHhwKTsKICAgICAgICB9CiAgICB9CgogICAgLyoqIFNvdWwgYmVhc3QgbWVuamF0dWhrYW4gc3Bpcml0IHJpbmc7IGJvc3MgbWVuamF0dWhrYW4gcmluZyBsYW5na2EuIEVuZGVyIERyYWdvbiA9IGJvc3MgYWtoaXIuICovCiAgICBAU3Vic2NyaWJlRXZlbnQKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBvbkRyb3BzKExpdmluZ0Ryb3BzRXZlbnQgZXZlbnQpIHsKICAgICAgICBMaXZpbmdFbnRpdHkgZW50aXR5ID0gZXZlbnQuZ2V0RW50aXR5KCk7CiAgICAgICAgaWYgKGVudGl0eS5sZXZlbCgpLmlzQ2xpZW50U2lkZSkgcmV0dXJuOwogICAgICAgIGlmICghKGV2ZW50LmdldFNvdXJjZSgpLmdldEVudGl0eSgpIGluc3RhbmNlb2YgU2VydmVyUGxheWVyKSkgcmV0dXJuOwoKICAgICAgICBJdGVtU3RhY2sgcmluZyA9IG51bGw7CiAgICAgICAgaWYgKGVudGl0eSBpbnN0YW5jZW9mIEVuZGVyRHJhZ29uKSB7CiAgICAgICAgICAgIHJpbmcgPSBuZXcgSXRlbVN0YWNrKE1vZEl0ZW1zLlNQSVJJVF9SSU5HXzEwMDAwMC5nZXQoKSk7CiAgICAgICAgICAgIGJyb2FkY2FzdChlbnRpdHksICLCpzXCp2xFbmRlciBEcmFnb24g4oCUIEthaXNhciBTb3VsIEJlYXN0IHRlcmFraGlyIOKAlCB0ZWxhaCBqYXR1aCEgU3Bpcml0IFJpbmcgMTAwLjAwMCB0YWh1biBtdW5jdWwhIik7CiAgICAgICAgfSBlbHNlIGlmIChlbnRpdHkgaW5zdGFuY2VvZiBXaXRoZXJCb3NzIHx8IGVudGl0eSBpbnN0YW5jZW9mIFdhcmRlbiB8fCBlbnRpdHkgaW5zdGFuY2VvZiBFbGRlckd1YXJkaWFuKSB7CiAgICAgICAgICAgIHJpbmcgPSBuZXcgSXRlbVN0YWNrKE1vZEl0ZW1zLlNQSVJJVF9SSU5HXzEwMDAwLmdldCgpKTsKICAgICAgICAgICAgYnJvYWRjYXN0KGVudGl0eSwgIsKnZEJvc3Mgc291bCBiZWFzdCB0dW1iYW5nISBTcGlyaXQgUmluZyAxMC4wMDAgdGFodW4gdGVyamF0dWguIik7CiAgICAgICAgfSBlbHNlIGlmIChlbnRpdHkgaW5zdGFuY2VvZiBNb25zdGVyIG1vbnN0ZXIpIHsKICAgICAgICAgICAgZmxvYXQgaHAgPSBtb25zdGVyLmdldE1heEhlYWx0aCgpOwogICAgICAgICAgICBkb3VibGUgY2hhbmNlID0gaHAgPj0gNjAgPyAwLjM1IDogaHAgPj0gMzAgPyAwLjI1IDogMC4xNTsKICAgICAgICAgICAgaWYgKG1vbnN0ZXIuZ2V0UmFuZG9tKCkubmV4dERvdWJsZSgpIDwgY2hhbmNlKSB7CiAgICAgICAgICAgICAgICBpZiAoaHAgPj0gNjApIHJpbmcgPSBuZXcgSXRlbVN0YWNrKE1vZEl0ZW1zLlNQSVJJVF9SSU5HXzEwMDAwLmdldCgpKTsKICAgICAgICAgICAgICAgIGVsc2UgaWYgKGhwID49IDMwKSByaW5nID0gbmV3IEl0ZW1TdGFjayhNb2RJdGVtcy5TUElSSVRfUklOR18xMDAwLmdldCgpKTsKICAgICAgICAgICAgICAgIGVsc2UgcmluZyA9IG5ldyBJdGVtU3RhY2soTW9kSXRlbXMuU1BJUklUX1JJTkdfMTAwLmdldCgpKTsKICAgICAgICAgICAgfQogICAgICAgIH0KICAgICAgICBpZiAocmluZyAhPSBudWxsKSB7CiAgICAgICAgICAgIEl0ZW1FbnRpdHkgZHJvcCA9IG5ldyBJdGVtRW50aXR5KGVudGl0eS5sZXZlbCgpLCBlbnRpdHkuZ2V0WCgpLCBlbnRpdHkuZ2V0WSgpICsgMC41LCBlbnRpdHkuZ2V0WigpLCByaW5nKTsKICAgICAgICAgICAgZHJvcC5zZXREZWZhdWx0UGlja1VwRGVsYXkoKTsKICAgICAgICAgICAgZXZlbnQuZ2V0RHJvcHMoKS5hZGQoZHJvcCk7CiAgICAgICAgfQogICAgfQoKICAgIC8qKiBCb3NzIGRpcGVya3VhdCBqYXVoIG1lbGFtcGF1aSB2YW5pbGxhIOKAlCBtZXJla2EgYWRhbGFoIHNvdWwgYmVhc3QgdGluZ2thdCB0aW5nZ2kuICovCiAgICBAU3Vic2NyaWJlRXZlbnQKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCBvbkJvc3NKb2luKEVudGl0eUpvaW5MZXZlbEV2ZW50IGV2ZW50KSB7CiAgICAgICAgRW50aXR5IGUgPSBldmVudC5nZXRFbnRpdHkoKTsKICAgICAgICBpZiAoZXZlbnQuZ2V0TGV2ZWwoKS5pc0NsaWVudFNpZGUgfHwgIShlIGluc3RhbmNlb2YgTGl2aW5nRW50aXR5IGxpdmluZykpIHJldHVybjsKICAgICAgICBpZiAobGl2aW5nLmdldFBlcnNpc3RlbnREYXRhKCkuZ2V0Qm9vbGVhbigic291bGxhbmRfYnVmZmVkIikpIHJldHVybjsKCiAgICAgICAgZG91YmxlIGhwTXVsID0gMS4wOwogICAgICAgIGRvdWJsZSBkbWdBZGQgPSAwOwogICAgICAgIGlmIChlIGluc3RhbmNlb2YgRW5kZXJEcmFnb24pIHsgaHBNdWwgPSA1LjA7IGRtZ0FkZCA9IDg7IH0gICAgICAgIC8vIDIwMCAtPiAxMDAwIEhQOiBib3NzIGFraGlyIHNlamF0aQogICAgICAgIGVsc2UgaWYgKGUgaW5zdGFuY2VvZiBXaXRoZXJCb3NzKSB7IGhwTXVsID0gMi4wOyBkbWdBZGQgPSA0OyB9ICAgICAvLyAzMDAgLT4gNjAwIEhQCiAgICAgICAgZWxzZSBpZiAoZSBpbnN0YW5jZW9mIFdhcmRlbikgeyBocE11bCA9IDEuNjsgZG1nQWRkID0gNTsgfSAgICAgICAgIC8vIDUwMCAtPiA4MDAgSFAKICAgICAgICBlbHNlIGlmIChlIGluc3RhbmNlb2YgRWxkZXJHdWFyZGlhbikgeyBocE11bCA9IDEuNTsgZG1nQWRkID0gMjsgfSAgLy8gODAgLT4gMTIwIEhQCiAgICAgICAgZWxzZSByZXR1cm47CgogICAgICAgIGxpdmluZy5nZXRQZXJzaXN0ZW50RGF0YSgpLnB1dEJvb2xlYW4oInNvdWxsYW5kX2J1ZmZlZCIsIHRydWUpOwogICAgICAgIHZhciBocCA9IGxpdmluZy5nZXRBdHRyaWJ1dGUoQXR0cmlidXRlcy5NQVhfSEVBTFRIKTsKICAgICAgICBpZiAoaHAgIT0gbnVsbCkgewogICAgICAgICAgICBocC5zZXRCYXNlVmFsdWUoaHAuZ2V0QmFzZVZhbHVlKCkgKiBocE11bCk7CiAgICAgICAgICAgIGxpdmluZy5zZXRIZWFsdGgobGl2aW5nLmdldE1heEhlYWx0aCgpKTsKICAgICAgICB9CiAgICAgICAgdmFyIGF0ayA9IGxpdmluZy5nZXRBdHRyaWJ1dGUoQXR0cmlidXRlcy5BVFRBQ0tfREFNQUdFKTsKICAgICAgICBpZiAoYXRrICE9IG51bGwpIGF0ay5zZXRCYXNlVmFsdWUoYXRrLmdldEJhc2VWYWx1ZSgpICsgZG1nQWRkKTsKICAgIH0KCiAgICBwcml2YXRlIHN0YXRpYyB2b2lkIGJyb2FkY2FzdChMaXZpbmdFbnRpdHkgZW50aXR5LCBTdHJpbmcgbWVzc2FnZSkgewogICAgICAgIGlmIChlbnRpdHkubGV2ZWwoKSBpbnN0YW5jZW9mIFNlcnZlckxldmVsIHNlcnZlckxldmVsICYmIHNlcnZlckxldmVsLmdldFNlcnZlcigpICE9IG51bGwpIHsKICAgICAgICAgICAgc2VydmVyTGV2ZWwuZ2V0U2VydmVyKCkuZ2V0UGxheWVyTGlzdCgpLmJyb2FkY2FzdFN5c3RlbU1lc3NhZ2UoQ29tcG9uZW50LmxpdGVyYWwobWVzc2FnZSksIGZhbHNlKTsKICAgICAgICB9CiAgICB9Cn0K
+package com.soulland.event;
+
+import com.soulland.SoulLandMod;
+import com.soulland.book.GuideBook;
+import com.soulland.cultivation.CultivationCapability;
+import com.soulland.cultivation.CultivationManager;
+import com.soulland.item.ModItems;
+import com.soulland.soul.MartialSoul;
+import com.soulland.soul.MartialSouls;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.ElderGuardian;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber(modid = SoulLandMod.MODID)
+public class CommonEvents {
+
+    /** Login pertama: awakening ceremony — martial soul diundi (gacha), buku panduan diberikan. */
+    @SubscribeEvent
+    public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        CultivationCapability.get(player).ifPresent(cap -> {
+            if (!cap.isAwakened()) {
+                MartialSoul soul = MartialSouls.roll(player.getRandom());
+                cap.setMartialSoulId(soul.id());
+                cap.setAwakened(true);
+                cap.setLevel(1);
+                cap.setEnergy(100f);
+
+                player.addItem(GuideBook.create());
+                player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
+                player.sendSystemMessage(Component.literal("§e✦ UPACARA KEBANGKITAN MARTIAL SOUL ✦"));
+                player.sendSystemMessage(Component.literal("§fMartial Soul-mu: §b" + soul.name() + " §7(" + soul.rarity() + ")"));
+                player.sendSystemMessage(Component.literal("§7Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()));
+                player.sendSystemMessage(Component.literal("§7" + soul.description()));
+                player.sendSystemMessage(Component.literal("§fBaca §a[Buku Panduan Dunia Soul Land]§f di inventory-mu untuk mempelajari segalanya."));
+                player.sendSystemMessage(Component.literal("§fBerburu soul beast → dapatkan Spirit Ring → naik peringkat → kalahkan §5Ender Dragon§f!"));
+                player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
+            }
+            CultivationManager.applyStats(player);
+            CultivationManager.sync(player);
+        });
+    }
+
+    @SubscribeEvent
+    public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            CultivationManager.applyStats(player);
+            CultivationManager.sync(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            CultivationManager.sync(player);
+        }
+    }
+
+    /** Data kultivasi ikut saat pemain mati/respawn (clone). */
+    @SubscribeEvent
+    public static void onClone(PlayerEvent.Clone event) {
+        event.getOriginal().reviveCaps();
+        event.getOriginal().getCapability(CultivationCapability.CAP).ifPresent(oldCap ->
+                event.getEntity().getCapability(CultivationCapability.CAP).ifPresent(newCap ->
+                        newCap.deserializeNBT(oldCap.serializeNBT())));
+        event.getOriginal().invalidateCaps();
+    }
+
+    /** Regenerasi spirit energy + jaga sinkronisasi ringan. */
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
+        CultivationCapability.get(event.player).ifPresent(cap -> {
+            if (cap.getEnergy() < 100f) {
+                cap.setEnergy(cap.getEnergy() + 0.15f); // ~3 energi/detik
+                if (event.player.tickCount % 20 == 0 && event.player instanceof ServerPlayer sp) {
+                    CultivationManager.sync(sp);
+                }
+            }
+        });
+    }
+
+    /** Bonus damage keluaran berdasarkan level kultivasi. */
+    @SubscribeEvent
+    public static void onLivingHurt(LivingHurtEvent event) {
+        if (event.getSource().getEntity() instanceof ServerPlayer player) {
+            CultivationCapability.get(player).ifPresent(cap ->
+                    event.setAmount(event.getAmount() * (1f + (cap.getLevel() - 1) * 0.01f + cap.getRings() * 0.05f)));
+        }
+    }
+
+    /** Membunuh soul beast (monster) memberi XP kultivasi. */
+    @SubscribeEvent
+    public static void onKill(LivingDeathEvent event) {
+        if (event.getEntity().level().isClientSide) return;
+        if (event.getSource().getEntity() instanceof ServerPlayer player && event.getEntity() instanceof Monster) {
+            int xp = Math.max(5, (int) (event.getEntity().getMaxHealth() / 2));
+            CultivationManager.addXp(player, xp);
+        }
+    }
+
+    /** Soul beast menjatuhkan spirit ring; boss menjatuhkan ring langka. Ender Dragon = boss akhir. */
+    @SubscribeEvent
+    public static void onDrops(LivingDropsEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity.level().isClientSide) return;
+        if (!(event.getSource().getEntity() instanceof ServerPlayer)) return;
+
+        ItemStack ring = null;
+        if (entity instanceof EnderDragon) {
+            ring = new ItemStack(ModItems.SPIRIT_RING_100000.get());
+            broadcast(entity, "§5§lEnder Dragon — Kaisar Soul Beast terakhir — telah jatuh! Spirit Ring 100.000 tahun muncul!");
+        } else if (entity instanceof WitherBoss || entity instanceof Warden || entity instanceof ElderGuardian) {
+            ring = new ItemStack(ModItems.SPIRIT_RING_10000.get());
+            broadcast(entity, "§dBoss soul beast tumbang! Spirit Ring 10.000 tahun terjatuh.");
+        } else if (entity instanceof Monster monster) {
+            float hp = monster.getMaxHealth();
+            double chance = hp >= 60 ? 0.35 : hp >= 30 ? 0.25 : 0.15;
+            if (monster.getRandom().nextDouble() < chance) {
+                if (hp >= 60) ring = new ItemStack(ModItems.SPIRIT_RING_10000.get());
+                else if (hp >= 30) ring = new ItemStack(ModItems.SPIRIT_RING_1000.get());
+                else ring = new ItemStack(ModItems.SPIRIT_RING_100.get());
+            }
+        }
+        if (ring != null) {
+            ItemEntity drop = new ItemEntity(entity.level(), entity.getX(), entity.getY() + 0.5, entity.getZ(), ring);
+            drop.setDefaultPickUpDelay();
+            event.getDrops().add(drop);
+        }
+    }
+
+    /** Boss diperkuat jauh melampaui vanilla — mereka adalah soul beast tingkat tinggi. */
+    @SubscribeEvent
+    public static void onBossJoin(EntityJoinLevelEvent event) {
+        Entity e = event.getEntity();
+        if (event.getLevel().isClientSide || !(e instanceof LivingEntity living)) return;
+        if (living.getPersistentData().getBoolean("soulland_buffed")) return;
+
+        double hpMul = 1.0;
+        double dmgAdd = 0;
+        if (e instanceof EnderDragon) { hpMul = 5.0; dmgAdd = 8; }        // 200 -> 1000 HP: boss akhir sejati
+        else if (e instanceof WitherBoss) { hpMul = 2.0; dmgAdd = 4; }     // 300 -> 600 HP
+        else if (e instanceof Warden) { hpMul = 1.6; dmgAdd = 5; }         // 500 -> 800 HP
+        else if (e instanceof ElderGuardian) { hpMul = 1.5; dmgAdd = 2; }  // 80 -> 120 HP
+        else return;
+
+        living.getPersistentData().putBoolean("soulland_buffed", true);
+        var hp = living.getAttribute(Attributes.MAX_HEALTH);
+        if (hp != null) {
+            hp.setBaseValue(hp.getBaseValue() * hpMul);
+            living.setHealth(living.getMaxHealth());
+        }
+        var atk = living.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (atk != null) atk.setBaseValue(atk.getBaseValue() + dmgAdd);
+    }
+
+    private static void broadcast(LivingEntity entity, String message) {
+        if (entity.level() instanceof ServerLevel serverLevel && serverLevel.getServer() != null) {
+            serverLevel.getServer().getPlayerList().broadcastSystemMessage(Component.literal(message), false);
+        }
+    }
+}

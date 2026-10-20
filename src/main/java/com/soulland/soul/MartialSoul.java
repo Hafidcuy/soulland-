@@ -1,1 +1,20 @@
-cGFja2FnZSBjb20uc291bGxhbmQuc291bDsKCmltcG9ydCBqYXZhLnV0aWwuTGlzdDsKCi8qKiBNYXJ0aWFsIFNvdWwgKFd1IEh1bikgc2VwZXJ0aSBkaSBkdW5pYSBTb3VsIExhbmQuICovCnB1YmxpYyByZWNvcmQgTWFydGlhbFNvdWwoCiAgICAgICAgU3RyaW5nIGlkLAogICAgICAgIFN0cmluZyBuYW1lLAogICAgICAgIFN0cmluZyBvd25lciwKICAgICAgICBTdHJpbmcgdHlwZSwKICAgICAgICBTdHJpbmcgcmFyaXR5LAogICAgICAgIGludCB3ZWlnaHQsCiAgICAgICAgU3RyaW5nIGRlc2NyaXB0aW9uLAogICAgICAgIExpc3Q8U2tpbGxEZWY+IHNraWxscwopIHsKICAgIHB1YmxpYyBTa2lsbERlZiBza2lsbChpbnQgc2xvdCkgewogICAgICAgIGlmIChzbG90IDwgMCB8fCBzbG90ID49IHNraWxscy5zaXplKCkpIHJldHVybiBudWxsOwogICAgICAgIHJldHVybiBza2lsbHMuZ2V0KHNsb3QpOwogICAgfQp9Cg==
+package com.soulland.soul;
+
+import java.util.List;
+
+/** Martial Soul (Wu Hun) seperti di dunia Soul Land. */
+public record MartialSoul(
+        String id,
+        String name,
+        String owner,
+        String type,
+        String rarity,
+        int weight,
+        String description,
+        List<SkillDef> skills
+) {
+    public SkillDef skill(int slot) {
+        if (slot < 0 || slot >= skills.size()) return null;
+        return skills.get(slot);
+    }
+}

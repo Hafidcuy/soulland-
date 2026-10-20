@@ -1,1 +1,33 @@
-cGFja2FnZSBjb20uc291bGxhbmQubmV0OwoKaW1wb3J0IGNvbS5zb3VsbGFuZC5Tb3VsTGFuZE1vZDsKaW1wb3J0IG5ldC5taW5lY3JhZnQucmVzb3VyY2VzLlJlc291cmNlTG9jYXRpb247CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UubmV0d29yay5OZXR3b3JrRGlyZWN0aW9uOwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLm5ldHdvcmsuTmV0d29ya1JlZ2lzdHJ5OwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLm5ldHdvcmsuc2ltcGxlLlNpbXBsZUNoYW5uZWw7CgpwdWJsaWMgY2xhc3MgTW9kTmV0d29yayB7CiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBTdHJpbmcgUFJPVE9DT0wgPSAiMSI7CgogICAgcHVibGljIHN0YXRpYyBmaW5hbCBTaW1wbGVDaGFubmVsIENIQU5ORUwgPSBOZXR3b3JrUmVnaXN0cnkubmV3U2ltcGxlQ2hhbm5lbCgKICAgICAgICAgICAgbmV3IFJlc291cmNlTG9jYXRpb24oU291bExhbmRNb2QuTU9ESUQsICJtYWluIiksCiAgICAgICAgICAgICgpIC0+IFBST1RPQ09MLAogICAgICAgICAgICBQUk9UT0NPTDo6ZXF1YWxzLAogICAgICAgICAgICBQUk9UT0NPTDo6ZXF1YWxzCiAgICApOwoKICAgIHB1YmxpYyBzdGF0aWMgdm9pZCByZWdpc3RlcigpIHsKICAgICAgICBpbnQgaWQgPSAwOwogICAgICAgIENIQU5ORUwubWVzc2FnZUJ1aWxkZXIoU3luY0N1bHRpdmF0aW9uUGFja2V0LmNsYXNzLCBpZCsrLCBOZXR3b3JrRGlyZWN0aW9uLlBMQVlfVE9fQ0xJRU5UKQogICAgICAgICAgICAgICAgLmVuY29kZXIoU3luY0N1bHRpdmF0aW9uUGFja2V0OjplbmNvZGUpCiAgICAgICAgICAgICAgICAuZGVjb2RlcihTeW5jQ3VsdGl2YXRpb25QYWNrZXQ6OmRlY29kZSkKICAgICAgICAgICAgICAgIC5jb25zdW1lck1haW5UaHJlYWQoU3luY0N1bHRpdmF0aW9uUGFja2V0OjpoYW5kbGUpCiAgICAgICAgICAgICAgICAuYWRkKCk7CiAgICAgICAgQ0hBTk5FTC5tZXNzYWdlQnVpbGRlcihBY3RpdmF0ZVNraWxsUGFja2V0LmNsYXNzLCBpZCsrLCBOZXR3b3JrRGlyZWN0aW9uLlBMQVlfVE9fU0VSVkVSKQogICAgICAgICAgICAgICAgLmVuY29kZXIoQWN0aXZhdGVTa2lsbFBhY2tldDo6ZW5jb2RlKQogICAgICAgICAgICAgICAgLmRlY29kZXIoQWN0aXZhdGVTa2lsbFBhY2tldDo6ZGVjb2RlKQogICAgICAgICAgICAgICAgLmNvbnN1bWVyTWFpblRocmVhZChBY3RpdmF0ZVNraWxsUGFja2V0OjpoYW5kbGUpCiAgICAgICAgICAgICAgICAuYWRkKCk7CiAgICAgICAgU291bExhbmRNb2QuTE9HR0VSLmluZm8oIk5ldHdvcmsgY2hhbm5lbCBTb3VsIExhbmQgdGVyZGFmdGFyLiIpOwogICAgfQp9Cg==
+package com.soulland.net;
+
+import com.soulland.SoulLandMod;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
+
+public class ModNetwork {
+    private static final String PROTOCOL = "1";
+
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+            new ResourceLocation(SoulLandMod.MODID, "main"),
+            () -> PROTOCOL,
+            PROTOCOL::equals,
+            PROTOCOL::equals
+    );
+
+    public static void register() {
+        int id = 0;
+        CHANNEL.messageBuilder(SyncCultivationPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncCultivationPacket::encode)
+                .decoder(SyncCultivationPacket::decode)
+                .consumerMainThread(SyncCultivationPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ActivateSkillPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ActivateSkillPacket::encode)
+                .decoder(ActivateSkillPacket::decode)
+                .consumerMainThread(ActivateSkillPacket::handle)
+                .add();
+        SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar.");
+    }
+}

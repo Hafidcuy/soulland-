@@ -1,1 +1,121 @@
-cGFja2FnZSBjb20uc291bGxhbmQuc291bDsKCmltcG9ydCBuZXQubWluZWNyYWZ0LnV0aWwuUmFuZG9tU291cmNlOwoKaW1wb3J0IGphdmEudXRpbC5BcnJheUxpc3Q7CmltcG9ydCBqYXZhLnV0aWwuTGlua2VkSGFzaE1hcDsKaW1wb3J0IGphdmEudXRpbC5MaXN0OwppbXBvcnQgamF2YS51dGlsLk1hcDsKCi8qKiBEYWZ0YXIgc2VsdXJ1aCBtYXJ0aWFsIHNvdWwgeWFuZyBiaXNhIGRpZGFwYXQgbGV3YXQgZ2FjaGEgc2FhdCBsb2dpbiBwZXJ0YW1hLiAqLwpwdWJsaWMgZmluYWwgY2xhc3MgTWFydGlhbFNvdWxzIHsKICAgIHByaXZhdGUgTWFydGlhbFNvdWxzKCkge30KCiAgICBwcml2YXRlIHN0YXRpYyBmaW5hbCBNYXA8U3RyaW5nLCBNYXJ0aWFsU291bD4gUkVHSVNUUlkgPSBuZXcgTGlua2VkSGFzaE1hcDw+KCk7CgogICAgcHJpdmF0ZSBzdGF0aWMgdm9pZCByZWdpc3RlcihNYXJ0aWFsU291bCBzb3VsKSB7CiAgICAgICAgUkVHSVNUUlkucHV0KHNvdWwuaWQoKSwgc291bCk7CiAgICB9CgogICAgcHVibGljIHN0YXRpYyBNYXJ0aWFsU291bCBnZXQoU3RyaW5nIGlkKSB7CiAgICAgICAgcmV0dXJuIFJFR0lTVFJZLmdldChpZCk7CiAgICB9CgogICAgcHVibGljIHN0YXRpYyBMaXN0PE1hcnRpYWxTb3VsPiBhbGwoKSB7CiAgICAgICAgcmV0dXJuIG5ldyBBcnJheUxpc3Q8PihSRUdJU1RSWS52YWx1ZXMoKSk7CiAgICB9CgogICAgLyoqIEdhY2hhOiBtYXJ0aWFsIHNvdWwgZGl1bmRpIHNlY2FyYSBhY2FrIGRlbmdhbiBib2JvdCByYXJpdHksIHNlcGVydGkgdGFrZGlyIHNhYXQgbGFoaXIgZGkgY2VyaXRhLiAqLwogICAgcHVibGljIHN0YXRpYyBNYXJ0aWFsU291bCByb2xsKFJhbmRvbVNvdXJjZSByYW5kb20pIHsKICAgICAgICBpbnQgdG90YWwgPSAwOwogICAgICAgIGZvciAoTWFydGlhbFNvdWwgc291bCA6IFJFR0lTVFJZLnZhbHVlcygpKSB0b3RhbCArPSBzb3VsLndlaWdodCgpOwogICAgICAgIGludCByID0gcmFuZG9tLm5leHRJbnQodG90YWwpOwogICAgICAgIGZvciAoTWFydGlhbFNvdWwgc291bCA6IFJFR0lTVFJZLnZhbHVlcygpKSB7CiAgICAgICAgICAgIHIgLT0gc291bC53ZWlnaHQoKTsKICAgICAgICAgICAgaWYgKHIgPCAwKSByZXR1cm4gc291bDsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIFJFR0lTVFJZLnZhbHVlcygpLml0ZXJhdG9yKCkubmV4dCgpOwogICAgfQoKICAgIHN0YXRpYyB7CiAgICAgICAgcmVnaXN0ZXIobmV3IE1hcnRpYWxTb3VsKAogICAgICAgICAgICAgICAgImhvZSIsICJDYW5na3VsIFR1YSIsICJQZXRhbmkgYmlhc2EiLCAiQWxhdCIsICJDb21tb24iLCA0MCwKICAgICAgICAgICAgICAgICJNYXJ0aWFsIHNvdWwgcmFreWF0IGplbGF0YS4gVGFwaSBkaSB0YW5nYW4geWFuZyB0ZWt1biwgY2FuZ2t1bCBwdW4gYmlzYSBtZW5lbWJ1cyBsYW5naXQuIiwKICAgICAgICAgICAgICAgIExpc3Qub2YoCiAgICAgICAgICAgICAgICAgICAgICAgIG5ldyBTa2lsbERlZigiaG9lX2hlYWwiLCAiUGFuZW4gUmF5YSIsICJNZW11bGloa2FuIDYgSFAgZGFuIG1lbWJlcmkgZWZlayBzYXR1cmF0aW9uLiIsIDIwZiwgMjAwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJob2Vfc2xhbSIsICJCYWphayBCdW1pIiwgIkhhbnRhbWFuIEFvRSBrZWNpbCBrZSBtdXN1aCBkaSBzZWtpdGFyLiIsIDMwZiwgMzAwLCAzKQogICAgICAgICAgICAgICAgKSkpOwoKICAgICAgICByZWdpc3RlcihuZXcgTWFydGlhbFNvdWwoCiAgICAgICAgICAgICAgICAiYmx1ZV9zaWx2ZXJfZ3Jhc3MiLCAiQmx1ZSBTaWx2ZXIgR3Jhc3MiLCAiVGFuZyBTYW4iLCAiS29udHJvbCIsICJSYXJlIiwgMTIsCiAgICAgICAgICAgICAgICAiUnVtcHV0IGJpcnUgcGVyYWsgeWFuZyB0YW1wYWsgbGVtYWggbmFtdW4gYmlzYSBtZW5naWthdCBkYW4gbWVyYWN1bmkgc2VnYWxhbnlhLiIsCiAgICAgICAgICAgICAgICBMaXN0Lm9mKAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoImJzZ19lbnRhbmdsZSIsICJCbHVlIFNpbHZlciBFbnRhbmdsZSIsICJBa2FyIGJpcnUgbWVuZ2lrYXQgbXVzdWggZGkgc2VraXRhcjogc2xvdyBiZXJhdCArIGxlbWFoLiIsIDI1ZiwgMjQwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJic2dfcGFyYXNpdGUiLCAiUGFyYXNpdGljIFNlZWQiLCAiTWVuYW5hbSBiZW5paCBwYXJhc2l0IHBhZGEgbXVzdWggdGVyZGVrYXQ6IHJhY3VuIDggZGV0aWssIGthbXUgcHVsaWguIiwgMzVmLCA0MDAsIDMpCiAgICAgICAgICAgICAgICApKSk7CgogICAgICAgIHJlZ2lzdGVyKG5ldyBNYXJ0aWFsU291bCgKICAgICAgICAgICAgICAgICJoZWxsX2NpdmV0IiwgIkhlbGwgQ2l2ZXQiLCAiWmh1IFpodXFpbmciLCAiQWdpbGl0eSIsICJVbmNvbW1vbiIsIDIwLAogICAgICAgICAgICAgICAgIkt1Y2luZyBuZXJha2EgeWFuZyBnZXNpdDogc2VyYW5nYW4gY2VwYXQgZGFuIG1lbWF0aWthbiBkYXJpIGJheWFuZ2FuLiIsCiAgICAgICAgICAgICAgICBMaXN0Lm9mKAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoImNpdmV0X2Rhc2giLCAiTmV0aGVyIFRocnVzdCIsICJNZWxlc2F0IGtlIGRlcGFuIGRhbiBtZWx1a2FpIG11c3VoIHlhbmcgZGlsZXdhdGkuIiwgMjVmLCAyNDAsIDEpLAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoImNpdmV0X3NsYXNoIiwgIk5ldGhlciBTbGFzaCIsICJUZWJhc2FuIEFvRSBjZXBhdCBkaSBzZWtpdGFybXUgKyBrZWNlcGF0YW4gZ2VyYWsuIiwgMzVmLCAzNjAsIDMpCiAgICAgICAgICAgICAgICApKSk7CgogICAgICAgIHJlZ2lzdGVyKG5ldyBNYXJ0aWFsU291bCgKICAgICAgICAgICAgICAgICJzYXVzYWdlIiwgIlNvc2lzIEFqYWliIiwgIk9zY2FyIiwgIlN1cHBvcnQiLCAiVW5jb21tb24iLCAyMCwKICAgICAgICAgICAgICAgICJTb3NpcyBidWF0YW4gRm9vZCBTeXN0ZW0gTWFzdGVyOiBwZW55ZW1idWggZGFuIHBlbWJlcnNpaCB0ZXJiYWlrIGRpIG1lZGFuIHBlcmFuZy4iLAogICAgICAgICAgICAgICAgTGlzdC5vZigKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJzYXVzYWdlX2hlYWwiLCAiUmVjb3ZlcnkgU2F1c2FnZSIsICJNZW11bGloa2FuIDggSFAgZGFuIG1lbWJlcmkgc2F0dXJhdGlvbiBwZW51aC4iLCAyNWYsIDI0MCwgMSksCiAgICAgICAgICAgICAgICAgICAgICAgIG5ldyBTa2lsbERlZigic2F1c2FnZV9mbHkiLCAiRmx5aW5nIE11c2hyb29tIiwgIlRlcmJhbmcgbWVsYXlhbmcgKyBrZWNlcGF0YW4gZ2VyYWsgc2VsYW1hIDIwIGRldGlrLiIsIDQwZiwgNjAwLCAzKQogICAgICAgICAgICAgICAgKSkpOwoKICAgICAgICByZWdpc3RlcihuZXcgTWFydGlhbFNvdWwoCiAgICAgICAgICAgICAgICAic2V2ZW5fdHJlYXN1cmVfcGFnb2RhIiwgIlNldmVuIFRyZWFzdXJlIEdsYXplZCBUaWxlIFBhZ29kYSIsICJOaW5nIFJvbmdyb25nIiwgIlN1cHBvcnQiLCAiRXBpYyIsIDYsCiAgICAgICAgICAgICAgICAiUGFnb2RhIHR1anVoIGxhbnRhaTogbWFydGlhbCBzb3VsIHN1cHBvcnQgdGVya3VhdCwgbWVtcGVya3VhdCBzZWx1cnVoIHRpbS4iLAogICAgICAgICAgICAgICAgTGlzdC5vZigKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJwYWdvZGFfcG93ZXIiLCAiQmVya2FoIEtla3VhdGFuIiwgIlNla3V0dSBkaSBzZWtpdGFybXUgZGFwYXQgU3RyZW5ndGggSUkgJiBBYnNvcnB0aW9uIDMwIGRldGlrLiIsIDQwZiwgNjAwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJwYWdvZGFfaGVhbCIsICJCZXJrYWggS2VoaWR1cGFuIiwgIk1lbnllbWJ1aGthbiAxMCBIUCBzZWt1dHUgZGkgc2VraXRhcm11ICsgUmVnZW5lcmF0aW9uLiIsIDUwZiwgODAwLCAzKQogICAgICAgICAgICAgICAgKSkpOwoKICAgICAgICByZWdpc3RlcihuZXcgTWFydGlhbFNvdWwoCiAgICAgICAgICAgICAgICAiZXZpbF9maXJlX3Bob2VuaXgiLCAiRXZpbCBGaXJlIFBob2VuaXgiLCAiTWEgSG9uZ2p1biIsICJTZXJhbmdhbiBBcGkiLCAiRXBpYyIsIDYsCiAgICAgICAgICAgICAgICAiUGhvZW5peCBhcGkgamFoYXQ6IG1lbWJha2FyIHNlZ2FsYW55YSBkZW5nYW4gYXBpIHlhbmcgdGFrIHBlcm5haCBwYWRhbS4iLAogICAgICAgICAgICAgICAgTGlzdC5vZigKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJwaG9lbml4X2xpbmUiLCAiUGhvZW5peCBGaXJlbGluZSIsICJTZW1idXJhbiBhcGkga2VydWN1dCBrZSBhcmFoIHBhbmRhbmdhbm11LiIsIDMwZiwgMzAwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJwaG9lbml4X21ldGVvciIsICJQaG9lbml4IE1ldGVvciIsICJIdWphbiBib2xhIGFwaSBtZW5naGFudGFtIGFyZWEgZGkgZGVwYW5tdS4iLCA1NWYsIDcwMCwgMykKICAgICAgICAgICAgICAgICkpKTsKCiAgICAgICAgcmVnaXN0ZXIobmV3IE1hcnRpYWxTb3VsKAogICAgICAgICAgICAgICAgIndoaXRlX3RpZ2VyIiwgIldoaXRlIFRpZ2VyIiwgIkRhaSBNdWJhaSIsICJQb3dlciIsICJSYXJlIiwgMTAsCiAgICAgICAgICAgICAgICAiSGFyaW1hdSBwdXRpaCBiZXJla29yOiBrZWt1YXRhbiBmaXNpayBkYW4gcGVydGFoYW5hbiB5YW5nIGJydXRhbC4iLAogICAgICAgICAgICAgICAgTGlzdC5vZigKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJ0aWdlcl93YXZlIiwgIldoaXRlIFRpZ2VyIExpZ2h0IFdhdmUiLCAiR2Vsb21iYW5nIGNhaGF5YSBoYXJpbWF1OiBkYW1hZ2UgZ2FyaXMgbHVydXMgKyBrbm9ja2JhY2suIiwgMzBmLCAzMDAsIDEpLAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoInRpZ2VyX3ZhanJhIiwgIlZhanJhIFRyYW5zZm9ybWF0aW9uIiwgIlRyYW5zZm9ybWFzaTogU3RyZW5ndGggSUkgKyBSZXNpc3RhbmNlIElJIHNlbGFtYSAzMCBkZXRpay4iLCA0NWYsIDYwMCwgMykKICAgICAgICAgICAgICAgICkpKTsKCiAgICAgICAgcmVnaXN0ZXIobmV3IE1hcnRpYWxTb3VsKAogICAgICAgICAgICAgICAgInNvZnRfYm9uZV9yYWJiaXQiLCAiU29mdCBCb25lIFJhYmJpdCIsICJYaWFvIFd1IiwgIkFnaWxpdHkiLCAiUmFyZSIsIDEwLAogICAgICAgICAgICAgICAgIktlbGluY2kgdHVsYW5nIGx1bmFrOiBwZXNvbmEgbWVtaWthdCBkYW4gZ2VyYWthbiBzZWNlcGF0IGtpbGF0LiIsCiAgICAgICAgICAgICAgICBMaXN0Lm9mKAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoInJhYmJpdF9jaGFybSIsICJDaGFybSIsICJNZW1pa2F0IG1vbnN0ZXIgZGkgc2VraXRhcjogbWVyZWthIGJlcmhlbnRpIG1lbnllcmFuZ211LiIsIDMwZiwgNDAwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJyYWJiaXRfYmxpbmsiLCAiVGVsZXBvcnQiLCAiQmVya2VkaXAgOCBibG9rIGtlIGFyYWggcGFuZGFuZ2FubXUuIiwgMjVmLCAyMDAsIDMpCiAgICAgICAgICAgICAgICApKSk7CgogICAgICAgIHJlZ2lzdGVyKG5ldyBNYXJ0aWFsU291bCgKICAgICAgICAgICAgICAgICJqYWRlX3NlcnBlbnQiLCAiSmFkZSBQaG9zcGhvciBTZXJwZW50IiwgIkR1Z3UgWWFuIiwgIlJhY3VuIiwgIlJhcmUiLCAxMCwKICAgICAgICAgICAgICAgICJVbGFyIGdpb2sgYmVyYWN1bjoga2FidXQgZGFuIGdpZ2l0YW4geWFuZyBtZWx1bXB1aGthbiBtdXN1aCBwZXJsYWhhbi4iLAogICAgICAgICAgICAgICAgTGlzdC5vZigKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJzZXJwZW50X21pc3QiLCAiUG9pc29uIE1pc3QiLCAiS2FidXQgcmFjdW4gQW9FOiBwb2lzb24gKyBzbG93IDEwIGRldGlrLiIsIDMwZiwgMzYwLCAxKSwKICAgICAgICAgICAgICAgICAgICAgICAgbmV3IFNraWxsRGVmKCJzZXJwZW50X2JpdGUiLCAiU2VycGVudCBCaXRlIiwgIkdpZ2l0YW4gYmVyYmlzYSBwYWRhIG11c3VoIHRlcmRla2F0OiBkYW1hZ2UgYmVzYXIgKyBwb2lzb24ga3VhdC4iLCA0MGYsIDQwMCwgMykKICAgICAgICAgICAgICAgICkpKTsKCiAgICAgICAgcmVnaXN0ZXIobmV3IE1hcnRpYWxTb3VsKAogICAgICAgICAgICAgICAgImNsZWFyX3NreV9oYW1tZXIiLCAiQ2xlYXIgU2t5IEhhbW1lciIsICJUYW5nIFNhbiAvIFRhbmcgSGFvIiwgIlBvd2VyIiwgIkxlZ2VuZGFyeSIsIDMsCiAgICAgICAgICAgICAgICAiUGFsdSBMYW5naXQgSmVybmloOiBtYXJ0aWFsIHNvdWwgbGVnZW5kYXJpcyBrbGFuIENsZWFyIFNreSwgcGVuZ2hhbmN1ciBzZWdhbGFueWEuIiwKICAgICAgICAgICAgICAgIExpc3Qub2YoCiAgICAgICAgICAgICAgICAgICAgICAgIG5ldyBTa2lsbERlZigiaGFtbWVyX3NsYW0iLCAiSGFtbWVyIFNsYW0iLCAiSGFudGFtYW4gcGFsdSByYWtzYXNhOiBkYW1hZ2UgQW9FIG1hc2lmICsga25vY2tiYWNrIGtlIGF0YXMuIiwgNDVmLCA1MDAsIDEpLAogICAgICAgICAgICAgICAgICAgICAgICBuZXcgU2tpbGxEZWYoImhhbW1lcl9jbG9hayIsICJDaGFvdGljIENsb2FrIiwgIlRla25payBwYWx1IGJlcnB1dGFyOiBTdHJlbmd0aCBJSUkgKyBTcGVlZCBJSSBzZWxhbWEgMjAgZGV0aWsuIiwgNjBmLCA5MDAsIDMpCiAgICAgICAgICAgICAgICApKSk7CiAgICB9Cn0K
+package com.soulland.soul;
+
+import net.minecraft.util.RandomSource;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/** Daftar seluruh martial soul yang bisa didapat lewat gacha saat login pertama. */
+public final class MartialSouls {
+    private MartialSouls() {}
+
+    private static final Map<String, MartialSoul> REGISTRY = new LinkedHashMap<>();
+
+    private static void register(MartialSoul soul) {
+        REGISTRY.put(soul.id(), soul);
+    }
+
+    public static MartialSoul get(String id) {
+        return REGISTRY.get(id);
+    }
+
+    public static List<MartialSoul> all() {
+        return new ArrayList<>(REGISTRY.values());
+    }
+
+    /** Gacha: martial soul diundi secara acak dengan bobot rarity, seperti takdir saat lahir di cerita. */
+    public static MartialSoul roll(RandomSource random) {
+        int total = 0;
+        for (MartialSoul soul : REGISTRY.values()) total += soul.weight();
+        int r = random.nextInt(total);
+        for (MartialSoul soul : REGISTRY.values()) {
+            r -= soul.weight();
+            if (r < 0) return soul;
+        }
+        return REGISTRY.values().iterator().next();
+    }
+
+    static {
+        register(new MartialSoul(
+                "hoe", "Cangkul Tua", "Petani biasa", "Alat", "Common", 40,
+                "Martial soul rakyat jelata. Tapi di tangan yang tekun, cangkul pun bisa menembus langit.",
+                List.of(
+                        new SkillDef("hoe_heal", "Panen Raya", "Memulihkan 6 HP dan memberi efek saturation.", 20f, 200, 1),
+                        new SkillDef("hoe_slam", "Bajak Bumi", "Hantaman AoE kecil ke musuh di sekitar.", 30f, 300, 3)
+                )));
+
+        register(new MartialSoul(
+                "blue_silver_grass", "Blue Silver Grass", "Tang San", "Kontrol", "Rare", 12,
+                "Rumput biru perak yang tampak lemah namun bisa mengikat dan meracuni segalanya.",
+                List.of(
+                        new SkillDef("bsg_entangle", "Blue Silver Entangle", "Akar biru mengikat musuh di sekitar: slow berat + lemah.", 25f, 240, 1),
+                        new SkillDef("bsg_parasite", "Parasitic Seed", "Menanam benih parasit pada musuh terdekat: racun 8 detik, kamu pulih.", 35f, 400, 3)
+                )));
+
+        register(new MartialSoul(
+                "hell_civet", "Hell Civet", "Zhu Zhuqing", "Agility", "Uncommon", 20,
+                "Kucing neraka yang gesit: serangan cepat dan mematikan dari bayangan.",
+                List.of(
+                        new SkillDef("civet_dash", "Nether Thrust", "Melesat ke depan dan melukai musuh yang dilewati.", 25f, 240, 1),
+                        new SkillDef("civet_slash", "Nether Slash", "Tebasan AoE cepat di sekitarmu + kecepatan gerak.", 35f, 360, 3)
+                )));
+
+        register(new MartialSoul(
+                "sausage", "Sosis Ajaib", "Oscar", "Support", "Uncommon", 20,
+                "Sosis buatan Food System Master: penyembuh dan pembersih terbaik di medan perang.",
+                List.of(
+                        new SkillDef("sausage_heal", "Recovery Sausage", "Memulihkan 8 HP dan memberi saturation penuh.", 25f, 240, 1),
+                        new SkillDef("sausage_fly", "Flying Mushroom", "Terbang melayang + kecepatan gerak selama 20 detik.", 40f, 600, 3)
+                )));
+
+        register(new MartialSoul(
+                "seven_treasure_pagoda", "Seven Treasure Glazed Tile Pagoda", "Ning Rongrong", "Support", "Epic", 6,
+                "Pagoda tujuh lantai: martial soul support terkuat, memperkuat seluruh tim.",
+                List.of(
+                        new SkillDef("pagoda_power", "Berkah Kekuatan", "Sekutu di sekitarmu dapat Strength II & Absorption 30 detik.", 40f, 600, 1),
+                        new SkillDef("pagoda_heal", "Berkah Kehidupan", "Menyembuhkan 10 HP sekutu di sekitarmu + Regeneration.", 50f, 800, 3)
+                )));
+
+        register(new MartialSoul(
+                "evil_fire_phoenix", "Evil Fire Phoenix", "Ma Hongjun", "Serangan Api", "Epic", 6,
+                "Phoenix api jahat: membakar segalanya dengan api yang tak pernah padam.",
+                List.of(
+                        new SkillDef("phoenix_line", "Phoenix Fireline", "Semburan api kerucut ke arah pandanganmu.", 30f, 300, 1),
+                        new SkillDef("phoenix_meteor", "Phoenix Meteor", "Hujan bola api menghantam area di depanmu.", 55f, 700, 3)
+                )));
+
+        register(new MartialSoul(
+                "white_tiger", "White Tiger", "Dai Mubai", "Power", "Rare", 10,
+                "Harimau putih berekor: kekuatan fisik dan pertahanan yang brutal.",
+                List.of(
+                        new SkillDef("tiger_wave", "White Tiger Light Wave", "Gelombang cahaya harimau: damage garis lurus + knockback.", 30f, 300, 1),
+                        new SkillDef("tiger_vajra", "Vajra Transformation", "Transformasi: Strength II + Resistance II selama 30 detik.", 45f, 600, 3)
+                )));
+
+        register(new MartialSoul(
+                "soft_bone_rabbit", "Soft Bone Rabbit", "Xiao Wu", "Agility", "Rare", 10,
+                "Kelinci tulang lunak: pesona memikat dan gerakan secepat kilat.",
+                List.of(
+                        new SkillDef("rabbit_charm", "Charm", "Memikat monster di sekitar: mereka berhenti menyerangmu.", 30f, 400, 1),
+                        new SkillDef("rabbit_blink", "Teleport", "Berkedip 8 blok ke arah pandanganmu.", 25f, 200, 3)
+                )));
+
+        register(new MartialSoul(
+                "jade_serpent", "Jade Phosphor Serpent", "Dugu Yan", "Racun", "Rare", 10,
+                "Ular giok beracun: kabut dan gigitan yang melumpuhkan musuh perlahan.",
+                List.of(
+                        new SkillDef("serpent_mist", "Poison Mist", "Kabut racun AoE: poison + slow 10 detik.", 30f, 360, 1),
+                        new SkillDef("serpent_bite", "Serpent Bite", "Gigitan berbisa pada musuh terdekat: damage besar + poison kuat.", 40f, 400, 3)
+                )));
+
+        register(new MartialSoul(
+                "clear_sky_hammer", "Clear Sky Hammer", "Tang San / Tang Hao", "Power", "Legendary", 3,
+                "Palu Langit Jernih: martial soul legendaris klan Clear Sky, penghancur segalanya.",
+                List.of(
+                        new SkillDef("hammer_slam", "Hammer Slam", "Hantaman palu raksasa: damage AoE masif + knockback ke atas.", 45f, 500, 1),
+                        new SkillDef("hammer_cloak", "Chaotic Cloak", "Teknik palu berputar: Strength III + Speed II selama 20 detik.", 60f, 900, 3)
+                )));
+    }
+}

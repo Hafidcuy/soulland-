@@ -1,1 +1,26 @@
-cGFja2FnZSBjb20uc291bGxhbmQuaXRlbTsKCmltcG9ydCBjb20uc291bGxhbmQuU291bExhbmRNb2Q7CmltcG9ydCBuZXQubWluZWNyYWZ0LmNvcmUucmVnaXN0cmllcy5SZWdpc3RyaWVzOwppbXBvcnQgbmV0Lm1pbmVjcmFmdC5uZXR3b3JrLmNoYXQuQ29tcG9uZW50OwppbXBvcnQgbmV0Lm1pbmVjcmFmdC53b3JsZC5pdGVtLkNyZWF0aXZlTW9kZVRhYjsKaW1wb3J0IG5ldC5taW5lY3JhZnQud29ybGQuaXRlbS5JdGVtU3RhY2s7CmltcG9ydCBuZXQubWluZWNyYWZ0Zm9yZ2UucmVnaXN0cmllcy5EZWZlcnJlZFJlZ2lzdGVyOwppbXBvcnQgbmV0Lm1pbmVjcmFmdGZvcmdlLnJlZ2lzdHJpZXMuUmVnaXN0cnlPYmplY3Q7CgpwdWJsaWMgY2xhc3MgTW9kQ3JlYXRpdmVUYWJzIHsKICAgIHB1YmxpYyBzdGF0aWMgZmluYWwgRGVmZXJyZWRSZWdpc3RlcjxDcmVhdGl2ZU1vZGVUYWI+IFRBQlMgPQogICAgICAgICAgICBEZWZlcnJlZFJlZ2lzdGVyLmNyZWF0ZShSZWdpc3RyaWVzLkNSRUFUSVZFX01PREVfVEFCLCBTb3VsTGFuZE1vZC5NT0RJRCk7CgogICAgcHVibGljIHN0YXRpYyBmaW5hbCBSZWdpc3RyeU9iamVjdDxDcmVhdGl2ZU1vZGVUYWI+IFNPVUxMQU5EX1RBQiA9IFRBQlMucmVnaXN0ZXIoInNvdWxsYW5kX3RhYiIsCiAgICAgICAgICAgICgpIC0+IENyZWF0aXZlTW9kZVRhYi5idWlsZGVyKCkKICAgICAgICAgICAgICAgICAgICAudGl0bGUoQ29tcG9uZW50LnRyYW5zbGF0YWJsZSgiaXRlbUdyb3VwLnNvdWxsYW5kIikpCiAgICAgICAgICAgICAgICAgICAgLmljb24oKCkgLT4gbmV3IEl0ZW1TdGFjayhNb2RJdGVtcy5TUElSSVRfUklOR18xMDAwMDAuZ2V0KCkpKQogICAgICAgICAgICAgICAgICAgIC5kaXNwbGF5SXRlbXMoKHBhcmFtcywgb3V0cHV0KSAtPiB7CiAgICAgICAgICAgICAgICAgICAgICAgIG91dHB1dC5hY2NlcHQoTW9kSXRlbXMuU1BJUklUX1JJTkdfMTAwLmdldCgpKTsKICAgICAgICAgICAgICAgICAgICAgICAgb3V0cHV0LmFjY2VwdChNb2RJdGVtcy5TUElSSVRfUklOR18xMDAwLmdldCgpKTsKICAgICAgICAgICAgICAgICAgICAgICAgb3V0cHV0LmFjY2VwdChNb2RJdGVtcy5TUElSSVRfUklOR18xMDAwMC5nZXQoKSk7CiAgICAgICAgICAgICAgICAgICAgICAgIG91dHB1dC5hY2NlcHQoTW9kSXRlbXMuU1BJUklUX1JJTkdfMTAwMDAwLmdldCgpKTsKICAgICAgICAgICAgICAgICAgICB9KQogICAgICAgICAgICAgICAgICAgIC5idWlsZCgpKTsKfQo=
+package com.soulland.item;
+
+import com.soulland.SoulLandMod;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+
+public class ModCreativeTabs {
+    public static final DeferredRegister<CreativeModeTab> TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SoulLandMod.MODID);
+
+    public static final RegistryObject<CreativeModeTab> SOULLAND_TAB = TABS.register("soulland_tab",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.soulland"))
+                    .icon(() -> new ItemStack(ModItems.SPIRIT_RING_100000.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.SPIRIT_RING_100.get());
+                        output.accept(ModItems.SPIRIT_RING_1000.get());
+                        output.accept(ModItems.SPIRIT_RING_10000.get());
+                        output.accept(ModItems.SPIRIT_RING_100000.get());
+                    })
+                    .build());
+}
