@@ -29,6 +29,22 @@ public class ClientEvents {
         if (KeyBindings.SKILL_2 != null && KeyBindings.SKILL_2.consumeClick()) {
             ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(1));
         }
+        if (KeyBindings.SKILL_3 != null && KeyBindings.SKILL_3.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(2));
+        }
+        if (KeyBindings.SKILL_4 != null && KeyBindings.SKILL_4.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(3));
+        }
+    }
+
+    /** Membersihkan data visual yang sudah tidak berlaku agar tidak menumpuk. */
+    @SubscribeEvent
+    public static void onClientCleanup(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
+        ClientManifestations.removeExpired(mc.level.getGameTime());
+        ClientHaloData.prune(id -> mc.level.getEntity(id) != null);
     }
 
     @Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
