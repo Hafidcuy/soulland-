@@ -3,6 +3,7 @@ package com.soulland;
 import com.soulland.command.SoulCommands;
 import com.soulland.item.ModCreativeTabs;
 import com.soulland.item.ModItems;
+import com.soulland.item.SpiritToolTier;
 import com.soulland.net.ModNetwork;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -20,6 +21,7 @@ public class SoulLandMod {
 
     public SoulLandMod() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        SpiritToolTier.registerSorting();
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.TABS.register(modBus);
         com.soulland.entity.ModEntities.ENTITIES.register(modBus);

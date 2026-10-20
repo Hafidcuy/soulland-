@@ -31,6 +31,30 @@ public class ModCreativeTabs {
                         output.accept(ModItems.MANIFESTATION_SOFT_BONE_RABBIT.get());
                         output.accept(ModItems.MANIFESTATION_JADE_SERPENT.get());
                         output.accept(ModItems.MANIFESTATION_CLEAR_SKY_HAMMER.get());
+                        output.accept(ModItems.SPIRIT_IRON_INGOT.get());
+                        output.accept(ModItems.SPIRIT_STEEL_INGOT.get());
+                        output.accept(ModItems.DEEP_SILVER_INGOT.get());
+                        output.accept(ModItems.SOUL_CRYSTAL_SHARD.get());
+                        output.accept(ModItems.SPIRIT_DEW_LEAF.get());
+                        output.accept(ModItems.SPIRIT_MOSS_SPROUT.get());
+                        output.accept(ModItems.SPIRIT_EMBER_LEAF.get());
+                        output.accept(ModItems.CULTIVATION_PILL.get());
+                        output.accept(ModItems.SWIFT_PILL.get());
+                    })
+                    .build());
+
+    /** Tab khusus tool soul, dikelompokkan per soul lalu per mutu material. */
+    public static final RegistryObject<CreativeModeTab> SPIRIT_GEAR_TAB = TABS.register("soul_spirit_gear",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.soulland.spirit_gear"))
+                    .icon(() -> new ItemStack(ModItems.SPIRIT_TOOLS.get(0).get()))
+                    .displayItems((params, output) -> {
+                        for (SpiritToolType type : SpiritToolType.values()) {
+                            for (SpiritToolTier tier : SpiritToolTier.values()) {
+                                RegistryObject<SpiritToolItem> tool = ModItems.tool(type.soulId(), tier);
+                                if (tool != null) output.accept(tool.get());
+                            }
+                        }
                     })
                     .build());
 }

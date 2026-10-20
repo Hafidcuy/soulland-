@@ -8,6 +8,7 @@ import com.soulland.book.GuideBook;
 import com.soulland.entity.SoulCompanion;
 import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
+import com.soulland.item.ToolCharge;
 import com.soulland.skill.AttackEffects;
 import com.soulland.soul.RingHaloSync;
 import com.soulland.soul.SoulSelection;
@@ -105,6 +106,11 @@ public class CommonEvents {
                 cap.setBloodBurnTicks(cap.getBloodBurnTicks() - 1);
             }
         });
+        if (event.player instanceof ServerPlayer sp) {
+            if (sp.tickCount % ToolCharge.BATTERY_REGEN_INTERVAL == 0) {
+                ToolCharge.regenBattery(sp, sp.getMainHandItem());
+            }
+        }
     }
 
     /** Bonus damage keluaran berdasarkan level kultivasi, plus efek serangan khas tiap soul. */

@@ -53,19 +53,45 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    mavenCentral()
+}
+
+configurations {
+    junitLauncher {
+        canBeConsumed = false
+        canBeResolved = true
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Uji aritmetika tool soul: kelas yang diuji bebas dari Minecraft,
+    // jadi test tidak perlu bootup registry.
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    junitLauncher 'org.junit.platform:junit-platform-console-standalone:1.10.2'
 }
 
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
+// ForgeGradle membuat worker test Gradle tersendat saat classpath Minecraft
+// ikut dimuat. Test di sini murni aritmetika, jadi dijalankan lewat console
+// launcher dengan classpath minimal: hasil mod + JUnit saja.
+tasks.named('test') {
+    enabled = false
+}
+
+tasks.register('unitTest', JavaExec) {
+    group = 'verification'
+    description = 'Uji aritmetika tool soul tanpa runtime Minecraft.'
+    classpath = files(sourceSets.test.output, sourceSets.main.output) + configurations.junitLauncher
+    mainClass = 'org.junit.platform.console.ConsoleLauncher'
+    args '--select-package', 'com.soulland.item',
+            '--details', 'summary',
+            '--disable-ansi-colors'
+}
+
+tasks.named('check') {
+    dependsOn 'unitTest'
 }
 
 tasks.withType(ProcessResources).configureEach {
