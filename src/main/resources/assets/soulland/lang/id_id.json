@@ -217,5 +217,19 @@
   "tooltip.soulland.soul": "Soul: %s",
   "tooltip.soulland.synergy_off": "Belum ada sinergI: tool ini milik soul lain",
   "tooltip.soulland.synergy_on": "Sinergi soul aktif: damage skill +15%, cooldown -10%",
-  "tooltip.soulland.tier": "Mutu: %s"
+  "tooltip.soulland.tier": "Mutu: %s",
+  "rank.soulland.0": "Murid Spirit",
+  "rank.soulland.1": "Master Spirit",
+  "rank.soulland.2": "Agam Spirit",
+  "rank.soulland.3": "Tetua Spirit",
+  "rank.soulland.4": "Leluhur Spirit",
+  "rank.soulland.5": "Raja Spirit",
+  "rank.soulland.6": "Kaisar Spirit",
+  "rank.soulland.7": "Cakrawala Spirit",
+  "rank.soulland.8": "Douluo Spirit",
+  "rank.soulland.9": "Douluo Bergelar",
+  "rank.soulland.10": "Douluo Bergelar Agung",
+  "rank.soulland.11": "Douluo Batas",
+  "rank.soulland.12": "Semi-Dewa",
+  "rank.soulland.13": "Dewa"
 }

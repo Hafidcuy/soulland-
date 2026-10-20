@@ -217,5 +217,19 @@
   "tooltip.soulland.soul": "Soul: %s",
   "tooltip.soulland.synergy_off": "No synergy: this tool belongs to another soul",
   "tooltip.soulland.synergy_on": "Soul synergy active: skill damage +15%, cooldown -10%",
-  "tooltip.soulland.tier": "Material: %s"
+  "tooltip.soulland.tier": "Material: %s",
+  "rank.soulland.0": "Spirit Scholar",
+  "rank.soulland.1": "Spirit Master",
+  "rank.soulland.2": "Spirit Grandmaster",
+  "rank.soulland.3": "Spirit Elder",
+  "rank.soulland.4": "Spirit Ancestor",
+  "rank.soulland.5": "Spirit King",
+  "rank.soulland.6": "Spirit Emperor",
+  "rank.soulland.7": "Spirit Sage",
+  "rank.soulland.8": "Spirit Douluo",
+  "rank.soulland.9": "Title Douluo",
+  "rank.soulland.10": "Grand Title Douluo",
+  "rank.soulland.11": "Limit Douluo",
+  "rank.soulland.12": "Quasi-God",
+  "rank.soulland.13": "God"
 }
