@@ -26,6 +26,20 @@ public final class ClientCultivationData {
     public static int[] skillCooldowns = new int[4];
     /** True bila upacara kebangkitan sudah selesai (soul sudah dipilih). */
     public static boolean awakened = false;
+    /** Bahasa yang dipilih pemain: "id" atau "en". Kosong sebelum memilih. */
+    public static String language = "";
+    /** Berapa kali sinkronisasi dari server diterima; dipakai layar untuk tahu jawaban server. */
+    public static int syncCount = 0;
+
+    /**
+     * Bahasa yang dipakai tampilan: pilihan pemain kalau ada, kalau belum
+     * memakai bahasa client Minecraft sebagai cadangan.
+     */
+    public static String effectiveLanguage() {
+        if (!language.isEmpty()) return language;
+        return com.soulland.lang.SoulLang.fromLocale(
+                net.minecraft.client.Minecraft.getInstance().options.languageCode);
+    }
 
     public static void set(SyncCultivationPacket packet) {
         level = packet.level();
@@ -42,6 +56,8 @@ public final class ClientCultivationData {
         ringAges = packet.ringAges() == null ? new int[0] : packet.ringAges();
         skillCooldowns = packet.skillCooldowns() == null ? new int[4] : packet.skillCooldowns();
         awakened = packet.awakened();
+        language = packet.language() == null ? "" : packet.language();
+        syncCount++;
     }
 
     /** Sisa cooldown slot skill tertentu dalam detik; 0 bila tidak cooldown atau slot tidak ada. */

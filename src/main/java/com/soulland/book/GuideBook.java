@@ -1,5 +1,7 @@
 package com.soulland.book;
 
+import com.soulland.CultivationRanks;
+import com.soulland.lang.SoulLang;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import net.minecraft.nbt.ListTag;
@@ -11,55 +13,85 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Buku panduan lengkap dunia Soul Land, diberikan otomatis kepada setiap pemain baru. */
+/**
+ * Buku panduan lengkap dunia Soul Land, diberikan otomatis kepada setiap pemain baru.
+ *
+ * <p>Halaman ditulis dalam bahasa yang dipilih pemain, jadi server membangkitkan
+ * buku dengan bahasa itu. Halaman yang isinya berubah (tangga peringkat dan
+ * daftar martial soul) dibangkitkan dari registry supaya selalu akurat.
+ */
 public final class GuideBook {
     private GuideBook() {}
 
-    public static ItemStack create() {
+    /** Halaman statis, urut sama dengan {@link #STATIC_PAGES}. */
+    private static final String[] STATIC_PAGES = {
+            "book.soulland.page.welcome",
+            "book.soulland.page.martial_soul",
+            "book.soulland.page.level",
+            "book.soulland.page.rings",
+            "book.soulland.page.skills",
+            "book.soulland.page.beasts",
+            "book.soulland.page.alchemy",
+            "book.soulland.page.commands",
+            "book.soulland.page.multiplayer",
+            "book.soulland.page.closing"
+    };
+
+    /** Buku panduan untuk pemain dengan bahasa tertentu. */
+    public static ItemStack create(String language) {
+        String requested = SoulLang.normalize(language);
+        final String code = requested.isEmpty() ? SoulLang.DEFAULT : requested;
+
         ItemStack book = new ItemStack(Items.WRITTEN_BOOK);
         var tag = book.getOrCreateTag();
-        tag.putString("title", "Panduan Dunia Soul Land");
-        tag.putString("author", "Tang San");
+        tag.putString("title", SoulLang.translate(code, "book.soulland.title", "Panduan Dunia Soul Land"));
+        tag.putString("author", SoulLang.translate(code, "book.soulland.author", "Soul Land Team"));
         tag.putInt("generation", 0);
 
         List<String> pages = new ArrayList<>();
-        pages.add("SELAMAT DATANG DI BENUA DOULUO\n\nKamu telah membangkitkan Martial Soul! Buku ini menjelaskan seluruh sistem dunia Soul Land: kultivasi, spirit ring, skill, soul beast, dan jalan menuju Title Douluo.");
-        pages.add("1. MARTIAL SOUL (WU HUN)\n\nSaat pertama masuk dunia, Upacara Kebangkitan terbuka dan kamu memilih sendiri martial soul-mu.\nPilihan itu tetap selamanya, HANYA bisa diubah dalam mode Creative dengan perintah /martialsoul reroll.");
-        pages.add("2. LEVEL SPIRIT POWER\n\nLevel 1-99. Bunuh soul beast (monster) untuk mendapat XP kultivasi.\nSetiap 10 level ada GERBANG peringkat: kamu tidak bisa naik level sebelum menyerap spirit ring baru.");
-        pages.add("3. PERINGKAT KULTIVASI\n\n1-10 Spirit Scholar\n11-20 Spirit Master\n21-30 Grandmaster\n31-40 Spirit Elder\n41-50 Spirit Ancestor\n51-60 Spirit King\n61-70 Spirit Emperor\n71-80 Spirit Sage\n81-90 Spirit Douluo\n91-99 Title Douluo");
-        pages.add("4. SPIRIT RING\n\nDidapat dari membunuh soul beast:\n- 100 tahun (monster lemah)\n- 1.000 tahun (monster sedang)\n- 10.000 tahun (monster kuat & boss)\n- 100.000 tahun (Ender Dragon!)\nKlik kanan ring untuk menyerapnya. Ada syarat level minimum.");
-        pages.add("5. SKILL MARTIAL SOUL\n\nSetiap martial soul punya 4 skill:\n- Skill 1 terbuka di 1 spirit ring -> tekan [R]\n- Skill 2 terbuka di 3 spirit ring -> tekan [G]\n- Skill 3 terbuka di 5 spirit ring -> tekan [X]\n- Skill 4 terbuka di 7 spirit ring -> tekan [C]\nSkill memakai Spirit Power (energi biru di HUD) dan punya cooldown.");
-        pages.add("6. SPIRIT POWER (ENERGI)\n\nEnergi maksimum 100 dan pulih otomatis seiring waktu. Lihat level, peringkat, ring, dan energimu di HUD kiri atas, atau ketik /soulinfo.");
-        pages.add("7. SOUL BEAST & BOSS\n\nMonster adalah soul beast. Boss dunia ini JAUH lebih kuat dari biasa:\n- Elder Guardian (HP 120)\n- Wither (HP 600)\n- Warden (HP 800)\n- ENDER DRAGON (HP 1000) - boss akhir! Membunuhnya memberi ring 100.000 tahun.");
-        pages.add("8. TUJUAN AKHIR\n\nJadilah Title Douluo (level 91+) dengan 9 spirit ring, lalu kalahkan Ender Dragon, Kaisar Soul Beast terakhir. Serap ring 100.000 tahunnya dan namamu akan melegenda di Benua Douluo.");
-        pages.add("9. PERINTAH (COMMAND)\n\n/soulinfo - lihat status kultivasimu\n/martialsoul info - detail martial soul-mu\n/martialsoul reroll - undi ulang (Creative saja)\n/cultivation set <pemain> <level> - admin/OP");
-        pages.add("10. MULTIPLAYER\n\nSistem ini berjalan penuh di server: upacara, level, ring, dan skill setiap pemain tersimpan sendiri-sendiri.\nAjak temanmu, bentuk tim (support Pagoda sangat membantu!), dan taklukkan boss bersama.");
+        for (String key : STATIC_PAGES) {
+            String text = SoulLang.translate(code, key, "");
+            if (!text.isEmpty()) pages.add(text);
+        }
+        pages.add(rankLadder(code));
+        pages.add(rankGoal(code));
 
         // Daftar martial soul ikonik, dihasilkan otomatis dari registry agar selalu akurat.
         int shown = 0;
         for (MartialSoul soul : MartialSouls.notable()) {
             if (shown++ >= 24) break;
             StringBuilder sb = new StringBuilder();
-            sb.append(soul.name().toUpperCase()).append("\n");
+            sb.append(SoulLang.text(code, "soul.soulland." + soul.id() + ".name", soul.name()).getString().toUpperCase())
+                    .append("\n");
             if (!soul.nameZh().isEmpty()) {
-                sb.append("Nama Mandarin: ").append(soul.nameZh()).append("\n");
+                sb.append(SoulLang.translate(code, "book.soulland.label.mandarin", "Nama Mandarin: %s", soul.nameZh()))
+                        .append("\n");
             }
-            sb.append("Pemilik: ").append(soul.owner().isEmpty() ? "-" : soul.owner()).append("\n");
-            sb.append("Tipe: ").append(soul.type()).append(" | ").append(soul.rarity())
-                    .append(" | Elemen: ").append(soul.element()).append("\n\n");
-            sb.append(soul.description()).append("\n\n");
-            soul.skills().stream().limit(3).forEach(sk -> sb.append("- ").append(sk.name())
-                    .append(" (").append(sk.ringsRequired()).append(" ring): ").append(sk.description()).append("\n"));
+            sb.append(SoulLang.translate(code, "book.soulland.label.owner", "Pemilik: %s",
+                    soul.owner().isEmpty() ? "-" : soul.owner())).append("\n");
+            sb.append(SoulLang.translate(code, "book.soulland.label.traits", "Tipe: %s | %s | Elemen: %s",
+                    SoulLang.translate(code, "soul.soulland.type." + com.soulland.soul.SoulCategories.typeSlug(soul.type()),
+                            soul.type()),
+                    SoulLang.translate(code, "soul.soulland.rarity." + soul.rarity().toLowerCase(java.util.Locale.ROOT),
+                            soul.rarity()),
+                    soul.element())).append("\n\n");
+            sb.append(SoulLang.translate(code, "soul.soulland." + soul.id() + ".description", soul.description()))
+                    .append("\n\n");
+            soul.skills().stream().limit(3).forEach(sk -> sb.append("- ")
+                    .append(SoulLang.translate(code, "skill.soulland." + sk.id() + ".name", sk.name()))
+                    .append(" (").append(sk.ringsRequired()).append(" ring): ")
+                    .append(SoulLang.translate(code, "skill.soulland." + sk.id() + ".description", sk.description()))
+                    .append("\n"));
             if (soul.hasEvolution()) {
                 MartialSoul evolved = MartialSouls.get(soul.evolutionId());
                 if (evolved != null) {
-                    sb.append("\nBentuk evolusi: ").append(evolved.name());
+                    sb.append("\n").append(SoulLang.translate(code, "book.soulland.label.evolution",
+                            "Bentuk evolusi: %s",
+                            SoulLang.translate(code, "soul.soulland." + evolved.id() + ".name", evolved.name())));
                 }
             }
             pages.add(trimPage(sb.toString()));
         }
-
-        pages.add("SELAMAT BERKULTIVASI!\n\n\"Tidak ada martial soul yang sampah, yang ada hanya spirit master yang sampah.\" - Grandmaster Yu Xiaogang\n\nBerlatihlah, berburu bersama tim, dan jangan menyerah. Jalan menuju dewa dimulai dari level 1.");
 
         ListTag list = new ListTag();
         for (String page : pages) {
@@ -68,6 +100,39 @@ public final class GuideBook {
         tag.put("pages", list);
         tag.put("filtered_pages", new ListTag());
         return book;
+    }
+
+    /** Buku panduan dengan bahasa bawaan mod. */
+    public static ItemStack create() {
+        return create(SoulLang.DEFAULT);
+    }
+
+    /** Halaman tangga peringkat, dibangkitkan dari data rank yang aktif. */
+    private static String rankLadder(String language) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(SoulLang.translate(language, "book.soulland.page.ranks.title", "TANGGA PERINGKAT KULTIVASI"))
+                .append("\n\n");
+        for (int index = 0; index < CultivationRanks.rankCount(); index++) {
+            int end = CultivationRanks.bandEnd(index);
+            int start = index == 0 ? 1 : CultivationRanks.bandEnd(index - 1) + 1;
+            sb.append(start).append('-').append(end).append(' ')
+                    .append(SoulLang.rankName(start, language).getString())
+                    .append("  (").append(CultivationRanks.ringsRequiredAtGate(end)).append(" ring)\n");
+        }
+        sb.append("\n").append(SoulLang.translate(language, "book.soulland.page.ranks.note",
+                "Setiap batas peringkat adalah gerbang: kamu harus menyerap ring baru dan bermeditasi penuh sebelum naik."));
+        return sb.toString();
+    }
+
+    /** Halaman tujuan akhir, menyebut ambang dewa dan tribulasi. */
+    private static String rankGoal(String language) {
+        return SoulLang.translate(language, "book.soulland.page.ranks.goal",
+                "TUJUAN AKHIR\n\nTangga ini berakhir di Dewa, mulai level %s. Mencapainya memunculkan tanda "
+                        + "tribulasi: langit bergemuruh dan petir menyambar. Sistem tribulasi penuh menyusul "
+                        + "di v1.6, jadi v1.2B hanya menandai ambangnya.\n\n"
+                        + "Serap ring emas 1.000.000 tahun, kalahkan Ender Dragon, dan namamu "
+                        + "akan melegenda di Benua Douluo.",
+                CultivationRanks.GOD_THRESHOLD);
     }
 
     private static String trimPage(String text) {

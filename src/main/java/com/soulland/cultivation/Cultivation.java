@@ -1,6 +1,7 @@
 package com.soulland.cultivation;
 
 import com.soulland.CultivationRanks;
+import com.soulland.lang.SoulLang;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.Arrays;
@@ -29,6 +30,7 @@ public class Cultivation implements ICultivation {
     private int hintFlags = 0;
     private int contractKills = 0;
     private long contractUntil = 0L;
+    private String language = "";
     private final Map<String, Long> cooldowns = new HashMap<>();
     /** Umur tiap ring (tahun). Kosong bila belum punya ring. */
     private int[] ringAges = new int[0];
@@ -105,6 +107,11 @@ public class Cultivation implements ICultivation {
     @Override public long getContractUntil() { return contractUntil; }
     @Override public void setContractUntil(long gameTime) { this.contractUntil = gameTime; }
 
+    @Override public String getLanguage() { return language; }
+    @Override public void setLanguage(String value) {
+        this.language = value == null ? "" : SoulLang.normalize(value);
+    }
+
     @Override public int getHintFlags() { return hintFlags; }
     @Override public void setHintFlags(int flags) { this.hintFlags = flags; }
 
@@ -154,6 +161,7 @@ public class Cultivation implements ICultivation {
         tag.putBoolean("breakthroughReady", breakthroughReady);
         tag.putBoolean("welcomeSeen", welcomeSeen);
         tag.putInt("hintFlags", hintFlags);
+        tag.putString("language", language);
         for (int i = 0; i < loadout.length; i++) {
             tag.putString("loadout" + i, loadout[i] == null ? "" : loadout[i]);
         }
@@ -184,6 +192,7 @@ public class Cultivation implements ICultivation {
         breakthroughReady = tag.getBoolean("breakthroughReady");
         welcomeSeen = tag.getBoolean("welcomeSeen");
         hintFlags = tag.getInt("hintFlags");
+        language = SoulLang.normalize(tag.getString("language"));
         for (int i = 0; i < loadout.length; i++) {
             loadout[i] = tag.getString("loadout" + i);
         }

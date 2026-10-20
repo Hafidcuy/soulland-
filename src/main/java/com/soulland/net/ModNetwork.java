@@ -98,6 +98,16 @@ public class ModNetwork {
                 .decoder(OpenGuiPacket::decode)
                 .consumerMainThread(OpenGuiPacket::handle)
                 .add();
+        CHANNEL.messageBuilder(SelectLanguagePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(SelectLanguagePacket::encode)
+                .decoder(SelectLanguagePacket::decode)
+                .consumerMainThread(SelectLanguagePacket::handle)
+                .add();
+        CHANNEL.messageBuilder(OpenLanguageScreenPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenLanguageScreenPacket::encode)
+                .decoder(OpenLanguageScreenPacket::decode)
+                .consumerMainThread(OpenLanguageScreenPacket::handle)
+                .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }
 }

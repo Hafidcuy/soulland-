@@ -99,6 +99,10 @@ public interface ICultivation {
     long getContractUntil();
     void setContractUntil(long gameTime);
 
+    /** Bahasa yang dipilih pemain: "id" atau "en". Kosong kalau belum memilih. */
+    String getLanguage();
+    void setLanguage(String language);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }

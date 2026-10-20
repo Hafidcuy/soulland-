@@ -1,6 +1,7 @@
 package com.soulland.client.gui;
 
 import com.soulland.client.ClientCultivationData;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.ChooseSoulPacket;
 import com.soulland.net.CloseAwakeningGuiPacket;
 import com.soulland.net.ModNetwork;
@@ -73,10 +74,23 @@ public class AwakeningScreen extends Screen {
     private boolean pending = false;
     private String errorKey = null;
 
+    private final String language;
+
     public AwakeningScreen(boolean reroll) {
-        super(Component.translatable(reroll ? "gui.soulland.awakening.title.reroll" : "gui.soulland.awakening.title"));
+        super(Component.literal(""));
         this.reroll = reroll;
         this.categories = SoulCategories.types();
+        this.language = SoulLang.activeLanguage();
+    }
+
+    /** Terjemahan layar ini memakai bahasa pemain, bukan bahasa client Minecraft. */
+    private Component text(String key, String fallback) {
+        return SoulLang.text(language, key, fallback);
+    }
+
+    /** Terjemahan layar ini dengan placeholder {@code %s}. */
+    private Component text(String key, String fallback, Object... args) {
+        return SoulLang.text(language, key, fallback, args);
     }
 
     // ---------------------------------------------------------------- state
@@ -331,10 +345,14 @@ public class AwakeningScreen extends Screen {
     }
 
     private void drawHeader(GuiGraphics guiGraphics) {
-        Component title = this.title.copy().withStyle(style -> style.withBold(true));
+        Component title = text(reroll ? "gui.soulland.awakening.title.reroll" : "gui.soulland.awakening.title",
+                reroll ? "Choose a New Martial Soul" : "Martial Soul Awakening Ceremony")
+                .copy().withStyle(style -> style.withBold(true));
         guiGraphics.drawString(this.font, title, MARGIN, TITLE_Y, PAPER);
         guiGraphics.drawString(this.font,
-                Component.translatable(reroll ? "gui.soulland.awakening.subtitle.reroll" : "gui.soulland.awakening.subtitle"),
+                text(reroll ? "gui.soulland.awakening.subtitle.reroll" : "gui.soulland.awakening.subtitle",
+                        reroll ? "Creative mode: replace your awakened soul"
+                                : "Choose the martial soul that will bind to your fate"),
                 MARGIN, SUBTITLE_Y, MUTED);
         guiGraphics.fill(MARGIN, RULE_Y, PANEL_W - MARGIN, RULE_Y + 1, JADE);
     }
@@ -349,7 +367,7 @@ public class AwakeningScreen extends Screen {
             boolean selected = i == categoryIndex;
             guiGraphics.fill(x, TAB_Y, x + w, TAB_Y + TAB_H, selected ? JADE_DIM : STONE);
             guiGraphics.fill(x, TAB_Y, x + 1, TAB_Y + TAB_H, selected ? JADE : HAIRLINE);
-            String label = Component.translatable(SoulCategories.labelKey(categories.get(i))).getString();
+            String label = text(SoulCategories.labelKey(categories.get(i)), categories.get(i)).getString();
             if (this.font.width(label) > w - 6) {
                 label = this.font.plainSubstrByWidth(label, w - 6);
             }
@@ -365,7 +383,7 @@ public class AwakeningScreen extends Screen {
         guiGraphics.fill(LIST_X, BODY_Y, LIST_X + LIST_W, BODY_Y + BODY_H, STONE);
         List<MartialSoul> souls = soulsOfCurrentCategory();
         if (souls.isEmpty()) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.category_empty"),
+            guiGraphics.drawString(this.font, text("gui.soulland.awakening.category_empty", "No soul in this category"),
                     LIST_X + 6, BODY_Y + 8, MUTED);
             return;
         }
@@ -377,10 +395,10 @@ public class AwakeningScreen extends Screen {
             if (selected) {
                 guiGraphics.fill(LIST_X + 1, y, LIST_X + LIST_W - 1, y + rowHeight() - 6, JADE_DIM);
             }
-            guiGraphics.drawString(this.font, SoulText.soulName(soul), LIST_X + 6, y, PAPER);
+            guiGraphics.drawString(this.font, SoulText.soulName(soul, language), LIST_X + 6, y, PAPER);
             MutableComponent meta = rarityLabel(soul.rarity()).copy()
                     .append(Component.literal(" · ").withStyle(style -> style.withColor(MUTED)))
-                    .append(SoulText.soulOwner(soul).copy().withStyle(style -> style.withColor(MUTED)));
+                    .append(SoulText.soulOwner(soul, language).copy().withStyle(style -> style.withColor(MUTED)));
             guiGraphics.drawString(this.font, meta, LIST_X + 6, y + 10, MUTED);
             if (area == Area.LIST && selected) {
                 outline(guiGraphics, LIST_X + 1, y, LIST_X + LIST_W - 2, y + rowHeight() - 7, JADE);
@@ -393,11 +411,11 @@ public class AwakeningScreen extends Screen {
         MartialSoul soul = selectedSoul();
 
         if (soul == null) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.empty"),
+            guiGraphics.drawString(this.font, text("gui.soulland.awakening.empty", "No soul selected yet"),
                     PREVIEW_X + 6, BODY_Y + 8, MUTED);
             String current = currentSoulName();
             if (!current.isEmpty()) {
-                guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.current_soul", current),
+                guiGraphics.drawString(this.font, text("gui.soulland.awakening.current_soul", "Current soul: %s", current),
                         PREVIEW_X + 6, BODY_Y + 22, MUTED);
             }
             drawButton(guiGraphics, false);
@@ -405,17 +423,18 @@ public class AwakeningScreen extends Screen {
         }
 
         int x = PREVIEW_X + 6;
-        guiGraphics.drawString(this.font, SoulText.soulName(soul), x, BODY_Y + 4, PAPER);
+        guiGraphics.drawString(this.font, SoulText.soulName(soul, language), x, BODY_Y + 4, PAPER);
 
         MutableComponent meta = rarityLabel(soul.rarity()).copy()
                 .append(Component.literal(" · ").withStyle(style -> style.withColor(MUTED)))
-                .append(SoulText.soulType(soul).copy().withStyle(style -> style.withColor(MUTED)));
+                .append(SoulText.soulType(soul, language).copy().withStyle(style -> style.withColor(MUTED)));
         guiGraphics.drawString(this.font, meta, x, BODY_Y + 14, MUTED);
 
-        guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.owner", SoulText.soulOwner(soul).getString()),
+        guiGraphics.drawString(this.font, text("gui.soulland.awakening.owner", "Original owner: %s",
+                        SoulText.soulOwner(soul, language).getString()),
                 x, BODY_Y + 24, MUTED);
 
-        List<FormattedCharSequence> lines = this.font.split(SoulText.soulDescription(soul), PREVIEW_W - 12);
+        List<FormattedCharSequence> lines = this.font.split(SoulText.soulDescription(soul, language), PREVIEW_W - 12);
         for (int i = 0; i < Math.min(2, lines.size()); i++) {
             guiGraphics.drawString(this.font, lines.get(i), x, BODY_Y + 36 + i * 10, MUTED);
         }
@@ -427,7 +446,7 @@ public class AwakeningScreen extends Screen {
             SkillDef skill = skills.get(i);
             int y = BODY_Y + 58 + i * 10;
             guiGraphics.drawString(this.font, Component.literal((i + 1) + ". "), x, y, MUTED);
-            guiGraphics.drawString(this.font, SoulText.skillName(skill), x + 10, y, PAPER);
+            guiGraphics.drawString(this.font, SoulText.skillName(skill, language), x + 10, y, PAPER);
             String cost = Integer.toString((int) skill.energyCost());
             guiGraphics.drawString(this.font, cost, PREVIEW_X + PREVIEW_W - 6 - this.font.width(cost), y, JADE);
         }
@@ -440,8 +459,8 @@ public class AwakeningScreen extends Screen {
         int y = buttonY();
         guiGraphics.fill(x, y, x + BUTTON_W, y + BUTTON_H, enabled ? JADE_DIM : STONE);
         String label = pending
-                ? Component.translatable("gui.soulland.awakening.confirming").getString()
-                : Component.translatable("gui.soulland.awakening.confirm").getString();
+                ? text("gui.soulland.awakening.confirming", "Confirming...").getString()
+                : text("gui.soulland.awakening.confirm", "AWAKEN").getString();
         int color = enabled ? PAPER : MUTED;
         guiGraphics.drawString(this.font, label, x + (BUTTON_W - this.font.width(label)) / 2, y + 3, color);
         if (area == Area.BUTTON) {
@@ -451,30 +470,40 @@ public class AwakeningScreen extends Screen {
 
     private void drawStatus(GuiGraphics guiGraphics) {
         if (errorKey != null) {
-            guiGraphics.drawString(this.font, Component.translatable(errorKey), MARGIN, STATUS_Y, DANGER);
+            guiGraphics.drawString(this.font, text(errorKey, errorFallback(errorKey)), MARGIN, STATUS_Y, DANGER);
             return;
         }
         if (pending) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.pending"),
-                    MARGIN, STATUS_Y, MUTED);
+            guiGraphics.drawString(this.font, text("gui.soulland.awakening.pending",
+                    "Waiting for the server to answer..."), MARGIN, STATUS_Y, MUTED);
             return;
         }
         String current = currentSoulName();
         if (reroll && !current.isEmpty()) {
-            guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.current_soul", current),
+            guiGraphics.drawString(this.font, text("gui.soulland.awakening.current_soul", "Current soul: %s", current),
                     MARGIN, STATUS_Y, MUTED);
             return;
         }
-        guiGraphics.drawString(this.font, Component.translatable("gui.soulland.awakening.hint"), MARGIN, STATUS_Y, MUTED);
+        guiGraphics.drawString(this.font, text("gui.soulland.awakening.hint",
+                "Tab switches area, arrows select, Enter confirms"), MARGIN, STATUS_Y, MUTED);
     }
 
     private String currentSoulName() {
         MartialSoul soul = MartialSouls.get(ClientCultivationData.soulId);
-        return soul == null ? "" : SoulText.soulName(soul).getString();
+        return soul == null ? "" : SoulText.soulName(soul, language).getString();
     }
 
-    private static MutableComponent rarityLabel(String rarity) {
-        return Component.translatable(SoulRarity.langKey(rarity))
+    /** Teks cadangan untuk pesan galat yang dikirim server. */
+    private String errorFallback(String key) {
+        return switch (key) {
+            case "gui.soulland.awakening.error.invalid_soul" -> "That martial soul does not exist";
+            case "gui.soulland.awakening.error.already_awakened" -> "Your martial soul is already awakened";
+            default -> "That martial soul could not be chosen";
+        };
+    }
+
+    private MutableComponent rarityLabel(String rarity) {
+        return SoulLang.text(language, SoulRarity.langKey(rarity), rarity)
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(SoulRarity.color(rarity) & 0xFFFFFF)));
     }
 

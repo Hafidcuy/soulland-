@@ -11,8 +11,8 @@ import java.util.Map;
  * slot 4 (7 ring, ultimate).
  *
  * <p>Registry ini kurasi: tepat 10 soul dengan asset, visual, dan item manifestasi
- * khas masing-masing. Martial soul dipilih pemain sendiri di upacara — tidak ada
- * undian/gacha di sini.
+ * khas masing-masing. Martial soul dipilih pemain sendiri di upacara, jadi di
+ * sini tidak ada undian/gacha.
  */
 public final class MartialSouls {
     private MartialSouls() {}
@@ -64,8 +64,8 @@ public final class MartialSouls {
         }
     }
 
-    /** Jumlah soul yang terdaftar — dipakai log startup, bukan undian. */
-    public static int rollableCount() {
+    /** Jumlah soul yang terdaftar, dipakai log startup. */
+    public static int registeredCount() {
         return REGISTRY.size();
     }
 

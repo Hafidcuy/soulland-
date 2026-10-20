@@ -1,6 +1,7 @@
 package com.soulland.client;
 
 import com.soulland.client.gui.AwakeningScreen;
+import com.soulland.client.gui.LanguageSelectScreen;
 import com.soulland.net.ChooseSoulResultPacket;
 import net.minecraft.client.Minecraft;
 
@@ -16,6 +17,16 @@ public final class ClientGuiHooks {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
         mc.setScreen(new AwakeningScreen(reroll));
+    }
+
+    /**
+     * Membuka layar Pilih Bahasa. mandatory = true dipakai saat login pertama
+     * supaya pemain tidak bisa lanjut tanpa memilih bahasa.
+     */
+    public static void openLanguageScreen(boolean mandatory) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+        mc.setScreen(new LanguageSelectScreen(mandatory));
     }
 
     /** Menyalakan hasil pilihan soul dari server ke layar yang sedang terbuka. */

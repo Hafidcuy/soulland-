@@ -91,6 +91,11 @@ public class SpiritToolItem extends DiggerItem {
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        return LocalizedItem.name(this);
+    }
+
+    @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.soulland.soul", soulDisplayName())
                 .withStyle(ChatFormatting.GRAY));

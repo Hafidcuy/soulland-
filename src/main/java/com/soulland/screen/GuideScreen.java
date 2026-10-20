@@ -1,5 +1,6 @@
 package com.soulland.screen;
 
+import com.soulland.lang.SoulLang;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -16,6 +17,9 @@ import java.util.List;
  *
  * <p>Tujuh bagian, tiap bagian punya ikon pixel art dan teks yang bisa dibaca. Daftar bagian
  * bisa diklik, dan bisa juga dinavigasi dengan keyboard supaya tidak hanya untuk mouse.
+ *
+ * <p>Seluruh teksnya diambil dari file bahasa mod memakai bahasa yang dipilih
+ * pemain, bukan bahasa client Minecraft.
  */
 @OnlyIn(Dist.CLIENT)
 public class GuideScreen extends Screen {
@@ -30,128 +34,31 @@ public class GuideScreen extends Screen {
             "evolution_core", "meditation_incense", "sect_token", "soul_core"
     };
 
-    private static final String[] TITLES = {
-            "Cara Main", "Martial Soul", "Skill dan Loadout", "Spirit Ring",
-            "Kultivasi", "Sekte", "Pertarungan"
+    /** Kunci bahasa untuk judul tiap bagian. */
+    private static final String[] TITLE_KEYS = {
+            "guide.soulland.title.1", "guide.soulland.title.2", "guide.soulland.title.3",
+            "guide.soulland.title.4", "guide.soulland.title.5", "guide.soulland.title.6",
+            "guide.soulland.title.7"
     };
 
-    private static final String[] TIPS = {
-            "Semua angka di layar ini dibaca dari state pemain, jadi isinya selalu sama "
-                    + "dengan yang terjadi di dunia.",
-            "Nama soul beast menyebut usianya dan elemennya. Kalau elemen soul-mu kalah, "
-                    + "cari target lain atau bawa soul berunsur yang menang.",
-            "Skill spirit ring bisa dipasang ke slot mana pun dan disusun ulang sesering "
-                    + "kamu mau. Tidak ada biaya untuk mengganti.",
-            "Absorpsi brave bisa 55% gagal. Absorpsi biasa selalu aman, jadi pakai brave "
-                    + "kalau ring yang出让 terlalu rendah untukkai yang sekarang.",
-            "Upacara terobosan butuh 3 detik meditasi penuh dan 1 Esensi Jiwa. Bergerak "
-                    + "sedikit saja akan mengulang timer.",
-            "Sekte bisa diganti kapan saja lewat lencana sekte, jadi coba yang cocok "
-                    + "dengan cara mainmu.",
-            "Rantai soul hilang 4 detik setelah skill terakhir. Menyusun skill beruntun "
-                    + "adalah cara paling murah menaikkan damage."
+    /** Kunci bahasa untuk isi tiap bagian. */
+    private static final String[] BODY_KEYS = {
+            "guide.soulland.section.1", "guide.soulland.section.2", "guide.soulland.section.3",
+            "guide.soulland.section.4", "guide.soulland.section.5", "guide.soulland.section.6",
+            "guide.soulland.section.7"
     };
 
-    private static final String[][] BODIES = {
-            {
-                    "1. Buru soul beast. Namanya menyebut usianya dan elemennya, "
-                            + "misalnya 1.000 Tahun (Api) atau 10.000 Tahun (Es).",
-                    "2. Serap spirit ring yang jatuh. Syarat level: 100 tahun butuh 10, "
-                            + "1.000 butuh 20, 10.000 butuh 40, 100.000 butuh 70.",
-                    "3. Absorpsi brave: tahan Shift. 55% chance ring naik satu tingkat, "
-                            + "biaya 20% HP dan 40 Spirit Power.",
-                    "4. Susun loadout di Kartu Soul (J), tab SKILLS. Lima slot (R G F V Z) diisi bebas.",
-                    "5. Manfaatkan rantai soul: skill beruntun menambah +8% damage per mata, "
-                            + "maksimal 5 mata.",
-                    "6. Pilih target sesuai elemen. Menang +25% damage, kalah -15%.",
-                    "7. Naik peringkat lewat upacara terobosan: tahan C 3 detik + 1 Esensi Jiwa."
-            },
-            {
-                    "Saat pertama masuk dunia, kamu undergoes upward ceremony: martial soul",
-                    "diundi secara acak, dan ritual itu diulang setiap kali kamu masuk lagi.",
-                    "",
-                    "Urutan yang wajar:",
-                    "1. Bunuh soul beast untuk mendapat XP kultivasi.",
-                    "2. Serap spirit ring yang jatuh dari soul beast.",
-                    "3. Absorpsi brave: tahan Shift, bisa gagal tapi imbalannya lebih besar.",
-                    "4. Rakit loadout skill di tab SKILLS pada kartu soul.",
-                    "5. Saat naik peringkat, tekan C untuk upacara terobosan."
-            },
-            {
-                    "Pool undian berisi 1.434 martial soul dari seluruh Benua Douluo:",
-                    "bentuk dasar, bentuk evolusi, bentuk tahun ring, soul gabungan, dan",
-                    "body soul setelah Ignition kedua.",
-                    "",
-                    "Setiap soul punya satu elemen: Api, Es, Petir, Angin, Air, Tanah,",
-                    "Racun, Tumbuhan, Cahaya, atau Gelap. Elemen itu menentukan",
-                    "bagian mana dari soul beast yang mudah kamu kalahkan.",
-                    "",
-                    "Undi ulang manual hanya di mode Creative: /martialsoul reroll"
-            },
-            {
-                    "Setiap martial soul punya 5 skill yang terbuka di spirit ring",
-                    "1, 2, 3, 5, dan 7. Tiap spirit ring juga membuka satu skill ring.",
-                    "",
-                    "Lima slot tombol (R G F V Z) bisa diisi skill bebas. Buka kartu soul",
-                    "dengan J, masuk tab SKILLS, lalu klik skill untuk memasangnya.",
-                    "Klik slot untuk mengosongkan dan kembali ke urutan bawaan.",
-                    "",
-                    "Tiap skill punya bentuk efek sendiri: bola, garis, kerucut, cincin,",
-                    "cakram, pilar, atau badai. Tidak ada dua skill yang sama."
-            },
-            {
-                    "Spirit ring datang dari soul beast, sesuai usianya: 100 tahun,",
-                    "1.000 tahun, 10.000 tahun, dan 100.000 tahun. Tiap ring memberi",
-                    "+2 HP maksimum dan +0.5 attack damage.",
-                    "",
-                    "Absorpsi biasa selalu berhasil. Absorpsi brave (tahan Shift) biaya",
-                    "20% HP dan 40 Spirit Power, dengan peluang 55% ring naik satu",
-                    "tingkat dan satu skill ring tambahan terbuka. Kalau gagal, ring",
-                    "hancur dan kamu kehilangan 25% HP maksimum.",
-                    "",
-                    "Tekan X untuk ledakan spirit ring: seluruh energi ring dilepas",
-                    "sekaligus, radius dan damage mengikuti jumlah ring."
-            },
-            {
-                    "Level kultivasi 1 sampai 99, sepuluh peringkat dari Spirit Scholar",
-                    "sampai Title Douluo. Setiap 10 level ada gerbang peringkat.",
-                    "",
-                    "Gerbang tidak bisa dilewati hanya dengan XP. Kamu harus menjalankan",
-                    "upacara terobosan: tahan C dan bermeditasi 3 detik penuh,",
-                    "sekaligus memakai 1 Esensi Jiwa.",
-                    "",
-                    "Meditasi biasa (tahan C) mengisi Spirit Power dan menambah XP.",
-                    "Bergerak akan memutus meditasi."
-            },
-            {
-                    "Sekte memberi bonus pasif yang selalu berlaku dan tidak pernah",
-                    "merugikan. Pilih lewat tab SECT pada kartu soul, atau klik lencana",
-                    "sekte langsung.",
-                    "",
-                    "Sekte Tang: +20% XP kultivasi.",
-                    "Sekte Shrek: +12% damage.",
-                    "Sekte Bintang Luo: +10% kecepatan gerak dan +10% HP maksimum.",
-                    "Sekte Tujuh Harta: +20% HP maksimum dan +25% penyembuhan."
-            },
-            {
-                    "Rantai soul: setiap skill yang berhasil menambah satu mata rantai.",
-                    "Rantai bertahan 4 detik, tiap mata menambah 8% damage skill",
-                    "berikutnya, maksimal 5 mata (+40%).",
-                    "",
-                    "Lawan elemen: nama soul beast menyebut elemennya. +25% damage",
-                    "kalau elemen soul-mu menang, -15% kalau kalah.",
-                    "",
-                    "Bakar darah (B): tukar 25 HP jadi 30 Spirit Power, 8 detik",
-                    "damage +50%. Tidak boleh dipakai di bawah 35 HP.",
-                    "",
-                    "Boss: Elder Guardian 120 HP, Wither 600 HP, Warden 800 HP,",
-                    "Ender Dragon 1000 HP sebagai boss akhir."
-            }
+    /** Kunci bahasa untuk tip tiap bagian. */
+    private static final String[] TIP_KEYS = {
+            "guide.soulland.tip.1", "guide.soulland.tip.2", "guide.soulland.tip.3",
+            "guide.soulland.tip.4", "guide.soulland.tip.5", "guide.soulland.tip.6",
+            "guide.soulland.tip.7"
     };
 
     private static final ResourceLocation PANEL =
             new ResourceLocation("soulland", "textures/gui/panel_guide.png");
 
+    private final String language;
     private int activeSection = 0;
     private int panelLeft;
     private int panelTop;
@@ -160,7 +67,12 @@ public class GuideScreen extends Screen {
     private final List<int[]> navBounds = new ArrayList<>();
 
     public GuideScreen() {
-        super(Component.translatable("screen.soulland.guide"));
+        super(Component.literal("Panduan Soul Land"));
+        this.language = SoulLang.activeLanguage();
+    }
+
+    private String title(int index) {
+        return SoulLang.translate(language, TITLE_KEYS[index], TITLE_KEYS[index]);
     }
 
     @Override
@@ -190,16 +102,17 @@ public class GuideScreen extends Screen {
         navBounds.clear();
         int x = panelLeft + 12;
         int y = panelTop + 16;
-        gui.drawString(this.font, "PANDUAN", x, y - 10, IMPERIAL_GOLD);
-        for (int i = 0; i < TITLES.length; i++) {
+        gui.drawString(this.font, SoulLang.translate(language, "guide.soulland.header", "PANDUAN"), x, y - 10, IMPERIAL_GOLD);
+        for (int i = 0; i < TITLE_KEYS.length; i++) {
             int top = y + i * 24;
             boolean active = i == activeSection;
             boolean hovered = mouseX >= x - 2 && mouseX <= x + 128 && mouseY >= top && mouseY <= top + 18;
             ResourceLocation icon = new ResourceLocation("soulland", "textures/item/" + ICONS[i] + ".png");
             gui.blit(icon, x, top, 0, 0, 16, 16, 16, 16);
-            gui.drawString(this.font, TITLES[i], x + 20, top + 4, active ? PAPER : (hovered ? 0xFFFFFF : 0x909090));
+            String label = title(i);
+            gui.drawString(this.font, label, x + 20, top + 4, active ? PAPER : (hovered ? 0xFFFFFF : 0x909090));
             if (active) {
-                gui.fill(x + 20, top + 14, x + 20 + this.font.width(TITLES[i]), top + 15, SOUL_JADE);
+                gui.fill(x + 20, top + 14, x + 20 + this.font.width(label), top + 15, SOUL_JADE);
             }
             navBounds.add(new int[]{x - 2, top, x + 130, top + 18});
         }
@@ -209,17 +122,30 @@ public class GuideScreen extends Screen {
         int x = panelLeft + 150;
         int y = panelTop + 16;
         int width = panelWidth - 162;
-        gui.drawString(this.font, TITLES[activeSection], x, y, PAPER);
-        gui.fill(x, y + 11, x + this.font.width(TITLES[activeSection]), y + 12, IMPERIAL_GOLD);
+        String heading = title(activeSection);
+        gui.drawString(this.font, heading, x, y, PAPER);
+        gui.fill(x, y + 11, x + this.font.width(heading), y + 12, IMPERIAL_GOLD);
         y += 20;
 
-        for (String line : BODIES[activeSection]) {
-            if (line.isEmpty()) {
+        for (String paragraph : SoulLang.translate(language, BODY_KEYS[activeSection], "").split("\n", -1)) {
+            if (paragraph.isEmpty()) {
                 y += 6;
                 continue;
             }
-            for (FormattedCharSequence wrapped : this.font.split(Component.literal(line), width)) {
+            for (FormattedCharSequence wrapped : this.font.split(Component.literal(paragraph), width)) {
                 gui.drawString(this.font, wrapped, x, y, 0xC8C0A8);
+                y += 10;
+            }
+        }
+
+        String tip = SoulLang.translate(language, TIP_KEYS[activeSection], "");
+        if (!tip.isEmpty() && y + 22 < panelTop + panelHeight) {
+            y += 4;
+            gui.fill(x, y, x + width, y + 1, 0x40E8C46A);
+            y += 4;
+            for (FormattedCharSequence wrapped : this.font.split(Component.literal(tip), width)) {
+                if (y + 10 > panelTop + panelHeight) break;
+                gui.drawString(this.font, wrapped, x, y, 0xE8C46A);
                 y += 10;
             }
         }
@@ -242,14 +168,14 @@ public class GuideScreen extends Screen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN) {
-            activeSection = (activeSection + 1) % TITLES.length;
+            activeSection = (activeSection + 1) % TITLE_KEYS.length;
             return true;
         }
         if (keyCode == org.lwjgl.glfw.GLFW.GLFW_KEY_UP) {
-            activeSection = (activeSection + TITLES.length - 1) % TITLES.length;
+            activeSection = (activeSection + TITLE_KEYS.length - 1) % TITLE_KEYS.length;
             return true;
         }
-        for (int i = 0; i < TITLES.length; i++) {
+        for (int i = 0; i < TITLE_KEYS.length; i++) {
             if (keyCode == org.lwjgl.glfw.GLFW.GLFW_KEY_1 + i) {
                 activeSection = i;
                 return true;

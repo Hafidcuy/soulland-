@@ -15,12 +15,20 @@ public final class ClientBridgeImpl implements ClientBridge.Handler {
 
     public ClientBridgeImpl() {
         ClientBridge.setSoulIdSupplier(() -> ClientCultivationData.soulId);
+        ClientBridge.setLanguageSupplier(() -> ClientCultivationData.effectiveLanguage());
+        ClientBridge.setLevelSupplier(() -> ClientCultivationData.level);
     }
 
     @Override
     public void openAwakening(boolean reroll) {
         ClientGuiHooks.openAwakening(reroll);
     }
+
+    @Override
+    public void openLanguageScreen(boolean mandatory) {
+        ClientGuiHooks.openLanguageScreen(mandatory);
+    }
+
 
     @Override
     public void onChooseSoulResult(ChooseSoulResultPacket packet) {

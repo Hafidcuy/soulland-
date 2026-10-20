@@ -4,6 +4,7 @@ import com.soulland.CultivationRanks;
 import com.soulland.book.GuideBook;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.OpenAwakeningGuiPacket;
 import com.soulland.net.ChooseSoulResultPacket;
@@ -60,12 +61,13 @@ public final class SoulSelection {
                 return;
             }
 
+            String language = CultivationManager.messageLanguage(player);
             cap.setMartialSoulId(soul.id());
             cap.setAwakened(true);
             if (firstAwakening) {
                 cap.setLevel(1);
                 cap.setEnergy(CultivationRanks.MAX_ENERGY);
-                player.addItem(GuideBook.create());
+                player.addItem(GuideBook.create(language));
             }
             REROLL_SESSIONS.remove(player.getUUID());
 
@@ -78,15 +80,27 @@ public final class SoulSelection {
 
             if (firstAwakening) {
                 player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
-                player.sendSystemMessage(Component.literal("§eUPACARA KEBANGKITAN MARTIAL SOUL"));
-                player.sendSystemMessage(Component.literal("§fMartial Soul-mu: §b" + soul.name() + " §7(" + soul.rarity() + ")"));
-                player.sendSystemMessage(Component.literal("§7Pemilik asli: " + soul.owner() + " | Tipe: " + soul.type()));
-                player.sendSystemMessage(Component.literal("§7" + soul.description()));
-                player.sendSystemMessage(Component.literal("§fBaca §a[Buku Panduan Dunia Soul Land]§f di inventory-mu untuk mempelajari segalanya."));
-                player.sendSystemMessage(Component.literal("§fBerburu soul beast, serap Spirit Ring, lalu kalahkan §5Ender Dragon§f!"));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.title",
+                        "§eUPACARA KEBANGKITAN MARTIAL SOUL"));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.soul",
+                        "§fMartial Soul-mu: §b%s §7(%s)",
+                        SoulText.soulName(soul, language).getString(),
+                        SoulText.soulRarity(soul, language).getString()));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.owner",
+                        "§7Pemilik asli: %s | Tipe: %s",
+                        SoulText.soulOwner(soul, language).getString(),
+                        SoulText.soulType(soul, language).getString()));
+                player.sendSystemMessage(Component.literal("§7" + SoulText.soulDescription(soul, language).getString()));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.guide",
+                        "§fBaca §a[Buku Panduan Dunia Soul Land]§f di inventory-mu untuk mempelajari segalanya."));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.hunt",
+                        "§fBerburu soul beast, serap Spirit Ring, lalu kalahkan §5Ender Dragon§f!"));
                 player.sendSystemMessage(Component.literal("§6══════════════════════════════════"));
             } else {
-                player.sendSystemMessage(Component.literal("§bMartial soul-mu berubah menjadi: " + soul.name() + " (" + soul.rarity() + ")"));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.awakening.changed",
+                        "§bMartial soul-mu berubah menjadi: %s (%s)",
+                        SoulText.soulName(soul, language).getString(),
+                        SoulText.soulRarity(soul, language).getString()));
             }
         });
     }
@@ -94,6 +108,6 @@ public final class SoulSelection {
     private static void reject(ServerPlayer player, String messageKey) {
         ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
                 new ChooseSoulResultPacket(false, messageKey));
-        player.sendSystemMessage(Component.translatable(messageKey));
+        player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player), messageKey, messageKey));
     }
 }

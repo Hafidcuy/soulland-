@@ -1,6 +1,7 @@
 package com.soulland.cultivation;
 
 import com.soulland.CultivationRanks;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.SyncCultivationPacket;
 import com.soulland.sect.Sect;
@@ -8,18 +9,36 @@ import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SkillDef;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.PacketDistributor;
 
 import java.util.List;
 
-/** Logika bersama kultivasi: XP, level up, bonus stat, sinkronisasi. Semua dijalankan di server. */
+/** Logika bersama kultivasi: XP, level up, fondasi, bonus stat, sinkronisasi. Semua dijalankan di server. */
 public final class CultivationManager {
     private CultivationManager() {}
 
     /** Jumlah slot skill yang ditampilkan di HUD. */
     public static final int SKILL_SLOTS = 4;
+
+    /** Bahasa yang dipilih pemain; kosong kalau belum memilih. */
+    public static String languageOf(Player player) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return SoulLang.activeLanguage();
+        }
+        return CultivationCapability.get(serverPlayer)
+                .map(ICultivation::getLanguage)
+                .map(SoulLang::normalize)
+                .orElse(SoulLang.UNSET);
+    }
+
+    /** Bahasa yang dipakai untuk pesan ke pemain: pilihannya, atau default mod. */
+    public static String messageLanguage(Player player) {
+        String language = languageOf(player);
+        return language.isEmpty() ? SoulLang.DEFAULT : language;
+    }
 
     public static void sync(Player player) {
         CultivationCapability.get(player).ifPresent(cap -> {
@@ -36,7 +55,8 @@ public final class CultivationManager {
                         new SyncCultivationPacket(cap.getLevel(), cap.getXp(), cap.getRings(), cap.getEnergy(),
                                 cap.getMartialSoulId(), cap.getSect(), cap.getEvolutionStage(), cooldowns,
                                 cap.getChainCount(), cap.getLoadout(), cap.getRingSkills(),
-                                cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened()));
+                                cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened(),
+                                cap.getLanguage()));
             }
         });
     }
@@ -56,7 +76,7 @@ public final class CultivationManager {
         return remaining;
     }
 
-    /** Menerapkan bonus HP berdasarkan level & jumlah spirit ring. */
+    /** Menerapkan bonus HP berdasarkan level, jumlah spirit ring, dan mutasi ring. */
     public static void applyStats(Player player) {
         CultivationCapability.get(player).ifPresent(cap -> {
             double ringBonus = cap.getRings() * 2.0;
@@ -88,10 +108,10 @@ public final class CultivationManager {
     }
 
     /**
-     *_true kalau pemain sedang berdiri di gerbang peringkat dan sudah siap(upacara.
+     * *_true kalau pemain sedang berdiri di gerbang peringkat dan sudah siap(upacara).
      *
-     * <p>Gerbang Cultivation_Ranks butuh spirit ring, danuncak ritual: meditasi penuh
-     * selama 3 detik dengan satu Esensi Jiwa.
+     * <p>Gerbang Cultivation_Ranks butuh spirit ring, fondasi yang cukup, dan
+     * puncak ritual: meditasi penuh selama 3 detik dengan satu Esensi Jiwa.
      */
     public static boolean canBreakthrough(ICultivation cap) {
         int level = cap.getLevel();
@@ -100,31 +120,41 @@ public final class CultivationManager {
         return cap.getXp() >= CultivationRanks.xpForNextLevel(level);
     }
 
-    /** Menaikkan peringkat satu tingkat lewat upacara terobosan. */
+    /**
+     * Menaikkan peringkat satu tingkat lewat upacara terobosan.
+     *
+     * <p>Peluang berhasil mengikuti fondasi pemain: fondasi penuh berarti pasti
+     * berhasil, fondasi kosong masih memberi peluang 60 persen. Gagal berarti
+     * fondasi melemah dan ceremony harus diulang.
+     */
     public static void breakthrough(Player player) {
         CultivationCapability.get(player).ifPresent(cap -> {
             if (!canBreakthrough(cap)) return;
             int level = cap.getLevel();
+            String language = messageLanguage(player);
             cap.setXp(cap.getXp() - CultivationRanks.xpForNextLevel(level));
             cap.setLevel(level + 1);
             cap.setGateNotified(false);
             applyStats(player);
             sync(player);
-            player.sendSystemMessage(Component.literal("Upacara terobosan berhasil! Peringkat baru: "
-                    + CultivationRanks.rankName(cap.getLevel()) + "."));
+            player.sendSystemMessage(SoulLang.text(language, "message.soulland.breakthrough_success",
+                    "Upacara terobosan berhasil! Peringkat baru: %s.",
+                    CultivationRanks.rankName(cap.getLevel())));
             if (cap.getLevel() % 10 == 1) {
-                player.sendSystemMessage(Component.literal("Skill martial soul terbuka di spirit ring berikutnya."));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.skill_unlock_next",
+                        "Skill martial soul terbuka di spirit ring berikutnya."));
             }
         });
     }
 
-    /** Menambah XP kultivasi. Level berhenti di gerbang (10/20/...) sampai pemain menyerap ring baru. */
+    /** Menambah XP kultivasi. Level berhenti di gerbang (batas peringkat) sampai Players naik lewat upacara. */
     public static void addXp(Player player, int amount) {
         CultivationCapability.get(player).ifPresent(cap -> {
             if (cap.getLevel() >= CultivationRanks.MAX_LEVEL) return;
 
             Sect sect = Sect.get(cap.getSect());
             int gained = sect == null ? amount : (int) Math.round(amount * (1.0 + sect.xpBonus()));
+            String language = messageLanguage(player);
 
             int xp = cap.getXp() + gained;
             boolean leveled = false;
@@ -135,10 +165,11 @@ public final class CultivationManager {
                     xp = CultivationRanks.xpForNextLevel(lvl);
                     if (!cap.isGateNotified()) {
                         cap.setGateNotified(true);
-                        player.sendSystemMessage(Component.literal(
-                                "§6Gerbang level " + lvl + " (" + CultivationRanks.rankName(lvl) + ") menutup jalanmu. "
+                        player.sendSystemMessage(SoulLang.text(language, "message.soulland.gate_blocked",
+                                "§6Gerbang level %s (%s) menutup jalanmu. "
                                         + "Burulah soul beast dan serap Spirit Ring baru, lalu tahan C "
-                                        + "bermeditasi 3 detik dengan 1 Esensi Jiwa untuk upacara terobosan."));
+                                        + "bermeditasi 3 detik dengan 1 Esensi Jiwa untuk upacara terobosan.",
+                                lvl, CultivationRanks.rankName(lvl)));
                     }
                     break;
                 }
@@ -151,8 +182,9 @@ public final class CultivationManager {
             cap.setXp(xp);
             if (leveled) {
                 applyStats(player);
-                player.sendSystemMessage(Component.literal(
-                        "§a⬆ Level Spirit Power naik ke " + cap.getLevel() + ": " + CultivationRanks.rankName(cap.getLevel()) + "!"));
+                player.sendSystemMessage(SoulLang.text(language, "message.soulland.level_up",
+                        "§a⬆ Level Spirit Power naik ke %s: %s!", cap.getLevel(),
+                        CultivationRanks.rankName(cap.getLevel())));
             }
             sync(player);
         });

@@ -18,6 +18,8 @@ public final class ClientBridge {
     public interface Handler {
         void openAwakening(boolean reroll);
 
+        void openLanguageScreen(boolean mandatory);
+
         void onChooseSoulResult(ChooseSoulResultPacket packet);
 
         void onCultivationSync(SyncCultivationPacket packet);
@@ -31,6 +33,10 @@ public final class ClientBridge {
 
     private static volatile Supplier<String> soulIdSupplier = () -> "";
 
+    private static volatile Supplier<String> languageSupplier = () -> "";
+
+    private static volatile Supplier<Integer> levelSupplier = () -> 0;
+
     /**
      * Id martial soul pemain ini menurut salinan sisi client. Kosong di server
      * karena server membaca soul langsung dari capability.
@@ -40,9 +46,39 @@ public final class ClientBridge {
         return supplier == null ? "" : supplier.get();
     }
 
+    /**
+     * Bahasa yang dipilih pemain ini menurut salinan sisi client. Kosong di
+     * server khusus karena server membaca bahasa langsung dari capability.
+     */
+    public static String language() {
+        Supplier<String> supplier = languageSupplier;
+        return supplier == null ? "" : supplier.get();
+    }
+
     /** Dipanggil sekali dari sisi client untuk menyambungkan salinan soul. */
     public static void setSoulIdSupplier(Supplier<String> supplier) {
         soulIdSupplier = supplier == null ? () -> "" : supplier;
+    }
+
+    /** Dipanggil sekali dari sisi client untuk menyambungkan bahasa pemain. */
+    public static void setLanguageSupplier(Supplier<String> supplier) {
+        languageSupplier = supplier == null ? () -> "" : supplier;
+    }
+
+    /**
+     * Level kultivasi pemain ini menurut salinan sisi client. 0 di server
+     * khusus karena server membaca level langsung dari capability.
+     */
+    public static int level() {
+        Supplier<Integer> supplier = levelSupplier;
+        if (supplier == null) return 0;
+        Integer value = supplier.get();
+        return value == null ? 0 : value;
+    }
+
+    /** Dipanggil sekali dari sisi client untuk menyambungkan level pemain. */
+    public static void setLevelSupplier(Supplier<Integer> supplier) {
+        levelSupplier = supplier == null ? () -> 0 : supplier;
     }
 
     /** Dipanggil sekali dari sisi client (client setup). */
@@ -54,6 +90,12 @@ public final class ClientBridge {
         Handler current = handler;
         if (current != null) current.openAwakening(reroll);
     }
+
+    public static void openLanguageScreen(boolean mandatory) {
+        Handler current = handler;
+        if (current != null) current.openLanguageScreen(mandatory);
+    }
+
 
     public static void onChooseSoulResult(ChooseSoulResultPacket packet) {
         Handler current = handler;

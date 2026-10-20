@@ -7,7 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-/** Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, kartu soul, dan bar skill). */
+/**
+ * Sinkronisasi data kultivasi server -> client (untuk HUD, halo ring, kartu soul, dan bar skill).
+ *
+ * <p>Protokol jaringan naik ke "3" pada v1.2B karena paket ini menambah
+ * {@code language}, {@code foundation}, {@code tribulationReady}, dan
+ * {@code mutationCount}.
+ */
 public record SyncCultivationPacket(
         int level,
         int xp,
@@ -22,7 +28,8 @@ public record SyncCultivationPacket(
         int ringSkills,
         int[] ringAges,
         int[] skillCooldowns,
-        boolean awakened
+        boolean awakened,
+        String language,
 ) {
     /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
     private static final char ENTRY_SEPARATOR = ';';
@@ -43,11 +50,11 @@ public record SyncCultivationPacket(
         buf.writeVarIntArray(msg.ringAges);
         buf.writeVarIntArray(msg.skillCooldowns);
         buf.writeBoolean(msg.awakened);
+        buf.writeUtf(msg.language == null ? "" : msg.language, 8);
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
         return new SyncCultivationPacket(
-                buf.readInt(),
                 buf.readInt(),
                 buf.readInt(),
                 buf.readFloat(),
@@ -60,7 +67,9 @@ public record SyncCultivationPacket(
                 buf.readInt(),
                 buf.readVarIntArray(),
                 buf.readVarIntArray(),
-                buf.readBoolean());
+                buf.readUtf(8),
+                buf.readInt(),
+                buf.readBoolean(),
     }
 
     public static void handle(SyncCultivationPacket msg, Supplier<NetworkEvent.Context> ctx) {
