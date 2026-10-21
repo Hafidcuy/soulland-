@@ -28,6 +28,9 @@ class CultivationNbtTest {
         before.setContractUntil(999L);
         before.setLoadoutSkill(0, "hammer_slam");
         before.setLoadoutSkill(2, "ring_guard");
+        before.setTrueBodyUntil(777L);
+        before.setTrueBodyCooldownUntil(888L);
+        before.setDomainActive(true);
 
         CompoundTag tag = before.serializeNBT();
         Cultivation after = new Cultivation();
@@ -48,6 +51,9 @@ class CultivationNbtTest {
         assertEquals(999L, after.getContractUntil());
         assertEquals("hammer_slam", after.getLoadoutSkill(0));
         assertEquals("ring_guard", after.getLoadoutSkill(2));
+        assertEquals(777L, after.getTrueBodyUntil());
+        assertEquals(888L, after.getTrueBodyCooldownUntil());
+        assertTrue(after.isDomainActive());
     }
 
     @Test
