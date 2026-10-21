@@ -249,7 +249,7 @@ public class AwakeningScreen extends Screen {
         for (int i = 0; i < souls.size(); i++) {
             int rowY = rowTop + (i - listScroll) * rowHeight();
             if (rowY < BODY_Y || rowY + rowHeight() > BODY_Y + BODY_H) continue;
-            if (ly >= rowY && ly < rowY + rowHeight() - 4 && lx >= LIST_X && lx < LIST_X + LIST_W) {
+            if (ly >= rowY && ly < rowY + rowHeight() - 2 && lx >= LIST_X && lx < LIST_X + LIST_W) {
                 soulIndex = i;
                 area = Area.LIST;
                 return true;
@@ -435,6 +435,11 @@ public class AwakeningScreen extends Screen {
         return Math.max(TYPE_TAB_MIN_W, usable / Math.max(1, typeVisibleCount()));
     }
 
+    /** Lebar teks yang muat di daftar soul, di luar bantalan kiri dan jalur scrollbar. */
+    private int listTextWidth() {
+        return LIST_W - 12;
+    }
+
     /** Menjaga pilihan tetap terlihat setelah daftar digulir. */
     private void keepSelectionVisible() {
         List<MartialSoul> souls = soulsOfCurrentCategory();
@@ -527,10 +532,11 @@ public class AwakeningScreen extends Screen {
 
         guiGraphics.fill(MARGIN, TYPE_Y, PANEL_W - MARGIN, TYPE_Y + TYPE_H, STONE);
 
-        for (int i = 0; i < visible && typeOffset + i < total; i++) {
+        int drawn = Math.min(visible, total - typeOffset);
+        for (int i = 0; i < drawn; i++) {
             int index = typeOffset + i;
             int x = left + i * tabWidth;
-            int w = (i == visible - 1) ? (right - x) : tabWidth;
+            int w = (i == drawn - 1) ? (right - x) : tabWidth;
             boolean selected = index == categoryIndex;
             guiGraphics.fill(x, TYPE_Y, x + w, TYPE_Y + TYPE_H, selected ? JADE_DIM : STONE);
             guiGraphics.fill(x, TYPE_Y, x + 1, TYPE_Y + TYPE_H, selected ? JADE : HAIRLINE);
@@ -583,15 +589,21 @@ public class AwakeningScreen extends Screen {
             int y = top + (i - listScroll) * rowHeight();
             boolean selected = i == soulIndex;
             if (selected) {
-                guiGraphics.fill(LIST_X + 1, y, LIST_X + LIST_W - 1, y + rowHeight() - 4, JADE_DIM);
+                guiGraphics.fill(LIST_X + 1, y, LIST_X + LIST_W - 5, y + rowHeight() - 2, JADE_DIM);
             }
-            guiGraphics.drawString(this.font, SoulText.soulName(soul, language), LIST_X + 6, y, PAPER);
-            MutableComponent meta = rarityLabel(soul.rarity()).copy()
-                    .append(Component.literal(" · ").withStyle(style -> style.withColor(MUTED)))
-                    .append(SoulText.soulOwner(soul, language).copy().withStyle(style -> style.withColor(MUTED)));
-            guiGraphics.drawString(this.font, meta, LIST_X + 6, y + 10, MUTED);
+            String name = this.font.plainSubstrByWidth(
+                    SoulText.soulName(soul, language).getString(), listTextWidth());
+            guiGraphics.drawString(this.font, name, LIST_X + 6, y, PAPER);
+
+            // Baris kedua: rarity tetap berwarna, pemilik dipotong supaya tidak keluar panel.
+            MutableComponent rarity = rarityLabel(soul.rarity());
+            guiGraphics.drawString(this.font, rarity, LIST_X + 6, y + 10, MUTED);
+            int ownerX = LIST_X + 6 + this.font.width(rarity) + this.font.width(" · ");
+            String owner = this.font.plainSubstrByWidth(
+                    SoulText.soulOwner(soul, language).getString(), LIST_X + LIST_W - 6 - ownerX);
+            guiGraphics.drawString(this.font, " · " + owner, ownerX - this.font.width(" · "), y + 10, MUTED);
             if (area == Area.LIST && selected) {
-                outline(guiGraphics, LIST_X + 1, y, LIST_X + LIST_W - 2, y + rowHeight() - 5, JADE);
+                outline(guiGraphics, LIST_X + 1, y, LIST_X + LIST_W - 6, y + rowHeight() - 3, JADE);
             }
         }
         drawScrollbar(guiGraphics, souls.size());
@@ -637,31 +649,27 @@ public class AwakeningScreen extends Screen {
                 .append(SoulText.soulType(soul, language).copy().withStyle(style -> style.withColor(MUTED)));
         guiGraphics.drawString(this.font, meta, x, BODY_Y + 14, MUTED);
 
-        guiGraphics.drawString(this.font, text("gui.soulland.awakening.owner", "Original owner: %s",
-                        SoulText.soulOwner(soul, language).getString()),
-                x, BODY_Y + 24, MUTED);
-
         MutableComponent lineage = SoulText.soulLineage(soul, language).copy()
                 .withStyle(style -> style.withColor(PAPER));
         guiGraphics.drawString(this.font, text("gui.soulland.awakening.lineage", "Lineage: %s",
-                        lineage.getString()), x, BODY_Y + 34, MUTED);
+                        lineage.getString()), x, BODY_Y + 24, MUTED);
 
         MutableComponent affinity = SoulText.soulAffinity(soul, language).copy()
                 .withStyle(style -> style.withColor(PAPER));
         guiGraphics.drawString(this.font, text("gui.soulland.awakening.affinity", "Affinity: %s",
-                        affinity.getString()), x, BODY_Y + 42, MUTED);
+                        affinity.getString()), x, BODY_Y + 34, MUTED);
 
         List<FormattedCharSequence> lines = this.font.split(SoulText.soulDescription(soul, language), PREVIEW_W - 12);
         for (int i = 0; i < Math.min(2, lines.size()); i++) {
-            guiGraphics.drawString(this.font, lines.get(i), x, BODY_Y + 54 + i * 10, MUTED);
+            guiGraphics.drawString(this.font, lines.get(i), x, BODY_Y + 44 + i * 10, MUTED);
         }
 
-        guiGraphics.fill(x, BODY_Y + 74, PREVIEW_X + PREVIEW_W - 6, BODY_Y + 75, HAIRLINE);
+        guiGraphics.fill(x, BODY_Y + 64, PREVIEW_X + PREVIEW_W - 6, BODY_Y + 65, HAIRLINE);
 
         List<SkillDef> skills = soul.skills();
         for (int i = 0; i < skills.size() && i < 4; i++) {
             SkillDef skill = skills.get(i);
-            int y = BODY_Y + 79 + i * 9;
+            int y = BODY_Y + 68 + i * 10;
             guiGraphics.drawString(this.font, Component.literal((i + 1) + ". "), x, y, MUTED);
             guiGraphics.drawString(this.font, SoulText.skillName(skill, language), x + 10, y, PAPER);
         }
