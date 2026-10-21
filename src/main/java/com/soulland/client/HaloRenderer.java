@@ -38,6 +38,9 @@ public final class HaloRenderer {
     /** Kecepatan seluruh susunan cincin berputar mengelilingi pinggau (radian per tick). */
     private static final double ORBIT_SPEED = 0.008;
 
+    /** Pengali radius cincin selama True Body aktif. */
+    private static final float TRUE_BODY_SCALE = 1.5f;
+
     /** Gambar halo milik seorang pemain. Aman dipanggil untuk pemain tanpa ring. */
     public static void render(Player player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTick) {
         if (player.isInvisible() || player.isSpectator()) return;
@@ -63,7 +66,8 @@ public final class HaloRenderer {
             poseStack.translate(x, WAIST_HEIGHT + bob, z);
             faceCamera(poseStack, player, x, WAIST_HEIGHT + bob, z);
             poseStack.mulPose(Axis.ZP.rotationDegrees(spin));
-            drawRing(poseStack, buffer, visualRadius(age) / SPRITE_RADIUS_RATIO, colorFor(age), packedLight);
+            float radius = visualRadius(age) * trueBodyScale(player);
+            drawRing(poseStack, buffer, radius / SPRITE_RADIUS_RATIO, colorFor(age), packedLight);
             poseStack.popPose();
         }
     }
@@ -83,6 +87,17 @@ public final class HaloRenderer {
         if (age >= 10_000) return 0.42f;
         if (age >= 1_000) return 0.38f;
         return 0.34f;
+    }
+
+    /**
+     * Cincin melebar selama True Body aktif, karena spirit ring ikut membesar
+     * bersama bentuk ascensi soul.
+     */
+    private static float trueBodyScale(Player player) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return 1f;
+        if (!ClientCombatData.trueBodyActive(player.getId(), mc.level.getGameTime())) return 1f;
+        return TRUE_BODY_SCALE;
     }
 
     /**

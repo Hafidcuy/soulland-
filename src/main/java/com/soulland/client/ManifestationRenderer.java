@@ -24,18 +24,37 @@ public final class ManifestationRenderer {
     /** Jarak manifestasi di belakang pemain (blok). */
     private static final float BEHIND = 1.2f;
 
+    /** Pengali ukuran manifestasi selama True Body aktif. */
+    private static final float TRUE_BODY_SCALE = 1.7f;
+
     /** Gambar manifestasi seorang pemain kalau sedang aktif. */
     public static void render(Player player, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        ClientManifestations.Manifestation manifestation = ClientManifestations.get(player.getId());
-        if (manifestation == null) return;
-
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null) return;
 
-        long elapsed = mc.level.getGameTime() - manifestation.startTick();
-        if (elapsed < 0 || elapsed > ClientManifestations.DURATION_TICKS) return;
+        long gameTime = mc.level.getGameTime();
+        boolean trueBody = ClientCombatData.trueBodyActive(player.getId(), gameTime);
+        String soulId = "";
+        float scale = 0f;
 
-        ItemStack stack = ModItems.manifestationStack(manifestation.soulId());
+        ClientManifestations.Manifestation manifestation = ClientManifestations.get(player.getId());
+        if (manifestation != null) {
+            long elapsed = gameTime - manifestation.startTick();
+            if (elapsed >= 0 && elapsed <= ClientManifestations.DURATION_TICKS) {
+                soulId = manifestation.soulId();
+                scale = scaleAt((float) elapsed / ClientManifestations.DURATION_TICKS);
+            }
+        }
+        if (soulId.isEmpty()) {
+            if (!trueBody) return;
+            ClientCombatData.State state = ClientCombatData.stateOf(player.getId());
+            if (state == null || state.soulId().isEmpty()) return;
+            soulId = state.soulId();
+            scale = TRUE_BODY_SCALE;
+        }
+        if (trueBody) scale *= TRUE_BODY_SCALE;
+
+        ItemStack stack = ModItems.manifestationStack(soulId);
         if (stack.isEmpty()) return;
 
         Vec3 look = player.getLookAngle();
@@ -50,7 +69,6 @@ public final class ManifestationRenderer {
         poseStack.pushPose();
         poseStack.translate(x, HEIGHT, z);
         faceCamera(poseStack, player, x, HEIGHT, z);
-        float scale = scaleAt((float) elapsed / ClientManifestations.DURATION_TICKS);
         poseStack.scale(scale, scale, scale);
         mc.getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, 0, 0, poseStack, buffer, mc.level, packedLight);
         poseStack.popPose();

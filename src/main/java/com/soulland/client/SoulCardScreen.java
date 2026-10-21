@@ -1,6 +1,9 @@
 package com.soulland.client;
 
 import com.soulland.CultivationRanks;
+import com.soulland.combat.DomainCatalog;
+import com.soulland.combat.TrueBodyCatalog;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.AssignSkillPacket;
 import com.soulland.net.ChooseSectPacket;
 import com.soulland.net.ModNetwork;
@@ -40,8 +43,9 @@ public class SoulCardScreen extends Screen {
     private static final int INK = 0x14161A;
     private static final int CRIMSON = 0xD8442F;
 
-    private static final String[] TAB_NAMES = {"SOUL", "SKILLS", "RINGS", "SECT"};
-    private static final int[] TAB_KEYS = {GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_3, GLFW.GLFW_KEY_4};
+    private static final String[] TAB_NAMES = {"SOUL", "SKILLS", "RINGS", "SECT", "COMBAT"};
+    private static final int[] TAB_KEYS = {GLFW.GLFW_KEY_1, GLFW.GLFW_KEY_2, GLFW.GLFW_KEY_3,
+            GLFW.GLFW_KEY_4, GLFW.GLFW_KEY_5};
 
     private int activeTab = 0;
     private int panelLeft;
@@ -50,9 +54,9 @@ public class SoulCardScreen extends Screen {
     private int panelHeight = 180;
     private static final ResourceLocation PANEL =
             new ResourceLocation("soulland", "textures/gui/panel_card.png");
-    private int[] tabLeft = new int[4];
-    private int[] tabTop = new int[4];
-    private int[] tabRight = new int[4];
+    private int[] tabLeft = new int[TAB_NAMES.length];
+    private int[] tabTop = new int[TAB_NAMES.length];
+    private int[] tabRight = new int[TAB_NAMES.length];
 
     public SoulCardScreen() {
         this(0);
@@ -60,7 +64,7 @@ public class SoulCardScreen extends Screen {
 
     public SoulCardScreen(int tab) {
         super(Component.translatable("screen.soulland.soul_card"));
-        this.activeTab = Math.max(0, Math.min(3, tab));
+        this.activeTab = Math.max(0, Math.min(TAB_NAMES.length - 1, tab));
     }
 
     @Override
@@ -98,6 +102,7 @@ public class SoulCardScreen extends Screen {
             case 1 -> drawSkillsTab(gui);
             case 2 -> drawRingsTab(gui);
             case 3 -> drawSectTab(gui, mouseX, mouseY);
+            case 4 -> drawCombatTab(gui);
             default -> {
             }
         }
@@ -327,6 +332,91 @@ public class SoulCardScreen extends Screen {
             y += 5;
             index++;
         }
+    }
+
+    // ------------------------------------------------------------------ tab COMBAT
+
+    /**
+     * Tab True Body dan Domain: dua ikon, angka mainannya, dan penjelasan singkat.
+     * Angkanya disalin apa adanya dari katalog, jadi layar ini tidak pernah
+     * menampilkan angka yang berbeda dari yang dipakai server.
+     */
+    private void drawCombatTab(GuiGraphics gui) {
+        MartialSoul soul = currentSoul();
+        int x = panelLeft + 12;
+        int y = panelTop + 30;
+        int width = panelWidth - 24;
+        String language = ClientCultivationData.effectiveLanguage();
+
+        if (soul == null) {
+            gui.drawString(this.font, "Belum ada martial soul", x, y, 0xB0B0B0);
+            gui.drawString(this.font, "True Body dan Domain muncul setelah upacara kebangkitan.",
+                    x, y + 12, 0x808080);
+            return;
+        }
+
+        y = drawCombatBlock(gui, "true_body", soul.id(), TrueBodyCatalog.get(soul.id()), x, y, width, language);
+        y += 10;
+        drawCombatBlock(gui, "domain", soul.id(), DomainCatalog.get(soul.id()), x, y, width, language);
+    }
+
+    private int drawCombatBlock(GuiGraphics gui, String kind, String soulId, Object def,
+                                 int x, int y, int width, String language) {
+        ResourceLocation icon = new ResourceLocation("soulland", "textures/gui/" + kind + "_" + soulId);
+        gui.pose().pushPose();
+        gui.pose().translate(x, y, 0);
+        gui.pose().scale(2f, 2f, 1f);
+        gui.blit(icon, 0, 0, 0, 0, 16, 16, 16, 16);
+        gui.pose().popPose();
+        gui.fill(x, y, x + 32, y + 32, 0x30000000);
+
+        int textX = x + 40;
+        if (def instanceof com.soulland.combat.TrueBodyDef body) {
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.truebody", "TRUE BODY"),
+                    textX, y, IMPERIAL_GOLD);
+            gui.drawString(this.font, SoulLang.text(language,
+                            "soul.soulland.truebody." + soulId + ".name", body.nameEn()),
+                    textX, y + 11, 0xE8E8E8);
+            int percent = Math.round((body.damageMultiplier() - 1f) * 100f);
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.truebody_stats",
+                            "Damage +%s%%   Aura %s blok   Biaya %s SP",
+                            percent, (int) body.auraRadius(), (int) body.energyCost()),
+                    textX, y + 22, 0x9AD8C8);
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.truebody_rules",
+                            "Butuh 7 spirit ring. Aktif 20 detik, jeda 5 menit."),
+                    textX, y + 33, 0x8A8A8A);
+            return drawWrapped(gui, "soul.soulland.truebody." + soulId + ".description",
+                    "", textX, y + 44, width - 40, language);
+        }
+        if (def instanceof com.soulland.combat.DomainDef domain) {
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.domain", "DOMAIN"),
+                    textX, y, IMPERIAL_GOLD);
+            gui.drawString(this.font, SoulLang.text(language,
+                            "soul.soulland.domain." + soulId + ".name", domain.nameEn()),
+                    textX, y + 11, 0xE8E8E8);
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.domain_stats",
+                            "Radius %s blok   Kuras %s SP/detik   Damage %s/detik",
+                            (int) com.soulland.combat.DomainRules.RADIUS, domain.drainPerSecond(),
+                            (int) domain.damagePerSecond()),
+                    textX, y + 22, 0x9AD8C8);
+            gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.domain_rules",
+                            "Domain berdiri sampai spirit power habis."),
+                    textX, y + 33, 0x8A8A8A);
+            return drawWrapped(gui, "soul.soulland.domain." + soulId + ".description",
+                    "", textX, y + 44, width - 40, language);
+        }
+        gui.drawString(this.font, SoulLang.text(language, "gui.soulland.combat.unknown", "Tidak ada data."),
+                textX, y + 11, 0x808080);
+        return y + 34;
+    }
+
+    private int drawWrapped(GuiGraphics gui, String key, String fallback, int x, int y, int width, String language) {
+        String text = SoulLang.translate(language, key, fallback);
+        for (FormattedCharSequence line : this.font.split(Component.literal(text), width)) {
+            gui.drawString(this.font, line, x, y, 0xC8C8C8);
+            y += 10;
+        }
+        return y;
     }
 
     // ------------------------------------------------------------------ input

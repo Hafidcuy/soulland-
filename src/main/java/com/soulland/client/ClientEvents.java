@@ -54,6 +54,12 @@ public class ClientEvents {
         if (KeyBindings.SKILL_4 != null && KeyBindings.SKILL_4.consumeClick()) {
             ModNetwork.CHANNEL.sendToServer(new ActivateSkillPacket(3));
         }
+        if (KeyBindings.TRUE_BODY != null && KeyBindings.TRUE_BODY.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new com.soulland.net.ActivateTrueBodyPacket());
+        }
+        if (KeyBindings.DOMAIN != null && KeyBindings.DOMAIN.consumeClick()) {
+            ModNetwork.CHANNEL.sendToServer(new com.soulland.net.ToggleDomainPacket());
+        }
     }
 
     /** Membersihkan data visual yang sudah tidak berlaku agar tidak menumpuk. */
@@ -64,6 +70,7 @@ public class ClientEvents {
         if (mc.level == null) return;
         ClientManifestations.removeExpired(mc.level.getGameTime());
         ClientHaloData.prune(id -> mc.level.getEntity(id) != null);
+        ClientCombatData.prune(id -> mc.level.getEntity(id) != null);
     }
 
     @Mod.EventBusSubscriber(modid = SoulLandMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -106,13 +113,14 @@ public class ClientEvents {
 
             drawSkillBar(gui, soul, x, y + 24);
             drawEnergy(gui, mc, x, y + 52);
+            ClientCombatHud.render(gui, x, y + 70);
 
             if (ClientCultivationData.chainCount > 0) {
                 int bonus = (int) (com.soulland.skill.SkillHandler.CHAIN_STEP
                         * Math.min(com.soulland.skill.SkillHandler.MAX_CHAIN, ClientCultivationData.chainCount) * 100);
                 gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.chain",
                                 "Rantai %s (+%s%% damage)", ClientCultivationData.chainCount, bonus).getString(),
-                        x, y + 66, 0xFFD24A);
+                        x, y + 100, 0xFFD24A);
             }
         }
 
