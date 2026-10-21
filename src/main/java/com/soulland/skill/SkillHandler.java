@@ -132,7 +132,6 @@ public final class SkillHandler {
             if (done) reportAffinity(p);
             return done;
         }
-
         switch (id) {
             // Cangkul
             case "hoe_heal" -> { p.heal(6f); effect(p, MobEffects.SATURATION, 60, 0); particles(level, p, ParticleTypes.HAPPY_VILLAGER); }
@@ -420,6 +419,7 @@ public final class SkillHandler {
             }
             default -> { return false; }
         }
+        reportAffinity(p);
         return true;
     }
 
