@@ -1,0 +1,390 @@
+{
+  "design_read": "Tulang spirit v1.3: siluet beda per slot tubuh, bahan beda per tier umur. Tiap item punya palet inti sendiri dan siluetnya tidak kembar.",
+  "items": [
+    {
+      "id": "spirit_bone_y100_skull",
+      "kind": "bone",
+      "slot": "skull",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#7FD4E8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_torso",
+      "kind": "bone",
+      "slot": "torso",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#E0603F"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_left_arm",
+      "kind": "bone",
+      "slot": "left_arm",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#8FBF6B"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_right_arm",
+      "kind": "bone",
+      "slot": "right_arm",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#B98BD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_left_leg",
+      "kind": "bone",
+      "slot": "left_leg",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#D9A441"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_right_leg",
+      "kind": "bone",
+      "slot": "right_leg",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#6B8FD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100_external",
+      "kind": "bone",
+      "slot": "external",
+      "tier": "y100",
+      "palette": [
+        "#E4E8EA",
+        "#F7FAFB",
+        "#6EE8C8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_skull",
+      "kind": "bone",
+      "slot": "skull",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#7FD4E8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_torso",
+      "kind": "bone",
+      "slot": "torso",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#E0603F"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_left_arm",
+      "kind": "bone",
+      "slot": "left_arm",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#8FBF6B"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_right_arm",
+      "kind": "bone",
+      "slot": "right_arm",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#B98BD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_left_leg",
+      "kind": "bone",
+      "slot": "left_leg",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#D9A441"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_right_leg",
+      "kind": "bone",
+      "slot": "right_leg",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#6B8FD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000_external",
+      "kind": "bone",
+      "slot": "external",
+      "tier": "y1000",
+      "palette": [
+        "#F0C040",
+        "#FFE9A8",
+        "#6EE8C8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_skull",
+      "kind": "bone",
+      "slot": "skull",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#7FD4E8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_torso",
+      "kind": "bone",
+      "slot": "torso",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#E0603F"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_left_arm",
+      "kind": "bone",
+      "slot": "left_arm",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#8FBF6B"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_right_arm",
+      "kind": "bone",
+      "slot": "right_arm",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#B98BD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_left_leg",
+      "kind": "bone",
+      "slot": "left_leg",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#D9A441"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_right_leg",
+      "kind": "bone",
+      "slot": "right_leg",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#6B8FD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y10000_external",
+      "kind": "bone",
+      "slot": "external",
+      "tier": "y10000",
+      "palette": [
+        "#B36BE0",
+        "#E2C4FF",
+        "#6EE8C8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_skull",
+      "kind": "bone",
+      "slot": "skull",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#7FD4E8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_torso",
+      "kind": "bone",
+      "slot": "torso",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#E0603F"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_left_arm",
+      "kind": "bone",
+      "slot": "left_arm",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#8FBF6B"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_right_arm",
+      "kind": "bone",
+      "slot": "right_arm",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#B98BD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_left_leg",
+      "kind": "bone",
+      "slot": "left_leg",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#D9A441"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_right_leg",
+      "kind": "bone",
+      "slot": "right_leg",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#6B8FD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y100000_external",
+      "kind": "bone",
+      "slot": "external",
+      "tier": "y100000",
+      "palette": [
+        "#D2453C",
+        "#FFA79E",
+        "#6EE8C8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_skull",
+      "kind": "bone",
+      "slot": "skull",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#7FD4E8"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_torso",
+      "kind": "bone",
+      "slot": "torso",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#E0603F"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_left_arm",
+      "kind": "bone",
+      "slot": "left_arm",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#8FBF6B"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_right_arm",
+      "kind": "bone",
+      "slot": "right_arm",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#B98BD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_left_leg",
+      "kind": "bone",
+      "slot": "left_leg",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#D9A441"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_right_leg",
+      "kind": "bone",
+      "slot": "right_leg",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#6B8FD9"
+      ]
+    },
+    {
+      "id": "spirit_bone_y1000000_external",
+      "kind": "bone",
+      "slot": "external",
+      "tier": "y1000000",
+      "palette": [
+        "#E8C46A",
+        "#FFF0C0",
+        "#6EE8C8"
+      ]
+    }
+  ]
+}

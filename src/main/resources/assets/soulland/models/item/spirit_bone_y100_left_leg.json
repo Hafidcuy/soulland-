@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "soulland:item/spirit_bone_y100_left_leg"
+  }
+}

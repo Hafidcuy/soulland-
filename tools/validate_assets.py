@@ -30,6 +30,7 @@ LANG_FILES = [ASSETS / "lang/en_us.json", ASSETS / "lang/id_id.json"]
 MANIFESTS = [
     ROOT / "docs/v1.2a-asset-manifest.json",
     ROOT / "docs/v1.2b-asset-manifest.json",
+    ROOT / "docs/v1.3-asset-manifest.json",
 ]
 RECIPE_DIR = ROOT / "src/main/resources/data/soulland/recipes"
 
@@ -147,6 +148,20 @@ def check_lang_keys(langs):
         literal_keys.add(f"message.soulland.{key}")
     literal_keys.add("itemGroup.soulland.spirit_gear")
 
+    # Kunci v1.3 dirakit dari enum tier dan slot tulang spirit.
+    bone_tier_file = (JAVA / "bone/SpiritBoneTier.java").read_text(encoding="utf-8")
+    bone_slot_file = (JAVA / "bone/SpiritBoneSlot.java").read_text(encoding="utf-8")
+    bone_tiers = re.findall(r'\("([a-z0-9_]+)",\s*\d+,', bone_tier_file)
+    bone_slots = re.findall(r'\("([a-z0-9_]+)",\s*[\d.]+f', bone_slot_file)
+    for tier_id in bone_tiers:
+        literal_keys.add(f"bone.soulland.tier.{tier_id}")
+    for slot_id in bone_slots:
+        literal_keys.add(f"bone.soulland.slot.{slot_id}")
+    for tier_id in bone_tiers:
+        for slot_id in bone_slots:
+            literal_keys.add(f"item.soulland.spirit_bone_{tier_id}_{slot_id}")
+    literal_keys.add("itemGroup.soulland.spirit_bone")
+
     # Nama peringkat kultivasi dirakit dari tabel rank.
     rank_file = (JAVA / "CultivationRanks.java").read_text(encoding="utf-8")
     rank_block = re.search(r'RANKS\s*=\s*\{(.*?)\}', rank_file, re.S)
@@ -260,11 +275,19 @@ def best_iou(first, second):
 
 
 def check_silhouette_uniqueness(manifests):
-    """Tidak ada dua item dengan siluet yang sama."""
+    """Tidak ada dua item dengan siluet yang sama.
+
+    Pengecualian satu: tulang spirit memakai satu siluet per slot tubuh dan
+    membedakan tier lewat bahan tulangnya, bukan lewat bentuk. Jadi dua item
+    dengan slot yang sama (tier berbeda) memang sengaja berbagi siluet, dan
+    yang diuji siluetnya adalah pasangan slot yang berbeda.
+    """
     entries = [entry for _, items in manifests for entry in items]
     masks = {entry["id"]: alpha_mask(entry) for entry in entries}
     worst = (0.0, None, None)
     for first, second in itertools.combinations(entries, 2):
+        if first.get("slot") is not None and first.get("slot") == second.get("slot"):
+            continue
         value = best_iou(masks[first["id"]], masks[second["id"]])
         if value > worst[0]:
             worst = (value, first["id"], second["id"])

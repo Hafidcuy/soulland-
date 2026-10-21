@@ -1577,6 +1577,292 @@ def write_v12b_manifest(items: dict) -> None:
     print(f"  wrote {os.path.relpath(md_path, ROOT)}")
 
 
+# ================================================================ v1.3
+
+# Tulang spirit: 5 mutu umur x 7 slot tubuh = 35 item.
+# Aturan keras: siluet tiap slot harus berbeda sekilas (bukan cermin), dan
+# tiap tier punya bahan tulang berbeda, bukan hanya warna. Palet inti tiap
+# item unik supaya tidak ada dua item yang terbaca sebagai benda yang sama.
+
+# Warna tier mengikuti grade spirit ring, sama persis dengan SpiritBoneTier
+# di kode Java, supaya pemain bisa membaca "tulang ini sepadan dengan ring ini".
+BONE_TIERS = [
+    ("y100", "#E4E8EA", "#F7FAFB"),
+    ("y1000", "#F0C040", "#FFE9A8"),
+    ("y10000", "#B36BE0", "#E2C4FF"),
+    ("y100000", "#D2453C", "#FFA79E"),
+    ("y1000000", "#E8C46A", "#FFF0C0"),
+]
+
+# Aksen slot: warna小结 satu-satunya per slot, dipakai pada sendi atau inti
+# benda. Tujuh warna berbeda supaya 35 item punya 35 palet inti berbeda.
+BONE_SLOTS = [
+    ("skull", "#7FD4E8"),
+    ("torso", "#E0603F"),
+    ("left_arm", "#8FBF6B"),
+    ("right_arm", "#B98BD9"),
+    ("left_leg", "#D9A441"),
+    ("right_leg", "#6B8FD9"),
+    ("external", "#6EE8C8"),
+]
+
+
+def bone_shape_skull(c: Canvas, body) -> None:
+    """Tengkorak: kubah cranium berongga, alis tebal, dan rahang kecil.
+
+    Kubah digambar sebagai garis luar, bukan blok penuh, supaya tengkorak
+    langsung terbaca berlubang dan tidak mirip rongga dada yang padat.
+    """
+    c.ellipse(7.5, 5.0, 4.4, 3.6, body, fill=False)
+    c.rect(4, 1, 11, 2, body)
+    c.rect(6, 6, 9, 8, body)
+    c.rect(7, 8, 8, 10, body)
+
+
+def bone_shape_torso(c: Canvas, body) -> None:
+    """Rongga dada: tulang belakang tegak dengan dua rusuk melintang."""
+    c.rect(7, 1, 8, 14, body)
+    c.rect(5, 3, 10, 4, body)
+    c.rect(4, 6, 11, 7, body)
+    c.rect(5, 9, 10, 10, body)
+    c.rect(6, 12, 9, 13, body)
+
+
+def bone_shape_left_arm(c: Canvas, body) -> None:
+    """Lengan kiri: tulang miring dari bahu kiri atas ke siku kanan bawah."""
+    c.dot(3.5, 2.5, body, 4)
+    c.line(4.5, 3.5, 11.0, 11.5, body, 2)
+    c.line(10.0, 11.0, 8.5, 14.5, body, 2)
+    c.line(11.5, 11.5, 13.5, 14.0, body, 2)
+
+
+def bone_shape_right_arm(c: Canvas, body) -> None:
+    """Lengan kanan: batang tegak dengan benjolan siku di sisi kanan."""
+    c.rect(6, 2, 7, 12, body)
+    c.dot(10.0, 7.0, body, 4)
+    c.line(6.0, 1.0, 5.0, 0.0, body, 1)
+    c.line(7.0, 1.0, 8.0, 0.0, body, 1)
+    c.line(6.0, 12.0, 6.0, 14.5, body, 2)
+    c.line(7.0, 12.0, 9.0, 13.5, body, 1)
+
+
+def bone_shape_left_leg(c: Canvas, body) -> None:
+    """Kaki kiri: femur tegak dengan kepala bulat di atas dan lutut di kiri bawah."""
+    c.dot(9.0, 2.5, body, 3)
+    c.rect(7, 3, 8, 10, body)
+    c.dot(5.5, 11.5, body, 5)
+    c.line(8.0, 10.0, 9.0, 12.0, body, 1)
+
+
+def bone_shape_right_leg(c: Canvas, body) -> None:
+    """Kaki kanan: tibia bertapak lebar di atas, bertaji ke kanan, dan bercabang bawah."""
+    c.rect(4, 1, 9, 2, body)
+    c.rect(6, 3, 7, 11, body)
+    c.poly([(8, 5), (13, 8), (8, 10)], body)
+    c.line(5.0, 11.0, 4.0, 14.5, body, 2)
+    c.line(7.0, 11.0, 8.0, 14.5, body, 2)
+
+
+def bone_shape_external(c: Canvas, body) -> None:
+    """Tulang Eksternal: gumpalan kristal, sengaja bukan struktur tulang."""
+    c.poly([(8, 0), (11, 6), (8, 15), (5, 6)], body)
+    c.poly([(2, 8), (4, 12), (5, 9)], body)
+    c.poly([(12, 6), (14, 10), (11, 9)], body)
+
+
+BONE_SHAPES = {
+    "skull": bone_shape_skull,
+    "torso": bone_shape_torso,
+    "left_arm": bone_shape_left_arm,
+    "right_arm": bone_shape_right_arm,
+    "left_leg": bone_shape_left_leg,
+    "right_leg": bone_shape_right_leg,
+    "external": bone_shape_external,
+}
+
+# Titik aksen per slot: letak sendi, rongga mata, atau inti kristal.
+BONE_ACCENT_POINTS = {
+    "skull": [(6, 6), (7, 6), (8, 6), (9, 6), (7, 9), (8, 9)],
+    "torso": [(7, 3), (8, 3), (4, 6), (11, 6), (7, 12), (8, 12)],
+    "left_arm": [(4, 4), (5, 5), (6, 6), (7, 7), (10, 12)],
+    "right_arm": [(9, 7), (10, 7), (6, 4), (6, 9), (6, 13)],
+    "left_leg": [(9, 2), (7, 5), (7, 8), (6, 12), (7, 12)],
+    "right_leg": [(8, 8), (9, 8), (6, 4), (6, 8), (4, 13), (7, 13)],
+    "external": [(8, 3), (8, 4), (7, 8), (9, 8), (8, 12)],
+}
+
+# Piksel aksen tambahan untuk rongga mata tengkorak, yang harus digambar
+# sebagai blok sendiri karena berada di dalam kubah yang berlubang.
+BONE_ACCENT_BLOCKS = {
+    "skull": [(5, 4), (6, 4), (9, 4), (10, 4)],
+}
+
+
+def bone_material(c: Canvas, tier_index: int, body, light, shadow) -> None:
+    """Beri bahan tulang sesuai umur, hanya pada piksel yang sudah terisi.
+
+    Tiap umur punya bahan berbeda, jadi dua tier tidak hanya beda warna:
+    youngest mulus, kedua berurat, ketiga retak, keempat hangus, kelima berukir.
+    """
+    for y in range(c.size):
+        for x in range(c.size):
+            if c.pixels[x, y][3] == 0:
+                continue
+            if tier_index == 0:
+                # Muda: permukaan mulus, sisi kiri atas lebih terang.
+                if x + y <= 9:
+                    c.pixels[x, y] = light
+                elif x + y >= 20:
+                    c.pixels[x, y] = shadow
+            elif tier_index == 1:
+                # Seribu: tulang hangat dengan uratangers.
+                if (x * 3 + y * 5) % 7 == 0:
+                    c.pixels[x, y] = light
+                elif x + y <= 8:
+                    c.pixels[x, y] = light
+            elif tier_index == 2:
+                # Sepuluh ribu: retak yang memancarkan cahaya.
+                if (x + y * 2) % 5 == 0:
+                    c.pixels[x, y] = light
+                elif (x * 2 + y) % 6 == 0:
+                    c.pixels[x, y] = shadow
+            elif tier_index == 3:
+                # Seratus ribu: hangus, bara di bagian bawah.
+                if y >= 10:
+                    c.pixels[x, y] = shadow
+                elif (x * 7 + y * 3) % 11 == 0:
+                    c.pixels[x, y] = light
+            else:
+                # Satu juta: ukiran tipis dengan sisi atas berkilau.
+                if (x - y) % 4 == 0:
+                    c.pixels[x, y] = shadow
+                elif x + y <= 8:
+                    c.pixels[x, y] = light
+
+
+def build_bone_image(tier_index: int, tier_colors, slot_id: str, accent_hex: str) -> Image.Image:
+    """Gambar satu item tulang: siluet slot, bahan tier, lalu aksen slot."""
+    body_hex, light_hex = tier_colors
+    body = rgba(body_hex)
+    light = rgba(light_hex)
+    shadow = rgba(body_hex, 190)
+    dark = rgba(body_hex, 120)
+    accent = rgba(accent_hex)
+
+    canvas = Canvas()
+    BONE_SHAPES[slot_id](canvas, body)
+
+    # Bahan tier ditulis dulu, bayangan dipakai untuk sisi bawah.
+    bone_material(canvas, tier_index, body, light, dark)
+
+    # Aksen slot menandai sendi atau rongga mata.
+    for x, y in BONE_ACCENT_POINTS[slot_id]:
+        if canvas.pixels[x, y][3] > 0:
+            canvas.pixels[x, y] = accent
+    for x, y in BONE_ACCENT_BLOCKS.get(slot_id, ()):
+        canvas.px(x, y, accent)
+
+    # Sisi bawah diberi bayangan supaya bentuk terbacavolume, bukan rata.
+    for y in range(canvas.size):
+        for x in range(canvas.size):
+            if canvas.pixels[x, y][3] == 0:
+                continue
+            if y >= 12 and canvas.pixels[x, y] == body:
+                canvas.pixels[x, y] = shadow
+    return canvas.image
+
+
+def build_v13_items() -> dict:
+    """Kembalikan dict id item -> Image untuk 35 item tulang spirit."""
+    items = {}
+    for tier_index, (tier_id, body_hex, light_hex) in enumerate(BONE_TIERS):
+        for slot_id, accent_hex in BONE_SLOTS:
+            item_id = f"spirit_bone_{tier_id}_{slot_id}"
+            items[item_id] = build_bone_image(tier_index, (body_hex, light_hex), slot_id, accent_hex)
+    return items
+
+
+def v13_palette(item_id: str):
+    """Palet tiga warna inti: warna tier, warna terang tier, aksen slot."""
+    for tier_id, body_hex, light_hex in BONE_TIERS:
+        for slot_id, accent_hex in BONE_SLOTS:
+            if item_id == f"spirit_bone_{tier_id}_{slot_id}":
+                return (body_hex, light_hex, accent_hex)
+    raise KeyError(item_id)
+
+
+def build_v13_contact_sheet(items: dict) -> str:
+    """Lembar kontak 35 ikon tulang, disusun 7 kolom x 5 baris."""
+    from PIL import ImageDraw
+
+    zoom = 6
+    cell = 16 * zoom
+    label_h = 16
+    columns = 7
+    order = list(items.keys())
+    rows = (len(order) + columns - 1) // columns
+    sheet = Image.new("RGBA", (columns * cell, rows * (cell + label_h)), (26, 28, 34, 255))
+    draw = ImageDraw.Draw(sheet)
+    for index, item_id in enumerate(order):
+        sprite = items[item_id].resize((cell, cell), Image.NEAREST)
+        x = (index % columns) * cell
+        y = (index // columns) * (cell + label_h)
+        sheet.alpha_composite(sprite, (x, y))
+        draw.rectangle([x, y, x + cell - 1, y + cell - 1], outline=(58, 62, 72, 255))
+        draw.text((x + 3, y + cell + 2), item_id.replace("spirit_bone_", "")[:16],
+                  fill=(196, 200, 210, 255))
+    path = os.path.join(ROOT, "docs", "v1.3-contact-sheet.png")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    sheet.save(path)
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+    return path
+
+
+def write_v13_manifest(items: dict) -> None:
+    """Catat metadata 35 item tulang supaya validator bisa memeriksanya."""
+    entries = []
+    for item_id in items:
+        tier_id, slot_id = item_id.replace("spirit_bone_", "").split("_", 1)
+        entries.append({
+            "id": item_id,
+            "kind": "bone",
+            "slot": slot_id,
+            "tier": tier_id,
+            "palette": list(v13_palette(item_id)),
+        })
+    payload = {
+        "design_read": "Tulang spirit v1.3: siluet beda per slot tubuh, bahan beda per tier umur. "
+                       "Tiap item punya palet inti sendiri dan siluetnya tidak kembar.",
+        "items": entries,
+    }
+    path = os.path.join(ROOT, "docs", "v1.3-asset-manifest.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+
+    lines = [
+        "# Lembar kontak aset v1.3",
+        "",
+        "Gambar: `docs/v1.3-contact-sheet.png` (35 item tulang spirit, 7 kolom x 5 baris, zoom 6).",
+        "",
+        "| No | Item | Slot | Tier | Palet inti |",
+        "|---|---|---|---|---|",
+    ]
+    for index, entry in enumerate(items, start=1):
+        parts = entry.replace("spirit_bone_", "").split("_", 1)
+        slot_id = parts[1]
+        tier_id = parts[0]
+        palette = ", ".join(f"`{color}`" for color in v13_palette(entry))
+        lines.append(f"| {index:02d} | `{entry}` | {slot_id} | {tier_id} | {palette} |")
+    lines.append("")
+    md_path = os.path.join(ROOT, "docs", "v1.3-contact-sheet.md")
+    with open(md_path, "w", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+    print(f"  wrote {os.path.relpath(md_path, ROOT)}")
+
+
 # ---------------------------------------------------------------- main
 
 def main() -> None:
@@ -1614,6 +1900,14 @@ def main() -> None:
             write_block_assets(item_id)
     build_v12b_contact_sheet(v12b_items)
     write_v12b_manifest(v12b_items)
+
+    print("Item v1.3 Spirit Bone (35):")
+    v13_items = build_v13_items()
+    for item_id, image in v13_items.items():
+        write_png(image, os.path.join(TEX_ITEM, f"{item_id}.png"))
+        write_model(item_id)
+    build_v13_contact_sheet(v13_items)
+    write_v13_manifest(v13_items)
     print("Selesai.")
 
 
