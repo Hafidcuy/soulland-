@@ -39,6 +39,12 @@ public class Cultivation implements ICultivation {
     private final String[] bones = new String[com.soulland.bone.SpiritBoneSlot.COUNT];
     /** Batas spirit power maksimum, naik kalau ada tulang spirit terpasang. */
     private int energyCap = (int) CultivationRanks.MAX_ENERGY;
+    /** Waktu game saat True Body berhenti aktif. */
+    private long trueBodyUntil = 0L;
+    /** Waktu game saat jeda True Body berakhir. */
+    private long trueBodyCooldownUntil = 0L;
+    /** True kalau Domain sedang berdiri. */
+    private boolean domainActive = false;
     private final Map<String, Long> cooldowns = new HashMap<>();
     /** Umur tiap ring (tahun). Kosong bila belum punya ring. */
     private int[] ringAges = new int[0];
@@ -144,6 +150,15 @@ public class Cultivation implements ICultivation {
     @Override public int getEnergyCap() { return energyCap; }
     @Override public void setEnergyCap(int cap) { this.energyCap = Math.max((int) CultivationRanks.MAX_ENERGY, cap); }
 
+    @Override public long getTrueBodyUntil() { return trueBodyUntil; }
+    @Override public void setTrueBodyUntil(long gameTime) { this.trueBodyUntil = Math.max(0L, gameTime); }
+
+    @Override public long getTrueBodyCooldownUntil() { return trueBodyCooldownUntil; }
+    @Override public void setTrueBodyCooldownUntil(long gameTime) { this.trueBodyCooldownUntil = Math.max(0L, gameTime); }
+
+    @Override public boolean isDomainActive() { return domainActive; }
+    @Override public void setDomainActive(boolean active) { this.domainActive = active; }
+
     @Override public int getHintFlags() { return hintFlags; }
     @Override public void setHintFlags(int flags) { this.hintFlags = flags; }
 
@@ -198,6 +213,9 @@ public class Cultivation implements ICultivation {
         tag.putBoolean("tribulationReady", tribulationReady);
         tag.putInt("mutationCount", mutationCount);
         tag.putInt("energyCap", energyCap);
+        tag.putLong("trueBodyUntil", trueBodyUntil);
+        tag.putLong("trueBodyCooldownUntil", trueBodyCooldownUntil);
+        tag.putBoolean("domainActive", domainActive);
         for (int i = 0; i < loadout.length; i++) {
             tag.putString("loadout" + i, loadout[i] == null ? "" : loadout[i]);
         }
@@ -236,6 +254,9 @@ public class Cultivation implements ICultivation {
         tribulationReady = tag.getBoolean("tribulationReady");
         mutationCount = Math.max(0, tag.getInt("mutationCount"));
         energyCap = Math.max((int) CultivationRanks.MAX_ENERGY, tag.getInt("energyCap"));
+        trueBodyUntil = Math.max(0L, tag.getLong("trueBodyUntil"));
+        trueBodyCooldownUntil = Math.max(0L, tag.getLong("trueBodyCooldownUntil"));
+        domainActive = tag.getBoolean("domainActive");
         for (int i = 0; i < bones.length; i++) bones[i] = "";
         if (tag.contains("bones")) {
             ListTag boneList = tag.getList("bones", net.minecraft.nbt.Tag.TAG_STRING);

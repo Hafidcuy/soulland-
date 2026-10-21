@@ -131,6 +131,18 @@ public interface ICultivation {
     int getEnergyCap();
     void setEnergyCap(int cap);
 
+    /** Waktu game saat True Body berhenti aktif. Nol kalau tidak pernah aktif. */
+    long getTrueBodyUntil();
+    void setTrueBodyUntil(long gameTime);
+
+    /** Waktu game saat jeda True Body berakhir. Nol kalau jeda belum pernah dimulai. */
+    long getTrueBodyCooldownUntil();
+    void setTrueBodyCooldownUntil(long gameTime);
+
+    /** True kalau Domain sedang berdiri di sekitar pemain. */
+    boolean isDomainActive();
+    void setDomainActive(boolean active);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }
