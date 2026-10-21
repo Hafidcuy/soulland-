@@ -426,7 +426,7 @@ public final class SkillHandler {
     /**
      * Pengali damage gabungan: level kultivasi, rantai soul, dan bakar darah.
      * Dipakai bersama oleh skill lama dan jalur arketipe supaya keduanya
-     * punya aturan Contain yang sama.
+     * punya aturan pengali yang sama.
      */
     private static double combatScale(ServerPlayer p) {
         double scale = 1.0 + p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
@@ -467,7 +467,9 @@ public final class SkillHandler {
                 impact(level, p, target);
             }
             case WAVE -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     Vec3 to = e.position().subtract(p.position()).normalize();
                     if (to.dot(look) > 0.5) {
                         skillDamage(p, e, (float) (damage * 0.9));
@@ -477,7 +479,9 @@ public final class SkillHandler {
                 SkillFx.play(level, p, skill);
             }
             case BLAST -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     skillDamage(p, e, damage);
                     e.setDeltaMovement(e.getDeltaMovement().add(0, 0.7, 0));
                     e.hurtMarked = true;
@@ -493,21 +497,27 @@ public final class SkillHandler {
                 impact(level, p, target);
             }
             case VENOM -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     skillDamage(p, e, (float) (damage * 0.4));
                     effect(e, MobEffects.POISON, duration, Math.max(1, amplifier));
                 }
                 SkillFx.play(level, p, skill);
             }
             case ROOT -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, Math.max(1, amplifier));
                     effect(e, MobEffects.WEAKNESS, duration, 0);
                 }
                 SkillFx.play(level, p, skill);
             }
             case STUN -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     skillDamage(p, e, (float) (damage * 0.5));
                     push(e, e.position().subtract(p.position()).normalize().scale(1.1).add(0, 0.35, 0));
                     effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, Math.max(1, amplifier));
@@ -576,7 +586,9 @@ public final class SkillHandler {
                 impact(level, p, target);
             }
             case LURE -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     Vec3 to = p.position().subtract(e.position()).normalize().scale(0.9);
                     e.setDeltaMovement(e.getDeltaMovement().add(to.x, 0.25, to.z));
                     e.hurtMarked = true;
@@ -585,7 +597,9 @@ public final class SkillHandler {
                 SkillFx.play(level, p, skill);
             }
             case DISRUPT -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     skillDamage(p, e, (float) (damage * 0.3));
                     for (var active : List.copyOf(e.getActiveEffects())) {
                         if (active.getEffect().getCategory() != MobEffectCategory.HARMFUL) {
@@ -607,7 +621,9 @@ public final class SkillHandler {
                 impact(level, p, target);
             }
             case NOVA -> {
-                for (LivingEntity e : entitiesAround(p, radius)) {
+                List<LivingEntity> targets = entitiesAround(p, radius);
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
                     skillDamage(p, e, damage);
                     e.setDeltaMovement(e.getDeltaMovement().add(0, 0.8, 0));
                     e.hurtMarked = true;

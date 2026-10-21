@@ -116,6 +116,7 @@ public final class MartialSouls {
         return SkillDef.builder(id, name)
                 .desc(description)
                 .archetype(archetype)
+                .target(targetOf(archetype))
                 .dmg(damage)
                 .heal(heal)
                 .radius(radius)
@@ -126,6 +127,16 @@ public final class MartialSouls {
                 .rings(rings)
                 .fx(new SkillVisual(shape, fxColor, 0xFFFFFF, size, count, null, 0f, 0))
                 .build();
+    }
+
+    /** Target skill according to the shape of its archetype. */
+    private static SkillTarget targetOf(SkillArchetype archetype) {
+        return switch (archetype) {
+            case STRIKE, LIFESTEAL, MARK, EXECUTE -> SkillTarget.ENEMY_NEAREST;
+            case SHIELD, BUFF, HEAL, BLINK, DASH -> SkillTarget.SELF;
+            case AURA, MEND -> SkillTarget.ALLY_AURA;
+            default -> SkillTarget.ENEMY_AOE;
+        };
     }
 
     static {

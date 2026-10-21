@@ -1,5 +1,8 @@
 package com.soulland.soul;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Aturan afinitas: hubungan antara elemen afinitas sebuah soul dan elemen lawannya.
  *
@@ -67,8 +70,8 @@ public final class SoulAffinity {
      * Daftar elemen yang dikalahkan sebuah afinitas, untuk ditampilkan di GUI.
      * Urutan mengikuti urutan enum {@link Element} supaya stabil.
      */
-    public static java.util.List<Element> beatsOf(Element affinity) {
-        java.util.List<Element> result = new java.util.ArrayList<>();
+    public static List<Element> beatsOf(Element affinity) {
+        List<Element> result = new ArrayList<>();
         if (affinity == null || affinity == Element.NONE) return result;
         for (Element element : Element.values()) {
             if (affinity.beats(element)) result.add(element);
@@ -80,8 +83,8 @@ public final class SoulAffinity {
      * Daftar elemen yang mengalahkan sebuah afinitas, untuk ditampilkan di GUI.
      * Elemen yang tidak punya hubungan apa pun tidak ikut masuk.
      */
-    public static java.util.List<Element> losesTo(Element affinity) {
-        java.util.List<Element> result = new java.util.ArrayList<>();
+    public static List<Element> losesTo(Element affinity) {
+        List<Element> result = new ArrayList<>();
         if (affinity == null || affinity == Element.NONE) return result;
         for (Element element : Element.values()) {
             if (element.beats(affinity)) result.add(element);
