@@ -9,6 +9,7 @@ import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SkillDef;
 import com.soulland.soul.SoulCategories;
+import com.soulland.soul.SoulLineage;
 import com.soulland.soul.SoulRarity;
 import com.soulland.soul.SoulText;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,32 +26,37 @@ import java.util.List;
 /**
  * Layar Upacara Kebangkitan Martial Soul.
  *
- * <p>Tiga zona dalam satu panel: tab kategori, daftar soul, dan panel pratinjau.
- * Semua keputusan ada di layar ini supaya pemain tidak pernah tersesat di
- * langkah yang belum terlihat (R-26: tidak ada kontrol mati).
+ * <p>Empat zona dalam satu panel: baris filter lineage, baris tab tipe, daftar
+ * soul, dan panel pratinjau. Semua keputusan ada di layar ini supaya pemain
+ * tidak pernah tersesat di langkah yang belum terlihat (R-26: tidak ada
+ * kontrol mati).
  *
- * <p>Palet mengikuti {@code docs/v1.1-blueprint.md}: tinta pekat, batu, kertas,
- * dan jade sebagai satu-satunya aksen.
+ * <p>Katalog v1.4 berisi 43 soul, jadi daftar digulir dan baris tab tipe
+ * digeser horizontal. Gaya tetap sama seperti layar v1.1: tinta pekat, batu,
+ * kertas, dan jade sebagai satu-satunya aksen. Pememain tetap memilih sendiri
+ * soul-nya; tidak ada undian.
  */
 public class AwakeningScreen extends Screen {
 
     // Ukuran desain panel dalam satuan GUI. Skala bulat dipilih agar teks tetap tajam.
     private static final int PANEL_W = 300;
-    private static final int PANEL_H = 186;
+    private static final int PANEL_H = 210;
 
     private static final int MARGIN = 12;
     private static final int TITLE_Y = 9;
     private static final int SUBTITLE_Y = 21;
     private static final int RULE_Y = 33;
-    private static final int TAB_Y = 38;
-    private static final int TAB_H = 12;
-    private static final int BODY_Y = 54;
-    private static final int BODY_H = 112;
+    private static final int LINEAGE_Y = 37;
+    private static final int LINEAGE_H = 11;
+    private static final int TYPE_Y = 51;
+    private static final int TYPE_H = 12;
+    private static final int BODY_Y = 67;
+    private static final int BODY_H = 126;
     private static final int LIST_X = MARGIN;
     private static final int LIST_W = 116;
     private static final int PREVIEW_X = 134;
     private static final int PREVIEW_W = 154;
-    private static final int STATUS_Y = 170;
+    private static final int STATUS_Y = 197;
 
     // Palet (lihat blueprint bagian 0).
     private static final int INK = 0xF00B0E13;
@@ -62,15 +68,24 @@ public class AwakeningScreen extends Screen {
     private static final int HAIRLINE = 0xFF2C353E;
     private static final int DANGER = 0xFFE0796A;
 
+    /** Lebar tombol panah pada baris tipe, dalam satuan GUI. */
+    private static final int STRIP_ARROW_W = 9;
+    /** Lebar minimum satu tab tipe supaya labelnya tidak gepeng. */
+    private static final int TYPE_TAB_MIN_W = 42;
+    /** Jumlah baris soul yang terlihat sekaligus di daftar. */
+    private static final int VISIBLE_ROWS = 5;
+
     private enum Area {
-        TAB, LIST, BUTTON
+        LINEAGE, TYPE, LIST, BUTTON
     }
 
     private final boolean reroll;
-    private final List<String> categories;
     private int categoryIndex = 0;
     private int soulIndex = -1;
-    private Area area = Area.TAB;
+    private int listScroll = 0;
+    private int typeOffset = 0;
+    private SoulLineage lineageFilter = null;
+    private Area area = Area.LINEAGE;
     private boolean pending = false;
     private String errorKey = null;
 
@@ -79,7 +94,6 @@ public class AwakeningScreen extends Screen {
     public AwakeningScreen(boolean reroll) {
         super(Component.literal(""));
         this.reroll = reroll;
-        this.categories = SoulCategories.types();
         this.language = SoulLang.activeLanguage();
     }
 
@@ -95,9 +109,31 @@ public class AwakeningScreen extends Screen {
 
     // ---------------------------------------------------------------- state
 
+    /** Tipe yang ada di lineage terpilih, urut registry. */
+    private List<String> lineageTypes() {
+        return SoulCategories.typesOf(lineageFilter);
+    }
+
+    /**
+     * Jumlah pilihan kategori pada baris tipe.
+     *
+     * <p>Indeks 0 berarti "Semua tipe", jadi pemain selalu bisa melihat isi
+     * penuh satu lineage tanpa memilih tipe tertentu.
+     */
+    private int categoryCount() {
+        return lineageTypes().size() + 1;
+    }
+
+    /** Tipe aktif, null berarti semua tipe di lineage terpilih. */
+    private String activeCategory() {
+        if (categoryIndex <= 0) return null;
+        List<String> types = lineageTypes();
+        if (types.isEmpty()) return null;
+        return types.get(Math.min(categoryIndex, types.size()) - 1);
+    }
+
     private List<MartialSoul> soulsOfCurrentCategory() {
-        if (categories.isEmpty()) return List.of();
-        return SoulCategories.soulsOf(categories.get(Math.min(categoryIndex, categories.size() - 1)));
+        return SoulCategories.soulsOf(lineageFilter, activeCategory());
     }
 
     private MartialSoul selectedSoul() {
@@ -150,11 +186,13 @@ public class AwakeningScreen extends Screen {
                 return true;
             }
             case GLFW.GLFW_KEY_LEFT -> {
-                if (area == Area.TAB) changeCategory(-1);
+                if (area == Area.LINEAGE) changeLineage(-1);
+                if (area == Area.TYPE) scrollType(-1);
                 return true;
             }
             case GLFW.GLFW_KEY_RIGHT -> {
-                if (area == Area.TAB) changeCategory(1);
+                if (area == Area.LINEAGE) changeLineage(1);
+                if (area == Area.TYPE) scrollType(1);
                 return true;
             }
             case GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_KP_ENTER -> {
@@ -172,13 +210,36 @@ public class AwakeningScreen extends Screen {
         int lx = localX(mouseX);
         int ly = localY(mouseY);
 
-        if (ly >= TAB_Y && ly < TAB_Y + TAB_H && lx >= MARGIN && lx < MARGIN + (PANEL_W - 2 * MARGIN)) {
-            int tabWidth = (PANEL_W - 2 * MARGIN) / Math.max(1, categories.size());
-            int index = (lx - MARGIN) / tabWidth;
-            if (index < categories.size()) {
+        if (ly >= LINEAGE_Y && ly < LINEAGE_Y + LINEAGE_H && lx >= MARGIN && lx < MARGIN + (PANEL_W - 2 * MARGIN)) {
+            int chipWidth = (PANEL_W - 2 * MARGIN) / (SoulLineage.values().length + 1);
+            int index = (lx - MARGIN) / chipWidth;
+            if (index <= SoulLineage.values().length) {
+                lineageFilter = index == 0 ? null : SoulLineage.values()[index - 1];
+                resetSelection();
+                area = Area.LINEAGE;
+                return true;
+            }
+        }
+
+        if (ly >= TYPE_Y && ly < TYPE_Y + TYPE_H && lx >= MARGIN && lx < MARGIN + (PANEL_W - 2 * MARGIN)) {
+            int arrowSpace = typeArrowSpace();
+            int left = MARGIN + arrowSpace;
+            int right = PANEL_W - MARGIN - arrowSpace;
+            if (arrowSpace > 0 && lx < left) {
+                scrollType(-1);
+                return true;
+            }
+            if (arrowSpace > 0 && lx >= right) {
+                scrollType(1);
+                return true;
+            }
+            int tabWidth = typeTabWidth();
+            int index = typeOffset + (lx - left) / tabWidth;
+            if (index >= 0 && index < categoryCount()) {
                 categoryIndex = index;
                 soulIndex = -1;
-                area = Area.TAB;
+                listScroll = 0;
+                area = Area.TYPE;
                 return true;
             }
         }
@@ -186,7 +247,8 @@ public class AwakeningScreen extends Screen {
         List<MartialSoul> souls = soulsOfCurrentCategory();
         int rowTop = BODY_Y + 4;
         for (int i = 0; i < souls.size(); i++) {
-            int rowY = rowTop + i * rowHeight();
+            int rowY = rowTop + (i - listScroll) * rowHeight();
+            if (rowY < BODY_Y || rowY + rowHeight() > BODY_Y + BODY_H) continue;
             if (ly >= rowY && ly < rowY + rowHeight() - 4 && lx >= LIST_X && lx < LIST_X + LIST_W) {
                 soulIndex = i;
                 area = Area.LIST;
@@ -208,6 +270,10 @@ public class AwakeningScreen extends Screen {
             moveWithinArea(delta > 0 ? -1 : 1);
             return true;
         }
+        if (area == Area.TYPE) {
+            scrollType(delta > 0 ? -1 : 1);
+            return true;
+        }
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
@@ -226,7 +292,15 @@ public class AwakeningScreen extends Screen {
 
     private void moveWithinArea(int direction) {
         switch (area) {
-            case TAB -> changeCategory(direction);
+            case LINEAGE -> changeLineage(direction);
+            case TYPE -> {
+                int count = categoryCount();
+                if (count <= 0) return;
+                categoryIndex = (categoryIndex + direction + count) % count;
+                soulIndex = -1;
+                listScroll = 0;
+                keepTypeVisible();
+            }
             case LIST -> {
                 List<MartialSoul> souls = soulsOfCurrentCategory();
                 if (souls.isEmpty()) return;
@@ -236,21 +310,50 @@ public class AwakeningScreen extends Screen {
                 } else {
                     soulIndex = (soulIndex + direction + count) % count;
                 }
+                keepSelectionVisible();
             }
             case BUTTON -> {
             }
         }
     }
 
-    private void changeCategory(int direction) {
-        if (categories.isEmpty()) return;
-        categoryIndex = (categoryIndex + direction + categories.size()) % categories.size();
+    private void changeLineage(int direction) {
+        int count = SoulLineage.values().length + 1;
+        int index = lineageFilter == null ? 0 : lineageFilter.ordinal() + 1;
+        index = (index + direction + count) % count;
+        lineageFilter = index == 0 ? null : SoulLineage.values()[index - 1];
+        resetSelection();
+    }
+
+    /** Mengembalikan filter ke keadaan awal setelah lineage berubah. */
+    private void resetSelection() {
+        categoryIndex = 0;
+        typeOffset = 0;
         soulIndex = -1;
+        listScroll = 0;
+    }
+
+    /** Menggeser baris tab tipe satu langkah ke kiri atau ke kanan. */
+    private void scrollType(int direction) {
+        if (typeArrowSpace() == 0) return;
+        int visible = typeVisibleCount();
+        int maxOffset = Math.max(0, categoryCount() - visible);
+        typeOffset = Math.max(0, Math.min(maxOffset, typeOffset + direction));
+    }
+
+    /** Memastikan tab kategori yang aktif tetap terlihat di strip. */
+    private void keepTypeVisible() {
+        int visible = typeVisibleCount();
+        if (categoryIndex < typeOffset) typeOffset = categoryIndex;
+        if (categoryIndex >= typeOffset + visible) typeOffset = categoryIndex - visible + 1;
+        int maxOffset = Math.max(0, categoryCount() - visible);
+        typeOffset = Math.max(0, Math.min(maxOffset, typeOffset));
     }
 
     private void activateFocused() {
         switch (area) {
-            case TAB -> area = Area.LIST;
+            case LINEAGE -> area = Area.TYPE;
+            case TYPE -> area = Area.LIST;
             case LIST -> {
                 if (selectedSoul() != null) area = Area.BUTTON;
             }
@@ -299,7 +402,7 @@ public class AwakeningScreen extends Screen {
     }
 
     private int rowHeight() {
-        return 26;
+        return 21;
     }
 
     private int buttonX() {
@@ -312,6 +415,34 @@ public class AwakeningScreen extends Screen {
 
     private static final int BUTTON_W = 90;
     private static final int BUTTON_H = 13;
+
+    /** Ruang yang dipakai tombol panah, nol kalau stripnya muat semua tab. */
+    private int typeArrowSpace() {
+        int full = PANEL_W - 2 * MARGIN;
+        int fitAll = Math.max(1, full / TYPE_TAB_MIN_W);
+        return categoryCount() > fitAll ? 2 * STRIP_ARROW_W : 0;
+    }
+
+    /** Berapa tab tipe yang terlihat sekaligus di strip. */
+    private int typeVisibleCount() {
+        int usable = PANEL_W - 2 * MARGIN - typeArrowSpace();
+        return Math.max(1, usable / TYPE_TAB_MIN_W);
+    }
+
+    /** Lebar satu tab tipe, seragam supaya strip mudah digeser. */
+    private int typeTabWidth() {
+        int usable = PANEL_W - 2 * MARGIN - typeArrowSpace();
+        return Math.max(TYPE_TAB_MIN_W, usable / Math.max(1, typeVisibleCount()));
+    }
+
+    /** Menjaga pilihan tetap terlihat setelah daftar digulir. */
+    private void keepSelectionVisible() {
+        List<MartialSoul> souls = soulsOfCurrentCategory();
+        int maxScroll = Math.max(0, souls.size() - VISIBLE_ROWS);
+        if (soulIndex < listScroll) listScroll = soulIndex;
+        if (soulIndex >= listScroll + VISIBLE_ROWS) listScroll = soulIndex - VISIBLE_ROWS + 1;
+        listScroll = Math.max(0, Math.min(maxScroll, listScroll));
+    }
 
     // ---------------------------------------------------------------- render
 
@@ -336,7 +467,8 @@ public class AwakeningScreen extends Screen {
         guiGraphics.fill(PANEL_W - 1, 0, PANEL_W, PANEL_H, HAIRLINE);
 
         drawHeader(guiGraphics);
-        drawTabs(guiGraphics);
+        drawLineageRow(guiGraphics);
+        drawTypeRow(guiGraphics);
         drawList(guiGraphics);
         drawPreview(guiGraphics);
         drawStatus(guiGraphics);
@@ -357,25 +489,83 @@ public class AwakeningScreen extends Screen {
         guiGraphics.fill(MARGIN, RULE_Y, PANEL_W - MARGIN, RULE_Y + 1, JADE);
     }
 
-    private void drawTabs(GuiGraphics guiGraphics) {
-        if (categories.isEmpty()) return;
+    /** Baris filter lineage: lima chip, "Semua" lalu empat lineage. */
+    private void drawLineageRow(GuiGraphics guiGraphics) {
         int total = PANEL_W - 2 * MARGIN;
-        int tabWidth = total / categories.size();
-        for (int i = 0; i < categories.size(); i++) {
-            int x = MARGIN + i * tabWidth;
-            int w = (i == categories.size() - 1) ? (MARGIN + total) - x : tabWidth;
-            boolean selected = i == categoryIndex;
-            guiGraphics.fill(x, TAB_Y, x + w, TAB_Y + TAB_H, selected ? JADE_DIM : STONE);
-            guiGraphics.fill(x, TAB_Y, x + 1, TAB_Y + TAB_H, selected ? JADE : HAIRLINE);
-            String label = text(SoulCategories.labelKey(categories.get(i)), categories.get(i)).getString();
+        int chipWidth = total / (SoulLineage.values().length + 1);
+        for (int i = 0; i <= SoulLineage.values().length; i++) {
+            int x = MARGIN + i * chipWidth;
+            int w = (i == SoulLineage.values().length) ? (MARGIN + total) - x : chipWidth;
+            boolean selected = (i == 0 && lineageFilter == null)
+                    || (i > 0 && lineageFilter == SoulLineage.values()[i - 1]);
+            guiGraphics.fill(x, LINEAGE_Y, x + w, LINEAGE_Y + LINEAGE_H, selected ? JADE_DIM : STONE);
+            guiGraphics.fill(x, LINEAGE_Y, x + 1, LINEAGE_Y + LINEAGE_H, selected ? JADE : HAIRLINE);
+            String label = i == 0
+                    ? text("gui.soulland.lineage.all", "All").getString()
+                    : text(SoulLineage.values()[i - 1].langKey(), SoulLineage.values()[i - 1].label()).getString();
             if (this.font.width(label) > w - 6) {
                 label = this.font.plainSubstrByWidth(label, w - 6);
             }
-            guiGraphics.drawString(this.font, label, x + (w - this.font.width(label)) / 2, TAB_Y + 2,
+            guiGraphics.drawString(this.font, label, x + (w - this.font.width(label)) / 2, LINEAGE_Y + 2,
                     selected ? PAPER : MUTED);
-            if (area == Area.TAB && selected) {
-                outline(guiGraphics, x, TAB_Y, x + w - 1, TAB_Y + TAB_H - 1, JADE);
+            if (area == Area.LINEAGE && selected) {
+                outline(guiGraphics, x, LINEAGE_Y, x + w - 1, LINEAGE_Y + LINEAGE_H - 1, JADE);
             }
+        }
+    }
+
+    /** Baris tab tipe. Strip digeser kalau tabnya tidak muat. */
+    private void drawTypeRow(GuiGraphics guiGraphics) {
+        int total = categoryCount();
+        if (total <= 0) return;
+        int arrowSpace = typeArrowSpace();
+        int left = MARGIN + arrowSpace;
+        int right = PANEL_W - MARGIN - arrowSpace;
+        int visible = typeVisibleCount();
+        int tabWidth = typeTabWidth();
+        int maxOffset = Math.max(0, total - visible);
+
+        guiGraphics.fill(MARGIN, TYPE_Y, PANEL_W - MARGIN, TYPE_Y + TYPE_H, STONE);
+
+        for (int i = 0; i < visible && typeOffset + i < total; i++) {
+            int index = typeOffset + i;
+            int x = left + i * tabWidth;
+            int w = (i == visible - 1) ? (right - x) : tabWidth;
+            boolean selected = index == categoryIndex;
+            guiGraphics.fill(x, TYPE_Y, x + w, TYPE_Y + TYPE_H, selected ? JADE_DIM : STONE);
+            guiGraphics.fill(x, TYPE_Y, x + 1, TYPE_Y + TYPE_H, selected ? JADE : HAIRLINE);
+            String label = categoryLabel(index);
+            if (this.font.width(label) > w - 6) {
+                label = this.font.plainSubstrByWidth(label, w - 6);
+            }
+            guiGraphics.drawString(this.font, label, x + (w - this.font.width(label)) / 2, TYPE_Y + 2,
+                    selected ? PAPER : MUTED);
+            if (area == Area.TYPE && selected) {
+                outline(guiGraphics, x, TYPE_Y, x + w - 1, TYPE_Y + TYPE_H - 1, JADE);
+            }
+        }
+
+        // Tombol panah hanya digambar kalau strip memang bisa digeser.
+        if (typeOffset > 0) drawArrow(guiGraphics, MARGIN, TYPE_Y, TYPE_H, true);
+        if (typeOffset < maxOffset) drawArrow(guiGraphics, PANEL_W - MARGIN - STRIP_ARROW_W, TYPE_Y, TYPE_H, false);
+    }
+
+    /** Label tab kategori, indeks 0 berarti "Semua tipe". */
+    private String categoryLabel(int index) {
+        if (index <= 0) return text("gui.soulland.category.all", "All").getString();
+        List<String> types = lineageTypes();
+        if (index - 1 >= types.size()) return "";
+        String type = types.get(index - 1);
+        return text(SoulCategories.labelKey(type), type).getString();
+    }
+
+    /** Panah segitiga kecil, digambar sebagai piksel bukan ikon font. */
+    private void drawArrow(GuiGraphics guiGraphics, int x, int y, int height, boolean left) {
+        guiGraphics.fill(x, y, x + STRIP_ARROW_W, y + height, JADE_DIM);
+        int middle = y + height / 2;
+        for (int i = 0; i < 4; i++) {
+            int offset = left ? 5 - i : 1 + i;
+            guiGraphics.fill(x + offset, middle - i, x + offset + 1, middle + i, PAPER);
         }
     }
 
@@ -388,12 +578,12 @@ public class AwakeningScreen extends Screen {
             return;
         }
         int top = BODY_Y + 4;
-        for (int i = 0; i < souls.size(); i++) {
+        for (int i = listScroll; i < souls.size() && i < listScroll + VISIBLE_ROWS; i++) {
             MartialSoul soul = souls.get(i);
-            int y = top + i * rowHeight();
+            int y = top + (i - listScroll) * rowHeight();
             boolean selected = i == soulIndex;
             if (selected) {
-                guiGraphics.fill(LIST_X + 1, y, LIST_X + LIST_W - 1, y + rowHeight() - 6, JADE_DIM);
+                guiGraphics.fill(LIST_X + 1, y, LIST_X + LIST_W - 1, y + rowHeight() - 4, JADE_DIM);
             }
             guiGraphics.drawString(this.font, SoulText.soulName(soul, language), LIST_X + 6, y, PAPER);
             MutableComponent meta = rarityLabel(soul.rarity()).copy()
@@ -401,9 +591,26 @@ public class AwakeningScreen extends Screen {
                     .append(SoulText.soulOwner(soul, language).copy().withStyle(style -> style.withColor(MUTED)));
             guiGraphics.drawString(this.font, meta, LIST_X + 6, y + 10, MUTED);
             if (area == Area.LIST && selected) {
-                outline(guiGraphics, LIST_X + 1, y, LIST_X + LIST_W - 2, y + rowHeight() - 7, JADE);
+                outline(guiGraphics, LIST_X + 1, y, LIST_X + LIST_W - 2, y + rowHeight() - 5, JADE);
             }
         }
+        drawScrollbar(guiGraphics, souls.size());
+        String counter = text("gui.soulland.awakening.counter", "%s of %s",
+                Integer.toString(Math.min(souls.size(), listScroll + VISIBLE_ROWS)),
+                Integer.toString(souls.size())).getString();
+        guiGraphics.drawString(this.font, counter, LIST_X + 6, BODY_Y + BODY_H - 10, MUTED);
+    }
+
+    /** Scrollbar tipis di kanan daftar, penanda posisi menggulir. */
+    private void drawScrollbar(GuiGraphics guiGraphics, int total) {
+        if (total <= VISIBLE_ROWS) return;
+        int trackX = LIST_X + LIST_W - 3;
+        int trackH = BODY_H - 18;
+        guiGraphics.fill(trackX, BODY_Y + 4, trackX + 2, BODY_Y + 4 + trackH, HAIRLINE);
+        int thumbH = Math.max(8, trackH * VISIBLE_ROWS / total);
+        int maxScroll = Math.max(1, total - VISIBLE_ROWS);
+        int thumbY = BODY_Y + 4 + (trackH - thumbH) * listScroll / maxScroll;
+        guiGraphics.fill(trackX, thumbY, trackX + 2, thumbY + thumbH, JADE);
     }
 
     private void drawPreview(GuiGraphics guiGraphics) {
@@ -434,21 +641,29 @@ public class AwakeningScreen extends Screen {
                         SoulText.soulOwner(soul, language).getString()),
                 x, BODY_Y + 24, MUTED);
 
+        MutableComponent lineage = SoulText.soulLineage(soul, language).copy()
+                .withStyle(style -> style.withColor(PAPER));
+        guiGraphics.drawString(this.font, text("gui.soulland.awakening.lineage", "Lineage: %s",
+                        lineage.getString()), x, BODY_Y + 34, MUTED);
+
+        MutableComponent affinity = SoulText.soulAffinity(soul, language).copy()
+                .withStyle(style -> style.withColor(PAPER));
+        guiGraphics.drawString(this.font, text("gui.soulland.awakening.affinity", "Affinity: %s",
+                        affinity.getString()), x, BODY_Y + 42, MUTED);
+
         List<FormattedCharSequence> lines = this.font.split(SoulText.soulDescription(soul, language), PREVIEW_W - 12);
         for (int i = 0; i < Math.min(2, lines.size()); i++) {
-            guiGraphics.drawString(this.font, lines.get(i), x, BODY_Y + 36 + i * 10, MUTED);
+            guiGraphics.drawString(this.font, lines.get(i), x, BODY_Y + 54 + i * 10, MUTED);
         }
 
-        guiGraphics.fill(x, BODY_Y + 54, PREVIEW_X + PREVIEW_W - 6, BODY_Y + 55, HAIRLINE);
+        guiGraphics.fill(x, BODY_Y + 74, PREVIEW_X + PREVIEW_W - 6, BODY_Y + 75, HAIRLINE);
 
         List<SkillDef> skills = soul.skills();
         for (int i = 0; i < skills.size() && i < 4; i++) {
             SkillDef skill = skills.get(i);
-            int y = BODY_Y + 58 + i * 10;
+            int y = BODY_Y + 79 + i * 9;
             guiGraphics.drawString(this.font, Component.literal((i + 1) + ". "), x, y, MUTED);
             guiGraphics.drawString(this.font, SoulText.skillName(skill, language), x + 10, y, PAPER);
-            String cost = Integer.toString((int) skill.energyCost());
-            guiGraphics.drawString(this.font, cost, PREVIEW_X + PREVIEW_W - 6 - this.font.width(cost), y, JADE);
         }
 
         drawButton(guiGraphics, canConfirm());
