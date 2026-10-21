@@ -5,6 +5,7 @@ import com.soulland.net.ChooseSoulResultPacket;
 import com.soulland.net.ClientBridge;
 import com.soulland.net.ManifestationPacket;
 import com.soulland.net.SyncBonesPacket;
+import com.soulland.net.SyncCombatPacket;
 import com.soulland.net.SyncCultivationPacket;
 import com.soulland.net.SyncRingAgesPacket;
 
@@ -67,5 +68,10 @@ public final class ClientBridgeImpl implements ClientBridge.Handler {
     public void onBonesSync(SyncBonesPacket packet) {
         ClientBoneData.set(packet);
         ClientGuiHooks.onBonesSync(packet);
+    }
+
+    @Override
+    public void onCombatSync(SyncCombatPacket packet) {
+        ClientCombatData.set(packet);
     }
 }

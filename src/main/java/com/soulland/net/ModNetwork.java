@@ -12,8 +12,15 @@ public class ModNetwork {
      * {@link SyncCultivationPacket} menambah batas spirit power, dan ada
      * paket baru {@link SyncBonesPacket}, {@link EquipBonePacket},
      * {@link UnequipBonePacket}, serta {@link OpenBoneScreenPacket}.
+     *
+     * <p>Naik lagi ke "5" pada v1.5 karena field paket berubah: ada
+     * {@link SyncCombatPacket} yang membawa status True Body dan Domain,
+     * serta dua paket permintaan baru. Brief v1.5 menyebut "3" ke "4",
+     * tapi angka "4" sudah dipakai v1.3, jadi versinya diteruskan ke "5"
+     * supaya client lama yang protokol "4" tidak pernah tersambung ke server
+     * yang sudah punya paket baru.
      */
-    private static final String PROTOCOL = "4";
+    private static final String PROTOCOL = NetworkProtocol.VERSION;
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(SoulLandMod.MODID, "main"),
@@ -22,8 +29,7 @@ public class ModNetwork {
             PROTOCOL::equals
     );
 
-    public static void register() {
-        int id = 0;
+    public static void register() {        int id = 0;
         CHANNEL.messageBuilder(SyncCultivationPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(SyncCultivationPacket::encode)
                 .decoder(SyncCultivationPacket::decode)
@@ -148,6 +154,21 @@ public class ModNetwork {
                 .encoder(OpenBoneScreenPacket::encode)
                 .decoder(OpenBoneScreenPacket::decode)
                 .consumerMainThread(OpenBoneScreenPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(SyncCombatPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncCombatPacket::encode)
+                .decoder(SyncCombatPacket::decode)
+                .consumerMainThread(SyncCombatPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ActivateTrueBodyPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ActivateTrueBodyPacket::encode)
+                .decoder(ActivateTrueBodyPacket::decode)
+                .consumerMainThread(ActivateTrueBodyPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(ToggleDomainPacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ToggleDomainPacket::encode)
+                .decoder(ToggleDomainPacket::decode)
+                .consumerMainThread(ToggleDomainPacket::handle)
                 .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }

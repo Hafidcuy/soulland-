@@ -33,6 +33,8 @@ public final class ClientBridge {
         void onManifestation(ManifestationPacket packet);
 
         void onBonesSync(SyncBonesPacket packet);
+
+        void onCombatSync(SyncCombatPacket packet);
     }
 
     private static volatile Handler handler;
@@ -154,5 +156,10 @@ public final class ClientBridge {
     public static void onBonesSync(SyncBonesPacket packet) {
         Handler current = handler;
         if (current != null) current.onBonesSync(packet);
+    }
+
+    public static void onCombatSync(SyncCombatPacket packet) {
+        Handler current = handler;
+        if (current != null) current.onCombatSync(packet);
     }
 }
