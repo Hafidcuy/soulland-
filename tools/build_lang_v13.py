@@ -129,8 +129,8 @@ NEW.update({
     "gui.soulland.bone.set_peak": ("Peak: %s", "Puncak: %s"),
     "gui.soulland.bone.status.pending": ("Asking the server...", "Meminta server..."),
     "gui.soulland.bone.hint": (
-        "Up and down arrows pick a bone, Enter fits it, Escape closes",
-        "Panah atas bawah memilih, Enter memasang, Escape menutup"),
+        "Tab: column | Arrows: pick | Enter: fit",
+        "Tab: kolom | Panah: pilih | Enter: pasang"),
 })
 
 # ---------------------------------------------------------------- creative tab

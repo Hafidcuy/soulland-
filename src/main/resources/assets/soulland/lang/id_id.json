@@ -453,6 +453,6 @@
   "gui.soulland.bone.set_spirit_regen": "+%s% regenerasi spirit power",
   "gui.soulland.bone.set_peak": "Puncak: %s",
   "gui.soulland.bone.status.pending": "Meminta server...",
-  "gui.soulland.bone.hint": "Panah atas bawah memilih, Enter memasang, Escape menutup",
+  "gui.soulland.bone.hint": "Tab: kolom | Panah: pilih | Enter: pasang",
   "itemGroup.soulland.spirit_bone": "Tulang Spirit"
 }

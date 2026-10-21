@@ -1,6 +1,8 @@
 package com.soulland.client.gui;
 
+import com.soulland.bone.BoneSetBonus;
 import com.soulland.bone.BoneStats;
+import com.soulland.bone.BoneStatsCalculator;
 import com.soulland.bone.SpiritBoneItem;
 import com.soulland.bone.SpiritBoneSlot;
 import com.soulland.bone.SpiritBoneTier;
@@ -23,6 +25,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +38,8 @@ import java.util.Map;
  * kanan adalah daftar tulang yang dibawa pemain, diklik untuk memasang.
  * Strip paling bawah menampilkan bonus set yang sedang aktif.
  *
- * <p>Semua aksiQzakat dikirim ke server. Client hanya menampilkan keadaan
- * dan mengirim permintaan, tidak pernah decides sendiri.
+ * <p>Semua aksi dikirim ke server. Client hanya menampilkan keadaan dan
+ * mengirim permintaan, tidak pernah decides sendiri.
  */
 public class SpiritBoneScreen extends Screen {
 
@@ -44,32 +47,51 @@ public class SpiritBoneScreen extends Screen {
     private static final int PANEL_H = 200;
 
     private static final int MARGIN = 12;
-    private static final int TITLE_Y = 9;
-    private static final int SUBTITLE_Y = 21;
-    private static final int RULE_Y = 33;
-    private static final int STATUS_Y = 182;
+    private static final int TITLE_Y = 8;
+    private static final int SUBTITLE_Y = 19;
+    private static final int RULE_Y = 30;
 
     private static final int SLOT_SIZE = 18;
 
     /** Posisi tiap slot di kolom kiri, urut sama dengan {@link SpiritBoneSlot}. */
     private static final int[][] SLOT_POS = {
-            {62, 44},
-            {62, 66},
-            {38, 66},
-            {86, 66},
-            {48, 90},
-            {76, 90},
-            {12, 44}};
+            {62, 42},
+            {62, 64},
+            {38, 64},
+            {86, 64},
+            {48, 88},
+            {76, 88},
+            {12, 42}};
+
+    /**
+     * Urutan slot sesuai posisi di layar, bukan urutan enum.
+     *
+     * <p>Navigasi keyboard memakai urutan ini supaya panah atas dan bawah
+     * bergerak mengikuti yang dilihat pemain, bukan urutan deklarasi.
+     */
+    private static final SpiritBoneSlot[] SLOT_VISUAL_ORDER = {
+            SpiritBoneSlot.EXTERNAL,
+            SpiritBoneSlot.SKULL,
+            SpiritBoneSlot.LEFT_ARM,
+            SpiritBoneSlot.TORSO,
+            SpiritBoneSlot.RIGHT_ARM,
+            SpiritBoneSlot.LEFT_LEG,
+            SpiritBoneSlot.RIGHT_LEG};
 
     private static final int LIST_X = 134;
     private static final int LIST_W = PANEL_W - MARGIN - LIST_X;
-    private static final int LIST_HEADER_Y = 44;
-    private static final int LIST_TOP = 56;
+    private static final int LIST_HEADER_Y = 38;
+    private static final int LIST_RULE_Y = 48;
+    private static final int LIST_TOP = 50;
     private static final int LIST_ROW_H = 16;
-    private static final int LIST_ROWS = 7;
+    private static final int LIST_ROWS = 5;
 
-    private static final int SET_HEADER_Y = 116;
-    private static final int SET_TOP = 126;
+    private static final int SET_HEADER_Y = 134;
+    private static final int SET_RULE_Y = 144;
+    private static final int SET_TOP = 146;
+    private static final int SET_LINE_H = 10;
+
+    private static final int STATUS_Y = 189;
 
     private static final int INK = 0xF00B0E13;
     private static final int STONE = 0xFF161C22;
@@ -79,15 +101,27 @@ public class SpiritBoneScreen extends Screen {
     private static final int JADE_DIM = 0xFF1B4A41;
     private static final int HAIRLINE = 0xFF2C353E;
     private static final int DANGER = 0xFFE0796A;
+    private static final int ROW_HOVER = 0xFF1E262E;
+
+    /** Zona fokus keyboard: kerangka tubuh atau daftar tulang. */
+    private enum Zone {
+        SKELETON,
+        LIST
+    }
 
     private final String language;
 
+    private Zone zone = Zone.LIST;
+    private int slotFocus = 0;
     private int listFocus = 0;
     private int scroll = 0;
     private boolean pending = false;
     private int pendingIndex = -1;
     private String status = "";
     private boolean statusOk = true;
+
+    /** Tulang yang dibawa pemain, dihitung sekali per frame supaya konsisten. */
+    private List<OwnedBone> visibleBones;
 
     public SpiritBoneScreen() {
         super(Component.literal(""));
@@ -120,26 +154,33 @@ public class SpiritBoneScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        List<OwnedBone> bones = ownedBones();
         switch (keyCode) {
             case GLFW.GLFW_KEY_ESCAPE -> {
                 onClose();
                 return true;
             }
+            case GLFW.GLFW_KEY_TAB -> {
+                switchZone();
+                return true;
+            }
             case GLFW.GLFW_KEY_UP -> {
-                moveFocus(bones, -1);
+                moveFocus(-1);
                 return true;
             }
             case GLFW.GLFW_KEY_DOWN -> {
-                moveFocus(bones, 1);
+                moveFocus(1);
+                return true;
+            }
+            case GLFW.GLFW_KEY_LEFT -> {
+                setZone(Zone.SKELETON);
+                return true;
+            }
+            case GLFW.GLFW_KEY_RIGHT -> {
+                setZone(Zone.LIST);
                 return true;
             }
             case GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_SPACE, GLFW.GLFW_KEY_KP_ENTER -> {
-                toggle(bones, listFocus);
-                return true;
-            }
-            case GLFW.GLFW_KEY_TAB, GLFW.GLFW_KEY_LEFT, GLFW.GLFW_KEY_RIGHT -> {
-                onClose();
+                activate();
                 return true;
             }
             default -> {
@@ -156,29 +197,69 @@ public class SpiritBoneScreen extends Screen {
         for (SpiritBoneSlot slot : SpiritBoneSlot.values()) {
             int[] pos = SLOT_POS[slot.index()];
             if (lx >= pos[0] && lx < pos[0] + SLOT_SIZE && ly >= pos[1] && ly < pos[1] + SLOT_SIZE) {
+                focusSlot(slot);
                 unequip(slot);
                 return true;
             }
         }
 
-        List<OwnedBone> bones = ownedBones();
-        if (lx >= LIST_X && lx < LIST_X + LIST_W && ly >= LIST_TOP) {
-            int index = scroll + (ly - LIST_TOP) / LIST_ROW_H;
-            if (index >= 0 && index < bones.size()) {
-                listFocus = index;
-                toggle(bones, index);
+        int row = rowAt(lx, ly);
+        if (row >= 0) {
+            List<OwnedBone> bones = ownedBones();
+            if (row < bones.size()) {
+                setZone(Zone.LIST);
+                listFocus = row;
+                toggle(bones, row);
                 return true;
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
-    private void moveFocus(List<OwnedBone> bones, int direction) {
+    /** Memindahkan fokus satu langkah ke atas atau ke bawah di zona aktif. */
+    private void moveFocus(int direction) {
+        if (zone == Zone.SKELETON) {
+            int count = SLOT_VISUAL_ORDER.length;
+            slotFocus = (slotFocus + direction + count) % count;
+            return;
+        }
+        List<OwnedBone> bones = ownedBones();
         if (bones.isEmpty()) return;
         listFocus = (listFocus + direction + bones.size()) % bones.size();
         int max = Math.max(0, bones.size() - LIST_ROWS);
         if (listFocus < scroll) scroll = listFocus;
         if (listFocus > scroll + LIST_ROWS - 1) scroll = Math.min(max, listFocus - LIST_ROWS + 1);
+    }
+
+    /** Tab berpindah antara kerangka tubuh dan daftar tulang. */
+    private void switchZone() {
+        setZone(zone == Zone.SKELETON ? Zone.LIST : Zone.SKELETON);
+    }
+
+    private void setZone(Zone next) {
+        zone = next;
+    }
+
+    private void focusSlot(SpiritBoneSlot slot) {
+        setZone(Zone.SKELETON);
+        for (int index = 0; index < SLOT_VISUAL_ORDER.length; index++) {
+            if (SLOT_VISUAL_ORDER[index] == slot) {
+                slotFocus = index;
+                return;
+            }
+        }
+    }
+
+    /** Memasang atau melepas bagian yang sedang difokuskan. */
+    private void activate() {
+        if (zone == Zone.SKELETON) {
+            unequip(SLOT_VISUAL_ORDER[slotFocus]);
+            return;
+        }
+        List<OwnedBone> bones = ownedBones();
+        if (listFocus >= 0 && listFocus < bones.size()) {
+            toggle(bones, listFocus);
+        }
     }
 
     /** Memasang atau melepas tulang yang dipilih. */
@@ -197,7 +278,12 @@ public class SpiritBoneScreen extends Screen {
 
     private void unequip(SpiritBoneSlot slot) {
         if (pending) return;
-        if (!isEquipped(slot)) return;
+        if (!isEquipped(slot)) {
+            status = SoulLang.translate(language, "message.soulland.bone.empty_slot",
+                    "Slot itu memang kosong.");
+            statusOk = false;
+            return;
+        }
         pending = true;
         pendingIndex = -1;
         ModNetwork.CHANNEL.sendToServer(new UnequipBonePacket(slot.index()));
@@ -233,10 +319,25 @@ public class SpiritBoneScreen extends Screen {
         return (int) ((mouseY - panelY()) / scaleFactor());
     }
 
+    /** Indeks baris daftar yang diklik, atau -1 kalau kursor tidak di daftar. */
+    private int rowAt(int lx, int ly) {
+        if (lx < LIST_X || lx >= LIST_X + LIST_W || ly < LIST_TOP) return -1;
+        int index = scroll + (ly - LIST_TOP) / LIST_ROW_H;
+        if (index >= ownedBones().size()) return -1;
+        return index;
+    }
+
     // Data
 
     /** Tulang yang dibawa pemain, dikelompokkan per item dan diurutkan per mutu. */
     private List<OwnedBone> ownedBones() {
+        if (visibleBones == null) {
+            visibleBones = collectOwnedBones();
+        }
+        return visibleBones;
+    }
+
+    private List<OwnedBone> collectOwnedBones() {
         Map<Item, Integer> counts = new LinkedHashMap<>();
         Minecraft mc = Minecraft.getInstance();
         if (mc.player != null) {
@@ -304,6 +405,8 @@ public class SpiritBoneScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
+        visibleBones = null;
+
         int scale = scaleFactor();
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(panelX(), panelY(), 0);
@@ -356,6 +459,10 @@ public class SpiritBoneScreen extends Screen {
             } else {
                 guiGraphics.drawString(this.font, slotName(slot), x + 1, y + 6, MUTED);
             }
+
+            if (zone == Zone.SKELETON && SLOT_VISUAL_ORDER[slotFocus] == slot) {
+                outline(guiGraphics, x, y, x + SLOT_SIZE - 1, y + SLOT_SIZE - 1, JADE);
+            }
         }
     }
 
@@ -363,7 +470,7 @@ public class SpiritBoneScreen extends Screen {
         guiGraphics.drawString(this.font,
                 text("gui.soulland.bone.list_header", "TULANG YANG DIBAWA"),
                 LIST_X, LIST_HEADER_Y, MUTED);
-        guiGraphics.fill(LIST_X, LIST_HEADER_Y + 10, LIST_X + LIST_W, LIST_HEADER_Y + 11, HAIRLINE);
+        guiGraphics.fill(LIST_X, LIST_RULE_Y, LIST_X + LIST_W, LIST_RULE_Y + 1, HAIRLINE);
 
         List<OwnedBone> bones = ownedBones();
         if (bones.isEmpty()) {
@@ -383,21 +490,25 @@ public class SpiritBoneScreen extends Screen {
             if (index >= bones.size()) break;
             OwnedBone bone = bones.get(index);
             int y = LIST_TOP + row * LIST_ROW_H;
-            boolean selected = index == listFocus;
+            boolean selected = zone == Zone.LIST && index == listFocus;
             boolean equipped = isEquipped(bone.item());
             boolean hovered = lx >= LIST_X && lx < LIST_X + LIST_W && ly >= y && ly < y + LIST_ROW_H;
 
             guiGraphics.fill(LIST_X, y, LIST_X + LIST_W, y + LIST_ROW_H - 1, STONE);
             if (equipped) {
                 guiGraphics.fill(LIST_X + 1, y + 1, LIST_X + LIST_W - 1, y + LIST_ROW_H - 2, JADE_DIM);
-            } else if (selected) {
-                guiGraphics.fill(LIST_X + 1, y + 1, LIST_X + LIST_W - 1, y + LIST_ROW_H - 2, 0xFF1E262E);
-            } else if (hovered) {
-                guiGraphics.fill(LIST_X + 1, y + 1, LIST_X + LIST_W - 1, y + LIST_ROW_H - 2, 0xFF1E262E);
+            } else if (selected || hovered) {
+                guiGraphics.fill(LIST_X + 1, y + 1, LIST_X + LIST_W - 1, y + LIST_ROW_H - 2, ROW_HOVER);
             }
             guiGraphics.fill(LIST_X, y, LIST_X + 2, y + LIST_ROW_H - 1, bone.item().tier().color());
             guiGraphics.renderItem(new ItemStack(bone.item()), LIST_X + 4, y);
-            guiGraphics.drawString(this.font, slotName(bone.item().slot()), LIST_X + 22, y + 4, PAPER);
+
+            String label = slotName(bone.item().slot());
+            guiGraphics.drawString(this.font, label, LIST_X + 22, y + 4, PAPER);
+            if (bone.count() > 1) {
+                guiGraphics.drawString(this.font, "x" + bone.count(),
+                        LIST_X + 24 + this.font.width(label), y + 4, MUTED);
+            }
 
             String years = String.valueOf(bone.item().tier().years());
             int yearsWidth = this.font.width(years);
@@ -408,13 +519,17 @@ public class SpiritBoneScreen extends Screen {
             } else if (equipped) {
                 drawCheck(guiGraphics, LIST_X + LIST_W - 10, y + 5);
             }
+
+            if (selected) {
+                outline(guiGraphics, LIST_X, y, LIST_X + LIST_W - 1, y + LIST_ROW_H - 2, JADE);
+            }
         }
 
         int max = Math.max(0, bones.size() - LIST_ROWS);
         if (max > 0) {
             int barX = LIST_X + LIST_W - 2;
-            int barHeight = LIST_TOP + LIST_ROWS * LIST_ROW_H - LIST_TOP;
-            guiGraphics.fill(barX, LIST_TOP, barX + 2, LIST_TOP + barHeight, 0xFF1E262E);
+            int barHeight = LIST_ROWS * LIST_ROW_H;
+            guiGraphics.fill(barX, LIST_TOP, barX + 2, LIST_TOP + barHeight, ROW_HOVER);
             int thumb = Math.max(10, barHeight * LIST_ROWS / bones.size());
             int thumbY = LIST_TOP + (barHeight - thumb) * scroll / max;
             guiGraphics.fill(barX, thumbY, barX + 2, thumbY + thumb, JADE_DIM);
@@ -424,87 +539,79 @@ public class SpiritBoneScreen extends Screen {
     private void drawSetBonus(GuiGraphics guiGraphics) {
         guiGraphics.drawString(this.font, text("gui.soulland.bone.set_header", "BONUS SET"),
                 MARGIN, SET_HEADER_Y, MUTED);
-        guiGraphics.fill(MARGIN, SET_HEADER_Y + 10, PANEL_W - MARGIN, SET_HEADER_Y + 11, HAIRLINE);
+        guiGraphics.fill(MARGIN, SET_RULE_Y, PANEL_W - MARGIN, SET_RULE_Y + 1, HAIRLINE);
 
-        Map<SpiritBoneTier, Integer> counts = new java.util.EnumMap<>(SpiritBoneTier.class);
-        for (SpiritBoneTier tier : clientEquipped().values()) counts.merge(tier, 1, Integer::sum);
-
-        SpiritBoneTier active = null;
-        int activeCount = 0;
-        for (Map.Entry<SpiritBoneTier, Integer> entry : counts.entrySet()) {
-            if (entry.getValue() >= SpiritBoneTier.SET_THRESHOLD) {
-                active = entry.getKey();
-                activeCount = entry.getValue();
-                break;
-            }
-        }
-
+        BoneSetBonus set = BoneStatsCalculator.setBonus(clientEquipped());
         int y = SET_TOP;
-        if (active == null) {
+
+        if (!set.active()) {
             guiGraphics.drawString(this.font,
                     text("gui.soulland.bone.set_none", "Belum ada set aktif"), MARGIN, y, MUTED);
+            y += SET_LINE_H;
+            SpiritBoneTier closest = closestTier();
+            if (closest != null) {
+                int count = BoneStatsCalculator.countByTier(clientEquipped()).getOrDefault(closest, 0);
+                drawTierLine(guiGraphics, closest, count, SpiritBoneTier.SET_THRESHOLD, y);
+                y += SET_LINE_H;
+            }
             guiGraphics.drawString(this.font,
                     text("gui.soulland.bone.set_none_hint", "Pasang 4 tulang satu mutu untuk memunculkan bonus set."),
-                    MARGIN, y + 10, MUTED);
+                    MARGIN, y, MUTED);
             return;
         }
 
-        boolean peak = activeCount >= SpiritBoneTier.PEAK_THRESHOLD;
-        int threshold = peak ? SpiritBoneTier.PEAK_THRESHOLD : SpiritBoneTier.SET_THRESHOLD;
-        guiGraphics.drawString(this.font, tierName(active), MARGIN, y, active.color());
-        String counter = activeCount + "/" + threshold;
-        guiGraphics.drawString(this.font, counter,
-                PANEL_W - MARGIN - this.font.width(counter), y, MUTED);
-        y += 10;
+        int threshold = set.peak() ? SpiritBoneTier.PEAK_THRESHOLD : SpiritBoneTier.SET_THRESHOLD;
+        drawTierLine(guiGraphics, set.tier(), set.count(), threshold, y);
+        y += SET_LINE_H;
 
-        SpiritBoneTier.SetBonus set = active.setBonus();
+        SpiritBoneTier.SetBonus bonus = set.tier().setBonus();
         List<String> percentLine = new ArrayList<>();
         List<String> flatLine = new ArrayList<>();
-        if (set.attackPercent() > 0f) {
+        if (bonus.attackPercent() > 0f) {
             percentLine.add(text("gui.soulland.bone.set_attack", "+%s% serangan",
-                    (int) set.attackPercent()).getString());
+                    (int) bonus.attackPercent()).getString());
         }
-        if (set.defensePercent() > 0f) {
+        if (bonus.defensePercent() > 0f) {
             percentLine.add(text("gui.soulland.bone.set_defense", "+%s% defense",
-                    (int) set.defensePercent()).getString());
+                    (int) bonus.defensePercent()).getString());
         }
-        if (set.spiritRegenPercent() > 0f) {
+        if (bonus.spiritRegenPercent() > 0f) {
             percentLine.add(text("gui.soulland.bone.set_spirit_regen", "+%s% regenerasi spirit power",
-                    (int) set.spiritRegenPercent()).getString());
+                    (int) bonus.spiritRegenPercent()).getString());
         }
-        if (set.energy() > 0) {
-            flatLine.add(text("gui.soulland.bone.set_energy", "+%s spirit power", set.energy()).getString());
+        if (bonus.energy() > 0) {
+            flatLine.add(text("gui.soulland.bone.set_energy", "+%s spirit power", bonus.energy()).getString());
         }
-        if (set.regen() > 0f) {
-            flatLine.add(text("gui.soulland.bone.set_regen", "+%s HP/dtk", format(set.regen())).getString());
+        if (bonus.regen() > 0f) {
+            flatLine.add(text("gui.soulland.bone.set_regen", "+%s HP/dtk", format(bonus.regen())).getString());
         }
         if (!percentLine.isEmpty()) {
             guiGraphics.drawString(this.font, String.join(", ", percentLine), MARGIN, y, JADE);
-            y += 10;
+            y += SET_LINE_H;
         }
         if (!flatLine.isEmpty()) {
             guiGraphics.drawString(this.font, String.join(", ", flatLine), MARGIN, y, JADE);
-            y += 10;
+            y += SET_LINE_H;
         }
 
-        if (peak) {
-            SpiritBoneTier.PeakBonus peakBonus = active.peakBonus();
+        if (set.peak()) {
+            SpiritBoneTier.PeakBonus peak = set.tier().peakBonus();
             List<String> peakLine = new ArrayList<>();
-            if (peakBonus.attackPercent() > 0f) {
+            if (peak.attackPercent() > 0f) {
                 peakLine.add(text("gui.soulland.bone.set_attack", "+%s% serangan",
-                        (int) peakBonus.attackPercent()).getString());
+                        (int) peak.attackPercent()).getString());
             }
-            if (peakBonus.defensePercent() > 0f) {
+            if (peak.defensePercent() > 0f) {
                 peakLine.add(text("gui.soulland.bone.set_defense", "+%s% defense",
-                        (int) peakBonus.defensePercent()).getString());
+                        (int) peak.defensePercent()).getString());
             }
-            if (peakBonus.energy() > 0) {
+            if (peak.energy() > 0) {
                 peakLine.add(text("gui.soulland.bone.set_energy", "+%s spirit power",
-                        peakBonus.energy()).getString());
+                        peak.energy()).getString());
             }
-            if (peakBonus.regen() > 0f) {
+            if (peak.regen() > 0f) {
                 peakLine.add(text("gui.soulland.bone.set_regen", "+%s HP/dtk",
-                        format(peakBonus.regen())).getString());
+                        format(peak.regen())).getString());
             }
             if (!peakLine.isEmpty()) {
                 String line = text("gui.soulland.bone.set_peak", "Puncak: %s").getString()
@@ -514,8 +621,30 @@ public class SpiritBoneScreen extends Screen {
         }
     }
 
+    /** Nama mutu dan hitungan tulang, dengan hitungan menempel di kanan. */
+    private void drawTierLine(GuiGraphics guiGraphics, SpiritBoneTier tier, int count,
+                              int threshold, int y) {
+        guiGraphics.drawString(this.font, tierName(tier), MARGIN, y, tier.color());
+        String counter = count + "/" + threshold;
+        guiGraphics.drawString(this.font, counter,
+                PANEL_W - MARGIN - this.font.width(counter), y, MUTED);
+    }
+
+    /** Mutu dengan tulang terpasang terbanyak, dipakai untuk menampilkan kemajuan. */
+    private SpiritBoneTier closestTier() {
+        SpiritBoneTier best = null;
+        int bestCount = 0;
+        for (Map.Entry<SpiritBoneTier, Integer> entry : BoneStatsCalculator.countByTier(clientEquipped()).entrySet()) {
+            if (entry.getValue() > bestCount) {
+                best = entry.getKey();
+                bestCount = entry.getValue();
+            }
+        }
+        return best;
+    }
+
     private Map<SpiritBoneSlot, SpiritBoneTier> clientEquipped() {
-        Map<SpiritBoneSlot, SpiritBoneTier> equipped = new java.util.EnumMap<>(SpiritBoneSlot.class);
+        Map<SpiritBoneSlot, SpiritBoneTier> equipped = new EnumMap<>(SpiritBoneSlot.class);
         for (SpiritBoneSlot slot : SpiritBoneSlot.values()) {
             SpiritBoneItem bone = boneById(ClientBoneData.boneAt(slot.index()));
             if (bone != null) equipped.put(slot, bone.tier());
@@ -534,21 +663,20 @@ public class SpiritBoneScreen extends Screen {
             return;
         }
         guiGraphics.drawString(this.font,
-                text("gui.soulland.bone.hint", "Panah atas bawah memilih, Enter memasang, Escape menutup"),
+                text("gui.soulland.bone.hint", "Tab: kolom | Panah: pilih | Enter: pasang"),
                 MARGIN, STATUS_Y, MUTED);
     }
 
     private void drawTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        OwnedBone hovered = hoveredBone(mouseX, mouseY);
-        if (hovered == null) return;
-        SpiritBoneItem bone = hovered.item();
-        BoneStats stats = BoneStats.of(bone.tier(), bone.slot());
+        SpiritBoneItem bone = hoveredBone(mouseX, mouseY);
+        if (bone == null) return;
 
         List<Component> lines = new ArrayList<>();
         lines.add(SoulLang.text(language, "bone.soulland.tier." + bone.tier().id(), bone.tier().id())
                 .copy().withStyle(style -> style.withBold(true).withColor(bone.tier().color())));
         lines.add(SoulLang.text(language, "bone.soulland.slot." + bone.slot().id(), bone.slot().id())
                 .copy().withStyle(style -> style.withColor(MUTED)));
+        BoneStats stats = BoneStats.of(bone.tier(), bone.slot());
         lines.add(SoulLang.text(language, "tooltip.soulland.bone.attack", "+%s attack", format(stats.attack()))
                 .copy().withStyle(style -> style.withColor(JADE)));
         lines.add(SoulLang.text(language, "tooltip.soulland.bone.defense", "+%s defense", format(stats.defense()))
@@ -584,14 +712,23 @@ public class SpiritBoneScreen extends Screen {
         }
     }
 
-    private OwnedBone hoveredBone(int mouseX, int mouseY) {
+    /** Tulang di bawah kursor, baik di daftar maupun di slot tubuh. */
+    private SpiritBoneItem hoveredBone(int mouseX, int mouseY) {
         int lx = localX(mouseX);
         int ly = localY(mouseY);
-        if (lx < LIST_X || lx >= LIST_X + LIST_W || ly < LIST_TOP) return null;
-        int index = scroll + (ly - LIST_TOP) / LIST_ROW_H;
+
+        for (SpiritBoneSlot slot : SpiritBoneSlot.values()) {
+            int[] pos = SLOT_POS[slot.index()];
+            if (lx >= pos[0] && lx < pos[0] + SLOT_SIZE && ly >= pos[1] && ly < pos[1] + SLOT_SIZE) {
+                return boneById(ClientBoneData.boneAt(slot.index()));
+            }
+        }
+
+        int row = rowAt(lx, ly);
+        if (row < 0) return null;
         List<OwnedBone> bones = ownedBones();
-        if (index < 0 || index >= bones.size()) return null;
-        return bones.get(index);
+        if (row >= bones.size()) return null;
+        return bones.get(row).item();
     }
 
     private static void outline(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int color) {

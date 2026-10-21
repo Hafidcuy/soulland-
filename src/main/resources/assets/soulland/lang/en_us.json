@@ -453,6 +453,6 @@
   "gui.soulland.bone.set_spirit_regen": "+%s% spirit power regen",
   "gui.soulland.bone.set_peak": "Peak: %s",
   "gui.soulland.bone.status.pending": "Asking the server...",
-  "gui.soulland.bone.hint": "Up and down arrows pick a bone, Enter fits it, Escape closes",
+  "gui.soulland.bone.hint": "Tab: column | Arrows: pick | Enter: fit",
   "itemGroup.soulland.spirit_bone": "Spirit Bones"
 }
