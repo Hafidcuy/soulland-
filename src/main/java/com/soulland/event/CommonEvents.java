@@ -138,6 +138,9 @@ public class CommonEvents {
             if (cap.getBloodBurnTicks() > 0) {
                 cap.setBloodBurnTicks(cap.getBloodBurnTicks() - 1);
             }
+
+            com.soulland.combat.TrueBodyHandler.tick(event.player, cap);
+            com.soulland.combat.DomainHandler.tick(event.player, cap);
         });
         if (event.player instanceof ServerPlayer sp) {
             if (sp.tickCount % ToolCharge.BATTERY_REGEN_INTERVAL == 0) {
@@ -152,6 +155,8 @@ public class CommonEvents {
         if (event.getSource().getEntity() instanceof ServerPlayer player) {
             CultivationCapability.get(player).ifPresent(cap ->
                     event.setAmount(event.getAmount() * (1f + (cap.getLevel() - 1) * 0.01f + cap.getRings() * 0.05f)));
+            event.setAmount(event.getAmount()
+                    * com.soulland.combat.TrueBodyHandler.damageMultiplierOf(player));
         }
         if (event.getEntity() instanceof ServerPlayer victim) {
             BoneSetBonus set = SpiritBoneManager.setBonus(victim);
