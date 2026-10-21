@@ -7,6 +7,10 @@ import com.soulland.cultivation.Foundation;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.ICultivation;
 import com.soulland.book.GuideBook;
+import com.soulland.bone.BoneDrops;
+import com.soulland.bone.BoneSetBonus;
+import com.soulland.bone.BoneStats;
+import com.soulland.bone.SpiritBoneManager;
 import com.soulland.entity.SoulCompanion;
 import com.soulland.item.HuntContractItem;
 import com.soulland.item.ModItems;
@@ -35,6 +39,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.ElderGuardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -66,6 +71,7 @@ public class CommonEvents {
             }
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
+            SpiritBoneManager.sync(player);
         });
     }
 
@@ -74,6 +80,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
+            SpiritBoneManager.sync(player);
             RingHaloSync.broadcast(player);
         }
     }
@@ -83,6 +90,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             SoulCompanion.removeAll(player);
             CultivationManager.sync(player);
+            SpiritBoneManager.sync(player);
             RingHaloSync.broadcast(player);
         }
     }
@@ -102,12 +110,18 @@ public class CommonEvents {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide) return;
 
+        BoneSetBonus boneSet = SpiritBoneManager.setBonus(event.player);
         CultivationCapability.get(event.player).ifPresent(cap -> {
-            if (cap.getEnergy() < 100f) {
-                cap.setEnergy(cap.getEnergy() + 0.05f);
+            if (cap.getEnergy() < cap.getEnergyCap()) {
+                float regen = 0.05f * (1.0f + boneSet.spiritRegenPercent() / 100.0f);
+                cap.setEnergy(cap.getEnergy() + regen);
                 if (event.player.tickCount % 20 == 0 && event.player instanceof ServerPlayer sp) {
                     CultivationManager.sync(sp);
                 }
+            }
+
+            if (event.player.tickCount % 20 == 0) {
+                applyBoneRegen(event.player);
             }
 
             if (cap.isMeditating()) {
@@ -139,7 +153,24 @@ public class CommonEvents {
             CultivationCapability.get(player).ifPresent(cap ->
                     event.setAmount(event.getAmount() * (1f + (cap.getLevel() - 1) * 0.01f + cap.getRings() * 0.05f)));
         }
+        if (event.getEntity() instanceof ServerPlayer victim) {
+            BoneSetBonus set = SpiritBoneManager.setBonus(victim);
+            if (set.active() && set.defensePercent() > 0f) {
+                event.setAmount(event.getAmount() * (1f - set.defensePercent() / 100.0f));
+            }
+        }
         AttackEffects.onLivingHurt(event);
+    }
+
+    /** Regenerasi HP dari tulang spirit, dihitung sekali per detik. */
+    private static void applyBoneRegen(Player player) {
+        if (!player.isAlive() || player.isCreative() || player.isSpectator()) return;
+        BoneStats bones = SpiritBoneManager.stats(player);
+        BoneSetBonus set = SpiritBoneManager.setBonus(player);
+        float perSecond = bones.regen() + set.regen();
+        if (perSecond <= 0f) return;
+        if (player.getHealth() >= player.getMaxHealth()) return;
+        player.heal(perSecond);
     }
 
     /** Setiap pukulan biasa menyisakan kilatan warna martial soul di target. */
@@ -239,6 +270,8 @@ public class CommonEvents {
             drop.setDefaultPickUpDelay();
             event.getDrops().add(drop);
         }
+
+        BoneDrops.roll(entity, player, event.getDrops());
     }
 
     /** Boss diperkuat jauh melampaui vanilla: mereka adalah soul beast tingkat tinggi. */

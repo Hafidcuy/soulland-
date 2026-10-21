@@ -4,6 +4,7 @@ import com.soulland.net.AlchemyResultPacket;
 import com.soulland.net.ChooseSoulResultPacket;
 import com.soulland.net.ClientBridge;
 import com.soulland.net.ManifestationPacket;
+import com.soulland.net.SyncBonesPacket;
 import com.soulland.net.SyncCultivationPacket;
 import com.soulland.net.SyncRingAgesPacket;
 
@@ -18,6 +19,7 @@ public final class ClientBridgeImpl implements ClientBridge.Handler {
         ClientBridge.setSoulIdSupplier(() -> ClientCultivationData.soulId);
         ClientBridge.setLanguageSupplier(() -> ClientCultivationData.effectiveLanguage());
         ClientBridge.setLevelSupplier(() -> ClientCultivationData.level);
+        ClientBridge.setRingsSupplier(() -> ClientCultivationData.rings);
     }
 
     @Override
@@ -59,5 +61,11 @@ public final class ClientBridgeImpl implements ClientBridge.Handler {
     @Override
     public void onManifestation(ManifestationPacket packet) {
         ClientManifestations.start(packet.entityId(), packet.soulId());
+    }
+
+    @Override
+    public void onBonesSync(SyncBonesPacket packet) {
+        ClientBoneData.set(packet);
+        ClientGuiHooks.onBonesSync(packet);
     }
 }

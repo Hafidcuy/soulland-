@@ -8,11 +8,12 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ModNetwork {
     /**
-     * Protokol jaringan mod. Naik ke "3" pada v1.2B karena
-     * {@link SyncCultivationPacket} menambah bahasa pemain, fondasi, tanda
-     * tribulasi, dan jumlah mutasi ring.
+     * Protokol jaringan mod. Naik ke "4" pada v1.3 karena
+     * {@link SyncCultivationPacket} menambah batas spirit power, dan ada
+     * paket baru {@link SyncBonesPacket}, {@link EquipBonePacket},
+     * {@link UnequipBonePacket}, serta {@link OpenBoneScreenPacket}.
      */
-    private static final String PROTOCOL = "3";
+    private static final String PROTOCOL = "4";
 
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(SoulLandMod.MODID, "main"),
@@ -127,6 +128,26 @@ public class ModNetwork {
                 .encoder(AlchemyResultPacket::encode)
                 .decoder(AlchemyResultPacket::decode)
                 .consumerMainThread(AlchemyResultPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(SyncBonesPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncBonesPacket::encode)
+                .decoder(SyncBonesPacket::decode)
+                .consumerMainThread(SyncBonesPacket::handle)
+                .add();
+        CHANNEL.messageBuilder(EquipBonePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(EquipBonePacket::encode)
+                .decoder(EquipBonePacket::decode)
+                .consumerMainThread(EquipBonePacket::handle)
+                .add();
+        CHANNEL.messageBuilder(UnequipBonePacket.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(UnequipBonePacket::encode)
+                .decoder(UnequipBonePacket::decode)
+                .consumerMainThread(UnequipBonePacket::handle)
+                .add();
+        CHANNEL.messageBuilder(OpenBoneScreenPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(OpenBoneScreenPacket::encode)
+                .decoder(OpenBoneScreenPacket::decode)
+                .consumerMainThread(OpenBoneScreenPacket::handle)
                 .add();
         SoulLandMod.LOGGER.info("Network channel Soul Land terdaftar (protokol {}).", PROTOCOL);
     }

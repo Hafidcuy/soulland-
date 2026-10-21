@@ -29,6 +29,7 @@ public class SoulLandMod {
         com.soulland.particle.ModParticles.PARTICLES.register(modBus);
         modBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
+        com.soulland.config.BoneConfig.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -41,4 +42,5 @@ public class SoulLandMod {
     private void registerCommands(final RegisterCommandsEvent event) {
         SoulCommands.register(event.getDispatcher());
     }
+
 }

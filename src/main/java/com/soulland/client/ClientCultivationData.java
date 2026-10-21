@@ -34,6 +34,8 @@ public final class ClientCultivationData {
     public static boolean tribulationReady = false;
     /** Berapa spirit ring yang pernah bermutasi. */
     public static int mutationCount = 0;
+    /** Batas spirit power maksimum, naik kalau ada tulang spirit terpasang. */
+    public static int energyCap = (int) com.soulland.CultivationRanks.MAX_ENERGY;
     /** Berapa kali sinkronisasi dari server diterima; dipakai layar untuk tahu jawaban server. */
     public static int syncCount = 0;
 
@@ -66,6 +68,7 @@ public final class ClientCultivationData {
         foundation = packet.foundation();
         tribulationReady = packet.tribulationReady();
         mutationCount = packet.mutationCount();
+        energyCap = packet.energyCap();
         syncCount++;
     }
 

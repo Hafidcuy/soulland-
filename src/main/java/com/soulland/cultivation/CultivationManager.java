@@ -1,6 +1,9 @@
 package com.soulland.cultivation;
 
 import com.soulland.CultivationRanks;
+import com.soulland.bone.BoneSetBonus;
+import com.soulland.bone.BoneStats;
+import com.soulland.bone.SpiritBoneManager;
 import com.soulland.lang.SoulLang;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.SyncCultivationPacket;
@@ -57,7 +60,7 @@ public final class CultivationManager {
                                 cap.getChainCount(), cap.getLoadout(), cap.getRingSkills(),
                                 cap.getRingAges(), skillCooldowns(cap, player), cap.isAwakened(),
                                 cap.getLanguage(), cap.getFoundation(), cap.isTribulationReady(),
-                                cap.getMutationCount()));
+                                cap.getMutationCount(), cap.getEnergyCap()));
             }
         });
     }
@@ -77,7 +80,13 @@ public final class CultivationManager {
         return remaining;
     }
 
-    /** Menerapkan bonus HP berdasarkan level, jumlah spirit ring, dan mutasi ring. */
+    /**
+     * Menerapkan bonus HP, serangan, defense, dan batas spirit power.
+     *
+     * <p>Sumber bonus: level kultivasi, jumlah spirit ring, mutasi ring, sekte,
+     * dan tulang spirit yang terpasang. Tulang menambah angka flat; set bonus
+     * menambah persentase.
+     */
     public static void applyStats(Player player) {
         CultivationCapability.get(player).ifPresent(cap -> {
             double ringBonus = cap.getRings() * 2.0;
@@ -85,6 +94,9 @@ public final class CultivationManager {
             Sect sect = Sect.get(cap.getSect());
             double sectHealth = sect == null ? 0.0 : sect.healthBonus();
             double sectSpeed = sect == null ? 0.0 : sect.speedBonus();
+
+            BoneStats bones = SpiritBoneManager.stats(player);
+            BoneSetBonus set = SpiritBoneManager.setBonus(player);
 
             double maxHealth = 20.0 + (cap.getLevel() - 1) * 0.5 + ringBonus + mutationBonus;
             maxHealth *= (1.0 + sectHealth);
@@ -99,13 +111,23 @@ public final class CultivationManager {
 
             var attack = player.getAttribute(Attributes.ATTACK_DAMAGE);
             if (attack != null) {
-                attack.setBaseValue(1.0 + cap.getRings() * 0.5 + RingMutation.damageBonus(cap.getMutationCount()));
+                double value = 1.0 + cap.getRings() * 0.5
+                        + RingMutation.damageBonus(cap.getMutationCount())
+                        + bones.attack();
+                attack.setBaseValue(value * (1.0 + set.attackPercent() / 100.0));
+            }
+
+            var armor = player.getAttribute(Attributes.ARMOR);
+            if (armor != null) {
+                armor.setBaseValue(bones.defense());
             }
 
             var speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speed != null) {
                 speed.setBaseValue(0.1 * (1.0 + sectSpeed));
             }
+
+            cap.setEnergyCap((int) (CultivationRanks.MAX_ENERGY + bones.energy() + set.energy()));
         });
     }
 

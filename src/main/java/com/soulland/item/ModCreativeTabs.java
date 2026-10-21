@@ -1,6 +1,7 @@
 package com.soulland.item;
 
 import com.soulland.SoulLandMod;
+import com.soulland.bone.SpiritBoneItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -57,6 +58,18 @@ public class ModCreativeTabs {
                                 RegistryObject<SpiritToolItem> tool = ModItems.tool(type.soulId(), tier);
                                 if (tool != null) output.accept(tool.get());
                             }
+                        }
+                    })
+                    .build());
+
+    /** Tab khusus tulang spirit, dikelompokkan per mutu umur lalu per slot tubuh. */
+    public static final RegistryObject<CreativeModeTab> SPIRIT_BONE_TAB = TABS.register("soul_spirit_bone",
+            () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.soulland.spirit_bone"))
+                    .icon(() -> new ItemStack(ModItems.SPIRIT_BONES.get(0).get()))
+                    .displayItems((params, output) -> {
+                        for (RegistryObject<SpiritBoneItem> bone : ModItems.SPIRIT_BONES) {
+                            output.accept(bone.get());
                         }
                     })
                     .build());

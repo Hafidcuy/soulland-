@@ -4,12 +4,16 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.soulland.CultivationRanks;
+import com.soulland.bone.SpiritBoneManager;
+import com.soulland.bone.SpiritBoneSlot;
+import com.soulland.bone.SpiritBoneTier;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.cultivation.Foundation;
 import com.soulland.entity.SoulCompanion;
 import com.soulland.lang.SoulLang;
 import com.soulland.net.ModNetwork;
+import com.soulland.net.OpenBoneScreenPacket;
 import com.soulland.net.OpenGuiPacket;
 import com.soulland.net.OpenLanguageScreenPacket;
 import com.soulland.sect.Sect;
@@ -17,13 +21,20 @@ import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
 import com.soulland.soul.SoulSelection;
 import com.soulland.soul.SoulText;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public final class SoulCommands {
@@ -48,7 +59,8 @@ public final class SoulCommands {
                 .then(Commands.literal("language")
                         .executes(ctx -> openLanguage(ctx.getSource(), ctx.getSource().getPlayerOrException())))
                 .then(Commands.literal("info")
-                        .executes(ctx -> showInfo(ctx.getSource(), ctx.getSource().getPlayerOrException()))));
+                        .executes(ctx -> showInfo(ctx.getSource(), ctx.getSource().getPlayerOrException())))
+                .then(boneCommand()));
 
         dispatcher.register(Commands.literal("martialsoul")
                 .then(Commands.literal("info")
@@ -94,6 +106,77 @@ public final class SoulCommands {
                                                     Component.literal("Level " + target.getName().getString() + " diatur ke " + level + "."), true);
                                             return 1;
                                         })))));
+    }
+
+    /**
+     * Subtree command {@code /soul bone}: buka layar Boutique Tulang Spirit,
+     * plus {@code give} untuk QA supaya semua kombinasi bisa diuji tanpa
+     * harus berburu boss.
+     */
+    private static LiteralArgumentBuilder<CommandSourceStack> boneCommand() {
+        return Commands.literal("bone")
+                .executes(ctx -> openBoneScreen(ctx.getSource(), ctx.getSource().getPlayerOrException()))
+                .then(Commands.literal("give")
+                        .requires(src -> src.hasPermission(2))
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.argument("tier", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> suggestTiers(builder))
+                                        .then(Commands.argument("slot", StringArgumentType.word())
+                                                .suggests((ctx, builder) -> suggestSlots(builder))
+                                                .executes(ctx -> giveBone(ctx))))));
+    }
+
+    /** Membuka layar Boutique Tulang Spirit untuk pemain. */
+    private static int openBoneScreen(CommandSourceStack source, ServerPlayer player) {
+        ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player),
+                new OpenBoneScreenPacket());
+        source.sendSuccess(() -> SoulLang.text(CultivationManager.messageLanguage(player),
+                "message.soulland.bone.screen_opened", "Layar Tulang Spirit dibuka."), true);
+        return 1;
+    }
+
+    /** Saran nama mutu tulang untuk argumen command. */
+    private static CompletableFuture<Suggestions> suggestTiers(SuggestionsBuilder builder) {
+        String current = builder.getRemaining().toLowerCase(java.util.Locale.ROOT);
+        for (SpiritBoneTier tier : SpiritBoneTier.values()) {
+            if (tier.id().startsWith(current)) builder.suggest(tier.id());
+        }
+        return builder.buildFuture();
+    }
+
+    /** Saran nama slot tubuh untuk argumen command. */
+    private static CompletableFuture<Suggestions> suggestSlots(SuggestionsBuilder builder) {
+        String current = builder.getRemaining().toLowerCase(java.util.Locale.ROOT);
+        for (SpiritBoneSlot slot : SpiritBoneSlot.values()) {
+            if (slot.id().startsWith(current)) builder.suggest(slot.id());
+        }
+        return builder.buildFuture();
+    }
+
+    /** Memberi satu item tulang spirit ke pemain, dipakai untuk pengujian. */
+    private static int giveBone(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+        ServerPlayer target = EntityArgument.getPlayer(ctx, "player");
+        String tierId = StringArgumentType.getString(ctx, "tier").toLowerCase(java.util.Locale.ROOT);
+        String slotId = StringArgumentType.getString(ctx, "slot").toLowerCase(java.util.Locale.ROOT);
+        SpiritBoneTier tier = SpiritBoneTier.byId(tierId);
+        if (tier == null) {
+            ctx.getSource().sendFailure(Component.literal("Mutu tulang tidak dikenal: " + tierId));
+            return 0;
+        }
+        SpiritBoneSlot slot = SpiritBoneSlot.byId(slotId);
+        if (slot == null) {
+            ctx.getSource().sendFailure(Component.literal("Slot tubuh tidak dikenal: " + slotId));
+            return 0;
+        }
+        ItemStack stack = SpiritBoneManager.stack(tier, slot);
+        if (stack.isEmpty()) {
+            ctx.getSource().sendFailure(Component.literal("Item tulang tidak terdaftar."));
+            return 0;
+        }
+        target.getInventory().add(stack);
+        ctx.getSource().sendSuccess(() -> Component.literal(
+                "Tulang " + tierId + " " + slotId + " diberikan ke " + target.getName().getString()), true);
+        return 1;
     }
 
     private static int showInfo(CommandSourceStack source, ServerPlayer player) {

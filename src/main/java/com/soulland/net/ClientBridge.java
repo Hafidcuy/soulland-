@@ -31,6 +31,8 @@ public final class ClientBridge {
         void onRingAgesSync(SyncRingAgesPacket packet);
 
         void onManifestation(ManifestationPacket packet);
+
+        void onBonesSync(SyncBonesPacket packet);
     }
 
     private static volatile Handler handler;
@@ -41,6 +43,8 @@ public final class ClientBridge {
 
     private static volatile Supplier<Integer> levelSupplier = () -> 0;
 
+    private static volatile Supplier<Integer> ringsSupplier = () -> 0;
+
     /**
      * Id martial soul pemain ini menurut salinan sisi client. Kosong di server
      * karena server membaca soul langsung dari capability.
@@ -48,6 +52,22 @@ public final class ClientBridge {
     public static String soulId() {
         Supplier<String> supplier = soulIdSupplier;
         return supplier == null ? "" : supplier.get();
+    }
+
+    /**
+     * Jumlah spirit ring pemain ini menurut salinan sisi client. 0 di server
+     * khusus karena server membaca jumlah ring langsung dari capability.
+     */
+    public static int rings() {
+        Supplier<Integer> supplier = ringsSupplier;
+        if (supplier == null) return 0;
+        Integer value = supplier.get();
+        return value == null ? 0 : value;
+    }
+
+    /** Dipanggil sekali dari sisi client untuk menyambungkan jumlah ring. */
+    public static void setRingsSupplier(Supplier<Integer> supplier) {
+        ringsSupplier = supplier == null ? () -> 0 : supplier;
     }
 
     /**
@@ -129,5 +149,10 @@ public final class ClientBridge {
     public static void onManifestation(ManifestationPacket packet) {
         Handler current = handler;
         if (current != null) current.onManifestation(packet);
+    }
+
+    public static void onBonesSync(SyncBonesPacket packet) {
+        Handler current = handler;
+        if (current != null) current.onBonesSync(packet);
     }
 }

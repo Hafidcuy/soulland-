@@ -3,6 +3,7 @@ package com.soulland.cultivation;
 import com.soulland.CultivationRanks;
 import com.soulland.lang.SoulLang;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,6 +35,10 @@ public class Cultivation implements ICultivation {
     private String language = "";
     private boolean tribulationReady = false;
     private int mutationCount = 0;
+    /** Id item tulang spirit yang terpasang per slot tubuh. Kosong berarti slot kosong. */
+    private final String[] bones = {"", "", "", "", "", "", ""};
+    /** Batas spirit power maksimum, naik kalau ada tulang spirit terpasang. */
+    private int energyCap = (int) CultivationRanks.MAX_ENERGY;
     private final Map<String, Long> cooldowns = new HashMap<>();
     /** Umur tiap ring (tahun). Kosong bila belum punya ring. */
     private int[] ringAges = new int[0];
@@ -54,7 +59,7 @@ public class Cultivation implements ICultivation {
     @Override public void setRings(int rings) { this.rings = Math.max(0, Math.min(CultivationRanks.MAX_RINGS, rings)); }
 
     @Override public float getEnergy() { return energy; }
-    @Override public void setEnergy(float energy) { this.energy = Math.max(0f, Math.min(CultivationRanks.MAX_ENERGY, energy)); }
+    @Override public void setEnergy(float energy) { this.energy = Math.max(0f, Math.min(energyCap, energy)); }
 
     @Override public long getCooldownUntil(String skillId) { return cooldowns.getOrDefault(skillId, 0L); }
     @Override public void setCooldown(String skillId, long gameTimeUntil) { cooldowns.put(skillId, gameTimeUntil); }
@@ -124,6 +129,21 @@ public class Cultivation implements ICultivation {
     @Override public int getMutationCount() { return mutationCount; }
     @Override public void setMutationCount(int count) { this.mutationCount = Math.max(0, count); }
 
+    @Override
+    public String[] getBones() {
+        return bones.clone();
+    }
+
+    @Override
+    public void setBones(String[] values) {
+        for (int i = 0; i < bones.length; i++) {
+            bones[i] = (values != null && i < values.length && values[i] != null) ? values[i] : "";
+        }
+    }
+
+    @Override public int getEnergyCap() { return energyCap; }
+    @Override public void setEnergyCap(int cap) { this.energyCap = Math.max((int) CultivationRanks.MAX_ENERGY, cap); }
+
     @Override public int getHintFlags() { return hintFlags; }
     @Override public void setHintFlags(int flags) { this.hintFlags = flags; }
 
@@ -177,9 +197,13 @@ public class Cultivation implements ICultivation {
         tag.putString("language", language);
         tag.putBoolean("tribulationReady", tribulationReady);
         tag.putInt("mutationCount", mutationCount);
+        tag.putInt("energyCap", energyCap);
         for (int i = 0; i < loadout.length; i++) {
             tag.putString("loadout" + i, loadout[i] == null ? "" : loadout[i]);
         }
+        ListTag boneList = new ListTag();
+        for (String bone : bones) boneList.add(net.minecraft.nbt.StringTag.valueOf(bone == null ? "" : bone));
+        tag.put("bones", boneList);
         CompoundTag cds = new CompoundTag();
         cooldowns.forEach((k, v) -> cds.putLong(k, v));
         tag.put("cooldowns", cds);
@@ -211,6 +235,14 @@ public class Cultivation implements ICultivation {
         language = SoulLang.normalize(tag.getString("language"));
         tribulationReady = tag.getBoolean("tribulationReady");
         mutationCount = Math.max(0, tag.getInt("mutationCount"));
+        energyCap = Math.max((int) CultivationRanks.MAX_ENERGY, tag.getInt("energyCap"));
+        for (int i = 0; i < bones.length; i++) bones[i] = "";
+        if (tag.contains("bones")) {
+            ListTag boneList = tag.getList("bones", net.minecraft.nbt.Tag.TAG_STRING);
+            for (int i = 0; i < bones.length && i < boneList.size(); i++) {
+                bones[i] = boneList.getString(i);
+            }
+        }
         for (int i = 0; i < loadout.length; i++) {
             loadout[i] = tag.getString("loadout" + i);
         }

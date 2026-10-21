@@ -12,7 +12,9 @@ import java.util.function.Supplier;
  *
  * <p>Protokol jaringan naik ke "3" pada v1.2B karena paket ini menambah
  * {@code language}, {@code foundation}, {@code tribulationReady}, dan
- * {@code mutationCount}.
+ * {@code mutationCount}, lalu naik lagi ke "4" pada v1.3 karena paket ini
+ * menambah {@code energyCap} (batas spirit power bisa naik karena tulang
+ * spirit).
  */
 public record SyncCultivationPacket(
         int level,
@@ -32,7 +34,8 @@ public record SyncCultivationPacket(
         String language,
         int foundation,
         boolean tribulationReady,
-        int mutationCount
+        int mutationCount,
+        int energyCap
 ) {
     /** Skill id hanya berisi huruf, angka, dan garis bawah, jadi pemisah ini aman. */
     private static final char ENTRY_SEPARATOR = ';';
@@ -57,6 +60,7 @@ public record SyncCultivationPacket(
         buf.writeInt(msg.foundation);
         buf.writeBoolean(msg.tribulationReady);
         buf.writeInt(msg.mutationCount);
+        buf.writeInt(msg.energyCap);
     }
 
     public static SyncCultivationPacket decode(FriendlyByteBuf buf) {
@@ -78,6 +82,7 @@ public record SyncCultivationPacket(
                 buf.readUtf(8),
                 buf.readInt(),
                 buf.readBoolean(),
+                buf.readInt(),
                 buf.readInt());
     }
 

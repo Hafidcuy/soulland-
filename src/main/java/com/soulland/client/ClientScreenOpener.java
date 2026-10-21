@@ -32,4 +32,8 @@ public final class ClientScreenOpener {
     public static void openSectTab() {
         Minecraft.getInstance().setScreen(new SoulCardScreen(3));
     }
+
+    public static void openBoneScreen() {
+        Minecraft.getInstance().setScreen(new com.soulland.client.gui.SpiritBoneScreen());
+    }
 }

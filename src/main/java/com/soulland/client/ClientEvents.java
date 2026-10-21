@@ -171,13 +171,14 @@ public class ClientEvents {
             int width = 110;
             int height = 5;
             gui.fill(x, y, x + width, y + height, 0xB014161A);
-            int filled = (int) (width * (ClientCultivationData.energy / 100f));
+            int cap = Math.max(1, ClientCultivationData.energyCap);
+            int filled = (int) (width * (ClientCultivationData.energy / cap));
             if (filled > 0) {
                 gui.fill(x, y, x + filled, y + height, SOUL_JADE);
             }
             String language = ClientCultivationData.effectiveLanguage();
             gui.drawString(mc.font, SoulLang.text(language, "gui.soulland.hud.energy", "SP %s/%s",
-                    (int) ClientCultivationData.energy, (int) CultivationRanks.MAX_ENERGY).getString(),
+                    (int) ClientCultivationData.energy, cap).getString(),
                     x, y + 8, 0x9AD8C8);
         }
     }

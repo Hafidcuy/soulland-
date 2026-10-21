@@ -3,8 +3,10 @@ package com.soulland.client;
 import com.soulland.client.gui.AlchemyScreen;
 import com.soulland.client.gui.AwakeningScreen;
 import com.soulland.client.gui.LanguageSelectScreen;
+import com.soulland.client.gui.SpiritBoneScreen;
 import com.soulland.net.AlchemyResultPacket;
 import com.soulland.net.ChooseSoulResultPacket;
+import com.soulland.net.SyncBonesPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 
@@ -52,6 +54,14 @@ public final class ClientGuiHooks {
         Minecraft mc = Minecraft.getInstance();
         if (mc.screen instanceof AwakeningScreen screen) {
             screen.onServerResult(packet.accepted(), packet.messageKey());
+        }
+    }
+
+    /** Menyalakan susunan tulang terbaru dari server ke layar Tulang Spirit. */
+    public static void onBonesSync(SyncBonesPacket packet) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.screen instanceof SpiritBoneScreen screen) {
+            screen.onServerSync(packet);
         }
     }
 }

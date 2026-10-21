@@ -1,6 +1,9 @@
 package com.soulland.item;
 
 import com.soulland.SoulLandMod;
+import com.soulland.bone.SpiritBoneItem;
+import com.soulland.bone.SpiritBoneSlot;
+import com.soulland.bone.SpiritBoneTier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -106,6 +109,49 @@ public class ModItems {
                 SPIRIT_TOOLS.add(ITEMS.register(id, () -> new SpiritToolItem(tier, type)));
             }
         }
+    }
+
+    /**
+     * 35 item tulang spirit: 5 mutu umur x 7 slot tubuh. Id mengikuti pola
+     * {@code spirit_bone_<mutu>_<slot>}.
+     */
+    public static final List<RegistryObject<SpiritBoneItem>> SPIRIT_BONES = new ArrayList<>();
+
+    static {
+        for (SpiritBoneTier tier : SpiritBoneTier.values()) {
+            for (SpiritBoneSlot slot : SpiritBoneSlot.values()) {
+                String id = boneId(tier, slot);
+                SPIRIT_BONES.add(ITEMS.register(id, () -> new SpiritBoneItem(tier, slot,
+                        new Item.Properties().stacksTo(16).rarity(boneRarity(tier)))));
+            }
+        }
+    }
+
+    /** Id registry item tulang untuk sebuah mutu dan slot. */
+    public static String boneId(SpiritBoneTier tier, SpiritBoneSlot slot) {
+        return "spirit_bone_" + tier.id() + "_" + slot.id();
+    }
+
+    /** Rarity item tulang mengikuti mutu tulangnya. */
+    public static Rarity boneRarity(SpiritBoneTier tier) {
+        return switch (tier) {
+            case Y100 -> Rarity.COMMON;
+            case Y1000 -> Rarity.UNCOMMON;
+            case Y10000 -> Rarity.RARE;
+            case Y100000 -> Rarity.EPIC;
+            case Y1000000 -> Rarity.EPIC;
+        };
+    }
+
+    /** Registry object tulang untuk sebuah mutu dan slot tertentu. */
+    public static RegistryObject<SpiritBoneItem> bone(SpiritBoneTier tier, SpiritBoneSlot slot) {
+        String id = boneId(tier, slot);
+        for (RegistryObject<SpiritBoneItem> entry : SPIRIT_BONES) {
+            if (entry.getId().equals(new ResourceLocation(SoulLandMod.MODID, id))) {
+                return entry;
+            }
+        }
+        return null;
     }
 
     /**

@@ -118,6 +118,18 @@ public interface ICultivation {
     int getMutationCount();
     void setMutationCount(int count);
 
+    /**
+     * Id item tulang spirit yang terpasang, urut menurut slot tubuh.
+     * String kosong berarti slot itu kosong.     */
+    String[] getBones();
+
+    /** Mengganti seluruh susunan tulang yang terpasang. */
+    void setBones(String[] bones);
+
+    /** Batas spirit power maksimum, bisa naik karena tulang spirit. */
+    int getEnergyCap();
+    void setEnergyCap(int cap);
+
     CompoundTag serializeNBT();
     void deserializeNBT(CompoundTag nbt);
 }
