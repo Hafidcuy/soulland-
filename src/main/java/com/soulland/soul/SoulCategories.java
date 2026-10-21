@@ -6,8 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Kategori soul untuk GUI Upacara Kebangkitan. Kategori diambil otomatis dari
- * field {@code type()} tiap soul, jadi menambah soul baru otomatis menambah tabnya.
+ * Kategori soul untuk GUI Upacara Kebangkitan.
+ *
+ * <p>Ada dua pemutar, keduanya diturunkan dari data registry sehingga menambah
+ * soul baru otomatis menambah entri baru tanpa menyentuh kode GUI:
+ * <ul>
+ *   <li><b>Lineage</b> (v1.4): bentuk manifestasi, empat jenis.</li>
+ *   <li><b>Type</b>: peran soul dalam pertarungan, diambil dari field
+ *       {@code type()} tiap soul.</li>
+ * </ul>
+ *
+ * <p>Urutan tab type mengikuti urutan kemunculan pertama di registry, jadi
+ * penambahannya tidak mengubah urutan tab yang sudah ada.
  */
 public final class SoulCategories {
     private SoulCategories() {}
@@ -23,12 +33,25 @@ public final class SoulCategories {
         SHORT_LABEL_KEYS.put("Serangan Api", "gui.soulland.category.serangan_api");
         SHORT_LABEL_KEYS.put("Power", "gui.soulland.category.power");
         SHORT_LABEL_KEYS.put("Racun", "gui.soulland.category.racun");
+        SHORT_LABEL_KEYS.put("Serangan", "gui.soulland.category.serangan");
+        SHORT_LABEL_KEYS.put("Pertahanan", "gui.soulland.category.pertahanan");
+        SHORT_LABEL_KEYS.put("Penyembuhan", "gui.soulland.category.penyembuhan");
     }
 
     /** Semua tipe soul unik, urut kemunculan pertama di registry. */
     public static List<String> types() {
+        return typesOf(null);
+    }
+
+    /**
+     * Semua tipe soul unik milik satu lineage.
+     *
+     * @param lineage lineage yang difilter, null berarti semua lineage
+     */
+    public static List<String> typesOf(SoulLineage lineage) {
         List<String> types = new ArrayList<>();
         for (MartialSoul soul : MartialSouls.all()) {
+            if (lineage != null && soul.lineage() != lineage) continue;
             if (!types.contains(soul.type())) types.add(soul.type());
         }
         return types;
@@ -36,11 +59,28 @@ public final class SoulCategories {
 
     /** Semua soul dalam satu kategori, urut sesuai registry. */
     public static List<MartialSoul> soulsOf(String type) {
+        return soulsOf(null, type);
+    }
+
+    /**
+     * Semua soul dalam satu kombinasi lineage dan kategori.
+     *
+     * @param lineage lineage yang difilter, null berarti semua lineage
+     * @param type    kategori yang difilter, null berarti semua kategori
+     */
+    public static List<MartialSoul> soulsOf(SoulLineage lineage, String type) {
         List<MartialSoul> souls = new ArrayList<>();
         for (MartialSoul soul : MartialSouls.all()) {
-            if (soul.type().equals(type)) souls.add(soul);
+            if (lineage != null && soul.lineage() != lineage) continue;
+            if (type != null && !soul.type().equals(type)) continue;
+            souls.add(soul);
         }
         return souls;
+    }
+
+    /** Semua soul dalam satu lineage, urut sesuai registry. */
+    public static List<MartialSoul> soulsOfLineage(SoulLineage lineage) {
+        return soulsOf(lineage, null);
     }
 
     /** Kunci translatable untuk label tab kategori. */

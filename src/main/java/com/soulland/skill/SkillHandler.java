@@ -3,6 +3,7 @@ package com.soulland.skill;
 import com.soulland.cultivation.CultivationCapability;
 import com.soulland.cultivation.CultivationManager;
 import com.soulland.entity.SoulCompanion;
+import com.soulland.lang.SoulLang;
 import com.soulland.net.ManifestationPacket;
 import com.soulland.net.ModNetwork;
 import com.soulland.net.VisualFxPacket;
@@ -10,10 +11,13 @@ import com.soulland.soul.Element;
 import com.soulland.soul.FxShape;
 import com.soulland.soul.MartialSoul;
 import com.soulland.soul.MartialSouls;
+import com.soulland.soul.SkillArchetype;
 import com.soulland.soul.SkillDef;
 import com.soulland.soul.SkillTarget;
 import com.soulland.soul.SkillVisual;
+import com.soulland.soul.SoulAffinity;
 import com.soulland.soul.SoulBeast;
+import com.soulland.soul.SoulMark;
 import com.soulland.soul.SoulText;
 import com.soulland.soul.SoulVisuals;
 import net.minecraft.core.particles.ParticleTypes;
@@ -23,6 +27,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -77,7 +82,7 @@ public final class SkillHandler {
                 return;
             }
 
-            if (!execute(player, skill.id())) return;
+            if (!execute(player, skill)) return;
 
             advanceChain(cap, now);
             cap.setEnergy(cap.getEnergy() - skill.energyCost());
@@ -113,19 +118,20 @@ public final class SkillHandler {
         level.playSound(null, player.blockPosition(), SoulVisuals.sound(soul.id()), SoundSource.PLAYERS, 0.9f, 1f);
     }
 
-    private static boolean execute(ServerPlayer p, String id) {
+    private static boolean execute(ServerPlayer p, SkillDef skill) {
         ServerLevel level = p.serverLevel();
-        double scale = 1.0 + p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
-                .map(c -> (c.getLevel() - 1) * 0.02).orElse(0.0);
-        double bonus = p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
-                .map(c -> {
-                    double b = 1.0 + CHAIN_STEP * Math.min(MAX_CHAIN, c.getChainCount());
-                    if (c.getBloodBurnTicks() > 0) b *= 1.0 + BLOOD_BURN_DAMAGE_BONUS;
-                    return b;
-                }).orElse(1.0);
-        scale *= bonus;
+        String id = skill.id();
+        double scale = combatScale(p);
         List<LivingEntity> around6 = entitiesAround(p, 6);
         Vec3 look = p.getLookAngle();
+
+        // Skill dengan arketipe memakai jalur umum: satu executor, banyak angka.
+        // Jalur ini yang membuat 132 skill baru tetap punya perilaku nyata.
+        if (skill.usesArchetype()) {
+            boolean done = executeArchetype(p, skill, scale);
+            if (done) reportAffinity(p);
+            return done;
+        }
 
         switch (id) {
             // Cangkul
@@ -417,6 +423,222 @@ public final class SkillHandler {
         return true;
     }
 
+    /**
+     * Pengali damage gabungan: level kultivasi, rantai soul, dan bakar darah.
+     * Dipakai bersama oleh skill lama dan jalur arketipe supaya keduanya
+     * punya aturan Contain yang sama.
+     */
+    private static double combatScale(ServerPlayer p) {
+        double scale = 1.0 + p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
+                .map(c -> (c.getLevel() - 1) * 0.02).orElse(0.0);
+        double bonus = p.getCapability(com.soulland.cultivation.CultivationCapability.CAP)
+                .map(c -> {
+                    double b = 1.0 + CHAIN_STEP * Math.min(MAX_CHAIN, c.getChainCount());
+                    if (c.getBloodBurnTicks() > 0) b *= 1.0 + BLOOD_BURN_DAMAGE_BONUS;
+                    return b;
+                }).orElse(1.0);
+        return scale * bonus;
+    }
+
+    /**
+     * Jalur umum untuk skill berarketipe.
+     *
+     * <p>Tiap arketipe punya satu bentuk kerja. Yang membedakan skill satu
+     * soul dengan skill soul lain adalah angka pada registry: damage, heal,
+     * radius, durasi, dan amplifier. Tidak ada skill berarketipe yang
+     * berakhir tanpa efek apa pun: kalau tidak ada target, skill gagal
+     * dengan pesan yang jelas.
+     */
+    private static boolean executeArchetype(ServerPlayer p, SkillDef skill, double scale) {
+        ServerLevel level = p.serverLevel();
+        SkillArchetype archetype = skill.archetype();
+        float damage = (float) (skill.damage() * scale);
+        float heal = skill.heal();
+        double radius = skill.radius();
+        int duration = Math.max(20, skill.effectTicks());
+        int amplifier = skill.effectAmplifier();
+        Vec3 look = p.getLookAngle();
+
+        switch (archetype) {
+            case STRIKE -> {
+                LivingEntity target = nearest(p, radius);
+                if (target == null) return noTarget(p);
+                skillDamage(p, target, damage);
+                impact(level, p, target);
+            }
+            case WAVE -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    Vec3 to = e.position().subtract(p.position()).normalize();
+                    if (to.dot(look) > 0.5) {
+                        skillDamage(p, e, (float) (damage * 0.9));
+                        push(e, look.scale(0.6));
+                    }
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case BLAST -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, damage);
+                    e.setDeltaMovement(e.getDeltaMovement().add(0, 0.7, 0));
+                    e.hurtMarked = true;
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case LIFESTEAL -> {
+                LivingEntity target = nearest(p, radius);
+                if (target == null) return noTarget(p);
+                skillDamage(p, target, damage);
+                effect(target, MobEffects.WEAKNESS, duration, Math.max(1, amplifier));
+                p.heal(damage * 0.5f);
+                impact(level, p, target);
+            }
+            case VENOM -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, (float) (damage * 0.4));
+                    effect(e, MobEffects.POISON, duration, Math.max(1, amplifier));
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case ROOT -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, Math.max(1, amplifier));
+                    effect(e, MobEffects.WEAKNESS, duration, 0);
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case STUN -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, (float) (damage * 0.5));
+                    push(e, e.position().subtract(p.position()).normalize().scale(1.1).add(0, 0.35, 0));
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, Math.max(1, amplifier));
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case CHAIN -> {
+                List<LivingEntity> targets = entitiesAround(p, radius).stream().limit(3).toList();
+                if (targets.isEmpty()) return noTarget(p);
+                for (LivingEntity e : targets) {
+                    skillDamage(p, e, (float) (damage * 0.7));
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, 0);
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case SHIELD -> {
+                effect(p, MobEffects.DAMAGE_RESISTANCE, duration, Math.max(1, amplifier));
+                effect(p, MobEffects.ABSORPTION, duration, 0);
+                if (heal > 0f) p.heal(heal);
+                SkillFx.play(level, p, skill);
+            }
+            case BUFF -> {
+                effect(p, MobEffects.DAMAGE_BOOST, duration, Math.max(1, amplifier));
+                effect(p, MobEffects.MOVEMENT_SPEED, duration, 0);
+                SkillFx.play(level, p, skill);
+            }
+            case AURA -> {
+                for (ServerPlayer ally : allies(p, radius)) {
+                    effect(ally, MobEffects.DAMAGE_BOOST, duration, Math.max(1, amplifier));
+                    effect(ally, MobEffects.DAMAGE_RESISTANCE, duration, 0);
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case MEND -> {
+                for (ServerPlayer ally : allies(p, radius)) {
+                    ally.heal(heal);
+                    effect(ally, MobEffects.REGENERATION, duration, 0);
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case HEAL -> {
+                p.heal(heal);
+                effect(p, MobEffects.SATURATION, duration, 0);
+                SkillFx.play(level, p, skill);
+            }
+            case BLINK -> {
+                Vec3 dest = p.position().add(look.scale(radius));
+                p.teleportTo(dest.x, dest.y, dest.z);
+                p.resetFallDistance();
+                SkillFx.play(level, p, skill);
+            }
+            case DASH -> {
+                p.setDeltaMovement(look.scale(2.0).add(0, 0.2, 0));
+                p.hurtMarked = true;
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, damage);
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case MARK -> {
+                LivingEntity target = nearest(p, radius);
+                if (target == null) return noTarget(p);
+                skillDamage(p, target, (float) (damage * 0.4));
+                effect(target, MobEffects.GLOWING, duration, 0);
+                SoulMark.mark(target, p.getUUID(), level.getGameTime(), duration);
+                impact(level, p, target);
+            }
+            case LURE -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    Vec3 to = p.position().subtract(e.position()).normalize().scale(0.9);
+                    e.setDeltaMovement(e.getDeltaMovement().add(to.x, 0.25, to.z));
+                    e.hurtMarked = true;
+                    effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, Math.max(1, amplifier));
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case DISRUPT -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, (float) (damage * 0.3));
+                    for (var active : List.copyOf(e.getActiveEffects())) {
+                        if (active.getEffect().getCategory() != MobEffectCategory.HARMFUL) {
+                            e.removeEffect(active.getEffect());
+                        }
+                    }
+                    effect(e, MobEffects.WEAKNESS, duration, Math.max(1, amplifier));
+                }
+                SkillFx.play(level, p, skill);
+            }
+            case EXECUTE -> {
+                LivingEntity target = nearest(p, radius);
+                if (target == null) return noTarget(p);
+                float finalDamage = damage;
+                if (target.getHealth() < target.getMaxHealth() * 0.5f) {
+                    finalDamage *= 1.6f;
+                }
+                skillDamage(p, target, finalDamage);
+                impact(level, p, target);
+            }
+            case NOVA -> {
+                for (LivingEntity e : entitiesAround(p, radius)) {
+                    skillDamage(p, e, damage);
+                    e.setDeltaMovement(e.getDeltaMovement().add(0, 0.8, 0));
+                    e.hurtMarked = true;
+                    if (duration > 0 && amplifier > 0) {
+                        effect(e, MobEffects.MOVEMENT_SLOWDOWN, duration, amplifier);
+                    }
+                }
+                SkillFx.play(level, p, skill);
+            }
+        }
+        return true;
+    }
+
+    /** Pesan gagal yang jelas kalau skill butuh target tapi tidak ada. */
+    private static boolean noTarget(ServerPlayer p) {
+        p.sendSystemMessage(Component.literal("§cTidak ada musuh dalam jangkauan."));
+        return false;
+    }
+
+    /** Tanda beberapa damage di titik antagonis, supaya serangannya terbaca. */
+    private static void impact(ServerLevel level, ServerPlayer p, LivingEntity target) {
+        level.sendParticles(ParticleTypes.CRIT,
+                target.getX(), target.getY() + 1.0, target.getZ(), 10, 0.3, 0.4, 0.3, 0.02);
+        sound(level, p, SoundEvents.PLAYER_ATTACK_SWEEP);
+    }
+
+    private static void push(LivingEntity e, Vec3 push) {
+        e.setDeltaMovement(e.getDeltaMovement().add(push.x, push.y, push.z));
+        e.hurtMarked = true;
+    }
+
     private static List<LivingEntity> entitiesAround(ServerPlayer p, double r) {
         return p.level().getEntitiesOfClass(LivingEntity.class,
                 new AABB(p.position().subtract(r, r, r), p.position().add(r, r, r)),
@@ -453,14 +675,80 @@ public final class SkillHandler {
      * Damage dari skill. Flag sementara pada korban memastikan efek serangan biasa
      * (F4) tidak ikut terpicu oleh damage skill.
      *
-     * <p>Tool milik soul sendiri menaikkan damage skill sebesar 15 persen.
+     * <p>Tiga pengali diterapkan di sini, semuanya server-side:
+     * <ol>
+     *   <li>Skor bonus tool milik soul sendiri.</li>
+     *   <li>Afinitas soul: resonant kalau afinitas mengalahi elemen lawan, dan
+     *       disonan kalau elemen lawan mengalahi afinitas. Lihat
+     *       {@link SoulAffinity}.</li>
+     *   <li>Tanda musuh: satu serangan yang memakai tanda kena lebih keras.</li>
+     * </ol>
      */
     private static void skillDamage(ServerPlayer source, LivingEntity target, float amount) {
+        float finalAmount = ToolSynergy.scaleDamage(amount, source);
+        finalAmount = (float) (finalAmount * affinityFactor(source, target));
+        if (SoulMark.consume(target, source.getUUID(), source.level().getGameTime())) {
+            finalAmount *= SoulMark.DAMAGE_MULTIPLIER;
+        }
         target.getPersistentData().putBoolean(AttackEffects.SKILL_DAMAGE_FLAG, true);
         try {
-            target.hurt(source.damageSources().playerAttack(source), ToolSynergy.scaleDamage(amount, source));
+            target.hurt(source.damageSources().playerAttack(source), finalAmount);
         } finally {
             target.getPersistentData().remove(AttackEffects.SKILL_DAMAGE_FLAG);
+        }
+    }
+
+    /**
+     * Pengali afinitas untuk satu serangan.
+     *
+     * <p>Lawannya adalah elemen soul beast yang diserang, atau afinitas soul
+     * pemain lawan kalau yang diserang adalah pemain lain. Kalau tidak ada
+     * afinitas, atau lawannya tidak punya hubungan menang-kalah, pengalinya 1.
+     */
+    private static double affinityFactor(ServerPlayer source, LivingEntity target) {
+        Element affinity = sourceAffinity(source);
+        if (affinity == Element.NONE) return 1.0;
+        Element opposing = opposingElement(source, target);
+        return SoulAffinity.versus(affinity, opposing);
+    }
+
+    /** Elemen afinitas soul milik pemain. */
+    private static Element sourceAffinity(ServerPlayer source) {
+        return CultivationCapability.get(source)
+                .map(cap -> MartialSouls.affinityOf(
+                        MartialSouls.effective(cap.getMartialSoulId(), cap.getEvolutionStage())))
+                .orElse(Element.NONE);
+    }
+
+    /** Elemen lawan: elemen soul beast, atau afinitas soul pemain lain. */
+    private static Element opposingElement(ServerPlayer source, LivingEntity target) {
+        if (target instanceof ServerPlayer other) {
+            return CultivationCapability.get(other)
+                    .map(cap -> MartialSouls.affinityOf(
+                            MartialSouls.effective(cap.getMartialSoulId(), cap.getEvolutionStage())))
+                    .orElse(Element.NONE);
+        }
+        return SoulBeast.elementOf(target);
+    }
+
+    /**
+     * Memberi tahu pemain kalau afinitas soul-nya sedang resonan atau disonan
+     * terhadap musuh terdekat. Satu pesan per skill, bukan per hit.
+     */
+    private static void reportAffinity(ServerPlayer player) {
+        Element affinity = sourceAffinity(player);
+        if (affinity == Element.NONE) return;
+        LivingEntity target = nearest(player, 8);
+        if (target == null) return;
+        Element opposing = opposingElement(player, target);
+        if (SoulAffinity.isResonant(affinity, opposing)) {
+            player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player),
+                    "message.soulland.affinity.resonant",
+                    "§bAfinitas resonan: damage +20% terhadap lawannya."));
+        } else if (SoulAffinity.isDiscordant(affinity, opposing)) {
+            player.sendSystemMessage(SoulLang.text(CultivationManager.messageLanguage(player),
+                    "message.soulland.affinity.discordant",
+                    "§cAfinitas disonan: damage -15% terhadap lawannya."));
         }
     }
 

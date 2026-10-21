@@ -65,6 +65,24 @@ public final class SoulText {
                 soul.rarity());
     }
 
+    /** Lineage soul, yaitu bentuk manifestasinya. */
+    public static Component soulLineage(MartialSoul soul, String language) {
+        SoulLineage lineage = MartialSouls.lineageOf(soul);
+        if (lineage == null) return Component.literal("");
+        return SoulLang.text(language, lineage.langKey(), lineage.label());
+    }
+
+    /** Elemen afinitas soul untuk bahasa tertentu. */
+    public static Component soulAffinity(MartialSoul soul, String language) {
+        Element affinity = MartialSouls.affinityOf(soul);
+        return SoulLang.text(language, affinityKey(affinity), affinity.label());
+    }
+
+    /** Kunci translatable untuk nama elemen, dipakai afinitas dan pratinjau. */
+    public static String affinityKey(Element element) {
+        return "soul.soulland.affinity." + element.name().toLowerCase(java.util.Locale.ROOT);
+    }
+
     /** Nama skill untuk bahasa yang sedang aktif di sisi client. */
     public static Component skillName(SkillDef skill) {
         return skillName(skill, SoulLang.activeLanguage());

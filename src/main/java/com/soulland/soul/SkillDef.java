@@ -7,6 +7,14 @@ import net.minecraft.world.effect.MobEffect;
  *
  * <p>Data-driven: {@link com.soulland.skill.SkillHandler} membaca field di sini, bukan
  * menebak dari id. Menambah skill berarti menambah satu blok builder, bukan satu switch case.
+ *
+ * <p>Ada dua jalur eksekusi. Skill lama memakai {@code case} khusus di
+ * {@code SkillHandler}. Skill yang punya {@link SkillArchetype} memakai jalur umum
+ * yang membaca angka di record ini: {@code damage} dan {@code heal} untuk
+ * besaran, {@code radius} untuk jangkauan, serta {@code effectTicks} dan
+ * {@code effectAmplifier} untuk durasi serta tingkat efek status milik arketipe.
+ * Efek statusnya sendiri ditentukan arketipe, jadi registry tidak perlu
+ * menyentuh kelas Minecraft dan tetap bisa diuji tanpa bootup registry.
  */
 public record SkillDef(
         String id,
@@ -25,10 +33,19 @@ public record SkillDef(
         int effectAmplifier,
         MobEffect selfEffect,
         int selfEffectTicks,
-        int selfEffectAmplifier
+        int selfEffectAmplifier,
+        SkillArchetype archetype
 ) {
     public boolean targetsEnemies() {
         return target != SkillTarget.SELF && target != SkillTarget.ALLY_AURA;
+    }
+
+    /**
+     * True kalau skill ini dijalankan lewat jalur umum {@code SkillHandler}
+     * berdasarkan arketipenya, bukan lewat blok {@code case} khusus.
+     */
+    public boolean usesArchetype() {
+        return archetype != null;
     }
 
     public static Builder builder(String id, String name) {
@@ -54,6 +71,7 @@ public record SkillDef(
         private MobEffect selfEffect;
         private int selfEffectTicks = 0;
         private int selfEffectAmplifier = 0;
+        private SkillArchetype archetype = null;
 
         private Builder(String id, String name) {
             this.id = id;
@@ -117,6 +135,21 @@ public record SkillDef(
             return this;
         }
 
+        /**
+         * Durasi efek status milik arketipe, dalam tick. Dipakai skill
+         * berarketipe, karena efeknya sendiri sudah ditentukan arketipe.
+         */
+        public Builder effectTicks(int ticks) {
+            this.effectTicks = ticks;
+            return this;
+        }
+
+        /** Tingkat efek status milik arketipe. */
+        public Builder effectAmplifier(int amplifier) {
+            this.effectAmplifier = amplifier;
+            return this;
+        }
+
         public Builder self(MobEffect value, int ticks, int amplifier) {
             this.selfEffect = value;
             this.selfEffectTicks = ticks;
@@ -124,11 +157,22 @@ public record SkillDef(
             return this;
         }
 
+        /**
+         * Menetapkan arketipe skill. Skill berarketipe dijalankan oleh jalur
+         * umum di {@code SkillHandler}; skill tanpa arketipe memakai blok
+         * {@code case} khusus milik soul-nya.
+         */
+        public Builder archetype(SkillArchetype value) {
+            this.archetype = value;
+            return this;
+        }
+
         public SkillDef build() {
             return new SkillDef(id, name, description, energyCost, cooldownTicks, ringsRequired,
                     target, visual, damage, heal, radius,
                     effect, effectTicks, effectAmplifier,
-                    selfEffect, selfEffectTicks, selfEffectAmplifier);
+                    selfEffect, selfEffectTicks, selfEffectAmplifier,
+                    archetype);
         }
     }
 }
