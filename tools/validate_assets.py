@@ -11,6 +11,11 @@ Pemeriksaan:
    tidak kembar, dan semua resep menunjuk item yang benar-benar ada.
 7. v1.2B: manifest kedua (ring emas, station alchemy, pil fondasi) ikut
    diperiksa, dan keunikan palet serta siluet diuji lintas kedua manifest.
+8. v1.5: ikon True Body dan Domain untuk 43 soul ikut diperiksa: file
+   teksturnya ada, palet inti tiap ikon unik, siluet antar ikon tidak
+   kembar, dan tiap soul punya tepat satu ikon True Body dan satu ikon
+   Domain. Ikon v1.5 adalah aset GUI, bukan item, jadi siluetnya diuji
+   di dalam kelompoknya sendiri dan tidak dibandingkan dengan siluet item.
 
 Keluar dengan kode 1 bila ada referensi yang hilang.
 Jalankan: python3 tools/validate_assets.py
@@ -33,6 +38,9 @@ MANIFESTS = [
     ROOT / "docs/v1.3-asset-manifest.json",
     ROOT / "docs/v1.4-asset-manifest.json",
 ]
+# Ikon True Body dan Domain v1.5. Aset GUI, jadi punya kelompok pemeriksaan
+# sendiri dan tidak ikut dibandingkan dengan siluet item.
+V15_MANIFEST = ROOT / "docs/v1.5-asset-manifest.json"
 RECIPE_DIR = ROOT / "src/main/resources/data/soulland/recipes"
 
 # Batas kemiripan siluet dua item. Diukur dengan IoU mask alpha setelah
@@ -42,6 +50,8 @@ MAX_SILHOUETTE_IOU = 0.70
 
 # Kelas yang hanya boleh dimuat di sisi client.
 CLIENT_ONLY = {
+    "com.soulland.client.ClientCombatData",
+    "com.soulland.client.ClientCombatHud",
     "com.soulland.client.ClientGuiHooks",
     "com.soulland.client.ClientManifestations",
     "com.soulland.client.ClientHaloData",
@@ -134,6 +144,10 @@ def check_lang_keys(langs):
         literal_keys.add(f"soul.soulland.type.{re.sub(r'[^a-z0-9]+', '_', stype.lower()).strip('_')}")
         literal_keys.add(f"soul.soulland.rarity.{rarity.lower()}")
         literal_keys.add(f"item.soulland.manifestation_{sid}")
+        literal_keys.add(f"soul.soulland.truebody.{sid}.name")
+        literal_keys.add(f"soul.soulland.truebody.{sid}.description")
+        literal_keys.add(f"soul.soulland.domain.{sid}.name")
+        literal_keys.add(f"soul.soulland.domain.{sid}.description")
     for skill_id in re.findall(r'\bskill\("([^"]+)",', soul_file):
         literal_keys.add(f"skill.soulland.{skill_id}.name")
         literal_keys.add(f"skill.soulland.{skill_id}.description")
@@ -298,6 +312,73 @@ def check_silhouette_uniqueness(manifests):
     print(f"kemiripan siluet tertinggi: {worst[0]:.3f} ({worst[1]} | {worst[2]})")
 
 
+# ------------------------------------------------------------------ ikon v1.5
+
+def v15_icon_path(entry):
+    """Lokasi texture ikon GUI v1.5."""
+    return ASSETS / "textures" / entry["texture"]
+
+
+def v15_mask(entry):
+    """Mask alpha ikon GUI v1.5."""
+    image = Image.open(v15_icon_path(entry)).convert("RGBA")
+    return [1 if pixel[3] > 40 else 0 for pixel in image.getdata()]
+
+
+def registry_soul_ids():
+    """Id soul yang terdaftar di registry Java."""
+    source = (JAVA / "soul/MartialSouls.java").read_text(encoding="utf-8")
+    return re.findall(r'register\(new MartialSoul\(\s*"([^"]+)"', source)
+
+
+def check_v15_icons():
+    """Ikon True Body dan Domain: file ada, palet unik, siluet tidak kembar, cakupan 43 soul."""
+    if not V15_MANIFEST.exists():
+        fail(f"manifest ikon v1.5 hilang: {V15_MANIFEST.relative_to(ROOT)}")
+        return
+    try:
+        icons = json.loads(V15_MANIFEST.read_text(encoding="utf-8"))["icons"]
+    except (json.JSONDecodeError, KeyError) as exc:
+        fail(f"manifest ikon v1.5 rusak: {exc}")
+        return
+
+    for entry in icons:
+        if not v15_icon_path(entry).exists():
+            fail(f"texture ikon hilang untuk {entry['id']}")
+
+    signatures = {}
+    for entry in icons:
+        signatures.setdefault(tuple(sorted(entry["palette"])), []).append(entry["id"])
+    for _, ids in signatures.items():
+        if len(ids) > 1:
+            fail(f"palet sama dipakai lebih dari satu ikon v1.5: {ids}")
+    print(f"ikon v1.5: {len(icons)} ikon, {len(signatures)} palet unik")
+
+    masks = {entry["id"]: v15_mask(entry) for entry in icons}
+    worst = (0.0, None, None)
+    for first, second in itertools.combinations(icons, 2):
+        value = best_iou(masks[first["id"]], masks[second["id"]])
+        if value > worst[0]:
+            worst = (value, first["id"], second["id"])
+        if value >= MAX_SILHOUETTE_IOU:
+            fail(f"siluet ikon v1.5 terlalu mirip ({value:.3f} >= {MAX_SILHOUETTE_IOU}): "
+                 f"{first['id']} | {second['id']}")
+    print(f"kemiripan siluet ikon v1.5 tertinggi: {worst[0]:.3f} ({worst[1]} | {worst[2]})")
+
+    souls = registry_soul_ids()
+    kinds = {}
+    for entry in icons:
+        kinds.setdefault(entry["soul"], set()).add(entry["kind"])
+    for soul in souls:
+        found = kinds.get(soul, set())
+        if found != {"true_body", "domain"}:
+            fail(f"soul {soul} tidak punya tepat satu ikon True Body dan satu ikon Domain: {sorted(found)}")
+    for soul in kinds:
+        if soul not in souls:
+            fail(f"ikon v1.5 untuk soul yang tidak terdaftar: {soul}")
+    print(f"cakupan ikon v1.5: {len(souls)} soul tercover")
+
+
 def collect_recipe_items(payload):
     """Semua id item yang disebut sebuah resep."""
     found = []
@@ -358,6 +439,8 @@ def main():
         check_palette_uniqueness(manifests)
         check_silhouette_uniqueness(manifests)
         check_recipes(manifests)
+
+    check_v15_icons()
 
     if problems:
         print(f"\n{len(problems)} masalah:")

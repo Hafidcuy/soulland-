@@ -24,6 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "src", "main", "resources", "assets", "soulland")
 TEX_ITEM = os.path.join(ASSETS, "textures", "item")
 TEX_ENTITY = os.path.join(ASSETS, "textures", "entity")
+TEX_GUI = os.path.join(ASSETS, "textures", "gui")
 MODEL_ITEM = os.path.join(ASSETS, "models", "item")
 
 SIZE = 16
@@ -1949,6 +1950,78 @@ def write_v14_manifest(items: dict) -> None:
     print(f"  wrote {os.path.relpath(md_path, ROOT)}")
 
 
+# ---------------------------------------------------------------- v1.5 True Body dan Domain
+
+def build_v15_icons() -> tuple:
+    """43 ikon True Body dan 43 ikon Domain, satu per soul."""
+    from true_body_art_v15 import build_icons, build_manifest_entries, element_colors, soul_records
+
+    records = soul_records()
+    elements = element_colors()
+    icons = build_icons(records, elements)
+    return icons, build_manifest_entries(records, elements, icons)
+
+
+def build_v15_contact_sheet(icons: dict, entries: list) -> str:
+    """Lembar kontak 86 ikon v1.5, disusun 11 kolom x 8 baris."""
+    from PIL import ImageDraw
+
+    zoom = 6
+    cell = 16 * zoom
+    label_h = 16
+    columns = 11
+    order = [entry["id"] for entry in entries]
+    rows = (len(order) + columns - 1) // columns
+    sheet = Image.new("RGBA", (columns * cell, rows * (cell + label_h)), (26, 28, 34, 255))
+    draw = ImageDraw.Draw(sheet)
+    for index, icon_id in enumerate(order):
+        sprite = icons[icon_id].resize((cell, cell), Image.NEAREST)
+        x = (index % columns) * cell
+        y = (index // columns) * (cell + label_h)
+        sheet.alpha_composite(sprite, (x, y))
+        draw.rectangle([x, y, x + cell - 1, y + cell - 1], outline=(58, 62, 72, 255))
+        draw.text((x + 3, y + cell + 2), icon_id.replace("true_body_", "tb:").replace("domain_", "dm:")[:18],
+                  fill=(196, 200, 210, 255))
+    path = os.path.join(ROOT, "docs", "v1.5-contact-sheet.png")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    sheet.save(path)
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+    return path
+
+
+def write_v15_manifest(entries: list) -> None:
+    """Catat metadata ikon v1.5 supaya validator bisa memeriksanya."""
+    payload = {
+        "design_read": "Ikon True Body dan Domain v1.5: dua keluarga bentuk yang berbeda "
+                       "(sigil ascensi vertikal dan sigil wilayah horizontal), warna dasar "
+                       "ikut warna soul, dan tiap ikon punya siluet sendiri.",
+        "icons": entries,
+    }
+    path = os.path.join(ROOT, "docs", "v1.5-asset-manifest.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+
+    lines = [
+        "# Lembar kontak aset v1.5",
+        "",
+        "Gambar: `docs/v1.5-contact-sheet.png` (86 ikon, 11 kolom x 8 baris, zoom 6).",
+        "",
+        "| No | Ikon | Jenis | Soul | Palet inti |",
+        "|---|---|---|---|---|",
+    ]
+    for index, entry in enumerate(entries, start=1):
+        palette = ", ".join(f"`{color}`" for color in entry["palette"])
+        lines.append(f"| {index:02d} | `{entry['id']}` | {entry['kind']} | `{entry['soul']}` | {palette} |")
+    lines.append("")
+    md_path = os.path.join(ROOT, "docs", "v1.5-contact-sheet.md")
+    with open(md_path, "w", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+    print(f"  wrote {os.path.relpath(md_path, ROOT)}")
+
+
 # ---------------------------------------------------------------- main
 
 def main() -> None:
@@ -2002,6 +2075,13 @@ def main() -> None:
         write_model(item_id)
     build_v14_contact_sheet(v14_items)
     write_v14_manifest(v14_items)
+
+    print("Ikon True Body dan Domain v1.5 (86):")
+    v15_icons, v15_entries = build_v15_icons()
+    for icon_id, image in v15_icons.items():
+        write_png(image, os.path.join(TEX_GUI, f"{icon_id}.png"))
+    build_v15_contact_sheet(v15_icons, v15_entries)
+    write_v15_manifest(v15_entries)
     print("Selesai.")
 
 

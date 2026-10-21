@@ -1,0 +1,1037 @@
+{
+  "design_read": "Ikon True Body dan Domain v1.5: dua keluarga bentuk yang berbeda (sigil ascensi vertikal dan sigil wilayah horizontal), warna dasar ikut warna soul, dan tiap ikon punya siluet sendiri.",
+  "icons": [
+    {
+      "id": "true_body_hoe",
+      "kind": "true_body",
+      "soul": "hoe",
+      "texture": "gui/true_body_hoe.png",
+      "palette": [
+        "#493D2E",
+        "#B08954",
+        "#D9C6AD",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_hoe",
+      "kind": "domain",
+      "soul": "hoe",
+      "texture": "gui/domain_hoe.png",
+      "palette": [
+        "#6B563A",
+        "#B08954",
+        "#C5A880",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_blue_silver_grass",
+      "kind": "true_body",
+      "soul": "blue_silver_grass",
+      "texture": "gui/true_body_blue_silver_grass.png",
+      "palette": [
+        "#263855",
+        "#4A7BC8",
+        "#A8C0E5",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "domain_blue_silver_grass",
+      "kind": "domain",
+      "soul": "blue_silver_grass",
+      "texture": "gui/domain_blue_silver_grass.png",
+      "palette": [
+        "#324F7B",
+        "#4A7BC8",
+        "#799DD6",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "true_body_hell_civet",
+      "kind": "true_body",
+      "soul": "hell_civet",
+      "texture": "gui/true_body_hell_civet.png",
+      "palette": [
+        "#2C2840",
+        "#5B4A8A",
+        "#B0A8C7",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "domain_hell_civet",
+      "kind": "domain",
+      "soul": "hell_civet",
+      "texture": "gui/domain_hell_civet.png",
+      "palette": [
+        "#3C3359",
+        "#5B4A8A",
+        "#8679A8",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "true_body_sausage",
+      "kind": "true_body",
+      "soul": "sausage",
+      "texture": "gui/true_body_sausage.png",
+      "palette": [
+        "#593D2B",
+        "#E08A4C",
+        "#F0C7A9",
+        "#C8C8C8"
+      ]
+    },
+    {
+      "id": "domain_sausage",
+      "kind": "domain",
+      "soul": "sausage",
+      "texture": "gui/domain_sausage.png",
+      "palette": [
+        "#865736",
+        "#E08A4C",
+        "#E8A87B",
+        "#C8C8C8"
+      ]
+    },
+    {
+      "id": "true_body_seven_treasure_pagoda",
+      "kind": "true_body",
+      "soul": "seven_treasure_pagoda",
+      "texture": "gui/true_body_seven_treasure_pagoda.png",
+      "palette": [
+        "#5C5135",
+        "#E8C46A",
+        "#F4E3B7",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_seven_treasure_pagoda",
+      "kind": "domain",
+      "soul": "seven_treasure_pagoda",
+      "texture": "gui/domain_seven_treasure_pagoda.png",
+      "palette": [
+        "#8B7747",
+        "#E8C46A",
+        "#EED391",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_evil_fire_phoenix",
+      "kind": "true_body",
+      "soul": "evil_fire_phoenix",
+      "texture": "gui/true_body_evil_fire_phoenix.png",
+      "palette": [
+        "#643326",
+        "#FF6A3C",
+        "#FFB7A1",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_evil_fire_phoenix",
+      "kind": "domain",
+      "soul": "evil_fire_phoenix",
+      "texture": "gui/domain_evil_fire_phoenix.png",
+      "palette": [
+        "#98452D",
+        "#FF6A3C",
+        "#FF916F",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_white_tiger",
+      "kind": "true_body",
+      "soul": "white_tiger",
+      "texture": "gui/true_body_white_tiger.png",
+      "palette": [
+        "#575960",
+        "#D8DCE8",
+        "#ECEEF4",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_white_tiger",
+      "kind": "domain",
+      "soul": "white_tiger",
+      "texture": "gui/domain_white_tiger.png",
+      "palette": [
+        "#82858D",
+        "#D8DCE8",
+        "#E2E5EE",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_soft_bone_rabbit",
+      "kind": "true_body",
+      "soul": "soft_bone_rabbit",
+      "texture": "gui/true_body_soft_bone_rabbit.png",
+      "palette": [
+        "#5F4852",
+        "#F0A8C0",
+        "#F8D5E1",
+        "#C8F0D8"
+      ]
+    },
+    {
+      "id": "domain_soft_bone_rabbit",
+      "kind": "domain",
+      "soul": "soft_bone_rabbit",
+      "texture": "gui/domain_soft_bone_rabbit.png",
+      "palette": [
+        "#8F6877",
+        "#F0A8C0",
+        "#F4BFD0",
+        "#C8F0D8"
+      ]
+    },
+    {
+      "id": "true_body_jade_serpent",
+      "kind": "true_body",
+      "soul": "jade_serpent",
+      "texture": "gui/true_body_jade_serpent.png",
+      "palette": [
+        "#225340",
+        "#3CC88A",
+        "#A1E5C7",
+        "#7BE0B0"
+      ]
+    },
+    {
+      "id": "domain_jade_serpent",
+      "kind": "domain",
+      "soul": "jade_serpent",
+      "texture": "gui/domain_jade_serpent.png",
+      "palette": [
+        "#2A7A59",
+        "#3CC88A",
+        "#6FD6A8",
+        "#7BE0B0"
+      ]
+    },
+    {
+      "id": "true_body_clear_sky_hammer",
+      "kind": "true_body",
+      "soul": "clear_sky_hammer",
+      "texture": "gui/true_body_clear_sky_hammer.png",
+      "palette": [
+        "#373D4A",
+        "#7A8AA8",
+        "#BFC7D5",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_clear_sky_hammer",
+      "kind": "domain",
+      "soul": "clear_sky_hammer",
+      "texture": "gui/domain_clear_sky_hammer.png",
+      "palette": [
+        "#4D576A",
+        "#7A8AA8",
+        "#9DA8BF",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_golden_dragon",
+      "kind": "true_body",
+      "soul": "golden_dragon",
+      "texture": "gui/true_body_golden_dragon.png",
+      "palette": [
+        "#5C4626",
+        "#E8A33C",
+        "#F4D3A1",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_golden_dragon",
+      "kind": "domain",
+      "soul": "golden_dragon",
+      "texture": "gui/domain_golden_dragon.png",
+      "palette": [
+        "#8B652D",
+        "#E8A33C",
+        "#EEBB6F",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_abyssal_demon_dragon",
+      "kind": "true_body",
+      "soul": "abyssal_demon_dragon",
+      "texture": "gui/true_body_abyssal_demon_dragon.png",
+      "palette": [
+        "#322448",
+        "#6B3FA0",
+        "#B8A3D1",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "domain_abyssal_demon_dragon",
+      "kind": "domain",
+      "soul": "abyssal_demon_dragon",
+      "texture": "gui/domain_abyssal_demon_dragon.png",
+      "palette": [
+        "#452D65",
+        "#6B3FA0",
+        "#9171B9",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "true_body_abyssal_ice_demon_dragon",
+      "kind": "true_body",
+      "soul": "abyssal_ice_demon_dragon",
+      "texture": "gui/true_body_abyssal_ice_demon_dragon.png",
+      "palette": [
+        "#2C485B",
+        "#5AA8D8",
+        "#B0D5EC",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "domain_abyssal_ice_demon_dragon",
+      "kind": "domain",
+      "soul": "abyssal_ice_demon_dragon",
+      "texture": "gui/domain_abyssal_ice_demon_dragon.png",
+      "palette": [
+        "#3B6884",
+        "#5AA8D8",
+        "#85BFE2",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "true_body_ultimate_fire_dragon",
+      "kind": "true_body",
+      "soul": "ultimate_fire_dragon",
+      "texture": "gui/true_body_ultimate_fire_dragon.png",
+      "palette": [
+        "#592A1F",
+        "#E0522A",
+        "#F0AC99",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_ultimate_fire_dragon",
+      "kind": "domain",
+      "soul": "ultimate_fire_dragon",
+      "texture": "gui/domain_ultimate_fire_dragon.png",
+      "palette": [
+        "#863823",
+        "#E0522A",
+        "#E87F61",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_ultimate_ice_dragon",
+      "kind": "true_body",
+      "soul": "ultimate_ice_dragon",
+      "texture": "gui/true_body_ultimate_ice_dragon.png",
+      "palette": [
+        "#3E5360",
+        "#8FC8E8",
+        "#C9E5F4",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "domain_ultimate_ice_dragon",
+      "kind": "domain",
+      "soul": "ultimate_ice_dragon",
+      "texture": "gui/domain_ultimate_ice_dragon.png",
+      "palette": [
+        "#597A8D",
+        "#8FC8E8",
+        "#ACD6EE",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "true_body_thunder_elephant",
+      "kind": "true_body",
+      "soul": "thunder_elephant",
+      "texture": "gui/true_body_thunder_elephant.png",
+      "palette": [
+        "#37435D",
+        "#7C9BE0",
+        "#C0CFF0",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "domain_thunder_elephant",
+      "kind": "domain",
+      "soul": "thunder_elephant",
+      "texture": "gui/domain_thunder_elephant.png",
+      "palette": [
+        "#4E6089",
+        "#7C9BE0",
+        "#9EB5E8",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "true_body_golden_ant",
+      "kind": "true_body",
+      "soul": "golden_ant",
+      "texture": "gui/true_body_golden_ant.png",
+      "palette": [
+        "#52461E",
+        "#C9A227",
+        "#E5D297",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_golden_ant",
+      "kind": "domain",
+      "soul": "golden_ant",
+      "texture": "gui/domain_golden_ant.png",
+      "palette": [
+        "#796421",
+        "#C9A227",
+        "#D7BA5F",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_titan_giant_ape",
+      "kind": "true_body",
+      "soul": "titan_giant_ape",
+      "texture": "gui/true_body_titan_giant_ape.png",
+      "palette": [
+        "#42352A",
+        "#9A7048",
+        "#CFBAA7",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_titan_giant_ape",
+      "kind": "domain",
+      "soul": "titan_giant_ape",
+      "texture": "gui/domain_titan_giant_ape.png",
+      "palette": [
+        "#5F4834",
+        "#9A7048",
+        "#B49578",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_sea_devil_manatee",
+      "kind": "true_body",
+      "soul": "sea_devil_manatee",
+      "texture": "gui/true_body_sea_devil_manatee.png",
+      "palette": [
+        "#223841",
+        "#3C7A8C",
+        "#A1BFC8",
+        "#5BC8E0"
+      ]
+    },
+    {
+      "id": "domain_sea_devil_manatee",
+      "kind": "domain",
+      "soul": "sea_devil_manatee",
+      "texture": "gui/domain_sea_devil_manatee.png",
+      "palette": [
+        "#2A4E5A",
+        "#3C7A8C",
+        "#6F9DAA",
+        "#5BC8E0"
+      ]
+    },
+    {
+      "id": "true_body_bright_wing_moth",
+      "kind": "true_body",
+      "soul": "bright_wing_moth",
+      "texture": "gui/true_body_bright_wing_moth.png",
+      "palette": [
+        "#5C5741",
+        "#E8D48C",
+        "#F4EAC8",
+        "#C8F0D8"
+      ]
+    },
+    {
+      "id": "domain_bright_wing_moth",
+      "kind": "domain",
+      "soul": "bright_wing_moth",
+      "texture": "gui/domain_bright_wing_moth.png",
+      "palette": [
+        "#8B805A",
+        "#E8D48C",
+        "#EEDFAA",
+        "#C8F0D8"
+      ]
+    },
+    {
+      "id": "true_body_phoenix",
+      "kind": "true_body",
+      "soul": "phoenix",
+      "texture": "gui/true_body_phoenix.png",
+      "palette": [
+        "#5F4B2A",
+        "#F0B24A",
+        "#F8DAA8",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_phoenix",
+      "kind": "domain",
+      "soul": "phoenix",
+      "texture": "gui/domain_phoenix.png",
+      "palette": [
+        "#8F6D35",
+        "#F0B24A",
+        "#F4C679",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_blue_silver_spear",
+      "kind": "true_body",
+      "soul": "blue_silver_spear",
+      "texture": "gui/true_body_blue_silver_spear.png",
+      "palette": [
+        "#223450",
+        "#3E6FB8",
+        "#A2BADD",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "domain_blue_silver_spear",
+      "kind": "domain",
+      "soul": "blue_silver_spear",
+      "texture": "gui/domain_blue_silver_spear.png",
+      "palette": [
+        "#2C4872",
+        "#3E6FB8",
+        "#7094CA",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "true_body_seven_kill_sword",
+      "kind": "true_body",
+      "soul": "seven_kill_sword",
+      "texture": "gui/true_body_seven_kill_sword.png",
+      "palette": [
+        "#211F27",
+        "#3A3040",
+        "#A09CA3",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "domain_seven_kill_sword",
+      "kind": "domain",
+      "soul": "seven_kill_sword",
+      "texture": "gui/domain_seven_kill_sword.png",
+      "palette": [
+        "#29252F",
+        "#3A3040",
+        "#6D6672",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "true_body_giant_hammer",
+      "kind": "true_body",
+      "soul": "giant_hammer",
+      "texture": "gui/true_body_giant_hammer.png",
+      "palette": [
+        "#37332F",
+        "#7A6A58",
+        "#BFB7AF",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_giant_hammer",
+      "kind": "domain",
+      "soul": "giant_hammer",
+      "texture": "gui/domain_giant_hammer.png",
+      "palette": [
+        "#4D453D",
+        "#7A6A58",
+        "#9D9183",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_blood_lash",
+      "kind": "true_body",
+      "soul": "blood_lash",
+      "texture": "gui/true_body_blood_lash.png",
+      "palette": [
+        "#3D1B23",
+        "#8E2434",
+        "#C9969E",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "domain_blood_lash",
+      "kind": "domain",
+      "soul": "blood_lash",
+      "texture": "gui/domain_blood_lash.png",
+      "palette": [
+        "#581E29",
+        "#8E2434",
+        "#AB5D69",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "true_body_frost_needle",
+      "kind": "true_body",
+      "soul": "frost_needle",
+      "texture": "gui/true_body_frost_needle.png",
+      "palette": [
+        "#425860",
+        "#9AD8E8",
+        "#CFECF4",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "domain_frost_needle",
+      "kind": "domain",
+      "soul": "frost_needle",
+      "texture": "gui/domain_frost_needle.png",
+      "palette": [
+        "#5F838D",
+        "#9AD8E8",
+        "#B4E2EE",
+        "#A8E4FF"
+      ]
+    },
+    {
+      "id": "true_body_thunder_spear",
+      "kind": "true_body",
+      "soul": "thunder_spear",
+      "texture": "gui/true_body_thunder_spear.png",
+      "palette": [
+        "#333F5D",
+        "#6E8FE0",
+        "#B9C9F0",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "domain_thunder_spear",
+      "kind": "domain",
+      "soul": "thunder_spear",
+      "texture": "gui/domain_thunder_spear.png",
+      "palette": [
+        "#465A89",
+        "#6E8FE0",
+        "#94ACE8",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "true_body_spirit_sword",
+      "kind": "true_body",
+      "soul": "spirit_sword",
+      "texture": "gui/true_body_spirit_sword.png",
+      "palette": [
+        "#4C5159",
+        "#B8C4D4",
+        "#DDE3EA",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_spirit_sword",
+      "kind": "domain",
+      "soul": "spirit_sword",
+      "texture": "gui/domain_spirit_sword.png",
+      "palette": [
+        "#707782",
+        "#B8C4D4",
+        "#CAD3DF",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_iron_anchor",
+      "kind": "true_body",
+      "soul": "iron_anchor",
+      "texture": "gui/true_body_iron_anchor.png",
+      "palette": [
+        "#2D3337",
+        "#5E6A6E",
+        "#B2B7B9",
+        "#5BC8E0"
+      ]
+    },
+    {
+      "id": "domain_iron_anchor",
+      "kind": "domain",
+      "soul": "iron_anchor",
+      "texture": "gui/domain_iron_anchor.png",
+      "palette": [
+        "#3D4549",
+        "#5E6A6E",
+        "#889194",
+        "#5BC8E0"
+      ]
+    },
+    {
+      "id": "true_body_bronze_mirror",
+      "kind": "true_body",
+      "soul": "bronze_mirror",
+      "texture": "gui/true_body_bronze_mirror.png",
+      "palette": [
+        "#4E3D2A",
+        "#C08A4A",
+        "#E1C7A8",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_bronze_mirror",
+      "kind": "domain",
+      "soul": "bronze_mirror",
+      "texture": "gui/domain_bronze_mirror.png",
+      "palette": [
+        "#745735",
+        "#C08A4A",
+        "#D0A879",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_blue_silver_emperor",
+      "kind": "true_body",
+      "soul": "blue_silver_emperor",
+      "texture": "gui/true_body_blue_silver_emperor.png",
+      "palette": [
+        "#1D2E47",
+        "#2E5C9E",
+        "#9BB1D0",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "domain_blue_silver_emperor",
+      "kind": "domain",
+      "soul": "blue_silver_emperor",
+      "texture": "gui/domain_blue_silver_emperor.png",
+      "palette": [
+        "#233D64",
+        "#2E5C9E",
+        "#6486B7",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "true_body_iron_body",
+      "kind": "true_body",
+      "soul": "iron_body",
+      "texture": "gui/true_body_iron_body.png",
+      "palette": [
+        "#33363D",
+        "#6E7480",
+        "#B9BCC2",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_iron_body",
+      "kind": "domain",
+      "soul": "iron_body",
+      "texture": "gui/domain_iron_body.png",
+      "palette": [
+        "#464B53",
+        "#6E7480",
+        "#9498A1",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_bone_shell",
+      "kind": "true_body",
+      "soul": "bone_shell",
+      "texture": "gui/true_body_bone_shell.png",
+      "palette": [
+        "#56544D",
+        "#D6CBB0",
+        "#EBE6D9",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_bone_shell",
+      "kind": "domain",
+      "soul": "bone_shell",
+      "texture": "gui/domain_bone_shell.png",
+      "palette": [
+        "#817B6E",
+        "#D6CBB0",
+        "#E1D9C5",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_stone_skin",
+      "kind": "true_body",
+      "soul": "stone_skin",
+      "texture": "gui/true_body_stone_skin.png",
+      "palette": [
+        "#3C3C3A",
+        "#8A8578",
+        "#C7C4BE",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_stone_skin",
+      "kind": "domain",
+      "soul": "stone_skin",
+      "texture": "gui/domain_stone_skin.png",
+      "palette": [
+        "#56544F",
+        "#8A8578",
+        "#A8A59B",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "true_body_flesh_regrowth",
+      "kind": "true_body",
+      "soul": "flesh_regrowth",
+      "texture": "gui/true_body_flesh_regrowth.png",
+      "palette": [
+        "#4F323C",
+        "#C2687E",
+        "#E2B7C1",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "domain_flesh_regrowth",
+      "kind": "domain",
+      "soul": "flesh_regrowth",
+      "texture": "gui/domain_flesh_regrowth.png",
+      "palette": [
+        "#754452",
+        "#C2687E",
+        "#D28FA0",
+        "#8FD694"
+      ]
+    },
+    {
+      "id": "true_body_flame_body",
+      "kind": "true_body",
+      "soul": "flame_body",
+      "texture": "gui/true_body_flame_body.png",
+      "palette": [
+        "#552C1F",
+        "#D4562A",
+        "#EAAE99",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_flame_body",
+      "kind": "domain",
+      "soul": "flame_body",
+      "texture": "gui/domain_flame_body.png",
+      "palette": [
+        "#803A23",
+        "#D4562A",
+        "#DF8261",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_spirit_veins",
+      "kind": "true_body",
+      "soul": "spirit_veins",
+      "texture": "gui/true_body_spirit_veins.png",
+      "palette": [
+        "#3E4D5B",
+        "#8FB8D8",
+        "#C9DDEC",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "domain_spirit_veins",
+      "kind": "domain",
+      "soul": "spirit_veins",
+      "texture": "gui/domain_spirit_veins.png",
+      "palette": [
+        "#597184",
+        "#8FB8D8",
+        "#ACCAE2",
+        "#9BC8FF"
+      ]
+    },
+    {
+      "id": "true_body_soul_mirror",
+      "kind": "true_body",
+      "soul": "soul_mirror",
+      "texture": "gui/true_body_soul_mirror.png",
+      "palette": [
+        "#5B5963",
+        "#E4DCF0",
+        "#F2EEF8",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_soul_mirror",
+      "kind": "domain",
+      "soul": "soul_mirror",
+      "texture": "gui/domain_soul_mirror.png",
+      "palette": [
+        "#888592",
+        "#E4DCF0",
+        "#EBE5F4",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_spirit_lamp",
+      "kind": "true_body",
+      "soul": "spirit_lamp",
+      "texture": "gui/true_body_spirit_lamp.png",
+      "palette": [
+        "#5C533A",
+        "#E8C878",
+        "#F4E5BE",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_spirit_lamp",
+      "kind": "domain",
+      "soul": "spirit_lamp",
+      "texture": "gui/domain_spirit_lamp.png",
+      "palette": [
+        "#8B7A4F",
+        "#E8C878",
+        "#EED69B",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_soul_forge",
+      "kind": "true_body",
+      "soul": "soul_forge",
+      "texture": "gui/true_body_soul_forge.png",
+      "palette": [
+        "#492D1F",
+        "#B05A2A",
+        "#D9B099",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "domain_soul_forge",
+      "kind": "domain",
+      "soul": "soul_forge",
+      "texture": "gui/domain_soul_forge.png",
+      "palette": [
+        "#6B3C23",
+        "#B05A2A",
+        "#C58561",
+        "#FF8A3C"
+      ]
+    },
+    {
+      "id": "true_body_star_array",
+      "kind": "true_body",
+      "soul": "star_array",
+      "texture": "gui/true_body_star_array.png",
+      "palette": [
+        "#5F5E4D",
+        "#F2E9B0",
+        "#F9F4D9",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "domain_star_array",
+      "kind": "domain",
+      "soul": "star_array",
+      "texture": "gui/domain_star_array.png",
+      "palette": [
+        "#908C6E",
+        "#F2E9B0",
+        "#F5EFC5",
+        "#FFF3C4"
+      ]
+    },
+    {
+      "id": "true_body_demon_eye",
+      "kind": "true_body",
+      "soul": "demon_eye",
+      "texture": "gui/true_body_demon_eye.png",
+      "palette": [
+        "#372841",
+        "#7A4A8C",
+        "#BFA8C8",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "domain_demon_eye",
+      "kind": "domain",
+      "soul": "demon_eye",
+      "texture": "gui/domain_demon_eye.png",
+      "palette": [
+        "#4D335A",
+        "#7A4A8C",
+        "#9D79AA",
+        "#8B7AC8"
+      ]
+    },
+    {
+      "id": "true_body_ancient_seal",
+      "kind": "true_body",
+      "soul": "ancient_seal",
+      "texture": "gui/true_body_ancient_seal.png",
+      "palette": [
+        "#3D382A",
+        "#8C7A4A",
+        "#C8BFA8",
+        "#B08A55"
+      ]
+    },
+    {
+      "id": "domain_ancient_seal",
+      "kind": "domain",
+      "soul": "ancient_seal",
+      "texture": "gui/domain_ancient_seal.png",
+      "palette": [
+        "#574E35",
+        "#8C7A4A",
+        "#AA9D79",
+        "#B08A55"
+      ]
+    }
+  ]
+}
