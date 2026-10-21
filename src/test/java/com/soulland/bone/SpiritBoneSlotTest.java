@@ -23,6 +23,14 @@ class SpiritBoneSlotTest {
     }
 
     @Test
+    void jumlahSlotConstanSesuaiEnumDanTidakLindungDariPerubahan() {
+        // Packet dan capability memakai konstanta ini, jadi harus selalu sama
+        // dengan isi enum.
+        assertEquals(SpiritBoneSlot.values().length, SpiritBoneSlot.COUNT);
+        assertEquals(7, SpiritBoneSlot.COUNT);
+    }
+
+    @Test
     void slotDicariLewatIdDanIndeks() {
         assertEquals(SpiritBoneSlot.TORSO, SpiritBoneSlot.byId("torso"));
         assertEquals(SpiritBoneSlot.EXTERNAL, SpiritBoneSlot.byId("external"));

@@ -32,7 +32,7 @@ public final class SpiritBoneManager {
     private SpiritBoneManager() {}
 
     /** Jumlah slot tubuh, sama dengan jumlah nilai {@link SpiritBoneSlot}. */
-    public static final int SLOT_COUNT = SpiritBoneSlot.values().length;
+    public static final int SLOT_COUNT = SpiritBoneSlot.COUNT;
 
     /** Lokasi tempat stack tulang ditemukan di inventaris pemain. */
     private static final int LOC_ITEMS = 0;
@@ -125,19 +125,19 @@ public final class SpiritBoneManager {
                     bone.tier().requiredRings(), cap.getRings()));
         }
 
-        Found found = locate(player, bone, preferred);
-        if (found == null) {
-            return Status.error(SoulLang.translate(language, "message.soulland.bone.not_carried",
-                    "Kamu tidak membawa tulang itu."));
-        }
-        ItemStack source = found.stack();
-
         String[] bones = cap.getBones();
         String previous = bones[slot.index()];
         if (previous.equals(itemId)) {
             return Status.success(SoulLang.translate(language, "message.soulland.bone.already",
                     "Tulang itu sudah terpasang di slot itu."));
         }
+
+        Found found = locate(player, bone, preferred);
+        if (found == null) {
+            return Status.error(SoulLang.translate(language, "message.soulland.bone.not_carried",
+                    "Kamu tidak membawa tulang itu."));
+        }
+        ItemStack source = found.stack();
 
         SpiritBoneItem old = previous.isEmpty() ? null : boneById(previous);
         boolean freesMainSlot = source.getCount() == 1 && found.location() == LOC_ITEMS;

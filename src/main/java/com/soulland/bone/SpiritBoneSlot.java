@@ -21,6 +21,9 @@ public enum SpiritBoneSlot {
     RIGHT_LEG("right_leg", 0.7f, 1.0f, 0.9f, 1.1f),
     EXTERNAL("external", 2.0f, 1.5f, 1.5f, 1.5f);
 
+    /** Jumlah slot tubuh yang bisa dipakai tulang spirit. */
+    public static final int COUNT = values().length;
+
     private final String id;
     private final float attackMultiplier;
     private final float defenseMultiplier;

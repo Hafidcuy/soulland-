@@ -120,7 +120,8 @@ public interface ICultivation {
 
     /**
      * Id item tulang spirit yang terpasang, urut menurut slot tubuh.
-     * String kosong berarti slot itu kosong.     */
+     * String kosong berarti slot itu kosong.
+     */
     String[] getBones();
 
     /** Mengganti seluruh susunan tulang yang terpasang. */

@@ -128,6 +128,12 @@ public final class CultivationManager {
             }
 
             cap.setEnergyCap((int) (CultivationRanks.MAX_ENERGY + bones.energy() + set.energy()));
+            // Melepas tulang bisa menurunkan batas spirit power. Isi yang masih
+            // di atas batas baru ikut turun supaya HUD tidak menampilkan
+            // angka spirit power yang melebihi kapasitas.
+            if (cap.getEnergy() > cap.getEnergyCap()) {
+                cap.setEnergy(cap.getEnergyCap());
+            }
         });
     }
 

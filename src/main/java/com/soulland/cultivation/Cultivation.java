@@ -36,7 +36,7 @@ public class Cultivation implements ICultivation {
     private boolean tribulationReady = false;
     private int mutationCount = 0;
     /** Id item tulang spirit yang terpasang per slot tubuh. Kosong berarti slot kosong. */
-    private final String[] bones = {"", "", "", "", "", "", ""};
+    private final String[] bones = new String[com.soulland.bone.SpiritBoneSlot.COUNT];
     /** Batas spirit power maksimum, naik kalau ada tulang spirit terpasang. */
     private int energyCap = (int) CultivationRanks.MAX_ENERGY;
     private final Map<String, Long> cooldowns = new HashMap<>();

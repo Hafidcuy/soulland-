@@ -58,6 +58,9 @@ public class SpiritBoneItem extends LocalizedItem {
         if (!status.text().isEmpty()) {
             serverPlayer.sendSystemMessage(Component.literal(status.text()));
         }
+        if (!status.ok()) {
+            return InteractionResultHolder.fail(stack);
+        }
         return InteractionResultHolder.success(stack);
     }
 

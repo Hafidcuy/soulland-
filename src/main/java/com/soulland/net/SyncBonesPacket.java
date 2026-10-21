@@ -1,5 +1,6 @@
 package com.soulland.net;
 
+import com.soulland.bone.SpiritBoneSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 public record SyncBonesPacket(String[] bones, String statusText, boolean statusOk) {
 
     /** Jumlah slot tubuh, harus sama dengan jumlah slot di {@code SpiritBoneSlot}. */
-    public static final int SLOT_COUNT = 7;
+    public static final int SLOT_COUNT = SpiritBoneSlot.COUNT;
 
     public static void encode(SyncBonesPacket msg, FriendlyByteBuf buf) {
         String[] bones = msg.bones() == null ? new String[0] : msg.bones();

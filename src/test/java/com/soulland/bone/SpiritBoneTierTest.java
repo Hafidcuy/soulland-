@@ -50,6 +50,19 @@ class SpiritBoneTierTest {
     }
 
     @Test
+    void statDasarTepatGandaTiapTier() {
+        // Blueprint: setiap tier menggandakan angka tier sebelumnya, jadi
+        // lonjakan kekuatan selalu terasa sama jelasnya.
+        SpiritBoneTier[] tiers = SpiritBoneTier.values();
+        for (int index = 1; index < tiers.length; index++) {
+            assertEquals(tiers[index - 1].baseAttack() * 2f, tiers[index].baseAttack(), 0.0001f);
+            assertEquals(tiers[index - 1].baseDefense() * 2f, tiers[index].baseDefense(), 0.0001f);
+            assertEquals(tiers[index - 1].baseEnergy() * 2, tiers[index].baseEnergy());
+            assertEquals(tiers[index - 1].baseRegen() * 2f, tiers[index].baseRegen(), 0.0001f);
+        }
+    }
+
+    @Test
     void syaratSpiritRingNaikSesuaiMutu() {
         assertEquals(0, SpiritBoneTier.Y100.requiredRings());
         assertEquals(0, SpiritBoneTier.Y1000.requiredRings());
