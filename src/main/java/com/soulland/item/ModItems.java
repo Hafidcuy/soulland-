@@ -58,6 +58,74 @@ public class ModItems {
     public static final RegistryObject<Item> MANIFESTATION_CLEAR_SKY_HAMMER = ITEMS.register("manifestation_clear_sky_hammer",
             () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
 
+    // v1.4: manifestasi 33 soul baru dari katalog 43 soul.
+    public static final RegistryObject<Item> MANIFESTATION_GOLDEN_DRAGON = ITEMS.register("manifestation_golden_dragon",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_ABYSSAL_DEMON_DRAGON = ITEMS.register("manifestation_abyssal_demon_dragon",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_ABYSSAL_ICE_DEMON_DRAGON = ITEMS.register("manifestation_abyssal_ice_demon_dragon",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_ULTIMATE_FIRE_DRAGON = ITEMS.register("manifestation_ultimate_fire_dragon",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_ULTIMATE_ICE_DRAGON = ITEMS.register("manifestation_ultimate_ice_dragon",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_THUNDER_ELEPHANT = ITEMS.register("manifestation_thunder_elephant",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_GOLDEN_ANT = ITEMS.register("manifestation_golden_ant",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_TITAN_GIANT_APE = ITEMS.register("manifestation_titan_giant_ape",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SEA_DEVIL_MANATEE = ITEMS.register("manifestation_sea_devil_manatee",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_BRIGHT_WING_MOTH = ITEMS.register("manifestation_bright_wing_moth",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_PHOENIX = ITEMS.register("manifestation_phoenix",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_BLUE_SILVER_SPEAR = ITEMS.register("manifestation_blue_silver_spear",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SEVEN_KILL_SWORD = ITEMS.register("manifestation_seven_kill_sword",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_GIANT_HAMMER = ITEMS.register("manifestation_giant_hammer",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_BLOOD_LASH = ITEMS.register("manifestation_blood_lash",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_FROST_NEEDLE = ITEMS.register("manifestation_frost_needle",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_THUNDER_SPEAR = ITEMS.register("manifestation_thunder_spear",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SPIRIT_SWORD = ITEMS.register("manifestation_spirit_sword",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_IRON_ANCHOR = ITEMS.register("manifestation_iron_anchor",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_BRONZE_MIRROR = ITEMS.register("manifestation_bronze_mirror",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_BLUE_SILVER_EMPEROR = ITEMS.register("manifestation_blue_silver_emperor",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_IRON_BODY = ITEMS.register("manifestation_iron_body",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_BONE_SHELL = ITEMS.register("manifestation_bone_shell",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_STONE_SKIN = ITEMS.register("manifestation_stone_skin",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_FLESH_REGROWTH = ITEMS.register("manifestation_flesh_regrowth",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_FLAME_BODY = ITEMS.register("manifestation_flame_body",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SPIRIT_VEINS = ITEMS.register("manifestation_spirit_veins",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_SOUL_MIRROR = ITEMS.register("manifestation_soul_mirror",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_SPIRIT_LAMP = ITEMS.register("manifestation_spirit_lamp",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_SOUL_FORGE = ITEMS.register("manifestation_soul_forge",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+    public static final RegistryObject<Item> MANIFESTATION_STAR_ARRAY = ITEMS.register("manifestation_star_array",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> MANIFESTATION_DEMON_EYE = ITEMS.register("manifestation_demon_eye",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> MANIFESTATION_ANCIENT_SEAL = ITEMS.register("manifestation_ancient_seal",
+            () -> new LocalizedItem(new Item.Properties().rarity(Rarity.RARE)));
+
     // Material tempa: satu ingot per mutu tool.
     public static final RegistryObject<Item> SPIRIT_IRON_INGOT = ITEMS.register("spirit_iron_ingot",
             () -> new LocalizedItem(new Item.Properties().rarity(Rarity.COMMON)));

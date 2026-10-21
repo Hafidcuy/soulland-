@@ -31,6 +31,7 @@ MANIFESTS = [
     ROOT / "docs/v1.2a-asset-manifest.json",
     ROOT / "docs/v1.2b-asset-manifest.json",
     ROOT / "docs/v1.3-asset-manifest.json",
+    ROOT / "docs/v1.4-asset-manifest.json",
 ]
 RECIPE_DIR = ROOT / "src/main/resources/data/soulland/recipes"
 

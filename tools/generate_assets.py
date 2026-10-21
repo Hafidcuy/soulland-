@@ -1863,6 +1863,92 @@ def write_v13_manifest(items: dict) -> None:
     print(f"  wrote {os.path.relpath(md_path, ROOT)}")
 
 
+# ---------------------------------------------------------------- v1.4 katalog 43 soul
+
+def build_v14_items() -> dict:
+    """33 texture manifestasi soul baru, satu gambar per soul."""
+    from soul_art_v14 import V14_SOUL_ART
+
+    items = {}
+    for soul_id, builder in V14_SOUL_ART.items():
+        items[f"manifestation_{soul_id}"] = builder()
+    return items
+
+
+def v14_palette(item_id: str):
+    """Palet tiga warna inti dari modul gambar v1.4."""
+    from soul_art_v14 import PALETTES
+
+    soul_id = item_id.replace("manifestation_", "")
+    return PALETTES[soul_id]
+
+
+def build_v14_contact_sheet(items: dict) -> str:
+    """Lembar kontak 33 ikon soul baru, disusun 6 kolom x 6 baris."""
+    from PIL import ImageDraw
+
+    zoom = 6
+    cell = 16 * zoom
+    label_h = 16
+    columns = 6
+    order = list(items.keys())
+    rows = (len(order) + columns - 1) // columns
+    sheet = Image.new("RGBA", (columns * cell, rows * (cell + label_h)), (26, 28, 34, 255))
+    draw = ImageDraw.Draw(sheet)
+    for index, item_id in enumerate(order):
+        sprite = items[item_id].resize((cell, cell), Image.NEAREST)
+        x = (index % columns) * cell
+        y = (index // columns) * (cell + label_h)
+        sheet.alpha_composite(sprite, (x, y))
+        draw.rectangle([x, y, x + cell - 1, y + cell - 1], outline=(58, 62, 72, 255))
+        draw.text((x + 3, y + cell + 2), item_id.replace("manifestation_", "")[:16],
+                  fill=(196, 200, 210, 255))
+    path = os.path.join(ROOT, "docs", "v1.4-contact-sheet.png")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    sheet.save(path)
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+    return path
+
+
+def write_v14_manifest(items: dict) -> None:
+    """Catat metadata 33 manifestasi soul baru supaya validator bisa memeriksanya."""
+    entries = []
+    for item_id in items:
+        entries.append({
+            "id": item_id,
+            "kind": "manifestation",
+            "palette": list(v14_palette(item_id)),
+        })
+    payload = {
+        "design_read": "Katalog 43 soul v1.4: satu gambar per soul, siluet dan motifnya "
+                       "beda satu sama lain, palet inti setiap soul juga unik.",
+        "items": entries,
+    }
+    path = os.path.join(ROOT, "docs", "v1.4-asset-manifest.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+    print(f"  wrote {os.path.relpath(path, ROOT)}")
+
+    lines = [
+        "# Lembar kontak aset v1.4",
+        "",
+        "Gambar: `docs/v1.4-contact-sheet.png` (33 manifestasi soul baru, 6 kolom x 6 baris, zoom 6).",
+        "",
+        "| No | Item | Palet inti |",
+        "|---|---|---|",
+    ]
+    for index, item_id in enumerate(items, start=1):
+        palette = ", ".join(f"`{color}`" for color in v14_palette(item_id))
+        lines.append(f"| {index:02d} | `{item_id}` | {palette} |")
+    lines.append("")
+    md_path = os.path.join(ROOT, "docs", "v1.4-contact-sheet.md")
+    with open(md_path, "w", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
+    print(f"  wrote {os.path.relpath(md_path, ROOT)}")
+
+
 # ---------------------------------------------------------------- main
 
 def main() -> None:
@@ -1908,6 +1994,14 @@ def main() -> None:
         write_model(item_id)
     build_v13_contact_sheet(v13_items)
     write_v13_manifest(v13_items)
+
+    print("Manifestasi soul katalog v1.4 (33):")
+    v14_items = build_v14_items()
+    for item_id, image in v14_items.items():
+        write_png(image, os.path.join(TEX_ITEM, f"{item_id}.png"))
+        write_model(item_id)
+    build_v14_contact_sheet(v14_items)
+    write_v14_manifest(v14_items)
     print("Selesai.")
 
 

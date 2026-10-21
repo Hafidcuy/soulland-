@@ -1,0 +1,302 @@
+{
+  "design_read": "Katalog 43 soul v1.4: satu gambar per soul, siluet dan motifnya beda satu sama lain, palet inti setiap soul juga unik.",
+  "items": [
+    {
+      "id": "manifestation_golden_dragon",
+      "kind": "manifestation",
+      "palette": [
+        "#6B3A10",
+        "#E8A33C",
+        "#FFE9A8"
+      ]
+    },
+    {
+      "id": "manifestation_abyssal_demon_dragon",
+      "kind": "manifestation",
+      "palette": [
+        "#241436",
+        "#7A3FC0",
+        "#D8B4F0"
+      ]
+    },
+    {
+      "id": "manifestation_abyssal_ice_demon_dragon",
+      "kind": "manifestation",
+      "palette": [
+        "#123A52",
+        "#4FA8D8",
+        "#C8ECFF"
+      ]
+    },
+    {
+      "id": "manifestation_ultimate_fire_dragon",
+      "kind": "manifestation",
+      "palette": [
+        "#5A1408",
+        "#E0522A",
+        "#FFB44A"
+      ]
+    },
+    {
+      "id": "manifestation_ultimate_ice_dragon",
+      "kind": "manifestation",
+      "palette": [
+        "#1B3A56",
+        "#8FC8E8",
+        "#EAF8FF"
+      ]
+    },
+    {
+      "id": "manifestation_thunder_elephant",
+      "kind": "manifestation",
+      "palette": [
+        "#2A3060",
+        "#6E8FE0",
+        "#C4D8FF"
+      ]
+    },
+    {
+      "id": "manifestation_golden_ant",
+      "kind": "manifestation",
+      "palette": [
+        "#4A3A0C",
+        "#C9A227",
+        "#F0DC84"
+      ]
+    },
+    {
+      "id": "manifestation_titan_giant_ape",
+      "kind": "manifestation",
+      "palette": [
+        "#3A2A1C",
+        "#9A7048",
+        "#D8B88C"
+      ]
+    },
+    {
+      "id": "manifestation_sea_devil_manatee",
+      "kind": "manifestation",
+      "palette": [
+        "#123038",
+        "#3C7A8C",
+        "#8CC8CC"
+      ]
+    },
+    {
+      "id": "manifestation_bright_wing_moth",
+      "kind": "manifestation",
+      "palette": [
+        "#4A3A1E",
+        "#E8D48C",
+        "#FFF8DC"
+      ]
+    },
+    {
+      "id": "manifestation_phoenix",
+      "kind": "manifestation",
+      "palette": [
+        "#5C2410",
+        "#F0B24A",
+        "#FFE8B0"
+      ]
+    },
+    {
+      "id": "manifestation_blue_silver_spear",
+      "kind": "manifestation",
+      "palette": [
+        "#16386E",
+        "#3E6FB8",
+        "#A8D4F0"
+      ]
+    },
+    {
+      "id": "manifestation_seven_kill_sword",
+      "kind": "manifestation",
+      "palette": [
+        "#120E18",
+        "#4A3050",
+        "#B48CC8"
+      ]
+    },
+    {
+      "id": "manifestation_giant_hammer",
+      "kind": "manifestation",
+      "palette": [
+        "#2E2A22",
+        "#7A6A58",
+        "#C0B090"
+      ]
+    },
+    {
+      "id": "manifestation_blood_lash",
+      "kind": "manifestation",
+      "palette": [
+        "#3A0E14",
+        "#8E2434",
+        "#D4687A"
+      ]
+    },
+    {
+      "id": "manifestation_frost_needle",
+      "kind": "manifestation",
+      "palette": [
+        "#1E4256",
+        "#9AD8E8",
+        "#E8F8FF"
+      ]
+    },
+    {
+      "id": "manifestation_thunder_spear",
+      "kind": "manifestation",
+      "palette": [
+        "#23285E",
+        "#6E8FE0",
+        "#E0E8FF"
+      ]
+    },
+    {
+      "id": "manifestation_spirit_sword",
+      "kind": "manifestation",
+      "palette": [
+        "#3A4250",
+        "#B8C4D4",
+        "#F0F6FF"
+      ]
+    },
+    {
+      "id": "manifestation_iron_anchor",
+      "kind": "manifestation",
+      "palette": [
+        "#1E2428",
+        "#5E6A6E",
+        "#A8B2B6"
+      ]
+    },
+    {
+      "id": "manifestation_bronze_mirror",
+      "kind": "manifestation",
+      "palette": [
+        "#4A2E10",
+        "#C08A4A",
+        "#F0D49A"
+      ]
+    },
+    {
+      "id": "manifestation_blue_silver_emperor",
+      "kind": "manifestation",
+      "palette": [
+        "#14304E",
+        "#2E5C9E",
+        "#8FC0E8"
+      ]
+    },
+    {
+      "id": "manifestation_iron_body",
+      "kind": "manifestation",
+      "palette": [
+        "#242830",
+        "#6E7480",
+        "#B4BCC8"
+      ]
+    },
+    {
+      "id": "manifestation_bone_shell",
+      "kind": "manifestation",
+      "palette": [
+        "#6E6046",
+        "#D6CBB0",
+        "#F4ECD8"
+      ]
+    },
+    {
+      "id": "manifestation_stone_skin",
+      "kind": "manifestation",
+      "palette": [
+        "#3A382F",
+        "#8A8578",
+        "#C4BFB0"
+      ]
+    },
+    {
+      "id": "manifestation_flesh_regrowth",
+      "kind": "manifestation",
+      "palette": [
+        "#4E1E2C",
+        "#C2687E",
+        "#F0A0B4"
+      ]
+    },
+    {
+      "id": "manifestation_flame_body",
+      "kind": "manifestation",
+      "palette": [
+        "#4A1408",
+        "#D4562A",
+        "#FFB067"
+      ]
+    },
+    {
+      "id": "manifestation_spirit_veins",
+      "kind": "manifestation",
+      "palette": [
+        "#1E3244",
+        "#8FB8D8",
+        "#D8F0FF"
+      ]
+    },
+    {
+      "id": "manifestation_soul_mirror",
+      "kind": "manifestation",
+      "palette": [
+        "#2A2038",
+        "#E4DCF0",
+        "#FFFFFF"
+      ]
+    },
+    {
+      "id": "manifestation_spirit_lamp",
+      "kind": "manifestation",
+      "palette": [
+        "#4A3A16",
+        "#E8C878",
+        "#FFF0C0"
+      ]
+    },
+    {
+      "id": "manifestation_soul_forge",
+      "kind": "manifestation",
+      "palette": [
+        "#3E1C0C",
+        "#B05A2A",
+        "#F0A868"
+      ]
+    },
+    {
+      "id": "manifestation_star_array",
+      "kind": "manifestation",
+      "palette": [
+        "#3A3A6E",
+        "#F2E9B0",
+        "#FFFDF0"
+      ]
+    },
+    {
+      "id": "manifestation_demon_eye",
+      "kind": "manifestation",
+      "palette": [
+        "#240E34",
+        "#7A4A8C",
+        "#D8A8F0"
+      ]
+    },
+    {
+      "id": "manifestation_ancient_seal",
+      "kind": "manifestation",
+      "palette": [
+        "#3A3018",
+        "#8C7A4A",
+        "#D8C48C"
+      ]
+    }
+  ]
+}
