@@ -72,6 +72,7 @@ public class CommonEvents {
             CultivationManager.applyStats(player);
             CultivationManager.sync(player);
             SpiritBoneManager.sync(player);
+            com.soulland.combat.CombatSync.broadcast(player, cap);
         });
     }
 
@@ -82,6 +83,8 @@ public class CommonEvents {
             CultivationManager.sync(player);
             SpiritBoneManager.sync(player);
             RingHaloSync.broadcast(player);
+            CultivationCapability.get(player).ifPresent(cap ->
+                    com.soulland.combat.CombatSync.broadcast(player, cap));
         }
     }
 
@@ -92,6 +95,8 @@ public class CommonEvents {
             CultivationManager.sync(player);
             SpiritBoneManager.sync(player);
             RingHaloSync.broadcast(player);
+            CultivationCapability.get(player).ifPresent(cap ->
+                    com.soulland.combat.CombatSync.broadcast(player, cap));
         }
     }
 
